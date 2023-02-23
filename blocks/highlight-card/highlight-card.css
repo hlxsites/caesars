@@ -28,10 +28,6 @@
   text-transform: uppercase;
 }
 
-.highlight-card-text em {
-  flex-basis: 20%;
-}
-
 .highlight-card-action {
   margin-right: 16px;
   margin-left: auto;
