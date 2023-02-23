@@ -1,16 +1,17 @@
-.highlight-card-wrapper {
+.highlight-card {
   background: #141414;
 }
 
 .highlight-card-image {
-  background-color: transparent;
+  object-fit: cover; 
 }
 
 .highlight-card-text {
+  padding-left: 16px;
+  padding-bottom: 32px;
   color: #fff;
-  padding: 24px 32px;
 }
 
-.highlight-card-text h2 {
+.highlight-card-text h4 {
   text-transform: uppercase;
 }
