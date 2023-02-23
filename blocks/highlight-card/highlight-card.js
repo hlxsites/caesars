@@ -6,19 +6,14 @@ export default function decorate(block) {
   });
 
   let childRowNumber = 0;
-  let childrenBlockTotal = block.children.length;
   [...block.children].forEach((row) => {
     if (childRowNumber !== 0) row.classList.add('highlight-card-text'); 
     else row.classList.add('highlight-card-image');
 
     childRowNumber += 1;
 
-    if (childRowNumber === childrenBlockTotal 
-      && row.children 
-      && row.children.length >= 1) {
+    if (childRowNumber === block.children.length && row.children && row.children.length >= 1) {
       row.children[row.children.length - 1].classList.add('highlight-card-action'); 
     }
   });
-
-  console.log(block.children.length)
 }
