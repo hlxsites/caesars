@@ -7,8 +7,8 @@ export default function decorate(block) {
 
   let childRowNumber = 0;
   [...block.children].forEach((row) => {
-    if (childRowNumber === 0) row.classList.add('highlight-card-image');
-    else row.classList.add('highlight-card-text');
+    if (childRowNumber !== 0) row.classList.add('highlight-card-text'); 
+    else row.classList.add('highlight-card-image');
     childRowNumber += 1;
   });
 }

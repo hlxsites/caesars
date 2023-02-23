@@ -29,6 +29,6 @@
 }
 
 .highlight-card-text em {
-  padding-right: 16px;
-  padding-bottom: 16px;
+  position: relative;
+  right: -32px;
 }
