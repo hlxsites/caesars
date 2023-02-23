@@ -29,6 +29,10 @@
 }
 
 .highlight-card-text em {
-  position: relative;
-  right: -32px;
+  flex-basis: 20%;
+}
+
+.highlight-card-action {
+  margin-right: 16px;
+  margin-left: auto;
 }
