@@ -1,8 +1,6 @@
 import { createOptimizedPicture } from '../../scripts/lib-franklin.js';
 
 export default function decorate(block) {
-  console.log('Decorating highlight-card block');
-
   block.querySelectorAll('img').forEach((img) => {
     img.closest('picture').replaceWith(createOptimizedPicture(img.src, img.alt, false, [{ width: '1600' }]))
   });
