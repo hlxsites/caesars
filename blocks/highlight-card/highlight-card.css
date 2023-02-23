@@ -1,15 +1,30 @@
 .highlight-card {
-  background: #141414;
 }
 
 .highlight-card-image {
-  object-fit: cover; 
+  background: #141414;
+  margin-top: 100px;
+  position: relative;
+  height: 460px;
+  margin-right: 120px;
+}
+
+.highlight-card-image img {
+  padding-left: 120px;
+  position: absolute;
+  top: -120px;
+  height: 580px;
+  object-fit: cover;
 }
 
 .highlight-card-text {
+  display: flex;
+  background: #141414;
   padding-left: 16px;
   padding-bottom: 32px;
+  align-items: center;
   color: #fff;
+  margin-right: 120px;
 }
 
 .highlight-card-text h4 {
