@@ -1,8 +1,16 @@
 .highlight-card-wrapper {
   background: #141414;
-  color: #fff;
 }
 
 .highlight-card-image {
-  background: transparent;
+  background-color: transparent;
+}
+
+.highlight-card-text {
+  color: #fff;
+  padding: 24px 32px;
+}
+
+.highlight-card-text h2 {
+  text-transform: uppercase;
 }
