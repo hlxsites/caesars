@@ -1,3 +1,7 @@
+.highlight-card.block {
+  padding-top: 6em;
+}
+
 .highlight-card.block .highlight-card-image {
   background: var(--static-color-black);
   display: flex;
@@ -35,12 +39,19 @@
   padding-left: 16px;
 }
 
-.highlight-card.block {
-  padding-top: 6em;
-}
 
+/* Responsive Breakpoints */
+@media  only screen and (max-width: 960px) {
+  .highlight-card.block {
+    background-color: red;
+  }
 
+  .highlight-card.block .button-container{
+    visibility: hidden;
+  }
 
-@media only screen and (min-width: 960px) {
-  /* TODO: Remove button, make whole block clickable */
+  .highlight-card.block .highlight-card-image img {
+    object-fit: cover;
+    padding-left: 0em;
+  }
 }
