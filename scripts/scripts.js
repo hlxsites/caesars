@@ -15,6 +15,21 @@ import {
 const LCP_BLOCKS = []; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'project-1'; // add your RUM generation information here
 
+function decorateSectionBackground(main) {
+  main.querySelectorAll('.section.has-background').forEach((section) => {
+    const picture = section.querySelector('picture');
+    if (picture) {
+      const image = picture.querySelector('img');
+      section.style.backgroundImage = `url('${image.src}')`;
+      const pictureContainer = picture.parentElement;
+      pictureContainer.removeChild(picture);
+      if (pictureContainer.innerHTML.trim().length === 0) {
+        pictureContainer.parentElement.removeChild(pictureContainer);
+      }
+    }
+  });
+}
+
 /**
  * Decorates the main element.
  * @param {Element} main The main element
@@ -26,6 +41,7 @@ export function decorateMain(main) {
   decorateIcons(main);
   decorateSections(main);
   decorateBlocks(main);
+  decorateSectionBackground(main);
 }
 
 /**
@@ -73,7 +89,7 @@ async function loadLazy(doc) {
   loadFooter(doc.querySelector('footer'));
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
-  addFavIcon(`${window.hlx.codeBasePath}/styles/favicon.svg`);
+  addFavIcon(`${window.hlx.codeBasePath}/styles/favicon.ico`);
   sampleRUM('lazy');
   sampleRUM.observe(main.querySelectorAll('div[data-block-name]'));
   sampleRUM.observe(main.querySelectorAll('picture > img'));
