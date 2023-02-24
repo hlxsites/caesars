@@ -18,7 +18,9 @@ export default function decorate(block) {
   const mediaWidthQueryMatcher  = window.matchMedia('only screen and (max-width: 960px)');
   const mediaWidthChangeHandler = (event) => {
     if(event.matches){
-      
+      // add click event listener on block
+    } else {
+      // remove click event listener on block
     }
   }
   mediaWidthChangeHandler(mediaWidthQueryMatcher);
