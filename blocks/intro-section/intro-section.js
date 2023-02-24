@@ -1,3 +1,5 @@
+import { createOptimizedPicture } from '../../scripts/lib-franklin.js';
+
 export default function decorate(block) {
     const rows = [...block.children];
 
@@ -19,5 +21,7 @@ export default function decorate(block) {
     secondImageDiv.classList.add('intro-section__secondary-image-container');
     innerContainer.append(secondImageDiv);
     secondImageContainer.remove();
+
+    block.querySelectorAll('img').forEach((img) => img.closest('picture').replaceWith(createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }])));
 
 }
