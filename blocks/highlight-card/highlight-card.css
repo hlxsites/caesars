@@ -25,6 +25,11 @@
   padding-top: 16px;
 }
 
+.highlight-card-text div:last-child {
+  margin-left: auto; 
+  margin-right: 16px;
+}
+
 .highlight-card.block .button-container {
   padding-right: 16px;
   padding-left: 16px;
@@ -34,4 +39,8 @@
   padding-top: 6em;
 }
 
-/* select first-last div among many */
+
+
+@media only screen and (min-width: 960px) {
+  /* TODO: Remove button, make whole block clickable */
+}
