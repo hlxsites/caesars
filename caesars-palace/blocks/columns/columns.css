@@ -3,23 +3,48 @@
     flex-direction: column;
 }
 
+.columns > div > div {
+    text-align: center;
+}
+
 .columns img {
     width: 100%;
 }
 
-@media (min-width: 900px) {
+@media (min-width: 768px) {
     .columns > div {
         display: flex;
+        flex-flow: row nowrap;
+        gap: 32px;
         align-items: center;
-        flex-direction: unset;
     }
 
     .columns > div > div {
-        flex: 1;
-        margin-left: 32px;
+        text-align: unset;
     }
 
-    .columns > div > div:first-of-type {
-        margin-left: unset;
+    .columns:not(.stretch-start) > div > div,
+    .columns:not(.stretch-end) > div > div {
+        flex: 1;
+    }
+
+    .columns.stretch-start > div > div:first-of-type {
+        flex: 2;
+    }
+
+    .columns.stretch-end > div > div:last-of-type {
+        flex: 2;
+    }
+
+    .columns [data-align='center'] {
+        text-align: center;
+    }
+
+    .columns [data-align='left'] {
+        text-align: left;
+    }
+
+    .columns [data-align='right'] {
+        text-align: right;
     }
 }

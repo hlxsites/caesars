@@ -206,12 +206,27 @@ main .section {
 }
 
 main .section.has-background {
+  box-sizing: border-box;
   position: relative;
+  overflow: hidden;
   width: 100%;
   margin: 0;
   padding: 0;
-  background-repeat: no-repeat;
-  background-size: cover;
+}
+
+main .section.has-background > picture {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+main .section.has-background > picture img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
 }
 
 main .section.margin-top {
@@ -244,11 +259,11 @@ main .section > div {
   padding: 0 16px;
 }
 
-main .section > div:first-child {
+main .section > div:first-of-type {
   padding-top: 64px;
 }
 
-main .section > div:last-child {
+main .section > div:last-of-type {
   padding-bottom: 64px;
 }
 

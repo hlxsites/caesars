@@ -10,7 +10,7 @@ import {
   decorateTemplateAndTheme,
   waitForLCP,
   loadBlocks,
-  loadCSS,
+  loadCSS, createOptimizedPicture,
 } from './lib-franklin.js';
 
 const LCP_BLOCKS = []; // add your LCP blocks to the list
@@ -27,17 +27,18 @@ function buildHeroBlock(main) {
   }
 }
 
-function decorateSectionBackground(main) {
+function buildSectionBackground(main) {
   main.querySelectorAll('.section.has-background').forEach((section) => {
     const picture = section.querySelector('picture');
     if (picture) {
-      const image = picture.querySelector('img');
-      section.style.backgroundImage = `url('${image.src}')`;
-      const pictureContainer = picture.parentElement;
-      pictureContainer.removeChild(picture);
-      if (pictureContainer.innerHTML.trim().length === 0) {
-        pictureContainer.parentElement.removeChild(pictureContainer);
-      }
+      section.appendChild(picture);
+      const img = picture.querySelector('img');
+      picture.replaceWith(createOptimizedPicture(
+        img.src,
+        img.alt,
+        false,
+        [{ width: '768' }, { width: '960' }, { width: '1440' }],
+      ));
     }
   });
 }
@@ -67,7 +68,7 @@ export function decorateMain(main) {
   buildAutoBlocks(main);
   decorateSections(main);
   decorateBlocks(main);
-  decorateSectionBackground(main);
+  buildSectionBackground(main);
 }
 
 /**
