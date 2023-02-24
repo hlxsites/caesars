@@ -1,12 +1,12 @@
 import { createOptimizedPicture } from '../../scripts/lib-franklin.js';
 
 export default function decorate(block) {
-  block.querySelectorAll('img').forEach((img) => {
-    img.closest('picture').replaceWith(createOptimizedPicture(img.src, img.alt, false, [{ width: '1600' }]));
-  });
-
   block.querySelectorAll('a').forEach((buttonLink) => {
     buttonLink.closest('div').classList.add('highlight-card-action');
+  });
+
+  block.querySelectorAll('img').forEach((img) => {
+    img.closest('picture').replaceWith(createOptimizedPicture(img.src, img.alt, false, [{ width: '1600' }]));
   });
 
   let childRowNumber = 0;
