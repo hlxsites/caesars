@@ -1,12 +1,13 @@
 .highlight-card.block .highlight-card-image {
   background: var(--static-color-black);
+  display: flex;
 }
 
 .highlight-card.block .highlight-card-image img {
   object-fit: cover;
   padding-left: 6em;
   position: relative;
-  background: red;
+  top: -4em;
 }
 
 .highlight-card.block .highlight-card-text {
@@ -16,6 +17,7 @@
   color: var(--static-color-white);
   padding-left: 16px;
   padding-bottom: 16px;
+  margin-top: -4em;
 }
 
 .highlight-card.block .highlight-card-text h4 {
