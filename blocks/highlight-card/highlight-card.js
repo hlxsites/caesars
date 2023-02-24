@@ -2,7 +2,9 @@ import { createOptimizedPicture } from '../../scripts/lib-franklin.js';
 
 export default function decorate(block) {
   block.querySelectorAll('a').forEach((buttonLink) => {
-    buttonLink.closest('div').classList.add('highlight-card-action');
+    buttonLink.classList.add('button');
+    buttonLink.classList.add('secondary');
+    buttonLink.closest('div').classList.add('button-container');
   });
 
   block.querySelectorAll('img').forEach((img) => {
