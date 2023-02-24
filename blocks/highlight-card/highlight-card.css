@@ -1,4 +1,4 @@
-.highlight-card-image {
+.highlight-card.block .highlight-card-image {
   background: #141414;
   position: relative;
   height: 460px;
@@ -6,7 +6,7 @@
   margin-right: 240px;
 }
 
-.highlight-card-image img {
+.highlight-card.block .highlight-card-image img {
   position: absolute;
   object-fit: cover;
   height: 580px;
@@ -14,7 +14,7 @@
   top: -120px;
 }
 
-.highlight-card-text {
+.highlight-card.block .highlight-card-text {
   display: flex;
   align-items: center;
   background: #141414;
@@ -24,11 +24,11 @@
   margin-right: 240px;
 }
 
-.highlight-card-text h4 {
+.highlight-card.block .highlight-card-text h4 {
   text-transform: uppercase;
 }
 
-.highlight-card-action {
+.highlight-card.block .highlight-card-action {
   margin-right: 16px;
   margin-left: 16px;
 }
