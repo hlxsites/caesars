@@ -1,5 +1,3 @@
-import { createOptimizedPicture } from '../../scripts/lib-franklin.js';
-
 export default function decorate(block) {
   block.querySelectorAll('a').forEach((buttonLink) => {
     buttonLink.classList.add('button');
@@ -27,6 +25,6 @@ export default function decorate(block) {
 
   mediaWidthQueryMatcher.addEventListener('change', (event) => {
     mediaWidthChangeHandler(event);
-  }); 
-  //*/
+  });
+  // */
 }
