@@ -55,7 +55,7 @@ body {
   border: 0;
   font-family: var(--body-font-family);
   font-size: var(--body-font-size-s);
-  line-height: 1.1;
+  line-height: 1.4;
   color: var(--text-color);
   background-color: var(--background-color);
   display: none;
