@@ -5,7 +5,7 @@
 .highlight-card.block .highlight-card-image img {
   object-fit: cover;
   padding-left: 6em;
-  top: -12em;
+  position: relative;
   background: red;
 }
 
