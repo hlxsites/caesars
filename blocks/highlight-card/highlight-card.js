@@ -7,10 +7,6 @@ export default function decorate(block) {
     buttonLink.closest('div').classList.add('button-container');
   });
 
-  block.querySelectorAll('img').forEach((img) => {
-    img.closest('picture').replaceWith(createOptimizedPicture(img.src, img.alt, false, [{ width: '1600' }]));
-  });
-
   let childRowNumber = 0;
   [...block.children].forEach((row) => {
     if (childRowNumber !== 0) row.classList.add('highlight-card-text');
