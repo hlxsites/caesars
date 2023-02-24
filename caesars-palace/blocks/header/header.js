@@ -93,7 +93,7 @@ export default async function decorate(block) {
   block.textContent = '';
 
   // fetch nav content
-  const navPath = getMetadata('nav') || '/nav';
+  const navPath = getMetadata('nav') || '/caesars-palace/nav';
   const resp = await fetch(`${navPath}.plain.html`, window.location.pathname.endsWith('/nav') ? { cache: 'reload' } : {});
 
   if (resp.ok) {
