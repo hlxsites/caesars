@@ -78,7 +78,7 @@ h4, h5, h6 {
   font-weight: 700;
   line-height: 1.1;
   padding: 0;
-  margin: 32px 0;
+  margin: 0;
   scroll-margin: calc(var(--nav-height) + 1em);
 }
 
