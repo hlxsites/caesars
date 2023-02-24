@@ -1,7 +1,10 @@
 /* block specific CSS goes here */
 
 main .hero-container > div {
+    width: unset;
     max-width: unset;
+    margin: 0;
+    padding: 0
 }
   
 main .hero-container {
