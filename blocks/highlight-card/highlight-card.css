@@ -1,5 +1,5 @@
 .highlight-card.block .highlight-card-image {
-  background: #141414;
+  background: var(--static-color-black);
   position: relative;
   height: 460px;
   margin-top: 100px;
@@ -17,8 +17,8 @@
 .highlight-card.block .highlight-card-text {
   display: flex;
   align-items: center;
-  background: #141414;
-  color: #fff;
+  background: var(--static-color-black);
+  color: var(--static-color-white);
   padding-left: 16px;
   padding-bottom: 16px;
   margin-right: 240px;
@@ -28,7 +28,11 @@
   text-transform: uppercase;
 }
 
-.highlight-card.block .highlight-card-action {
-  margin-right: 16px;
-  margin-left: 16px;
+.highlight-card.block .button-container {
+  padding-right: 16px;
+  padding-left: 16px;
+}
+
+.highlight-card-wrapper {
+  display: flex;
 }
