@@ -13,4 +13,18 @@ export default function decorate(block) {
     else row.classList.add('highlight-card-image');
     childRowNumber += 1;
   });
+
+  /*
+  const mediaWidthQueryMatcher  = window.matchMedia('only screen and (max-width: 960px)');
+  const mediaWidthChangeHandler = (event) => {
+    if(event.matches){
+      
+    }
+  }
+  mediaWidthChangeHandler(mediaWidthQueryMatcher);
+
+  mediaWidthQueryMatcher.addEventListener('change', (event) => {
+    mediaWidthChangeHandler(event);
+  }); 
+  //*/
 }

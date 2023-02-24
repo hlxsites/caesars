@@ -29,7 +29,7 @@
   padding-top: 16px;
 }
 
-.highlight-card-text div:last-child {
+.highlight-card.block .highlight-card-text div:last-child {
   margin-left: auto; 
   margin-right: 16px;
 }
@@ -39,15 +39,11 @@
   padding-left: 16px;
 }
 
-
 /* Responsive Breakpoints */
 @media  only screen and (max-width: 960px) {
-  .highlight-card.block {
-    background-color: red;
-  }
-
-  .highlight-card.block .button-container{
-    visibility: hidden;
+  .highlight-card.block .button-container {
+    visibility: collapse;
+    width: 0;
   }
 
   .highlight-card.block .highlight-card-image img {
