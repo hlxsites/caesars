@@ -27,6 +27,21 @@ function buildHeroBlock(main) {
   }
 }
 
+function decorateSectionBackground(main) {
+  main.querySelectorAll('.section.has-background').forEach((section) => {
+    const picture = section.querySelector('picture');
+    if (picture) {
+      const image = picture.querySelector('img');
+      section.style.backgroundImage = `url('${image.src}')`;
+      const pictureContainer = picture.parentElement;
+      pictureContainer.removeChild(picture);
+      if (pictureContainer.innerHTML.trim().length === 0) {
+        pictureContainer.parentElement.removeChild(pictureContainer);
+      }
+    }
+  });
+}
+
 /**
  * Builds all synthetic blocks in a container element.
  * @param {Element} main The container element
@@ -52,6 +67,7 @@ export function decorateMain(main) {
   buildAutoBlocks(main);
   decorateSections(main);
   decorateBlocks(main);
+  decorateSectionBackground(main);
 }
 
 /**
