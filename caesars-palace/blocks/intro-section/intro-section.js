@@ -17,5 +17,4 @@ export default function decorate(block) {
   secondImageDiv.classList.add('intro-section-secondary-image-container');
   innerContainer.append(secondImageDiv);
   secondImageContainer.remove();
-  block.querySelectorAll('img').forEach((img) => img.closest('picture').replaceWith(createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }])));
 }
