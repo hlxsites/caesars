@@ -43,6 +43,7 @@
 @media  only screen and (max-width: 960px) {
   .highlight-card.block .button-container {
     visibility: collapse;
+    display: none;
     width: 0;
   }
 
