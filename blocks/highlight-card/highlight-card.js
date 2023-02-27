@@ -31,23 +31,25 @@ export default function decorate(block) {
 
     if (event.matches) {
       let elementsToWrap = document.getElementsByClassName('highlight-card-text');
-      [...elementsToWrap].forEach(wrappedElement => {
+      [...elementsToWrap].forEach((wrappedElement => {
         const anchorElement = document.createElement('a');
         anchorElement.href = targetLink;
         const wrapper = anchorElement;
         wrapElement(wrappedElement, wrapper);
-      });
+      }));
 
       elementsToWrap = document.getElementsByClassName('highlight-card-image');
-      [...elementsToWrap].forEach(wrappedElement => {
+      [...elementsToWrap].forEach((wrappedElement => {
         const anchorElement = document.createElement('a');
         anchorElement.href = targetLink;
         const wrapper = anchorElement;
         wrapElement(wrappedElement, wrapper);
-      });
+      }));
     } else {
       block.querySelectorAll('a').forEach((clickableElement) => {
-        if (clickableElement.firstChild && clickableElement.classList && clickableElement.classList.length === 0) {
+        if (clickableElement.firstChild 
+          && clickableElement.classList 
+          && clickableElement.classList.length === 0) {
           unwrapElement(clickableElement.firstChild, clickableElement);
         }
       });
