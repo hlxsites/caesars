@@ -26,6 +26,9 @@ export default function decorate(block) {
     };
 
     const unwrapElement = (element, wrapper) => {
+      const parent = wrapper.parentNode;
+      parent.appendChild(element);
+      wrapper.remove();
     };
 
     if(event.matches){
@@ -34,7 +37,6 @@ export default function decorate(block) {
         const anchorElement = document.createElement("a");
         anchorElement.href = targetLink;
         const wrapper = anchorElement;
-
         wrapElement(wrappedElement, wrapper);
       });
 
@@ -43,11 +45,14 @@ export default function decorate(block) {
         const anchorElement = document.createElement("a");
         anchorElement.href = targetLink;
         const wrapper = anchorElement;
-
         wrapElement(wrappedElement, wrapper);
       });
     } else {
-      
+      block.querySelectorAll('a').forEach((clickableElement) => {
+        if(clickableElement.firstChild && clickableElement.classList && clickableElement.classList.length === 0){
+          unwrapElement(clickableElement.firstChild, clickableElement);
+        }
+      });
     }
   }
   mediaWidthChangeHandler(mediaWidthQueryMatcher);
