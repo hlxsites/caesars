@@ -1,0 +1,95 @@
+.intro-section.block .intro-section-inner {
+    margin-bottom: 64px;
+    margin-top: 64px;
+    display: flex;
+    position: relative;
+    flex-flow: column wrap;
+    align-items: flex-start;
+}
+
+.intro-section.block .intro-section-content {
+    width: 100%;
+    margin-bottom: 64px;
+}
+
+.intro-section.block .intro-section-content h1 {
+    text-transform: uppercase;
+    font-size: 36px;
+    padding-bottom: 32px;
+}
+
+.intro-section.block .intro-section-image-container {
+    width: 100%;
+}
+
+.intro-section.block .intro-section-image-container img {
+    width: 100%;
+}
+
+.intro-section.block .intro-section-secondary-image-container {
+    display: none;
+}
+
+@media only screen and (min-width: 768px) {
+    .intro-section.block .intro-section-inner {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .intro-section.block .intro-section-content {
+        width: 50%;
+        margin-right: 32px;
+        margin-bottom: 0;
+    }
+
+    .intro-section.block .intro-section-image-container {
+        width: calc(50% - 32px);
+    }
+}
+
+@media only screen and (min-width: 960px) {
+    .intro-section.block .intro-section-inner {
+        margin-bottom: 120px;
+        margin-top: 120px;
+        align-items: flex-start;
+    }
+}
+
+@media only screen and (min-width: 1170px) {
+    .intro-section.block .intro-section-inner {
+        margin-bottom: 20px;
+    }
+
+    .intro-section.block .intro-section-content {
+        width: 40%;
+        margin-right: 64px;
+    }
+
+    .intro-section.block .intro-section-image-container {
+        width: calc(60% - 64px);
+    }
+
+    .intro-section.block .intro-section-secondary-image-container {
+        display: block;
+        left: 240px;
+        position: relative;
+        width: 49%;
+        top: 40px;
+    }
+}
+
+/* Desktop */
+@media only screen and (min-width: 1440px) {
+    .intro-section.block .intro-section-content {
+        width: 25%;
+        margin-left: 120px;
+    }
+
+    .intro-section.block .intro-section-image-container {
+        width: calc(75% - (120px + 64px));
+    }
+
+    .intro-section.block .intro-section-secondary-image-container {
+        top: -80px;
+    }
+}
