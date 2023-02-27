@@ -1,5 +1,5 @@
 export default function decorate(block) {
-  let targetLink = null;
+  // let targetLink = null;
   block.querySelectorAll('a').forEach((buttonLink) => {
     targetLink = buttonLink.href;
     buttonLink.classList.add('button');
@@ -14,22 +14,21 @@ export default function decorate(block) {
     childRowNumber += 1;
   });
 
-  const wrapElement = (element, wrapper) => {
-    if (element && element.parentNode) {
-      element.parentNode.insertBefore(wrapper, element);
-      wrapper.appendChild(element);
-    }
-  };
+  // const wrapElement = (element, wrapper) => {
+  //   if (element && element.parentNode) {
+  //     element.parentNode.insertBefore(wrapper, element);
+  //     wrapper.appendChild(element);
+  //   }
+  // };
 
-  const unwrapElement = (element, parent, wrapper) => {
-  };
+  // const unwrapElement = (element, parent, wrapper) => {
+  // };
 
-  console.log('----')
+  console.log('----');
   console.log(block.childNodes);
-  console.log('----')
+  console.log('----');
 
   // const mediaWidthQueryMatcher  = window.matchMedia('only screen and (max-width: 960px)');
-  
   // const mediaWidthChangeHandler = (event) => {
   //   const wrapElement = (element, wrapper) => {
   //     if (element && element.parentNode) {
@@ -44,7 +43,6 @@ export default function decorate(block) {
 
   //   if(event.matches){
   //   } else {
-      
   //   }
   // }
   // mediaWidthChangeHandler(mediaWidthQueryMatcher);
