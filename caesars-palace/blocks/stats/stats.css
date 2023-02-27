@@ -1,0 +1,60 @@
+/*
+Stats Block (2->3->5 columns per row across key media breakpoints)
+*/
+
+div.stats-container {
+    padding: 0;
+}
+
+/* Stats Grid */
+div.stats-container .stats > div{
+    display: grid;
+    grid-template-columns: repeat(2,1fr);
+    row-gap: 16px;
+    column-gap: 16px;
+}
+
+/* Stats Cell */
+div.stats-container .stats > div > div{
+    margin: 16px 0;
+}
+
+/* Stats Title */
+div.stats-container .stats h1 {
+    font-family: 'Montserrat',sans-serif;
+    font-weight: 800;
+    font-size: 70px;
+    line-height: 1;
+    text-align: center;
+    padding-bottom: 32px;
+}
+
+/* Stats Infinity Icon */
+div.stats-container .stats .icon-infinity svg {
+    width: 1.25em;
+}
+
+/* Stats Value */
+div.stats-container .stats h3 {
+    font-size: 22px;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+/* Tablet (portrait) */
+@media (min-width: 768px) {
+    div.stats-container .stats > div {
+        grid-template-columns: repeat(3,1fr);
+    }
+}
+
+/* Tablet (landscape) */
+@media (min-width: 960px) {
+    div.stats-container .stats > div {
+        grid-template-columns: repeat(5,1fr);
+    }
+
+    div.stats-container .stats h3 {
+        font-size: 26px;
+    }
+}
