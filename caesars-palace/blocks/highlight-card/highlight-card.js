@@ -12,11 +12,9 @@ export default function decorate(block) {
     else row.classList.add('highlight-card-image');
   });
 
-  
-
-  const mediaWidthQueryMatcher  = window.matchMedia('only screen and (max-width: 960px)');
+  const mediaWidthQueryMatcher = window.matchMedia('only screen and (max-width: 960px)');
   const mediaWidthChangeHandler = (event) => {
-    if(event.matches){
+    if (event.matches) {
       const link = document.createElement('a');
       link.classList.add('highlight-card-link');
       link.href = targetLink;
@@ -26,12 +24,12 @@ export default function decorate(block) {
       block.append(link);
     } else {
       const wrapper = block.firstChild;
-      if(block.firstChild && block.firstChild.href){
+      if (block.firstChild && block.firstChild.href) {
         const wrappedContent = wrapper.innerHTML;
         block.innerHTML = wrappedContent;
       }
     }
-  }
+  };
 
   mediaWidthChangeHandler(mediaWidthQueryMatcher);
   mediaWidthQueryMatcher.addEventListener('change', (event) => {
