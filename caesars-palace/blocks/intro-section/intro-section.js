@@ -1,5 +1,3 @@
-import { createOptimizedPicture } from '../../scripts/lib-franklin.js';
-
 export default function decorate(block) {
   const rows = [...block.children];
   // section inner
