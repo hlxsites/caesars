@@ -9,7 +9,6 @@
 
 .highlight-card.block .highlight-card-image img {
   object-fit: cover;
-  padding-left: 6em;
   position: relative;
   top: -6em;
 }
@@ -29,24 +28,33 @@
   padding-top: 16px;
 }
 
-.highlight-card.block .highlight-card-text div:last-child {
-  margin-left: auto; 
-  margin-right: 16px;
+.highlight-card.block .button-container {
+  display: none;
 }
 
-.highlight-card.block .button-container {
-  padding-right: 16px;
-  padding-left: 16px;
+.highlight-card.block .highlight-card-image img {
+  padding-left: 0;
 }
 
 /* Responsive Breakpoints */
-@media  only screen and (max-width: 960px) {
+@media  only screen and (min-width: 960px) {
+  .highlight-card.block .highlight-card-text div:last-child {
+    margin-left: auto; 
+    margin-right: 16px;
+  }
+  
   .highlight-card.block .button-container {
-    display: none;
-    width: 0;
+    padding-right: 16px;
+    padding-left: 16px;
+    display: block;
   }
 
+  .highlight-card.block .highlight-card-image {
+    background: var(--static-color-black);
+    display: flex;
+  }
+  
   .highlight-card.block .highlight-card-image img {
-    padding-left: 0;
+    padding-left: 6em;
   }
 }
