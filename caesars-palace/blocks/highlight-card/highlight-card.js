@@ -12,9 +12,9 @@ export default function decorate(block) {
     else row.classList.add('highlight-card-image');
   });
 
-  const mediaWidthQueryMatcher = window.matchMedia('only screen and (max-width: 960px)');
+  const mediaWidthQueryMatcher = window.matchMedia('only screen and (min-width: 960px)');
   const mediaWidthChangeHandler = (event) => {
-    if (event.matches) {
+    if (event.matches === false) {
       const link = document.createElement('a');
       link.classList.add('highlight-card-link');
       link.href = targetLink;
