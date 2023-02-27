@@ -14,9 +14,7 @@ export default function decorate(block) {
     childRowNumber += 1;
   });
 
-  
-
-  const mediaWidthQueryMatcher  = window.matchMedia('only screen and (max-width: 960px)');
+  const mediaWidthQueryMatcher = window.matchMedia('only screen and (max-width: 960px)');
   const mediaWidthChangeHandler = (event) => {
     const wrapElement = (element, wrapper) => {
       if (element && element.parentNode) {
@@ -31,10 +29,10 @@ export default function decorate(block) {
       wrapper.remove();
     };
 
-    if(event.matches){
+    if (event.matches) {
       let elementsToWrap = document.getElementsByClassName('highlight-card-text');
       [...elementsToWrap].forEach(wrappedElement => {
-        const anchorElement = document.createElement("a");
+        const anchorElement = document.createElement('a');
         anchorElement.href = targetLink;
         const wrapper = anchorElement;
         wrapElement(wrappedElement, wrapper);
@@ -42,19 +40,19 @@ export default function decorate(block) {
 
       elementsToWrap = document.getElementsByClassName('highlight-card-image');
       [...elementsToWrap].forEach(wrappedElement => {
-        const anchorElement = document.createElement("a");
+        const anchorElement = document.createElement('a');
         anchorElement.href = targetLink;
         const wrapper = anchorElement;
         wrapElement(wrappedElement, wrapper);
       });
     } else {
       block.querySelectorAll('a').forEach((clickableElement) => {
-        if(clickableElement.firstChild && clickableElement.classList && clickableElement.classList.length === 0){
+        if (clickableElement.firstChild && clickableElement.classList && clickableElement.classList.length === 0) {
           unwrapElement(clickableElement.firstChild, clickableElement);
         }
       });
     }
-  }
+  };
   mediaWidthChangeHandler(mediaWidthQueryMatcher);
 
   mediaWidthQueryMatcher.addEventListener('change', (event) => {
