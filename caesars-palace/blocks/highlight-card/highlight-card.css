@@ -11,6 +11,7 @@
   object-fit: cover;
   position: relative;
   top: -6em;
+  padding-left: 0;
 }
 
 .highlight-card.block .highlight-card-text {
@@ -32,10 +33,6 @@
   display: none;
 }
 
-.highlight-card.block .highlight-card-image img {
-  padding-left: 0;
-}
-
 /* Responsive Breakpoints */
 @media  only screen and (min-width: 960px) {
   .highlight-card.block .highlight-card-text div:last-child {
@@ -47,11 +44,6 @@
     padding-right: 16px;
     padding-left: 16px;
     display: block;
-  }
-
-  .highlight-card.block .highlight-card-image {
-    background: var(--static-color-black);
-    display: flex;
   }
   
   .highlight-card.block .highlight-card-image img {
