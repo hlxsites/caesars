@@ -1,5 +1,7 @@
 export default function decorate(block) {
+  let targetLink = null;
   block.querySelectorAll('a').forEach((buttonLink) => {
+    targetLink = buttonLink.href;
     buttonLink.classList.add('button');
     buttonLink.classList.add('secondary');
     buttonLink.closest('div').classList.add('button-container');
@@ -12,13 +14,40 @@ export default function decorate(block) {
     childRowNumber += 1;
   });
 
-  /*
+  
+
   const mediaWidthQueryMatcher  = window.matchMedia('only screen and (max-width: 960px)');
   const mediaWidthChangeHandler = (event) => {
+    const wrapElement = (element, wrapper) => {
+      if (element && element.parentNode) {
+        element.parentNode.insertBefore(wrapper, element);
+        wrapper.appendChild(element);
+      }
+    };
+
+    const unwrapElement = (element, wrapper) => {
+    };
+
     if(event.matches){
-      // add click event listener on block
+      let elementsToWrap = document.getElementsByClassName('highlight-card-text');
+      [...elementsToWrap].forEach(wrappedElement => {
+        const anchorElement = document.createElement("a");
+        anchorElement.href = targetLink;
+        const wrapper = anchorElement;
+
+        wrapElement(wrappedElement, wrapper);
+      });
+
+      elementsToWrap = document.getElementsByClassName('highlight-card-image');
+      [...elementsToWrap].forEach(wrappedElement => {
+        const anchorElement = document.createElement("a");
+        anchorElement.href = targetLink;
+        const wrapper = anchorElement;
+
+        wrapElement(wrappedElement, wrapper);
+      });
     } else {
-      // remove click event listener on block
+      
     }
   }
   mediaWidthChangeHandler(mediaWidthQueryMatcher);
@@ -26,5 +55,4 @@ export default function decorate(block) {
   mediaWidthQueryMatcher.addEventListener('change', (event) => {
     mediaWidthChangeHandler(event);
   });
-  // */
 }
