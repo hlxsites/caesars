@@ -7,15 +7,15 @@ div.stats-container {
 }
 
 /* Stats Grid */
-div.stats-container .stats > div{
+div.stats-container .stats > div {
     display: grid;
-    grid-template-columns: repeat(2,1fr);
+    grid-template-columns: repeat(2, 1fr);
     row-gap: 16px;
     column-gap: 16px;
 }
 
 /* Stats Cell */
-div.stats-container .stats > div > div{
+div.stats-container .stats > div > div {
     margin: 16px 0;
 }
 
@@ -44,14 +44,14 @@ div.stats-container .stats h3 {
 /* Tablet (portrait) */
 @media (min-width: 768px) {
     div.stats-container .stats > div {
-        grid-template-columns: repeat(3,1fr);
+        grid-template-columns: repeat(3, 1fr);
     }
 }
 
 /* Tablet (landscape) */
 @media (min-width: 960px) {
     div.stats-container .stats > div {
-        grid-template-columns: repeat(5,1fr);
+        grid-template-columns: repeat(5, 1fr);
     }
 
     div.stats-container .stats h3 {
