@@ -1,7 +1,9 @@
 export default function decorate(block) {
   let targetLink = null;
+  let targetTitle = null;
   block.querySelectorAll('a').forEach((buttonLink) => {
     targetLink = buttonLink.href;
+    targetTitle = buttonLink.title;
     buttonLink.classList.add('button');
     buttonLink.classList.add('secondary');
     buttonLink.closest('div').classList.add('button-container');
@@ -18,6 +20,7 @@ export default function decorate(block) {
       const link = document.createElement('a');
       link.classList.add('highlight-card-link');
       link.href = targetLink;
+      link.title = targetTitle;
 
       link.innerHTML = block.innerHTML;
       block.innerHTML = '';
