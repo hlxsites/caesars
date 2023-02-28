@@ -23,6 +23,10 @@
   flex-direction: column;
 }
 
+.tabs.block .hidden {
+  display: none;
+}
+
 .tabs.block .tab-title .active {
   box-shadow: 0 3px 0 0 black;
   padding-bottom: 4px;
