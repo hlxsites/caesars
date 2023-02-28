@@ -21,3 +21,7 @@
 .tabs.block .tab-text h3 {
   text-transform: uppercase;
 }
+
+/* Breakpoints
+--screen-width-s: minwidth-768px: Image on top of tab goes left
+*/
