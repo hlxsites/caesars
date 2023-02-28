@@ -67,6 +67,8 @@
   .tabs.block .tab {
     flex-direction: row;
     box-shadow: none;
+    animation-name: slideIn;
+    animation-duration: 3s;
   }
 
   .tabs.block .tab .tab-text {
@@ -85,5 +87,26 @@
   .tabs.block .tab-image img {
     width: 100%;
     height: auto;
+  }
+}
+
+/* Animations */
+@keyframes slideIn {
+  from {
+    background-color: green;
+  }
+
+  to {
+    background-color: red;
+  }
+}
+
+@keyframes slideout {
+  from {
+    background-color: red;
+  }
+
+  to {
+    background-color: green;
   }
 }
