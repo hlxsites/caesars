@@ -9,24 +9,17 @@ import {
   decorateTemplateAndTheme,
   waitForLCP,
   loadBlocks,
-  loadCSS, createOptimizedPicture,
+  loadCSS,
 } from './lib-franklin.js';
 
 const LCP_BLOCKS = []; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'caesars-palace'; // add your RUM generation information here
 
-function decorateSectionBackground(main) {
+function buildSectionBackground(main) {
   main.querySelectorAll('.section.has-background').forEach((section) => {
     const picture = section.querySelector('picture');
     if (picture) {
       section.appendChild(picture);
-      const img = picture.querySelector('img');
-      picture.replaceWith(createOptimizedPicture(
-        img.src,
-        img.alt,
-        false,
-        [{ width: '768' }, { width: '960' }, { width: '1440' }],
-      ));
     }
   });
 }
