@@ -36,11 +36,13 @@
   box-shadow: 0 3px 0 0 black;
   padding-bottom: 4px;
   font-weight: 700;
+  transition: font-weight .5s ease;
 }
 
 .tabs.block .tab-title:hover {
   box-shadow: 0 3px 0 0 black;
   padding-bottom: 4px;
+  transition: all .5s ease;
 }
 
 .tabs.block .tab-image img {
@@ -57,6 +59,16 @@
 }
 
 .tabs.block .tab-text h2 {
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.tabs.block .tab-text h3 {
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.tabs.block .tab-text h4 {
   text-transform: uppercase;
   margin-bottom: 16px;
 }
