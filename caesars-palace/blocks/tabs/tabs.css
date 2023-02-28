@@ -63,8 +63,21 @@
     flex-direction: row;
   }
 
+  .tabs.block .tab .tab-text {
+    flex: 1;
+  }
+
+  .tabs.block .tab .tab-image {
+    flex: 1;
+  }
+
   .tabs.block .tab-text .button-container {
     margin-left: 0; 
     margin-right: 0;
+  }
+
+  .tabs.block .tab-image img {
+    width: 100%;
+    height: auto;
   }
 }
