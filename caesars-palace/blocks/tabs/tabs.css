@@ -17,6 +17,7 @@
   line-height: 0.8;
   opacity: 95%;
   font-weight: 600;
+  flex-shrink:0
 }
 
 .tabs.block .tab-title .active {
