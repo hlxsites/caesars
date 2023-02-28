@@ -2,10 +2,18 @@
   background-color: steelblue;
 }
 
+.tabs.block .tab-title {
+  text-transform: uppercase;
+}
+
 .tabs.block .tab-image {
   background-color: skyblue;
 }
 
 .tabs.block .tab-text {
   background-color: lightskyblue;
+}
+
+.tabs.block .tab-text h3 {
+  text-transform: uppercase;
 }
