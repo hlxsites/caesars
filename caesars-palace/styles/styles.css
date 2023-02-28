@@ -48,6 +48,15 @@
   /* nav height */
   --nav-height: 64px;
 
+  /* layout sizes */
+   --layout-size-xxs: 4px;
+   --layout-size-xs: 8px;
+   --layout-size-s: 12px;
+   --layout-size-m: 16px;
+   --layout-size-l: 24px;
+   --layout-size-xl: 32px;
+   --layout-size-xxl: 64px;
+
 }
 
 body {
@@ -78,7 +87,7 @@ h4, h5, h6 {
   font-weight: 700;
   line-height: 1.1;
   padding: 0;
-  margin: 32px 0;
+  margin: var(--layout-size-xl) 0;
   scroll-margin: calc(var(--nav-height) + 1em);
 }
 
@@ -95,40 +104,45 @@ p, dl, ol, ul, pre, blockquote {
 }
 
 /* Links */
-a:any-link {
+:any-link{
   color: var(--link-color);
   text-decoration: none;
 }
 
-a:hover {
+:any-link:hover,
+:any-link:active {
   background: transparent;
   text-decoration: underline;
   box-shadow: none;
 }
 
-/* Buttons */
-a.button:any-link, button {
+/* Any Button */
+.cet-card a,
+a.button:any-link,
+button {
   display: inline-block;
   box-sizing: border-box;
   height: 36px;
   line-height: 36px;
   font-family: var(--body-font-family);
-  text-decoration: none;
   vertical-align: middle;
   font-style: normal;
   font-weight: 600;
   letter-spacing: 1px;
   cursor: pointer;
   touch-action: manipulation;
+  text-transform: capitalize;
 }
 
-button,
+/* Primary/Secondary button */
+.cet-card strong > a,
 .button-container > strong > a.primary,
-.button-container > em > a.secondary {
+.button-container > em > a.secondary,
+button {
   min-width: 133px;
   border: 1px solid var(--static-color-black);
   border-radius: 4px;
-  padding: 0 16px;
+  padding: 0 var(--layout-size-m);
   text-align: center;
   text-transform: uppercase;
   color: var(--static-color-white);
@@ -138,7 +152,9 @@ button,
   text-overflow: ellipsis;
 }
 
-.button-container > em > a.secondary, button.secondary {
+/* Secondary button */
+.button-container > em > a.secondary,
+button.secondary {
   background-color: var(--static-color-white);
   border: 1px solid var(--static-color-gray-dark);
   color: var(--text-color);
@@ -146,13 +162,7 @@ button,
 
 /* Link button */
 main .button-container > a.primary {
-  padding: 8px 0 0;
-  text-transform: capitalize;
-}
-
-main .button-container > a.primary:hover,
-main .button-container > a.primary:active {
-  text-decoration: underline;
+  padding: var(--layout-size-xs) 0 0;
 }
 
 main .button-container > a.primary::after {
@@ -202,7 +212,7 @@ main img {
 /* Sections */
 main .section {
   margin: 0 auto;
-  padding: 0 16px;
+  padding: 0 var(--layout-size-m);
 }
 
 main .section.has-background {
@@ -230,11 +240,11 @@ main .section.has-background > picture img {
 }
 
 main .section.margin-top {
-  margin: 64px 0 0;
+  margin: var(--layout-size-xxl) 0 0;
 }
 
 main .section.margin-bottom {
-  margin: 0 0 64px;
+  margin: 0 0 var(--layout-size-xxl);
 }
 
 main .section.has-overlay {
@@ -256,15 +266,15 @@ main .section.has-overlay::before {
 main .section > div {
   position: relative;
   margin: 0 auto;
-  padding: 0 16px;
+  padding: 0 var(--layout-size-m);
 }
 
 main .section > div:first-of-type {
-  padding-top: 64px;
+  padding-top: var(--layout-size-xxl);
 }
 
 main .section > div:last-of-type {
-  padding-bottom: 64px;
+  padding-bottom: var(--layout-size-xxl);
 }
 
 /* progressive section appearance */
@@ -279,7 +289,7 @@ main .section[data-section-status='initialized'] {
 /* Tablet (portrait) */
 @media  only screen and (min-width: 768px) {
   main .section > div {
-    width: 960px;
+    width: var(--screen-width-s);
   }
 }
 
@@ -297,7 +307,12 @@ main .section[data-section-status='initialized'] {
   }
 
   main .section > div {
-    width: 960px;
+    width: var(--screen-width-m);
+  }
+
+  /* Inline buttons */
+  .inline-button  a {
+    margin-right: var(--layout-size-m);
   }
 }
 
@@ -308,13 +323,13 @@ main .section[data-section-status='initialized'] {
   }
 
   main .section > div {
-    width: 1170px;
+    width: var(--screen-width-l);
   }
 }
 
 /* Desktop (large) */
 @media  only screen and  (min-width: 1440px) {
   main .section > div {
-    width: 1440px;
+    width: var(--screen-width-xl);
   }
 }

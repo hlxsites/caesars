@@ -1,3 +1,7 @@
+.section.columns-container .default-content-wrapper {
+    text-align: center;
+}
+
 .columns > div {
     display: flex;
     flex-direction: column;
@@ -11,6 +15,48 @@
     width: 100%;
 }
 
+/* CET card variation */
+.columns.columns-2-cols.cet-card > div {
+    box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%);
+    background: var(--static-color-white);
+}
+
+.columns.columns-2-cols.cet-card > div > div {
+    text-align: unset;
+}
+
+.columns.columns-2-cols.cet-card.image-end > div:first-child {
+    flex-direction: column-reverse;
+}
+
+.columns.columns-2-cols.cet-card.image-end > div > div:first-child {
+    padding: var(--layout-size-m);
+}
+
+.columns.columns-2-cols.cet-card.image-start > div > div:last-child {
+    padding: var(--layout-size-m);
+}
+
+.columns.columns-2-cols.cet-card .button-group {
+    text-align: right;
+}
+
+.columns.columns-2-cols.cet-card p:not(.button-group) {
+    margin: 0 0 var(--layout-size-l);
+}
+
+.columns.columns-2-cols.cet-card h1,
+.columns.columns-2-cols.cet-card h2,
+.columns.columns-2-cols.cet-card h3,
+.columns.columns-2-cols.cet-card h4 {
+    margin: 0 0 var(--layout-size-l) -4px;
+    text-transform: uppercase;
+}
+
+.section.columns-container .columns-wrapper:not(:last-child) .columns.columns-2-cols.cet-card > div:last-child {
+    margin-bottom: var(--layout-size-l);
+}
+
 @media (min-width: 768px) {
     .columns > div {
         display: flex;
@@ -20,12 +66,17 @@
     }
 
     .columns > div > div {
-        text-align: unset;
+        text-align: left;
     }
 
     .columns:not(.stretch-start) > div > div,
     .columns:not(.stretch-end) > div > div {
         flex: 1;
+    }
+
+    .columns.columns-2-cols.cet-card > div {
+        box-shadow: none;
+        background: unset;
     }
 
     .columns.stretch-start > div > div:first-of-type {
@@ -34,6 +85,10 @@
 
     .columns.stretch-end > div > div:last-of-type {
         flex: 2;
+    }
+
+    .columns.columns-2-cols.cet-card .button-group {
+        text-align: left;
     }
 
     .columns [data-align='center'] {
@@ -46,5 +101,19 @@
 
     .columns [data-align='right'] {
         text-align: right;
+    }
+
+    .columns.columns-2-cols.cet-card.image-end > div:first-child {
+        flex-direction: unset;
+    }
+}
+
+@media (min-width: 1170px) {
+    .columns.columns-2-cols.cet-card.image-end > div > div:first-child {
+        padding-right: 190px;
+    }
+
+    .columns.columns-2-cols.cet-card.image-start > div > div:last-child {
+        padding-left: 190px;
     }
 }
