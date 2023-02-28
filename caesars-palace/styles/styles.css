@@ -30,7 +30,8 @@
   /* fonts */
   --body-font-family: 'Open Sans',sans-serif;
   --heading-font-family: 'Josefin Sans',sans-serif;
-   --fixed-font-family: "Roboto Mono", menlo, consolas, "Liberation Mono", monospace;
+  --fixed-font-family: "Roboto Mono", menlo, consolas, "Liberation Mono", monospace;
+  --montserrat-font-family: 'Montserrat',sans-serif;
 
    /* body sizes */
   --body-font-size-m: 18px;
@@ -64,7 +65,7 @@ body {
   border: 0;
   font-family: var(--body-font-family);
   font-size: var(--body-font-size-s);
-  line-height: 1.1;
+  line-height: 1.4;
   color: var(--text-color);
   background-color: var(--background-color);
   display: none;
@@ -87,7 +88,7 @@ h4, h5, h6 {
   font-weight: 700;
   line-height: 1.1;
   padding: 0;
-  margin: var(--layout-size-xl) 0;
+  margin: 0;
   scroll-margin: calc(var(--nav-height) + 1em);
 }
 
