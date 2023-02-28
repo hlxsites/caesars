@@ -57,6 +57,7 @@
   margin-bottom: 0;
 }
 
-/* Breakpoints
---screen-width-s: minwidth-768px: Image on top of tab goes left
-*/
+/* Responsive Breakpoints */
+@media  only screen and (min-width: 768px) {
+  
+}
