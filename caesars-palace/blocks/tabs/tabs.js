@@ -6,6 +6,7 @@ export default function decorate(block) {
   // http://localhost:3000/caesars-palace/drafts/tmathern/tabs
   const tabTitles = document.createElement('div');
   tabTitles.classList.add('tab-navbar');
+  block.prepend(tabTitles);
 
   [...block.children].forEach((row, rowIndex) => {
     row.classList.add('tab');
@@ -17,7 +18,6 @@ export default function decorate(block) {
           const divToMove = contentElement.closest('div');
           divToMove.classList.add('tab-title');
           divToMove.classList.add(`tab-navbar-element-${rowIndex}`);
-
           tabTitles.appendChild(divToMove);
         } else if (contentElement.children
           && contentElement.children.length > 0
@@ -31,6 +31,4 @@ export default function decorate(block) {
       }
     });
   });
-
-  block.prepend(tabTitles);
 }
