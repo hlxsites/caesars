@@ -1,6 +1,6 @@
-function showTab(rowIndex) {
-  const tabTitleToHighlightQueryResults = document.getElementsByClassName(`tab-navbar-element-${rowIndex}`);
-  const currentHighlightedTabQueryResults = document.getElementsByClassName('active-tab-title');
+function showTab(block, rowIndex) {
+  const tabTitleToHighlightQueryResults = block.getElementsByClassName(`tab-navbar-element-${rowIndex}`);
+  const currentHighlightedTabQueryResults = block.getElementsByClassName('active-tab-title');
 
   if (currentHighlightedTabQueryResults.length === 1
     && tabTitleToHighlightQueryResults.length === 1) {
@@ -14,8 +14,8 @@ function showTab(rowIndex) {
     tabTitleToHighlight.classList.add('active-tab-title');
   }
 
-  const tabToShowQueryResults = document.getElementsByClassName(`tab-content-${rowIndex}`);
-  const tabToHideQueryResults = document.getElementsByClassName('active-tab');
+  const tabToShowQueryResults = block.getElementsByClassName(`tab-content-${rowIndex}`);
+  const tabToHideQueryResults = block.getElementsByClassName('active-tab');
 
   if (tabToHideQueryResults.length === 1 && tabToShowQueryResults.length === 1) {
     const tabToHide = tabToHideQueryResults[0];
@@ -61,7 +61,7 @@ export default function decorate(block) {
           tabTitles.appendChild(divToMove);
 
           divToMove.addEventListener('click', () => {
-            showTab(rowIndex);
+            showTab(block, rowIndex);
           });
         } else if (contentElement.children
           && contentElement.children.length > 0

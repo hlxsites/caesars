@@ -33,6 +33,11 @@
   font-weight: 700;
 }
 
+.tabs.block .tab-title:hover {
+  box-shadow: 0 3px 0 0 black;
+  padding-bottom: 4px;
+}
+
 .tabs.block .tab-image img {
   width: 100%;
   height: auto;
