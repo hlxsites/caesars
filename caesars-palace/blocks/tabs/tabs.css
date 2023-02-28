@@ -1,7 +1,7 @@
 .tabs.block .tab-navbar {
   display: flex;
   flex-direction: row;
-  margin-bottom: 16px;
+  margin-bottom: 32px;
 }
 
 .tabs.block .tab-title {
