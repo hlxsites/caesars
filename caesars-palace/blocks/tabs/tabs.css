@@ -1,6 +1,7 @@
-.tabs.block .tabs-navbar {
+.tabs.block .tab-navbar {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  flex-direction: row;
 }
 
 .tabs.block .tab {
@@ -11,6 +12,16 @@
 
 .tabs.block .tab-title {
   text-transform: uppercase;
+  padding: 8px;
+  font-size: 12px;
+  letter-spacing: 1px;
+  line-height: 0.8;
+  opacity: 95%;
+  font-weight: 600;
+}
+
+.tabs.block .tab-title .active {
+  font-weight: 700;
 }
 
 .tabs.block .tab-image img {
