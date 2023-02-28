@@ -27,14 +27,10 @@
   display: none;
 }
 
-.tabs.block .tab-title .active {
+.tabs.block .active-tab-title {
   box-shadow: 0 3px 0 0 black;
   padding-bottom: 4px;
   font-weight: 700;
-}
-
-.tabs.block .tab-title .hovered {
-  box-shadow: 0 3px 0 0 black;
 }
 
 .tabs.block .tab-image img {

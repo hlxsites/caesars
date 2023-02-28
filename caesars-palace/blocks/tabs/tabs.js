@@ -1,4 +1,18 @@
 function showTab(rowIndex) {
+  let tabTitleToHighlight = document.getElementsByClassName(`tab-navbar-element-${rowIndex}`);
+  let currentHighlightedTab = document.getElementsByClassName('active-tab-title');
+  
+  if (currentHighlightedTab.length === 1 && tabTitleToHighlight.length === 1) {
+    currentHighlightedTab = currentHighlightedTab[0];
+    tabTitleToHighlight = tabTitleToHighlight[0];
+
+    // hide currently active tab
+    currentHighlightedTab.classList.remove('active-tab-title');;
+
+    // show new tab
+    tabTitleToHighlight.classList.add('active-tab-title');
+  }
+
   let tabToShow = document.getElementsByClassName(`tab-content-${rowIndex}`);
   let tabToHide = document.getElementsByClassName('active-tab');
 
@@ -40,6 +54,9 @@ export default function decorate(block) {
           const divToMove = contentElement.closest('div');
           divToMove.classList.add('tab-title');
           divToMove.classList.add(`tab-navbar-element-${rowIndex}`);
+          if (rowIndex === 1) {
+            divToMove.classList.add('active-tab-title');
+          }
           tabTitles.appendChild(divToMove);
 
           divToMove.addEventListener('click', () => {
