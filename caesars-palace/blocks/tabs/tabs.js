@@ -1,10 +1,11 @@
 function showTab(rowIndex) {
-  let tabTitleToHighlight = document.getElementsByClassName(`tab-navbar-element-${rowIndex}`);
-  let currentHighlightedTab = document.getElementsByClassName('active-tab-title');
+  const tabTitleToHighlightQueryResults = document.getElementsByClassName(`tab-navbar-element-${rowIndex}`);
+  const currentHighlightedTabQueryResults = document.getElementsByClassName('active-tab-title');
 
-  if (currentHighlightedTab.length === 1 && tabTitleToHighlight.length === 1) {
-    currentHighlightedTab = currentHighlightedTab[0];
-    tabTitleToHighlight = tabTitleToHighlight[0];
+  if (currentHighlightedTabQueryResults.length === 1
+    && tabTitleToHighlightQueryResults.length === 1) {
+    const currentHighlightedTab = currentHighlightedTabQueryResults[0];
+    const tabTitleToHighlight = tabTitleToHighlightQueryResults[0];
 
     // hide currently active tab
     currentHighlightedTab.classList.remove('active-tab-title');
@@ -13,12 +14,12 @@ function showTab(rowIndex) {
     tabTitleToHighlight.classList.add('active-tab-title');
   }
 
-  let tabToShow = document.getElementsByClassName(`tab-content-${rowIndex}`);
-  let tabToHide = document.getElementsByClassName('active-tab');
+  const tabToShowQueryResults = document.getElementsByClassName(`tab-content-${rowIndex}`);
+  const tabToHideQueryResults = document.getElementsByClassName('active-tab');
 
-  if (tabToHide.length === 1 && tabToShow.length === 1) {
-    tabToHide = tabToHide[0];
-    tabToShow = tabToShow[0];
+  if (tabToHideQueryResults.length === 1 && tabToShowQueryResults.length === 1) {
+    const tabToHide = tabToHideQueryResults[0];
+    const tabToShow = tabToShowQueryResults[0];
 
     // hide currently active tab
     tabToHide.classList.remove('active-tab');
