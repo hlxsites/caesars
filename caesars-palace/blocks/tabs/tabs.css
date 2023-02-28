@@ -1,0 +1,11 @@
+.tabs.block .tab-title {
+  background-color: steelblue;
+}
+
+.tabs.block .tab-image {
+  background-color: skyblue;
+}
+
+.tabs.block .tab-text {
+  background-color: lightskyblue;
+}
