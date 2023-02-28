@@ -1,6 +1,5 @@
 .tabs.block .tab-navbar {
   display: flex;
-  flex-wrap: nowrap;
   flex-direction: row;
 }
 

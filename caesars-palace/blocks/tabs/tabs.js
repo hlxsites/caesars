@@ -9,8 +9,10 @@ export default function decorate(block) {
   block.prepend(tabTitles);
 
   [...block.children].forEach((row, rowIndex) => {
-    row.classList.add('tab');
-    row.classList.add(`tab-content-${rowIndex}`);
+    if(rowIndex !== 0){
+      row.classList.add('tab');
+      row.classList.add(`tab-content-${rowIndex}`);
+    }
 
     [...row.children].forEach((contentElement, i) => {
       if (contentElement.innerHTML) {
