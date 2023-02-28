@@ -66,6 +66,7 @@
 @media  only screen and (min-width: 768px) {
   .tabs.block .tab {
     flex-direction: row;
+    box-shadow: none;
   }
 
   .tabs.block .tab .tab-text {
