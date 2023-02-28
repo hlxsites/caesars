@@ -1,3 +1,7 @@
+function openTab(e) {
+  console.log("Show tab");
+}
+
 export default function decorate(block) {
   // http://localhost:3000/caesars-palace/drafts/tmathern/tabs
 

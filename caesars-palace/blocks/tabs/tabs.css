@@ -1,4 +1,8 @@
 .tabs.block .tab-title {
+  display: flex;
+}
+
+.tabs.block .tab-title {
   background-color: steelblue;
 }
 
