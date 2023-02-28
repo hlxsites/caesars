@@ -14,18 +14,22 @@
 }
 
 .tabs.block .tab-text {
+  display: flex;
+  flex-direction: column;
   padding-left: 16px;
   padding-top: 16px;
   padding-bottom: 16px;
 }
 
-.tabs.block .tab-text h3 {
+.tabs.block .tab-text h2 {
   text-transform: uppercase;
+  margin-bottom: 16px;
 }
 
 .tabs.block .tab-text .button-container {
   margin-left: auto; 
   margin-right: 16px;
+  margin-bottom: 0;
 }
 
 /* Breakpoints
