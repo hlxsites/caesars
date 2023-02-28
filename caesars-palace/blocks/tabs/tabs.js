@@ -1,13 +1,13 @@
 function showTab(rowIndex) {
   let tabTitleToHighlight = document.getElementsByClassName(`tab-navbar-element-${rowIndex}`);
   let currentHighlightedTab = document.getElementsByClassName('active-tab-title');
-  
+
   if (currentHighlightedTab.length === 1 && tabTitleToHighlight.length === 1) {
     currentHighlightedTab = currentHighlightedTab[0];
     tabTitleToHighlight = tabTitleToHighlight[0];
 
     // hide currently active tab
-    currentHighlightedTab.classList.remove('active-tab-title');;
+    currentHighlightedTab.classList.remove('active-tab-title');
 
     // show new tab
     tabTitleToHighlight.classList.add('active-tab-title');
