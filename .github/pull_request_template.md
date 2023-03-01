@@ -2,10 +2,11 @@
 
 Fix #<gh-issue-id>
 
-🔗 Test URLs:
-- Before: https://main--caesars--hlxsites.hlx.page/
-- After: https://<branch>--caesars--hlxsites.hlx.page/
+## 🔗 Test URLs:
+  
+- Before: https://main--caesars--hlxsites.hlx.page/caesars-palace/
+- After: https://<branch>--caesars--hlxsites.hlx.page/caesars-palace/
 
-📝 Description:
+## 📝 Description:
   
 <!--- What changes are in this pull request? Include screenshots when helpful. -->
