@@ -1,7 +1,5 @@
 .tabs.block .tab-navbar {
   display: flex;
-  flex-direction: row;
-  margin-bottom: 32px;
 }
 
 .tabs.block .tab-title {
@@ -12,10 +10,7 @@
   font-size: 12px;
   letter-spacing: 1px;
   line-height: 0.8;
-  opacity: 0.95;
   font-weight: 600;
-  flex-shrink:0;
-  transition: all .5s ease;
 }
 
 .tabs.block .tab {
@@ -31,18 +26,6 @@
 
 .tabs.block .hidden {
   display: none;
-}
-
-.tabs.block .active-tab-title {
-  box-shadow: 0 3px 0 0 black;
-  padding-bottom: 4px;
-  font-weight: 700;
-}
-
-.tabs.block .tab-title:hover {
-  box-shadow: 0 3px 0 0 black;
-  padding-bottom: 4px;
-  transition: all .5s ease;
 }
 
 .tabs.block .tab-image img {
@@ -84,6 +67,30 @@
   .tabs.block .tab {
     flex-direction: row;
     box-shadow: none;
+  }
+
+  .tabs.block .tab-navbar {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 32px;
+  }
+
+  .tabs.block .tab-title {
+    opacity: 0.95;
+    flex-shrink:0;
+    transition: all .5s ease;
+  }
+
+  .tabs.block .active-tab-title {
+    box-shadow: 0 3px 0 0 black;
+    padding-bottom: 4px;
+    font-weight: 700;
+  }
+  
+  .tabs.block .tab-title:hover {
+    box-shadow: 0 3px 0 0 black;
+    padding-bottom: 4px;
+    transition: all .5s ease;
   }
 
   .tabs.block .tab .tab-text {

@@ -1,4 +1,5 @@
 // TODO: Add https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-selected
+// TODO: Prepare for turning tabs into dropdown on mobile
 
 function showTab(block, rowIndex) {
   const tabTitleToHighlightQueryResults = block.getElementsByClassName(`tab-navbar-element-${rowIndex}`);
