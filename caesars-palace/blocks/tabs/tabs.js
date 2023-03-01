@@ -1,25 +1,12 @@
-function sleep(ms) {
-  return new Promise(resolve => setTimeout(resolve, ms));
-}
-
-async function showTab(block, rowIndex) {
-  // Clean animations 
+function showTab(block, rowIndex) {
   const tabsActiveWithSlideOut = block.getElementsByClassName('active-tab-slide-out');
-  [...tabsActiveWithSlideOut].forEach((item) => { 
-    if(item.classList) item.classList.remove('active-tab-slide-out');
-  })
+  [...tabsActiveWithSlideOut].forEach((item) => {
+    if (item.classList) item.classList.remove('active-tab-slide-out');
+  });
   const tabsActiveWithSlideIn = block.getElementsByClassName('active-tab-slide-in');
-  [...tabsActiveWithSlideIn].forEach((item) => { 
-    if(item.classList) item.classList.remove('active-tab-slide-in');
-  })
-  const tabsHiddenWithSlideOut = block.getElementsByClassName('hidden-tab-slide-in');
-  [...tabsHiddenWithSlideOut].forEach((item) => { 
-    if(item.classList) item.classList.remove('hidden-tab-slide-in');
-  })
-  const tabsWithSlideIn = block.getElementsByClassName('hidden-tab-slide-out');
-  [...tabsWithSlideIn].forEach((item) => { 
-    if(item.classList) item.classList.remove('hidden-tab-slide-out');
-  })
+  [...tabsActiveWithSlideIn].forEach((item) => {
+    if (item.classList) item.classList.remove('active-tab-slide-in');
+  });
 
   const tabTitleToHighlightQueryResults = block.getElementsByClassName(`tab-navbar-element-${rowIndex}`);
   const currentHighlightedTabQueryResults = block.getElementsByClassName('active-tab-title');
@@ -45,17 +32,17 @@ async function showTab(block, rowIndex) {
 
     let tabToHideIndex = -1;
     [...tabToHide.classList].forEach((item) => {
-        if(item.startsWith('tab-content-')){
-          tabToHideIndex = parseInt(item.split('tab-content-')[1], 10);
-        }
+      if (item.startsWith('tab-content-')) {
+        tabToHideIndex = parseInt(item.split('tab-content-')[1], 10);
+      }
     });
 
     let tabToShowIndex = -1;
     [...tabToShow.classList].forEach((item) => {
-      if(item.startsWith('tab-content-')){
+      if (item.startsWith('tab-content-')) {
         tabToShowIndex = parseInt(item.split('tab-content-')[1], 10);
       }
-  });
+    });
 
     // hide currently active tab
     tabToHide.classList.remove('active-tab');
@@ -65,11 +52,11 @@ async function showTab(block, rowIndex) {
     tabToShow.classList.remove('hidden');
     tabToShow.classList.add('active-tab');
 
-    if(tabToHideIndex === tabToShowIndex){
+    if (tabToHideIndex === tabToShowIndex) {
       return;
-    } if(tabToHideIndex > tabToShowIndex){ // slide out, then slide in
+    } if (tabToHideIndex > tabToShowIndex) { // slide out, then slide in
       tabToShow.classList.add('active-tab-slide-out');
-    } else if (tabToHideIndex < tabToShowIndex){ // slide in, then slide out
+    } else if (tabToHideIndex < tabToShowIndex) { // slide in, then slide out
       tabToShow.classList.add('active-tab-slide-in');
     }
   }
@@ -83,7 +70,7 @@ export default function decorate(block) {
 
   const tabsHolder = document.createElement('div');
   tabsHolder.classList.add('tab-tabs-holder');
-  
+
   [...block.children].forEach((row, rowIndex) => {
     if (rowIndex > 0) {
       row.classList.add('tab');

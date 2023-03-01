@@ -20,14 +20,15 @@
 }
 
 .tabs.block .hidden {
-  /* mimics display: none; but can be sort of animated */
+  opacity: 0;
+
+  /* mimic display: none; but with animation support */
   position: absolute; 
   visibility: hidden;
-  opacity: 0%;
 }
 
 .tabs.block .tab-image img {
-  width: 100%;
+  width: 1;
   height: auto;
 }
 
@@ -109,7 +110,7 @@
   }
 
   .tabs.block .tab-image img {
-    width: 100%;
+    width: 1;
     height: auto;
   }
 
@@ -122,14 +123,9 @@
     animation-name: slide-out;
     animation-duration: 0.3s;
   }
-
-  .tabs.block .hidden-tab-slide-in {
-    animation-name: slide-in;
-    animation-duration: 0.3s;
-  }
   
   .tabs.block .hidden .tab-text {
-    opacity: 0%;
+    opacity: 0;
     animation-name: text-slide-out;
     animation-duration: 0.3s;
   }
@@ -139,12 +135,12 @@
 @keyframes slide-in {
   from {
     transform: translateX(100%);
-    opacity: 0%;
+    opacity: 0;
   }
 
   to {
     transform: translateX(0);
-    opacity: 100%;
+    opacity: 1;
   }
 }
 
@@ -155,16 +151,16 @@
 
   to {
     transform: translateX(0);
-    opacity: 100%;
+    opacity: 1;
   }
 }
 
 @keyframes text-slide-out {
   from {
-    opacity: 100%;
+    opacity: 1;
   }
 
   to {
-    opacity: 0%;
+    opacity: 0;
   }
 }
