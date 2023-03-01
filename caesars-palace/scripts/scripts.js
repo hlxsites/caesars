@@ -15,17 +15,11 @@ import {
 const LCP_BLOCKS = []; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'caesars-palace'; // add your RUM generation information here
 
-function decorateSectionBackground(main) {
+function buildSectionBackground(main) {
   main.querySelectorAll('.section.has-background').forEach((section) => {
     const picture = section.querySelector('picture');
     if (picture) {
-      const image = picture.querySelector('img');
-      section.style.backgroundImage = `url('${image.src}')`;
-      const pictureContainer = picture.parentElement;
-      pictureContainer.removeChild(picture);
-      if (pictureContainer.innerHTML.trim().length === 0) {
-        pictureContainer.parentElement.removeChild(pictureContainer);
-      }
+      section.appendChild(picture);
     }
   });
 }
@@ -41,7 +35,7 @@ export function decorateMain(main) {
   decorateIcons(main);
   decorateSections(main);
   decorateBlocks(main);
-  decorateSectionBackground(main);
+  buildSectionBackground(main);
 }
 
 /**
