@@ -19,32 +19,11 @@
   flex-direction: column;
 }
 
-.tabs.block .active-tab-slide-in {
-  animation-name: slide-in;
-  animation-duration: 0.3s;
-}
-
-.tabs.block .active-tab-slide-out {
-  animation-name: slide-out;
-  animation-duration: 0.3s;
-}
-
 .tabs.block .hidden {
   /* mimics display: none; but can be sort of animated */
   position: absolute; 
   visibility: hidden;
   opacity: 0%;
-}
-
-.tabs.block .hidden-tab-slide-in {
-  animation-name: slide-in;
-  animation-duration: 0.3s;
-}
-
-.tabs.block .hidden .tab-text {
-  opacity: 0%;
-  animation-name: text-slide-out;
-  animation-duration: 0.3s;
 }
 
 .tabs.block .tab-image img {
@@ -132,6 +111,27 @@
   .tabs.block .tab-image img {
     width: 100%;
     height: auto;
+  }
+
+  .tabs.block .active-tab-slide-in {
+    animation-name: slide-in;
+    animation-duration: 0.3s;
+  }
+  
+  .tabs.block .active-tab-slide-out {
+    animation-name: slide-out;
+    animation-duration: 0.3s;
+  }
+
+  .tabs.block .hidden-tab-slide-in {
+    animation-name: slide-in;
+    animation-duration: 0.3s;
+  }
+  
+  .tabs.block .hidden .tab-text {
+    opacity: 0%;
+    animation-name: text-slide-out;
+    animation-duration: 0.3s;
   }
 }
 
