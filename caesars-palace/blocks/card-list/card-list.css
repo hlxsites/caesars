@@ -1,0 +1,5 @@
+.card-list.block .card-title > h4 {
+  font-family: var(--montserrat-font-family);
+  font-weight: 700;
+  text-transform: uppercase;
+}
