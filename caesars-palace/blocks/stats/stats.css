@@ -23,7 +23,6 @@ div.stats-container .stats > div > div {
 div.stats-container .stats h1 {
     --heading-font-family: 'Montserrat', sans-serif; /* Override var locally */
 
-    font-family: var(--heading-font-family);
     font-weight: 800;
     font-size: 70px;
     line-height: 1;
