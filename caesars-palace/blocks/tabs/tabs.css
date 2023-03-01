@@ -25,7 +25,19 @@
 }
 
 .tabs.block .hidden {
-  display: none;
+  /* mimics display: none; but can be sort of animated */
+  position: absolute; 
+  visibility: hidden;
+  opacity: 0%;
+
+  animation-name: slide-out;
+  animation-duration: 1s;
+}
+
+.tabs.block .hidden .tab-text {
+  opacity: 0%;
+  animation-name: text-slide-out;
+  animation-duration: 1s;
 }
 
 .tabs.block .tab-image img {
@@ -116,19 +128,37 @@
 @keyframes slide-in {
   from {
     transform: translateX(100%);
+    opacity: 0%;
   }
 
   to {
     transform: translateX(0);
+    opacity: 100%;
   }
 }
 
 @keyframes slide-out {
   from {
     transform: translateX(0);
+    opacity: 100%;
+    position: absolute; 
+    visibility: visible;
   }
 
   to {
-    transform: translateX(200%);
+    transform: translateX(100%);
+    position: absolute; 
+    visibility: hidden;
+    opacity: 0%;
+  }
+}
+
+@keyframes text-slide-out {
+  from {
+    opacity: 100%;
+  }
+
+  to {
+    opacity: 0%;
   }
 }
