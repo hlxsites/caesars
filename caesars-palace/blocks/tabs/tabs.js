@@ -3,6 +3,24 @@ function sleep(ms) {
 }
 
 async function showTab(block, rowIndex) {
+  // Clean animations 
+  const tabsActiveWithSlideOut = block.getElementsByClassName('active-tab-slide-out');
+  [...tabsActiveWithSlideOut].forEach((item) => { 
+    if(item.classList) item.classList.remove('active-tab-slide-out');
+  })
+  const tabsActiveWithSlideIn = block.getElementsByClassName('active-tab-slide-in');
+  [...tabsActiveWithSlideIn].forEach((item) => { 
+    if(item.classList) item.classList.remove('active-tab-slide-in');
+  })
+  const tabsHiddenWithSlideOut = block.getElementsByClassName('hidden-tab-slide-in');
+  [...tabsHiddenWithSlideOut].forEach((item) => { 
+    if(item.classList) item.classList.remove('hidden-tab-slide-in');
+  })
+  const tabsWithSlideIn = block.getElementsByClassName('hidden-tab-slide-out');
+  [...tabsWithSlideIn].forEach((item) => { 
+    if(item.classList) item.classList.remove('hidden-tab-slide-out');
+  })
+
   const tabTitleToHighlightQueryResults = block.getElementsByClassName(`tab-navbar-element-${rowIndex}`);
   const currentHighlightedTabQueryResults = block.getElementsByClassName('active-tab-title');
 
@@ -25,6 +43,20 @@ async function showTab(block, rowIndex) {
     const tabToHide = tabToHideQueryResults[0];
     const tabToShow = tabToShowQueryResults[0];
 
+    let tabToHideIndex = -1;
+    [...tabToHide.classList].forEach((item) => {
+        if(item.startsWith('tab-content-')){
+          tabToHideIndex = parseInt(item.split('tab-content-')[1], 10);
+        }
+    });
+
+    let tabToShowIndex = -1;
+    [...tabToShow.classList].forEach((item) => {
+      if(item.startsWith('tab-content-')){
+        tabToShowIndex = parseInt(item.split('tab-content-')[1], 10);
+      }
+  });
+
     // hide currently active tab
     tabToHide.classList.remove('active-tab');
     tabToHide.classList.add('hidden');
@@ -32,6 +64,14 @@ async function showTab(block, rowIndex) {
     // show new tab
     tabToShow.classList.remove('hidden');
     tabToShow.classList.add('active-tab');
+
+    if(tabToHideIndex === tabToShowIndex){
+      return;
+    } if(tabToHideIndex > tabToShowIndex){ // slide out, then slide in
+      tabToShow.classList.add('active-tab-slide-out');
+    } else if (tabToHideIndex < tabToShowIndex){ // slide in, then slide out
+      tabToShow.classList.add('active-tab-slide-in');
+    }
   }
 }
 

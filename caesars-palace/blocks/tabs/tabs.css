@@ -19,14 +19,15 @@
   flex-direction: column;
 }
 
-.tabs.block .active-tab .slide-out {
+.tabs.block .active-tab-slide-in {
   animation-name: slide-in;
   animation-duration: 1s;
 }
 
-.tabs.block .active-tab .slide-in {
-  animation-name: slide-in;
+.tabs.block .active-tab-slide-out {
+  animation-name: slide-out;
   animation-duration: 1s;
+  animation-direction: reverse;
 }
 
 .tabs.block .hidden {
@@ -36,21 +37,13 @@
   opacity: 0%;
 }
 
-.tabs.block .hidden .slide-out {
-  animation-name: slide-out;
-  animation-duration: 1s;
-}
-
-.tabs.block .hidden .slide-in {
-  animation-name: slide-out;
+.tabs.block .hidden-tab-slide-in {
+  animation-name: slide-in;
   animation-duration: 1s;
 }
 
 .tabs.block .hidden .tab-text {
   opacity: 0%;
-}
-
-.tabs.block .hidden .tab-text .slide-out {
   animation-name: text-slide-out;
   animation-duration: 1s;
 }
@@ -160,16 +153,11 @@
 @keyframes slide-out {
   from {
     transform: translateX(0);
-    opacity: 100%;
-    position: absolute; 
-    visibility: visible;
   }
 
   to {
-    transform: translateX(100%);
-    position: absolute; 
-    visibility: hidden;
-    opacity: 0%;
+    transform: translateX(-200em);
+    opacity: 100%;
   }
 }
 
