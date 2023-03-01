@@ -19,7 +19,12 @@
   flex-direction: column;
 }
 
-.tabs.block .active-tab {
+.tabs.block .active-tab .slide-out {
+  animation-name: slide-in;
+  animation-duration: 1s;
+}
+
+.tabs.block .active-tab .slide-in {
   animation-name: slide-in;
   animation-duration: 1s;
 }
@@ -29,13 +34,23 @@
   position: absolute; 
   visibility: hidden;
   opacity: 0%;
+}
 
+.tabs.block .hidden .slide-out {
+  animation-name: slide-out;
+  animation-duration: 1s;
+}
+
+.tabs.block .hidden .slide-in {
   animation-name: slide-out;
   animation-duration: 1s;
 }
 
 .tabs.block .hidden .tab-text {
   opacity: 0%;
+}
+
+.tabs.block .hidden .tab-text .slide-out {
   animation-name: text-slide-out;
   animation-duration: 1s;
 }
@@ -108,9 +123,6 @@
 
   .tab-tabs-holder {
     display: flex;
-  }
-
-  .tab-tabs-holder .tab {
   }
 
   .tabs.block .tab .tab-text {
