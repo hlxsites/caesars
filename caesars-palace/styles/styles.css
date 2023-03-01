@@ -70,7 +70,7 @@ body {
     display: none;
     text-rendering: optimizespeed;
     -webkit-font-smoothing: antialiased;
-
+    overflow-x: hidden;
 }
 
 body.appear {
