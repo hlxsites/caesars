@@ -77,7 +77,7 @@
 /* Responsive Breakpoints */
 @media  only screen and (min-width: 768px) {
   .tabs.block .tab {
-    flex-direction: row;
+    position: absolute;
     box-shadow: none;
   }
 
@@ -103,6 +103,15 @@
     box-shadow: 0 3px 0 0 black;
     padding-bottom: 4px;
     transition: all .5s ease;
+  }
+
+  .tab-tabs-holder {
+    background-color: red;
+    border: 1px solid red;
+    display: flex;
+  }
+
+  .tab-tabs-holder .tab {
   }
 
   .tabs.block .tab .tab-text {

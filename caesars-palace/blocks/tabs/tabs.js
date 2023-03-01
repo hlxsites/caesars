@@ -1,7 +1,8 @@
-// TODO: Add https://developer.mozilla.org/en-US/docs/Web/Accessibility/ARIA/Attributes/aria-selected
-// TODO: Prepare for turning tabs into dropdown on mobile
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
 
-function showTab(block, rowIndex) {
+async function showTab(block, rowIndex) {
   const tabTitleToHighlightQueryResults = block.getElementsByClassName(`tab-navbar-element-${rowIndex}`);
   const currentHighlightedTabQueryResults = block.getElementsByClassName('active-tab-title');
 
@@ -40,6 +41,9 @@ export default function decorate(block) {
   tabTitles.classList.add('tab-navbar');
   block.prepend(tabTitles);
 
+  const tabsHolder = document.createElement('div');
+  tabsHolder.classList.add('tab-tabs-holder');
+  
   [...block.children].forEach((row, rowIndex) => {
     if (rowIndex > 0) {
       row.classList.add('tab');
@@ -78,5 +82,11 @@ export default function decorate(block) {
         contentElement.remove();
       }
     });
+
+    if (rowIndex > 0) {
+      tabsHolder.append(row);
+    }
   });
+
+  block.append(tabsHolder);
 }
