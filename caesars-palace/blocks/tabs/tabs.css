@@ -77,8 +77,9 @@
 /* Responsive Breakpoints */
 @media  only screen and (min-width: 768px) {
   .tabs.block .tab {
-    position: absolute;
+    display: flex;
     box-shadow: none;
+    flex-direction: row;
   }
 
   .tabs.block .tab-navbar {
@@ -106,8 +107,6 @@
   }
 
   .tab-tabs-holder {
-    background-color: red;
-    border: 1px solid red;
     display: flex;
   }
 
