@@ -1,9 +1,48 @@
-function showPreviousTitle(tabsCount){
+function showTitle(block, tabsCount, direction){
+  const currentActiveTabTitle = block.getElementsByClassName('active-tab-title');
 
-}
+  if(!currentActiveTabTitle){
+    return;
+  }
 
-function showNextTitle(tabsCount){
+  if(currentActiveTabTitle.length !== 1){
+    return;
+  }
 
+  const tabTitleToHide = currentActiveTabTitle[0];
+  console.log(tabTitleToHide.classList);
+
+  let currentActiveIndex;
+  tabTitleToHide.classList.forEach((tabClass) => {
+    if (tabClass.startsWith('tab-navbar-element-')) {
+      currentActiveIndex = parseInt(tabClass.split('tab-navbar-element-')[1], 10);
+    }
+  });
+
+  console.log("Index: ", currentActiveIndex);
+  let indexToActivate = currentActiveIndex + 1;
+  if(indexToActivate > tabsCount){
+    indexToActivate = 1;
+  }
+
+  console.log("Index to activate: ", indexToActivate);
+
+  const nextTitleToActivate = block.getElementsByClassName(`tab-navbar-element-${indexToActivate}`);
+  if(!nextTitleToActivate){
+    return;
+  }
+
+  if(nextTitleToActivate.length !== 1){
+    return;
+  }
+  
+  const tabTitleToActivate = nextTitleToActivate[0];
+
+  tabTitleToHide.classList.remove('active-tab-title');
+  tabTitleToHide.classList.add('hidden-tab-title');
+
+  tabTitleToActivate.classList.remove('hidden-tab-title');
+  tabTitleToActivate.classList.add('active-tab-title');
 }
 
 function showTab(block, rowIndex) {
@@ -102,6 +141,8 @@ export default function decorate(block) {
           divToMove.classList.add(`tab-navbar-element-${rowIndex}`);
           if (rowIndex === 1) {
             divToMove.classList.add('active-tab-title');
+          } else {
+            divToMove.classList.add('hidden-tab-title');
           }
           tabTitles.appendChild(divToMove);
 
@@ -138,7 +179,7 @@ export default function decorate(block) {
 
         backButton.addEventListener('click', () => {
           console.log("backwardButton");
-          showPreviousTitle(tabsCount);
+          showTitle(block, tabsCount, -1);
         });
       }
 
@@ -151,7 +192,7 @@ export default function decorate(block) {
 
         forwardButton.addEventListener('click', () => {
           console.log("forwardButton");
-          showNextTitle(tabsCount);
+          showTitle(block, tabsCount, 1);
         });
       }
     } else {
