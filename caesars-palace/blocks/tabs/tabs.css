@@ -79,6 +79,14 @@
   animation-duration: 0.3s;
 }
 
+.tab-title.active-tab-title::after {
+  content: " >> ";
+}
+
+.tab-title.active-tab-title::before {
+  content: " << ";
+}
+
 /* Responsive Breakpoints */
 @media  only screen and (min-width: 768px) {
   .tabs.block .tab {
