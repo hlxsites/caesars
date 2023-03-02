@@ -129,8 +129,8 @@ export default function decorate(block) {
   const mediaWidthQueryMatcher = window.matchMedia('only screen and (min-width: 768px)');
   const mediaWidthChangeHandler = (event) => {
     if (event.matches === false) {
-      const backButtonQueryResults = block.getElementsByClassName('backward-tab-button');
-      if(!backButtonQueryResults || (backButtonQueryResults.length === 0)){
+      const backButtons = block.getElementsByClassName('backward-tab-button');
+      if(!backButtons || (backButtons.length === 0)){
         const backButton = document.createElement('div');
         backButton.classList.add('backward-tab-button');
         backButton.textContent = "<<";
@@ -142,8 +142,8 @@ export default function decorate(block) {
         });
       }
 
-      const forwardButtonQueryResults = block.getElementsByClassName('forward-tab-button');
-      if(!forwardButtonQueryResults || (forwardButtonQueryResults.length === 0)){
+      const forwardButtons = block.getElementsByClassName('forward-tab-button');
+      if(!forwardButtons || (forwardButtons.length === 0)){
         const forwardButton = document.createElement('div');
         forwardButton.classList.add('forward-tab-button');
         forwardButton.textContent = ">>";
@@ -155,11 +155,14 @@ export default function decorate(block) {
         });
       }
     } else {
-      const backButtonQueryResults = block.getElementsByClassName('backward-tab-button');
-      [...backButtonQueryResults].forEach((button) => button.remove());
+      const backButtons = block.getElementsByClassName('backward-tab-button');
+      [...backButtons].forEach((button) => button.remove());
 
-      const forwardButtonQueryResults = block.getElementsByClassName('forward-tab-button');
-      [...forwardButtonQueryResults].forEach((button) => button.remove());
+      const forwardButtons = block.getElementsByClassName('forward-tab-button');
+      [...forwardButtons].forEach((button) => button.remove());
+
+      const hiddenTabs = block.getElementsByClassName('hidden-tab-title');
+      [...hiddenTabs].forEach((hiddenTab) => hiddenTab.classList.remove('hidden-tab-title'));
     }
   };
   mediaWidthChangeHandler(mediaWidthQueryMatcher);
