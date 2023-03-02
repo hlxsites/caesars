@@ -9,20 +9,20 @@ export default async function decorate(block) {
     configDiv.remove();
   })
 
+  // fetch cards by type
+  const cardIndex = await lookupCardsByType(cfg.type);
+
   // parse filters
   const filters = parseFilters(cfg.filters);
   // build filter panel, if filters
   if (filters.length > 0) {
-    block.appendChild(buildFilterPanel(block, filters));
+    block.appendChild(buildFilterPanel(block, filters, cardIndex));
   }
 
-  // fetch cards by type
-  const cardIndex = await lookupCardsByType(cfg.type);
-  
   const cardResults = document.createElement('div');
   cardResults.classList.add('card-list-results');
 
-  cardIndex.data.forEach(cardData => {
+  cardIndex.data.forEach(cardData => {  
 
     const card = document.createElement('div');
     card.classList.add('card')
@@ -32,57 +32,95 @@ export default async function decorate(block) {
     // populate filters and tag cards
     processFiltersWithCard(cardData, card, filters);
 
+    const cardLink = cardData.pageUrl != '' ? cardData.pageUrl : cardData.secondaryUrl;
+
     // image
-    const imageLink = document.createElement('a');
-    imageLink.href = cardData.pageUrl;
     const cardImage = document.createElement('div');
     cardImage.classList.add('card-image');
-    cardImage.appendChild(createOptimizedPicture(cardData.thumbnail, cardData.title, false, [{ media: '(min-width: 1170px)', width: '436.48' }, { media: '(min-width: 768px)', width: '180' }, { media: '(min-width: 480px)', width: '120' }]));
-    imageLink.appendChild(cardImage);
-    card.appendChild(imageLink);
+    const cardImageLink = document.createElement('a');
+    cardImageLink.href = cardLink;
+    cardImage.appendChild(createOptimizedPicture(cardData.thumbnail, cardData.title, false, [{ media: '(min-width: 1170px)', width: '750' }, { media: '(min-width: 768px)', width: '180' }, { media: '(min-width: 480px)', width: '120' }]));
+    cardImageLink.appendChild(cardImage);
+    card.appendChild(cardImageLink);
+
+
     // card top
+    const cardContent = document.createElement('div');
+    cardContent.classList.add('card-content');
+    
     const cardTop = document.createElement('div');
     cardTop.classList.add('card-top');
     // title
     const title = document.createElement('div');
     title.classList.add('card-title');
+    const titleLink = document.createElement('a');
+    titleLink.href = cardLink;
     const titleH4 = document.createElement('h4');
     titleH4.innerHTML = cardData.title;
-    title.appendChild(titleH4);
+    titleLink.appendChild(titleH4);
+    title.appendChild(titleLink);
     cardTop.appendChild(title);
     // description
     const descriptionDiv = document.createElement('div');
-    descriptionDiv.innerHTML = cardData.description;
+    const descriptionP = document.createElement('p');
+    descriptionP.innerHTML = cardData.description;
+    descriptionDiv.appendChild(descriptionP);
     cardTop.appendChild(descriptionDiv);
-    card.appendChild(cardTop);
+    // subtitle
+    if (cardData.propertyName && cardData.propertyName != '') {
+      const subtitleDiv = document.createElement('div');
+      subtitleDiv.classList.add('card-subtitle');
+      subtitleDiv.innerHTML = cardData.propertyName;
+      cardTop.appendChild(subtitleDiv);
+    }
+    cardContent.appendChild(cardTop);
 
     // card bottom
     const cardBottom = document.createElement('div');
     cardBottom.classList.add('card-bottom')
+
+    // card bottom left
+    const cardBottomLeft = document.createElement('div');
+    cardBottomLeft.classList.add('card-bottom-left');
     // location
     if (cardData.location) {
-      const locationDiv = document.createElement('div');
+      const locationDiv = document.createElement('span');
       locationDiv.innerHTML = cardData.location;
-      cardBottom.appendChild(locationDiv);
+      cardBottomLeft.appendChild(locationDiv);
     }
     // category
     const categoryDiv = document.createElement('div');
     categoryDiv.innerHTML = cardData.category;
-    cardBottom.appendChild(categoryDiv);
+    cardBottomLeft.appendChild(categoryDiv);
+    cardBottom.appendChild(cardBottomLeft);
+
+    // card bottom middle
+    const cardBottomMiddle = document.createElement('div');
+    cardBottomMiddle.classList.add('card-bottom-middle');
+    if (cfg.type == 'restaurants' && cardData.price && cardData.price != '') {
+      const price = document.createElement('span');
+      price.classList.add('card-price');
+      price.innerHTML = cardData.price;
+      cardBottomMiddle.appendChild(price);
+      const priceUnused = document.createElement('span');
+      priceUnused.classList.add('card-price-unused');
+      priceUnused.innerHTML = '$'.repeat(4 - cardData.price.length);
+      cardBottomMiddle.appendChild(priceUnused);
+    }
+    cardBottom.appendChild(cardBottomMiddle);
+
+
     // link
     const linkDiv = document.createElement('div');
+    linkDiv.classList.add('card-bottom-right');
     const link = document.createElement('a');
-    link.href = cardData.pageUrl != '' ? cardData.pageUrl : cardData.secondaryUrl;
-    link.innerHTML = 'link';
-    const linkSpan = document.createElement('span');
-    linkSpan.classList.add('icon');
-    linkSpan.classList.add('icon-arrow-right');
-    linkSpan.appendChild(link);
-    linkDiv.appendChild(linkSpan);
+    link.href = cardLink;
+    linkDiv.appendChild(link);
     cardBottom.appendChild(linkDiv);
-    card.appendChild(cardBottom)
+    cardContent.appendChild(cardBottom)
 
     // temporary for debugging 
+    /*
     if (cfg.type == 'restaurants') {
       const diningOptions = document.createElement('div');
       const diningOptionsUl = document.createElement('ul');
@@ -94,6 +132,9 @@ export default async function decorate(block) {
       diningOptions.appendChild(diningOptionsUl);
       card.appendChild(diningOptions);
     }
+    */
+
+    card.appendChild(cardContent);
 
     // add card to block
     cardResults.appendChild(card);
@@ -120,9 +161,12 @@ function parseFilters(filterConfig) {
 }
 
 // todo: add special handling for dining options and open now.
-function buildFilterPanel(block, filters) {
+function buildFilterPanel(block, filters, cardIndex) {
+  // filter panel
   const filterPanel = document.createElement('div');
-  filterPanel.classList.add('card-list-filters');
+  filterPanel.classList.add('card-list-filter-panel');
+  // filter group
+  const filterGroup = document.createElement('div');
   const filterUl = document.createElement('ul');
   filters.forEach(filter => {
     const filterLi = document.createElement('li');
@@ -133,7 +177,13 @@ function buildFilterPanel(block, filters) {
     filterLi.appendChild(filterValues);
     filter.element = filterValues;
   });
-  filterPanel.appendChild(filterUl);
+  filterGroup.appendChild(filterUl);
+  filterPanel.appendChild(filterGroup);
+  // filter count
+  const filterCount = document.createElement('div');
+  filterCount.classList.add('card-list-filter-count');
+  filterCount.innerHTML = cardIndex.data.length + ' Results';
+  filterPanel.appendChild(filterCount);
   return filterPanel;
 }
 
