@@ -1,6 +1,6 @@
 .tabs.block .tab-navbar {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
 }
 
 .tabs.block .tab-title {
@@ -13,14 +13,28 @@
   white-space: nowrap;
   padding-bottom: 16px;
   text-align: center;
-  position: absolute;
+  visibility: hidden;
+}
+
+.tabs.block .active-tab-title {
+  background-color: red;
+  visibility: visible;
+  padding: 16px;
+  width: 100%;
+}
+
+.tabs.block .backward-tab-button {
+  background-color: orange;
+}
+
+.tabs.block .forward-tab-button {
+  background-color: yellow;
 }
 
 .tabs.block .tab {
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%);
   display: flex;
   flex-direction: column;
-  margin-top: 50px;
 }
 
 .tabs.block .hidden {
@@ -81,14 +95,6 @@
   animation-duration: 0.3s;
 }
 
-.tab-title.active-tab-title::after {
-  content: " >> ";
-}
-
-.tab-title.active-tab-title::before {
-  content: " << ";
-}
-
 /* Responsive Breakpoints */
 @media  only screen and (min-width: 768px) {
   .tabs.block .tab {
@@ -117,6 +123,7 @@
     flex-shrink:0;
     margin-left: 8px;
     position: unset;
+    visibility: visible;
   }
 
   .tab-title::after {
@@ -139,17 +146,14 @@
   .tabs.block .active-tab-title {
     padding-bottom: 4px;
     font-weight: 700;
+    padding: unset;
+    width: unset;
   }
 
   .tab-title.active-tab-title::after {
     transition: transform 300ms cubic-bezier(0.4,0,0.2,1);
     transform: scaleX(1);
     font-weight: 600;
-    content: "";
-  }
-
-  .tab-title.active-tab-title::before {
-    content: "";
   }
 
   .tab-tabs-holder {

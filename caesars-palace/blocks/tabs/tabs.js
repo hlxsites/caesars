@@ -66,6 +66,7 @@ export default function decorate(block) {
   // http://localhost:3000/caesars-palace/drafts/tmathern/tabs
   const tabTitles = document.createElement('div');
   tabTitles.classList.add('tab-navbar');
+
   block.prepend(tabTitles);
 
   const tabsHolder = document.createElement('div');
@@ -113,6 +114,45 @@ export default function decorate(block) {
     if (rowIndex > 0) {
       tabsHolder.append(row);
     }
+  });
+
+  const mediaWidthQueryMatcher = window.matchMedia('only screen and (min-width: 768px)');
+  const mediaWidthChangeHandler = (event) => {
+    if (event.matches === false) {
+      const backButtonQueryResults = block.getElementsByClassName('backward-tab-button');
+      if(!backButtonQueryResults || (backButtonQueryResults.length === 0)){
+        const backButton = document.createElement('div');
+        backButton.classList.add('backward-tab-button');
+        backButton.textContent = "<<";
+        tabTitles.prepend(backButton);
+
+        backButton.addEventListener('click', () => {
+          console.log("backwardButton");
+        });
+      }
+
+      const forwardButtonQueryResults = block.getElementsByClassName('forward-tab-button');
+      if(!forwardButtonQueryResults || (forwardButtonQueryResults.length === 0)){
+        const forwardButton = document.createElement('div');
+        forwardButton.classList.add('forward-tab-button');
+        forwardButton.textContent = ">>";
+        tabTitles.appendChild(forwardButton);
+
+        forwardButton.addEventListener('click', () => {
+          console.log("forwardButton");
+        });
+      }
+    } else {
+      const backButtonQueryResults = block.getElementsByClassName('backward-tab-button');
+      [...backButtonQueryResults].forEach((button) => button.remove());
+
+      const forwardButtonQueryResults = block.getElementsByClassName('forward-tab-button');
+      [...forwardButtonQueryResults].forEach((button) => button.remove());
+    }
+  };
+  mediaWidthChangeHandler(mediaWidthQueryMatcher);
+  mediaWidthQueryMatcher.addEventListener('change', (event) => {
+    mediaWidthChangeHandler(event);
   });
 
   block.append(tabsHolder);
