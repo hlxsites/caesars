@@ -66,8 +66,6 @@
 
 .tabs.block .tab-image {
   display: flex;
-  background-color: red;
-  border: 2px solid blue;
 }
 
 .tabs.block .tab-image img {
