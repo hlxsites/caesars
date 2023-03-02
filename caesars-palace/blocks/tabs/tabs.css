@@ -11,8 +11,7 @@
   line-height: 0.8;
   font-weight: 600;
   white-space: nowrap;
-  padding: 16px 16px 16px 16px;
-  
+  padding: 16px;
   text-align: center;
 }
 
@@ -102,7 +101,7 @@
     display: block;
     padding-bottom: 8px;
     border-bottom: 3px solid;
-    margin: -3px auto 0 auto;
+    margin: -3px auto 0;
     border-color: #141414;
   }
 
