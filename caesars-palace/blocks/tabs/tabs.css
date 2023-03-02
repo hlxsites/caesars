@@ -176,6 +176,7 @@
 @keyframes slide-out {
   from {
     transform: translateX(-100vw);
+    opacity: 0;
   }
 
   to {
