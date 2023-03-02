@@ -64,9 +64,14 @@
   visibility: hidden;
 }
 
+.tabs.block .tab-image {
+  display: flex;
+  background-color: red;
+  border: 2px solid blue;
+}
+
 .tabs.block .tab-image img {
-  width: 1;
-  height: auto;
+  object-fit: cover;
 }
 
 .tabs.block .tab-text {
@@ -187,14 +192,14 @@
     flex: 1;
   }
 
-  .tabs.block .tab-text .button-container {
-    margin-left: 0; 
-    margin-right: 0;
-  }
-
   .tabs.block .tab-image img {
     width: 1;
     height: auto;
+  }
+
+  .tabs.block .tab-text .button-container {
+    margin-left: 0; 
+    margin-right: 0;
   }
 
   .tabs.block .active-tab-slide-in {
