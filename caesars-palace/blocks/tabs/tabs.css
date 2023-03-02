@@ -20,21 +20,33 @@
 }
 
 .tabs.block .active-tab-title {
+  font-family: var(--heading-font-family);
   display: flex;
-  padding: 16px;
   width: 100%;
   justify-content: center;
   font-weight: 700;
+  line-height: 1.1;
+  font-size: 150%;
 }
 
 .tabs.block .backward-tab-button {
-  background-color: orange;
-  min-width: 64px;
+  background: url('../../icons/chevron-left.svg') no-repeat;
+  min-width: 44px;
+  transform: scale(0.8);
+}
+
+.tabs.block .backward-tab-button:hover {
+  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%);
 }
 
 .tabs.block .forward-tab-button {
-  background-color: yellow;
-  min-width: 64px;
+  background: url('../../icons/chevron-right.svg') no-repeat;
+  min-width: 44px;
+  transform: scale(0.8);
+}
+
+.tabs.block .forward-tab-button:hover {
+  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%);
 }
 
 .tabs.block .tab {
