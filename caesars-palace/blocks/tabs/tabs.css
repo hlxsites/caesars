@@ -99,13 +99,19 @@
 }
 
 .tabs.block .active-tab-slide-in {
-  animation-name: fade-in;
-  animation-duration: 0.5s;
+  animation-name: slide-in;
+  animation-duration: 0.3s;
 }
 
 .tabs.block .active-tab-slide-out {
-  animation-name: fade-out;
-  animation-duration: 0.5s;
+  animation-name: slide-out;
+  animation-duration: 0.3s;
+}
+
+.tabs.block .hidden .tab-text {
+  opacity: 0;
+  animation-name: text-slide-out;
+  animation-duration: 0.3s;
 }
 
 /* Responsive Breakpoints */
@@ -160,6 +166,7 @@
     padding-bottom: 4px;
     font-weight: 700;
     width: unset;
+    padding-top: unset;
   }
 
   .tab-title.active-tab-title::after {
@@ -239,25 +246,5 @@
 
   to {
     opacity: 1;
-  }
-}
-
-@keyframes fade-out {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-}
-
-@keyframes text-slide-out {
-  from {
-    opacity: 1;
-  }
-
-  to {
-    opacity: 0;
   }
 }
