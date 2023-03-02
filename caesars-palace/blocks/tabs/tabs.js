@@ -197,6 +197,13 @@ export default function decorate(block) {
           showTitle(block, tabsCount, MOVE_TABS_FORWARD);
         });
       }
+
+      const tabTitleToHide = block.getElementsByClassName('tab-title');
+      [...tabTitleToHide].forEach((tab) => {
+        if(!tab.classList.toString().includes('active-tab-title')){
+          tab.classList.add('hidden-tab-title');
+        }
+      })
     } else {
       const backButtons = block.getElementsByClassName('backward-tab-button');
       [...backButtons].forEach((button) => button.remove());
