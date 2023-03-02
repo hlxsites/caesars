@@ -1,6 +1,6 @@
 .tabs.block .tab-navbar {
   display: flex;
-  position: relative;
+  flex-direction: column;
 }
 
 .tabs.block .tab-title {
@@ -12,18 +12,14 @@
   font-weight: 600;
   white-space: nowrap;
   padding: 16px 16px 16px 16px;
-  position: absolute;
-}
-
-.tabs.block .tab-title:hover {
-  background-color: var(--static-color-light-gray);
+  
+  text-align: center;
 }
 
 .tabs.block .tab {
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%);
   display: flex;
   flex-direction: column;
-  margin-top: 50px;
 }
 
 .tabs.block .hidden {
