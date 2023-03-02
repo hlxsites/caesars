@@ -20,18 +20,21 @@
 }
 
 .tabs.block .active-tab-title {
-  background-color: red;
   display: flex;
   padding: 16px;
   width: 100%;
+  justify-content: center;
+  font-weight: 700;
 }
 
 .tabs.block .backward-tab-button {
   background-color: orange;
+  min-width: 64px;
 }
 
 .tabs.block .forward-tab-button {
   background-color: yellow;
+  min-width: 64px;
 }
 
 .tabs.block .tab {

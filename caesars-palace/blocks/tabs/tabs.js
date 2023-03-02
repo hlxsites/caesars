@@ -180,7 +180,6 @@ export default function decorate(block) {
       if(!backButtons || (backButtons.length === 0)){
         const backButton = document.createElement('div');
         backButton.classList.add('backward-tab-button');
-        backButton.textContent = "<<";
         tabTitles.prepend(backButton);
 
         backButton.addEventListener('click', () => {
@@ -192,7 +191,6 @@ export default function decorate(block) {
       if(!forwardButtons || (forwardButtons.length === 0)){
         const forwardButton = document.createElement('div');
         forwardButton.classList.add('forward-tab-button');
-        forwardButton.textContent = ">>";
         tabTitles.appendChild(forwardButton);
 
         forwardButton.addEventListener('click', () => {
