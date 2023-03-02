@@ -1,3 +1,11 @@
+function showPreviousTitle(tabsCount){
+
+}
+
+function showNextTitle(tabsCount){
+
+}
+
 function showTab(block, rowIndex) {
   const tabsActiveWithSlideOut = block.getElementsByClassName('active-tab-slide-out');
   [...tabsActiveWithSlideOut].forEach((item) => {
@@ -72,10 +80,12 @@ export default function decorate(block) {
   const tabsHolder = document.createElement('div');
   tabsHolder.classList.add('tab-tabs-holder');
 
+  let tabsCount = 0;
   [...block.children].forEach((row, rowIndex) => {
     if (rowIndex > 0) {
       row.classList.add('tab');
       row.classList.add(`tab-content-${rowIndex}`);
+      tabsCount += 1;
     }
 
     if (rowIndex === 1) {
@@ -128,6 +138,7 @@ export default function decorate(block) {
 
         backButton.addEventListener('click', () => {
           console.log("backwardButton");
+          showPreviousTitle(tabsCount);
         });
       }
 
@@ -140,6 +151,7 @@ export default function decorate(block) {
 
         forwardButton.addEventListener('click', () => {
           console.log("forwardButton");
+          showNextTitle(tabsCount);
         });
       }
     } else {
