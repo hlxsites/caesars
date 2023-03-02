@@ -1,3 +1,6 @@
+const MOVE_TABS_FORWARD = 1;
+const MOVE_TABS_BACK = -1;
+
 function showTitle(block, tabsCount, direction){
   const currentActiveTabTitle = block.getElementsByClassName('active-tab-title');
 
@@ -20,9 +23,11 @@ function showTitle(block, tabsCount, direction){
   });
 
   console.log("Index: ", currentActiveIndex);
-  let indexToActivate = currentActiveIndex + 1;
+  let indexToActivate = currentActiveIndex + direction;
   if(indexToActivate > tabsCount){
     indexToActivate = 1;
+  } else if (indexToActivate === 0){
+    indexToActivate = tabsCount;
   }
 
   console.log("Index to activate: ", indexToActivate);
@@ -43,6 +48,8 @@ function showTitle(block, tabsCount, direction){
 
   tabTitleToActivate.classList.remove('hidden-tab-title');
   tabTitleToActivate.classList.add('active-tab-title');
+
+  showTab(block, indexToActivate);
 }
 
 function showTab(block, rowIndex) {
@@ -110,7 +117,6 @@ function showTab(block, rowIndex) {
 }
 
 export default function decorate(block) {
-  // http://localhost:3000/caesars-palace/drafts/tmathern/tabs
   const tabTitles = document.createElement('div');
   tabTitles.classList.add('tab-navbar');
 
@@ -178,8 +184,7 @@ export default function decorate(block) {
         tabTitles.prepend(backButton);
 
         backButton.addEventListener('click', () => {
-          console.log("backwardButton");
-          showTitle(block, tabsCount, -1);
+          showTitle(block, tabsCount, MOVE_TABS_BACK);
         });
       }
 
@@ -191,8 +196,7 @@ export default function decorate(block) {
         tabTitles.appendChild(forwardButton);
 
         forwardButton.addEventListener('click', () => {
-          console.log("forwardButton");
-          showTitle(block, tabsCount, 1);
+          showTitle(block, tabsCount, MOVE_TABS_FORWARD);
         });
       }
     } else {

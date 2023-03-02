@@ -82,22 +82,6 @@
   margin-bottom: 0;
 }
 
-.tabs.block .active-tab-slide-in {
-  animation-name: slide-in;
-  animation-duration: 0.3s;
-}
-
-.tabs.block .active-tab-slide-out {
-  animation-name: slide-out;
-  animation-duration: 0.3s;
-}
-
-.tabs.block .hidden .tab-text {
-  opacity: 0;
-  animation-name: text-slide-out;
-  animation-duration: 0.3s;
-}
-
 /* Responsive Breakpoints */
 @media  only screen and (min-width: 768px) {
   .tabs.block .tab {
@@ -179,6 +163,22 @@
   .tabs.block .tab-image img {
     width: 1;
     height: auto;
+  }
+
+  .tabs.block .active-tab-slide-in {
+    animation-name: slide-in;
+    animation-duration: 0.3s;
+  }
+  
+  .tabs.block .active-tab-slide-out {
+    animation-name: slide-out;
+    animation-duration: 0.3s;
+  }
+  
+  .tabs.block .hidden .tab-text {
+    opacity: 0;
+    animation-name: text-slide-out;
+    animation-duration: 0.3s;
   }
 }
 
