@@ -1,22 +1,29 @@
 .tabs.block .tab-navbar {
   display: flex;
+  position: relative;
 }
 
 .tabs.block .tab-title {
   text-transform: uppercase;
   margin-top: 8px;
-  margin-left: 8px;
-  margin-right: 8px;
   font-size: 12px;
   letter-spacing: 1px;
   line-height: 0.8;
   font-weight: 600;
+  white-space: nowrap;
+  padding: 16px 16px 16px 16px;
+  position: absolute;
+}
+
+.tabs.block .tab-title:hover {
+  background-color: var(--static-color-light-gray);
 }
 
 .tabs.block .tab {
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%);
   display: flex;
   flex-direction: column;
+  margin-top: 50px;
 }
 
 .tabs.block .hidden {
@@ -67,29 +74,41 @@
     display: flex;
     box-shadow: none;
     flex-direction: row;
+    margin-top: unset;
   }
 
   .tabs.block .tab-navbar {
     display: flex;
     flex-direction: row;
     margin-bottom: 32px;
+    position: unset;
   }
 
   .tabs.block .tab-title {
+    text-transform: uppercase;
+    margin-top: 8px;
+    margin-right: 8px;
+    font-size: 12px;
+    letter-spacing: 1px;
+    line-height: 0.8;
+    font-weight: 600;
     opacity: 0.95;
     flex-shrink:0;
+    margin-left: 8px;
+    position: unset;
   }
 
   .tabs.block .active-tab-title {
-    box-shadow: 0 3px 0 0 black;
+    box-shadow: 0 3px 0 0 var(--static-color-black);
     padding-bottom: 4px;
     font-weight: 700;
   }
   
   .tabs.block .tab-title:hover {
-    box-shadow: 0 3px 0 0 black;
+    box-shadow: 0 3px 0 0 var(--static-color-black);
     padding-bottom: 4px;
     transition: all .5s ease;
+    background-color: transparent;
   }
 
   .tab-tabs-holder {
