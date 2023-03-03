@@ -304,15 +304,20 @@ main .section > div:last-of-type {
     padding-bottom: var(--layout-size-xxl);
 }
 
-main .section.has-title {
-  border: 2px solid red;
+main .section.has-title h1 {
+  text-align: center;
+  text-shadow: 0 2px 4px rgb(0 0 0 / 50%);
+  color: var(--static-color-white);
 }
 
-main .section.has-teaser {
-  border: 2px solid orange;
+main .section.has-teaser h2 {
+  text-align: center;
+  text-shadow: 0 2px 4px rgb(0 0 0 / 50%);
+  color: var(--static-color-white);
 }
 
 main .section.has-button {
+  text-align: center;
   border: 2px solid yellow;
 }
 
