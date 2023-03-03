@@ -1,14 +1,17 @@
 const MOVE_TABS_FORWARD = 1;
 const MOVE_TABS_BACK = -1;
 
+const TAB_SLIDE_IN_ANIMATION = 'active-tab-slide-in';
+const TAB_SLIDE_OUT_ANIMATION = 'active-tab-slide-out';
+
 function showTab(block, rowIndex, overflowDetails = null) {
-  const tabsActiveWithSlideOut = block.getElementsByClassName('active-tab-slide-out');
+  const tabsActiveWithSlideOut = block.getElementsByClassName(TAB_SLIDE_OUT_ANIMATION);
   [...tabsActiveWithSlideOut].forEach((item) => {
-    if (item.classList) item.classList.remove('active-tab-slide-out');
+    if (item.classList) item.classList.remove(TAB_SLIDE_OUT_ANIMATION);
   });
-  const tabsActiveWithSlideIn = block.getElementsByClassName('active-tab-slide-in');
+  const tabsActiveWithSlideIn = block.getElementsByClassName(TAB_SLIDE_IN_ANIMATION);
   [...tabsActiveWithSlideIn].forEach((item) => {
-    if (item.classList) item.classList.remove('active-tab-slide-in');
+    if (item.classList) item.classList.remove(TAB_SLIDE_IN_ANIMATION);
   });
 
   const tabTitleToHighlightQueryResults = block.getElementsByClassName(`tab-navbar-element-${rowIndex}`);
@@ -63,21 +66,21 @@ function showTab(block, rowIndex, overflowDetails = null) {
     if (mediaWidthQueryMatcher.matches) {
       // Desktop
       if (tabToHideIndex > tabToShowIndex) { // slide out, then slide in
-        tabToShow.classList.add('active-tab-slide-out');
+        tabToShow.classList.add(TAB_SLIDE_OUT_ANIMATION);
       } else if (tabToHideIndex < tabToShowIndex) { // slide in, then slide out
-        tabToShow.classList.add('active-tab-slide-in');
+        tabToShow.classList.add(TAB_SLIDE_IN_ANIMATION);
       }
     } else if (!mediaWidthQueryMatcher.matches && tabToHideIndex > tabToShowIndex) {
       if (overflowDetails && overflowDetails.overflowMovement) {
-        tabToShow.classList.add('active-tab-slide-in');
+        tabToShow.classList.add(TAB_SLIDE_IN_ANIMATION);
       } else {
-        tabToShow.classList.add('active-tab-slide-out');
+        tabToShow.classList.add(TAB_SLIDE_OUT_ANIMATION);
       }
     } else if (!mediaWidthQueryMatcher.matches && tabToHideIndex < tabToShowIndex) {
       if (overflowDetails && overflowDetails.underflowMovement) {
-        tabToShow.classList.add('active-tab-slide-out');
+        tabToShow.classList.add(TAB_SLIDE_OUT_ANIMATION);
       } else {
-        tabToShow.classList.add('active-tab-slide-in');
+        tabToShow.classList.add(TAB_SLIDE_IN_ANIMATION);
       }
     }
   }
