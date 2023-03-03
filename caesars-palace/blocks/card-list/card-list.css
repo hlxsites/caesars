@@ -23,40 +23,63 @@ body {
   display: flex;
   height: unset;
   flex-direction: column;
-  width: 31%;
+  width: 100%;
   margin: 16px;
+}
+
+@media only screen and (min-width: 1170px) {
+  .card-list.block .card {
+    width: 31%;
+  }
 }
 
 .card-list.block .card > div {
   background: #fff;
 }
 
-@media only screen and (max-width: 768px) {
-  .card-list.block .card {
-    width: 100%;
-  }
-}
-
 .card-list.block .card-image {
   border-radius: 8px 8px 0 0;
 }
 
-.card-list.block .card-image > a > picture > img {
-  display: block;
-  height: 100%;
-  width: 100%;
-  border-radius: 8px 8px 0 0;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
+.card-list.block .card-image {
+  display: flex;
 }
 
-@media only screen and (max-width: 960px) {
-  .card-list.block .card-image > a > picture > img {
-    height: 240px;
-    border-radius: 8px 0 0 0;
+.card-list.block .card-image > a {
+  flex-direction: column;
+}
+
+.card-list.block .card-mobile {
+  flex-direction: column;
+  width: 100%;
+  border-radius: 0 8px 0 0;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
+  padding: 12px;
+}
+
+@media only screen and (min-width: 768px) {
+  .card-list.block .card-image {
+    display: block;
+  }
+  .card-list.block .card-image > a {
+    flex-direction: unset;
+  }
+  .card-list.block .card-mobile {
+    display: none;
   }
 }
 
-@media only screen and (max-width: 768px) {
+.card-list.block .card-image > a > picture > img {
+  display: block;
+  height: 100px;
+  width: 120px;
+  min-width: 120px;
+  object-fit: cover;
+  border-radius: 8px 0 0 0;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
+}
+
+@media only screen and (min-width: 768px) {
   .card-list.block .card-image > a > picture > img {
     height: inherit;
     object-fit: inherit;
@@ -66,28 +89,11 @@ body {
   }
 }
 
-@media only screen and (max-width: 480px) {
+@media only screen and (min-width: 1170px) {
   .card-list.block .card-image > a > picture > img {
-    height: 100px;
-    width: 120px;
-    min-width: 120px;
-    object-fit: cover;
-  }
-}
-
-@media only screen and (max-width: 480px) {
-  .card-list.block .card-image {
-    display: flex;
-  }
-  .card-list.block .card-image > a {
-    flex-direction: column;
-  }
-  .card-list.block .card-image > div {
-    flex-direction: column;
+    border-radius: 8px 8px 0 0;
     width: 100%;
-    border-radius: 0 8px 0 0;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
-    padding: 12px;
+    height: 240px;
   }
 }
 
@@ -113,14 +119,28 @@ body {
   height: 100%;
   border-radius: 0 0 8px 8px;
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%);
+  border-top: 1px solid lightgray;
+}
+
+@media only screen and (min-width: 768px) {
+  .card-list.block .card-content {
+    border: 0;
+  }
 }
 
 .card-list.block .card-top {
-  margin-top: 24px;
-  margin-left: 24px;
-  margin-right: 24px;
-  border-bottom: 1px solid rgba(112,119,132,0.2);
-  min-height: 80px;
+  display: none;
+}
+
+@media only screen and (min-width: 768px) {
+  .card-list.block .card-top {
+    display: block;
+    margin-top: 24px;
+    margin-left: 24px;
+    margin-right: 24px;
+    border-bottom: 1px solid rgba(112,119,132,0.2);
+    min-height: 80px;
+  }
 }
 
 .card-list.block .card-description > p {
@@ -144,16 +164,23 @@ body {
 }
 
 .card-list.block .card-bottom {
-  margin-bottom: 24px;
-  margin-top: 16px;
-  margin-left: 24px;
-  margin-right: 24px;
+  margin-bottom: 8px;
+  margin-top: 8px;
+  margin-left: 16px;
+  margin-right: 16px;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
 }
 
-
+@media only screen and (min-width: 768px) {
+  .card-list.block .card-bottom {
+    margin-bottom: 24px;
+    margin-top: 16px;
+    margin-left: 24px;
+    margin-right: 24px;
+  }
+}
 
 .card-list.block .card-bottom-left {
   font-weight: 600;
@@ -166,47 +193,25 @@ body {
   letter-spacing: 1px;
 }
 
-.card-list.block .card-bottom-middle {
-  width: 33%;
-}
-
-.card-list.block .card-mobile {
+.card-list.block .card-bottom-left > span {
   display: none;
 }
 
-
-@media only screen and (max-width: 480px) {
-
-  .card-list.block .card-content {
-    border-top: 1px solid lightgray;
-  }
-
-  .card-list.block .card-top {
-    display: none;
-  }
-  
-  .card-list.block .card-bottom {
-    margin-bottom: 8px;
-    margin-top: 8px;
-    margin-left: 16px;
-    margin-right: 16px;
-  }
-
+@media only screen and (min-width: 768px) {
   .card-list.block .card-bottom-left > span {
-    display: none;
+    display: block;
   }
-
-  .card-list.block .card-bottom-middle {
-    width: unset;
-  }
-
 }
 
+.card-list.block .card-bottom-middle {
+  width: unset;
+}
 
-
-
-
-
+@media only screen and (min-width: 768px) {
+  .card-list.block .card-bottom-middle {
+    width: 33%;
+  }
+}
 
 .card-list.block .card-price {
   color: #707784;
@@ -237,6 +242,16 @@ body {
   min-height: 50px;
 }
 
+.card-list.block .card-bottom-right {
+  display: none;
+}
+
+@media only screen and (min-width: 768px) {
+  .card-list.block .card-bottom-right {
+    display: block;
+  }
+}
+
 .card-list.block .card-bottom-right > a {
   display: flex;
   background: transparent;
@@ -246,12 +261,6 @@ body {
   justify-content: center;
   height: 36px;
   width: 36px;
-}
-
-@media only screen and (max-width: 768px) {
-  .card-list.block .card-bottom-right {
-    display: none;
-  }
 }
 
 .card-list.block .card-bottom-right > a::after {

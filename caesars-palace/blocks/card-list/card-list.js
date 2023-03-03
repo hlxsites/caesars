@@ -35,7 +35,7 @@ export default async function decorate(block) {
     cardImage.classList.add('card-image');
     const cardImageLink = document.createElement('a');
     cardImageLink.href = cardLink;
-    cardImageLink.appendChild(createOptimizedPicture(cardData.thumbnail, cardData.title, false, [{ media: '(min-width: 1170px)', width: '750' }, { media: '(min-width: 768px)', width: '180' }, { media: '(max-width: 480px)', height: '100' }]));
+    cardImageLink.appendChild(createOptimizedPicture(cardData.thumbnail, cardData.title, false, [{ media: '(min-width: 1170px)', width: '750' }, { media: '(max-width: 768px)', width: '335' }, { media: '(min-width: 480px)', height: '180' }]));
     cardImage.appendChild(cardImageLink);
     // mobile
     const mobile = document.createElement('div');
