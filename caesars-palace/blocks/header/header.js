@@ -1,7 +1,7 @@
 import { getMetadata, decorateIcons } from '../../scripts/lib-franklin.js';
 
 // media query match that indicates mobile/tablet width
-const isDesktop = window.matchMedia('(min-width: 900px)');
+const isDesktop = window.matchMedia('(min-width: 1170px)');
 
 function closeOnEscape(e) {
   if (e.code === 'Escape') {
@@ -92,6 +92,25 @@ function toggleMenu(nav, navSections, forceExpanded = null) {
 export default async function decorate(block) {
   block.textContent = '';
 
+  // fetch global nav
+  // const globalNav = await fetch('https://www.caesars.com/content/empire/en/jcr:content/root/header.model.json');
+  // if (globalNav.ok) {
+  //   const globalNavJson = await globalNav.json();
+  //   if (globalNavJson.navItems) {
+  //     const ul = document.createElement('ul');
+  //     globalNavJson.navItems.forEach((item) => {
+  //       const li = document.createElement('li');
+  //       const link = document.createElement('a');
+  //       link.href = item.path;
+  //       link.innerHTML += item.text;
+  //       link.setAttribute('target', item.target);
+  //       link.setAttribute('aria-label', item.text);
+  //       li.append(link);
+  //       ul.append(li);
+  //     });
+  //   }
+  // }
+
   // fetch nav content
   const navPath = getMetadata('nav') || '/caesars-palace/nav';
   const resp = await fetch(`${navPath}.plain.html`, window.location.pathname.endsWith('/nav') ? { cache: 'reload' } : {});
@@ -109,6 +128,9 @@ export default async function decorate(block) {
       const section = nav.children[i];
       if (section) section.classList.add(`nav-${c}`);
     });
+
+    // Remove the text in the link
+    nav.querySelector('.nav-brand a').innerHTML = '';
 
     const navSections = nav.querySelector('.nav-sections');
     if (navSections) {

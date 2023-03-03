@@ -47,6 +47,7 @@
 
     /* nav height */
     --nav-height: 64px;
+    --mobile-nav-height: 40px;
 
     /* layout sizes */
     --layout-size-xxs: 4px;
