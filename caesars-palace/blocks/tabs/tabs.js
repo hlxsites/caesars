@@ -1,35 +1,38 @@
 const MOVE_TABS_FORWARD = 1;
 const MOVE_TABS_BACK = -1;
-const TAB_SLIDE_IN_ANIMATION = 'active-tab-slide-in';
-const TAB_SLIDE_OUT_ANIMATION = 'active-tab-slide-out';
-const ACTIVE_TAB_TITLE_CLASS = 'active-tab-title';
-const HIDDEN_TAB_TITLE_CLASS = 'hidden-tab-title';
-const ACTIVE_TAB_CLASS = 'active-tab';
-const HIDDEN_TAB_CLASS = 'hidden-tab';
 const RESPONSIVE_MEDIA_QUERY = 'only screen and (min-width: 768px)';
 
+const classes = Object.freeze({
+  tabSlideIn: 'active-tab-slide-in',
+  tabSlideOut: 'active-tab-slide-out',
+  activeTabTitle: 'active-tab-title',
+  hiddenTabTitle: 'hidden-tab-title',
+  activeTab: 'active-tab',
+  hiddenTab: 'hidden-tab'
+});
+
 function showTab(block, rowIndex, overflowDetails = null) {
-  const tabsActiveWithSlideOut = block.getElementsByClassName(TAB_SLIDE_OUT_ANIMATION);
-  const tabsActiveWithSlideIn = block.getElementsByClassName(TAB_SLIDE_IN_ANIMATION);
+  const tabsActiveWithSlideOut = block.getElementsByClassName(classes.tabSlideOut);
+  const tabsActiveWithSlideIn = block.getElementsByClassName(classes.tabSlideIn);
   [...tabsActiveWithSlideOut].forEach((item) => {
-    if (item.classList) item.classList.remove(TAB_SLIDE_OUT_ANIMATION);
+    if (item.classList) item.classList.remove(classes.tabSlideOut);
   });
   [...tabsActiveWithSlideIn].forEach((item) => {
-    if (item.classList) item.classList.remove(TAB_SLIDE_IN_ANIMATION);
+    if (item.classList) item.classList.remove(classes.tabSlideIn);
   });
 
   const tabTitleToHighlightQueryResults = block.getElementsByClassName(`tab-navbar-element-${rowIndex}`);
-  const currentHighlightedTabQueryResults = block.getElementsByClassName(ACTIVE_TAB_TITLE_CLASS);
+  const currentHighlightedTabQueryResults = block.getElementsByClassName(classes.activeTabTitle);
   if (currentHighlightedTabQueryResults.length === 1
     && tabTitleToHighlightQueryResults.length === 1) {
     const currentHighlightedTab = currentHighlightedTabQueryResults[0];
     const tabTitleToHighlight = tabTitleToHighlightQueryResults[0];
-    currentHighlightedTab.classList.remove(ACTIVE_TAB_TITLE_CLASS);
-    tabTitleToHighlight.classList.add(ACTIVE_TAB_TITLE_CLASS);
+    currentHighlightedTab.classList.remove(classes.activeTabTitle);
+    tabTitleToHighlight.classList.add(classes.activeTabTitle);
   }
 
   const tabToShowQueryResults = block.getElementsByClassName(`tab-content-${rowIndex}`);
-  const tabToHideQueryResults = block.getElementsByClassName(ACTIVE_TAB_CLASS);
+  const tabToHideQueryResults = block.getElementsByClassName(classes.activeTab);
   if (tabToHideQueryResults.length === 1 && tabToShowQueryResults.length === 1) {
     const tabToHide = tabToHideQueryResults[0];
     const tabToShow = tabToShowQueryResults[0];
@@ -46,11 +49,11 @@ function showTab(block, rowIndex, overflowDetails = null) {
       }
     });
 
-    tabToHide.classList.remove(ACTIVE_TAB_CLASS);
-    tabToHide.classList.add(HIDDEN_TAB_CLASS);
+    tabToHide.classList.remove(classes.activeTab);
+    tabToHide.classList.add(classes.hiddenTab);
 
-    tabToShow.classList.remove(HIDDEN_TAB_CLASS);
-    tabToShow.classList.add(ACTIVE_TAB_CLASS);
+    tabToShow.classList.remove(classes.hiddenTab);
+    tabToShow.classList.add(classes.activeTab);
 
     if (tabToHideIndex === tabToShowIndex) {
       return;
@@ -60,28 +63,28 @@ function showTab(block, rowIndex, overflowDetails = null) {
     if (mediaWidthQueryMatcher.matches) {
       // Desktop
       if (tabToHideIndex > tabToShowIndex) { // slide out, then slide in
-        tabToShow.classList.add(TAB_SLIDE_OUT_ANIMATION);
+        tabToShow.classList.add(classes.tabSlideOut);
       } else if (tabToHideIndex < tabToShowIndex) { // slide in, then slide out
-        tabToShow.classList.add(TAB_SLIDE_IN_ANIMATION);
+        tabToShow.classList.add(classes.tabSlideIn);
       }
     } else if (!mediaWidthQueryMatcher.matches && tabToHideIndex > tabToShowIndex) {
       if (overflowDetails && overflowDetails.overflowMovement) {
-        tabToShow.classList.add(TAB_SLIDE_IN_ANIMATION);
+        tabToShow.classList.add(classes.tabSlideIn);
       } else {
-        tabToShow.classList.add(TAB_SLIDE_OUT_ANIMATION);
+        tabToShow.classList.add(classes.tabSlideOut);
       }
     } else if (!mediaWidthQueryMatcher.matches && tabToHideIndex < tabToShowIndex) {
       if (overflowDetails && overflowDetails.underflowMovement) {
-        tabToShow.classList.add(TAB_SLIDE_OUT_ANIMATION);
+        tabToShow.classList.add(classes.tabSlideOut);
       } else {
-        tabToShow.classList.add(TAB_SLIDE_IN_ANIMATION);
+        tabToShow.classList.add(classes.tabSlideIn);
       }
     }
   }
 }
 
 function showTitle(block, tabsCount, direction) {
-  const currentActiveTabTitle = block.getElementsByClassName(ACTIVE_TAB_TITLE_CLASS);
+  const currentActiveTabTitle = block.getElementsByClassName(classes.activeTabTitle);
   if (!currentActiveTabTitle || (currentActiveTabTitle && currentActiveTabTitle.length !== 1)) {
     return;
   }
@@ -110,12 +113,12 @@ function showTitle(block, tabsCount, direction) {
     return;
   }
 
-  tabTitleToHide.classList.remove(ACTIVE_TAB_TITLE_CLASS);
-  tabTitleToHide.classList.add(HIDDEN_TAB_TITLE_CLASS);
+  tabTitleToHide.classList.remove(classes.activeTabTitle);
+  tabTitleToHide.classList.add(classes.hiddenTabTitle);
 
   const tabTitleToActivate = nextTitleToActivate[0];
-  tabTitleToActivate.classList.remove(HIDDEN_TAB_TITLE_CLASS);
-  tabTitleToActivate.classList.add(ACTIVE_TAB_TITLE_CLASS);
+  tabTitleToActivate.classList.remove(classes.hiddenTabTitle);
+  tabTitleToActivate.classList.add(classes.activeTabTitle);
 
   const overflowAnimationDetails = {
     overflowMovement,
@@ -141,9 +144,9 @@ export default function decorate(block) {
       tabsCount += 1;
     }
     if (rowIndex === 1) {
-      row.classList.add(ACTIVE_TAB_CLASS);
+      row.classList.add(classes.activeTab);
     } else if (rowIndex > 1) {
-      row.classList.add(HIDDEN_TAB_CLASS);
+      row.classList.add(classes.hiddenTab);
     }
 
     [...row.children].forEach((contentElement, i) => {
@@ -153,9 +156,9 @@ export default function decorate(block) {
           divToMove.classList.add('tab-title');
           divToMove.classList.add(`tab-navbar-element-${rowIndex}`);
           if (rowIndex === 1) {
-            divToMove.classList.add(ACTIVE_TAB_TITLE_CLASS);
+            divToMove.classList.add(classes.activeTabTitle);
           } else {
-            divToMove.classList.add(HIDDEN_TAB_TITLE_CLASS);
+            divToMove.classList.add(classes.hiddenTabTitle);
           }
           tabTitles.appendChild(divToMove);
 
@@ -205,13 +208,13 @@ export default function decorate(block) {
       }
       const tabTitleToHide = block.getElementsByClassName('tab-title');
       [...tabTitleToHide].forEach((tab) => {
-        if (!tab.classList.toString().includes(ACTIVE_TAB_TITLE_CLASS)) {
-          tab.classList.add(HIDDEN_TAB_TITLE_CLASS);
+        if (!tab.classList.toString().includes(classes.activeTabTitle)) {
+          tab.classList.add(classes.hiddenTabTitle);
         }
       });
     } else {
-      const hiddenTabs = block.getElementsByClassName(HIDDEN_TAB_TITLE_CLASS);
-      [...hiddenTabs].forEach((hiddenTab) => hiddenTab.classList.remove(HIDDEN_TAB_TITLE_CLASS));
+      const hiddenTabs = block.getElementsByClassName(classes.hiddenTabTitle);
+      [...hiddenTabs].forEach((hiddenTab) => hiddenTab.classList.remove(classes.hiddenTabTitle));
       const backButtons = block.getElementsByClassName('backward-tab-button');
       [...backButtons].forEach((button) => button.remove());
       const forwardButtons = block.getElementsByClassName('forward-tab-button');

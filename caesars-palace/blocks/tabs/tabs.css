@@ -75,9 +75,7 @@
 .tabs.block .tab-text {
   display: flex;
   flex-direction: column;
-  padding-left: var(--layout-size-m);
-  padding-top: var(--layout-size-m);
-  padding-bottom: var(--layout-size-m);
+  padding: var(--layout-size-m) 0 var(--layout-size-m) var(--layout-size-m);
 }
 
 .tabs.block .tab-text h2,
