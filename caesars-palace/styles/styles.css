@@ -301,6 +301,18 @@ main .section > div:last-of-type {
     padding-bottom: var(--layout-size-xxl);
 }
 
+main .section.has-title {
+  border: 2px solid red;
+}
+
+main .section.has-teaser {
+  border: 2px solid orange;
+}
+
+main .section.has-button {
+  border: 2px solid yellow;
+}
+
 /* progressive section appearance */
 main .section[data-section-status='loading'],
 main .section[data-section-status='initialized'] {
