@@ -1,4 +1,8 @@
 
+body {
+  background-color: rgb(246, 246, 246);
+}
+
 .card-list.block .card-list-filter-count {
   font-size: 26px;
   font-family: 'Oswald',sans-serif;
@@ -21,15 +25,83 @@
   flex-direction: column;
   width: 31%;
   margin: 16px;
-  padding: 0;
 }
 
-.card-list.block .card-image > picture > img {
+.card-list.block .card > div {
+  background: #fff;
+}
+
+@media only screen and (max-width: 768px) {
+  .card-list.block .card {
+    width: 100%;
+  }
+}
+
+.card-list.block .card-image {
+  border-radius: 8px 8px 0 0;
+}
+
+.card-list.block .card-image > a > picture > img {
   display: block;
   height: 100%;
   width: 100%;
   border-radius: 8px 8px 0 0;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
+}
+
+@media only screen and (max-width: 960px) {
+  .card-list.block .card-image > a > picture > img {
+    height: 240px;
+    border-radius: 8px 0 0 0;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .card-list.block .card-image > a > picture > img {
+    height: inherit;
+    object-fit: inherit;
+    width: 180px;
+    min-width: 180px;
+    min-height: 100px;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .card-list.block .card-image > a > picture > img {
+    height: 100px;
+    width: 120px;
+    min-width: 120px;
+    object-fit: cover;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .card-list.block .card-image {
+    display: flex;
+  }
+  .card-list.block .card-image > a {
+    flex-direction: column;
+  }
+  .card-list.block .card-image > div {
+    flex-direction: column;
+    width: 100%;
+    border-radius: 0 8px 0 0;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
+    padding: 12px;
+  }
+}
+
+.card-list.block .card-mobile-title {
+  font-size: 10px;
+  font-family: var(--montserrat-font-family);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.card-list.block .card-mobile-location {
+  font-size: 10px;
+  font-weight: 600;
+  color: gray;
 }
 
 .card-list.block .card-content {
@@ -51,7 +123,7 @@
   min-height: 80px;
 }
 
-.card-list.block .card-top > div > p {
+.card-list.block .card-description > p {
   -webkit-box-orient: vertical;
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -81,6 +153,8 @@
   justify-content: space-between;
 }
 
+
+
 .card-list.block .card-bottom-left {
   font-weight: 600;
   display: flex;
@@ -95,6 +169,44 @@
 .card-list.block .card-bottom-middle {
   width: 33%;
 }
+
+.card-list.block .card-mobile {
+  display: none;
+}
+
+
+@media only screen and (max-width: 480px) {
+
+  .card-list.block .card-content {
+    border-top: 1px solid lightgray;
+  }
+
+  .card-list.block .card-top {
+    display: none;
+  }
+  
+  .card-list.block .card-bottom {
+    margin-bottom: 8px;
+    margin-top: 8px;
+    margin-left: 16px;
+    margin-right: 16px;
+  }
+
+  .card-list.block .card-bottom-left > span {
+    display: none;
+  }
+
+  .card-list.block .card-bottom-middle {
+    width: unset;
+  }
+
+}
+
+
+
+
+
+
 
 .card-list.block .card-price {
   color: #707784;
@@ -134,6 +246,12 @@
   justify-content: center;
   height: 36px;
   width: 36px;
+}
+
+@media only screen and (max-width: 768px) {
+  .card-list.block .card-bottom-right {
+    display: none;
+  }
 }
 
 .card-list.block .card-bottom-right > a::after {

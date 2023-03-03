@@ -23,31 +23,39 @@ export default async function decorate(block) {
   cardResults.classList.add('card-list-results');
 
   cardIndex.data.forEach(cardData => {  
-
     const card = document.createElement('div');
     card.classList.add('card')
-
+    // preprocess for synthetic filters
     preprocessCardData(cardData, cfg.type);
-
     // populate filters and tag cards
     processFiltersWithCard(cardData, card, filters);
-
     const cardLink = cardData.pageUrl != '' ? cardData.pageUrl : cardData.secondaryUrl;
-
-    // image
+    // card image
     const cardImage = document.createElement('div');
     cardImage.classList.add('card-image');
     const cardImageLink = document.createElement('a');
     cardImageLink.href = cardLink;
-    cardImage.appendChild(createOptimizedPicture(cardData.thumbnail, cardData.title, false, [{ media: '(min-width: 1170px)', width: '750' }, { media: '(min-width: 768px)', width: '180' }, { media: '(min-width: 480px)', width: '120' }]));
-    cardImageLink.appendChild(cardImage);
-    card.appendChild(cardImageLink);
-
-
-    // card top
+    cardImageLink.appendChild(createOptimizedPicture(cardData.thumbnail, cardData.title, false, [{ media: '(min-width: 1170px)', width: '750' }, { media: '(min-width: 768px)', width: '180' }, { media: '(max-width: 480px)', height: '100' }]));
+    cardImage.appendChild(cardImageLink);
+    // mobile
+    const mobile = document.createElement('div');
+    mobile.classList.add('card-mobile');
+    const mobileTitle = document.createElement('div');
+    mobileTitle.classList.add('card-mobile-title');
+    mobileTitle.innerHTML = cardData.title;
+    mobile.appendChild(mobileTitle);
+    if (cfg.type == 'restaurants' && cardData.location) {
+      const mobileLocation = document.createElement('div');
+      mobileLocation.classList.add('card-mobile-location');
+      mobileLocation.innerHTML = cardData.location;
+      mobile.appendChild(mobileLocation);
+    }
+    cardImage.appendChild(mobile);
+    card.appendChild(cardImage);
+    // card content
     const cardContent = document.createElement('div');
     cardContent.classList.add('card-content');
-    
+    // card top
     const cardTop = document.createElement('div');
     cardTop.classList.add('card-top');
     // title
@@ -62,6 +70,7 @@ export default async function decorate(block) {
     cardTop.appendChild(title);
     // description
     const descriptionDiv = document.createElement('div');
+    descriptionDiv.classList.add('card-description');
     const descriptionP = document.createElement('p');
     descriptionP.innerHTML = cardData.description;
     descriptionDiv.appendChild(descriptionP);
@@ -74,26 +83,21 @@ export default async function decorate(block) {
       cardTop.appendChild(subtitleDiv);
     }
     cardContent.appendChild(cardTop);
-
     // card bottom
     const cardBottom = document.createElement('div');
     cardBottom.classList.add('card-bottom')
-
     // card bottom left
     const cardBottomLeft = document.createElement('div');
     cardBottomLeft.classList.add('card-bottom-left');
-    // location
     if (cardData.location) {
       const locationDiv = document.createElement('span');
       locationDiv.innerHTML = cardData.location;
       cardBottomLeft.appendChild(locationDiv);
     }
-    // category
     const categoryDiv = document.createElement('div');
-    categoryDiv.innerHTML = cardData.category;
+    categoryDiv.innerHTML = cfg.type == 'restaurants' ? cardData.cuisine : cardData.category;
     cardBottomLeft.appendChild(categoryDiv);
     cardBottom.appendChild(cardBottomLeft);
-
     // card bottom middle
     const cardBottomMiddle = document.createElement('div');
     cardBottomMiddle.classList.add('card-bottom-middle');
@@ -108,9 +112,7 @@ export default async function decorate(block) {
       cardBottomMiddle.appendChild(priceUnused);
     }
     cardBottom.appendChild(cardBottomMiddle);
-
-
-    // link
+    // card bottom right
     const linkDiv = document.createElement('div');
     linkDiv.classList.add('card-bottom-right');
     const link = document.createElement('a');
@@ -118,27 +120,9 @@ export default async function decorate(block) {
     linkDiv.appendChild(link);
     cardBottom.appendChild(linkDiv);
     cardContent.appendChild(cardBottom)
-
-    // temporary for debugging 
-    /*
-    if (cfg.type == 'restaurants') {
-      const diningOptions = document.createElement('div');
-      const diningOptionsUl = document.createElement('ul');
-      cardData.diningOptions.forEach(diningOption => {
-        const diningOptionsLi = document.createElement('li');
-        diningOptionsLi.innerHTML = diningOption;
-        diningOptionsUl.appendChild(diningOptionsLi);
-      });
-      diningOptions.appendChild(diningOptionsUl);
-      card.appendChild(diningOptions);
-    }
-    */
-
+    // add to card and results
     card.appendChild(cardContent);
-
-    // add card to block
     cardResults.appendChild(card);
-
   });
   block.appendChild(cardResults);
 }
