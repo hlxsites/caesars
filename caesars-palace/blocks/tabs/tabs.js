@@ -7,6 +7,9 @@ const TAB_SLIDE_OUT_ANIMATION = 'active-tab-slide-out';
 const ACTIVE_TAB_TITLE_CLASS = 'active-tab-title';
 const HIDDEN_TAB_TITLE_CLASS = 'hidden-tab-title';
 
+const ACTIVE_TAB_CLASS = 'active-tab';
+const HIDDEN_TAB_CLASS = 'hidden-tab';
+
 function showTab(block, rowIndex, overflowDetails = null) {
   const tabsActiveWithSlideOut = block.getElementsByClassName(TAB_SLIDE_OUT_ANIMATION);
   [...tabsActiveWithSlideOut].forEach((item) => {
@@ -33,7 +36,7 @@ function showTab(block, rowIndex, overflowDetails = null) {
   }
 
   const tabToShowQueryResults = block.getElementsByClassName(`tab-content-${rowIndex}`);
-  const tabToHideQueryResults = block.getElementsByClassName('active-tab');
+  const tabToHideQueryResults = block.getElementsByClassName(ACTIVE_TAB_CLASS);
 
   if (tabToHideQueryResults.length === 1 && tabToShowQueryResults.length === 1) {
     const tabToHide = tabToHideQueryResults[0];
@@ -54,12 +57,12 @@ function showTab(block, rowIndex, overflowDetails = null) {
     });
 
     // hide currently active tab
-    tabToHide.classList.remove('active-tab');
-    tabToHide.classList.add('hidden');
+    tabToHide.classList.remove(ACTIVE_TAB_CLASS);
+    tabToHide.classList.add(HIDDEN_TAB_CLASS);
 
     // show new tab
-    tabToShow.classList.remove('hidden');
-    tabToShow.classList.add('active-tab');
+    tabToShow.classList.remove(HIDDEN_TAB_CLASS);
+    tabToShow.classList.add(ACTIVE_TAB_CLASS);
 
     if (tabToHideIndex === tabToShowIndex) {
       return;
@@ -162,9 +165,9 @@ export default function decorate(block) {
     }
 
     if (rowIndex === 1) {
-      row.classList.add('active-tab');
+      row.classList.add(ACTIVE_TAB_CLASS);
     } else if (rowIndex > 1) {
-      row.classList.add('hidden');
+      row.classList.add(HIDDEN_TAB_CLASS);
     }
 
     [...row.children].forEach((contentElement, i) => {
@@ -200,6 +203,8 @@ export default function decorate(block) {
       tabsHolder.append(row);
     }
   });
+
+  block.append(tabsHolder);
 
   const mediaWidthQueryMatcher = window.matchMedia('only screen and (min-width: 768px)');
   const mediaWidthChangeHandler = (event) => {
@@ -247,6 +252,4 @@ export default function decorate(block) {
   mediaWidthQueryMatcher.addEventListener('change', (event) => {
     mediaWidthChangeHandler(event);
   });
-
-  block.append(tabsHolder);
 }

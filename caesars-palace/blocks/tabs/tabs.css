@@ -56,7 +56,7 @@
   flex-direction: column;
 }
 
-.tabs.block .hidden {
+.tabs.block .hidden-tab {
   opacity: 0;
 
   /* mimic display: none; but with animation support */
@@ -111,7 +111,7 @@
   animation-duration: 0.3s;
 }
 
-.tabs.block .hidden .tab-text {
+.tabs.block .hidden-tab .tab-text {
   opacity: 0;
   animation-name: text-slide-out;
   animation-duration: 0.3s;
@@ -210,7 +210,7 @@
     animation-duration: 0.3s;
   }
   
-  .tabs.block .hidden .tab-text {
+  .tabs.block .hidden-tab .tab-text {
     opacity: 0;
     animation-name: text-slide-out;
     animation-duration: 0.3s;
