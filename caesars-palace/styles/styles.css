@@ -58,6 +58,7 @@
     --layout-size-xl: 32px;
     --layout-size-xxl: 64px;
 
+    --clickable-font-weight: 600;
 }
 
 body {
@@ -152,7 +153,7 @@ button {
     font-family: var(--body-font-family);
     vertical-align: middle;
     font-style: normal;
-    font-weight: 600;
+    font-weight: var(--clickable-font-weight);
     letter-spacing: 1px;
     cursor: pointer;
     touch-action: manipulation;
