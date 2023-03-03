@@ -26,7 +26,6 @@
   line-height: 1.1;
   font-size: 150%;
   padding-top: 8px;
-  animation-name: fade-in;
   animation-duration: 0.5s;
 }
 
@@ -99,22 +98,6 @@
   margin-left: auto; 
   margin-right: 16px;
   margin-bottom: 0;
-}
-
-.tabs.block .active-tab-slide-in {
-  animation-name: slide-in;
-  animation-duration: 0.3s;
-}
-
-.tabs.block .active-tab-slide-out {
-  animation-name: slide-out;
-  animation-duration: 0.3s;
-}
-
-.tabs.block .hidden .tab-text {
-  opacity: 0;
-  animation-name: text-slide-out;
-  animation-duration: 0.3s;
 }
 
 /* Responsive Breakpoints */
@@ -200,54 +183,9 @@
     margin-right: 0;
   }
 
-  .tabs.block .active-tab-slide-in {
-    animation-name: slide-in;
-    animation-duration: 0.3s;
-  }
-  
-  .tabs.block .active-tab-slide-out {
-    animation-name: slide-out;
-    animation-duration: 0.3s;
-  }
-  
   .tabs.block .hidden .tab-text {
     opacity: 0;
     animation-name: text-slide-out;
     animation-duration: 0.3s;
-  }
-}
-
-/* Animations */
-@keyframes slide-in {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes slide-out {
-  from {
-    transform: translateX(-100vw);
-    opacity: 0;
-  }
-
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes fade-in {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
   }
 }

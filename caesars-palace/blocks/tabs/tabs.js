@@ -1,16 +1,7 @@
 const MOVE_TABS_FORWARD = 1;
 const MOVE_TABS_BACK = -1;
 
-function showTab(block, rowIndex, overflowDetails = null) {
-  const tabsActiveWithSlideOut = block.getElementsByClassName('active-tab-slide-out');
-  [...tabsActiveWithSlideOut].forEach((item) => {
-    if (item.classList) item.classList.remove('active-tab-slide-out');
-  });
-  const tabsActiveWithSlideIn = block.getElementsByClassName('active-tab-slide-in');
-  [...tabsActiveWithSlideIn].forEach((item) => {
-    if (item.classList) item.classList.remove('active-tab-slide-in');
-  });
-
+function showTab(block, rowIndex) {
   const tabTitleToHighlightQueryResults = block.getElementsByClassName(`tab-navbar-element-${rowIndex}`);
   const currentHighlightedTabQueryResults = block.getElementsByClassName('active-tab-title');
 
@@ -54,32 +45,6 @@ function showTab(block, rowIndex, overflowDetails = null) {
     // show new tab
     tabToShow.classList.remove('hidden');
     tabToShow.classList.add('active-tab');
-
-    if (tabToHideIndex === tabToShowIndex) {
-      return;
-    }
-
-    const mediaWidthQueryMatcher = window.matchMedia('only screen and (min-width: 768px)');
-    if (mediaWidthQueryMatcher.matches) {
-      // Desktop
-      if (tabToHideIndex > tabToShowIndex) { // slide out, then slide in
-        tabToShow.classList.add('active-tab-slide-out');
-      } else if (tabToHideIndex < tabToShowIndex) { // slide in, then slide out
-        tabToShow.classList.add('active-tab-slide-in');
-      }
-    } else if (!mediaWidthQueryMatcher.matches && tabToHideIndex > tabToShowIndex) {
-      if (overflowDetails && overflowDetails.overflowMovement) {
-        tabToShow.classList.add('active-tab-slide-in');
-      } else {
-        tabToShow.classList.add('active-tab-slide-out');
-      }
-    } else if (!mediaWidthQueryMatcher.matches && tabToHideIndex < tabToShowIndex) {
-      if (overflowDetails && overflowDetails.underflowMovement) {
-        tabToShow.classList.add('active-tab-slide-out');
-      } else {
-        tabToShow.classList.add('active-tab-slide-in');
-      }
-    }
   }
 }
 
@@ -103,14 +68,10 @@ function showTitle(block, tabsCount, direction) {
     }
   });
 
-  let overflowMovement = false;
-  let underflowMovement = false;
   let indexToActivate = currentActiveIndex + direction;
   if (indexToActivate > tabsCount) {
-    overflowMovement = true;
     indexToActivate = 1;
   } else if (indexToActivate === 0) {
-    underflowMovement = true;
     indexToActivate = tabsCount;
   }
 
@@ -131,11 +92,7 @@ function showTitle(block, tabsCount, direction) {
   tabTitleToActivate.classList.remove('hidden-tab-title');
   tabTitleToActivate.classList.add('active-tab-title');
 
-  const overflowAnimationDetails = {
-    overflowMovement,
-    underflowMovement,
-  };
-  showTab(block, indexToActivate, overflowAnimationDetails);
+  showTab(block, indexToActivate);
 }
 
 export default function decorate(block) {
