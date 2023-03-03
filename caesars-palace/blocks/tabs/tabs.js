@@ -1,15 +1,11 @@
 const MOVE_TABS_FORWARD = 1;
 const MOVE_TABS_BACK = -1;
-
 const TAB_SLIDE_IN_ANIMATION = 'active-tab-slide-in';
 const TAB_SLIDE_OUT_ANIMATION = 'active-tab-slide-out';
-
 const ACTIVE_TAB_TITLE_CLASS = 'active-tab-title';
 const HIDDEN_TAB_TITLE_CLASS = 'hidden-tab-title';
-
 const ACTIVE_TAB_CLASS = 'active-tab';
 const HIDDEN_TAB_CLASS = 'hidden-tab';
-
 const RESPONSIVE_MEDIA_QUERY = 'only screen and (min-width: 768px)';
 
 function showTab(block, rowIndex, overflowDetails = null) {
@@ -24,33 +20,25 @@ function showTab(block, rowIndex, overflowDetails = null) {
 
   const tabTitleToHighlightQueryResults = block.getElementsByClassName(`tab-navbar-element-${rowIndex}`);
   const currentHighlightedTabQueryResults = block.getElementsByClassName(ACTIVE_TAB_TITLE_CLASS);
-
   if (currentHighlightedTabQueryResults.length === 1
     && tabTitleToHighlightQueryResults.length === 1) {
     const currentHighlightedTab = currentHighlightedTabQueryResults[0];
     const tabTitleToHighlight = tabTitleToHighlightQueryResults[0];
-
-    // hide currently active tab
     currentHighlightedTab.classList.remove(ACTIVE_TAB_TITLE_CLASS);
-
-    // show new tab
     tabTitleToHighlight.classList.add(ACTIVE_TAB_TITLE_CLASS);
   }
 
   const tabToShowQueryResults = block.getElementsByClassName(`tab-content-${rowIndex}`);
   const tabToHideQueryResults = block.getElementsByClassName(ACTIVE_TAB_CLASS);
-
   if (tabToHideQueryResults.length === 1 && tabToShowQueryResults.length === 1) {
     const tabToHide = tabToHideQueryResults[0];
     const tabToShow = tabToShowQueryResults[0];
-
     let tabToHideIndex = -1;
     [...tabToHide.classList].forEach((item) => {
       if (item.startsWith('tab-content-')) {
         tabToHideIndex = parseInt(item.split('tab-content-')[1], 10);
       }
     });
-
     let tabToShowIndex = -1;
     [...tabToShow.classList].forEach((item) => {
       if (item.startsWith('tab-content-')) {
@@ -58,11 +46,9 @@ function showTab(block, rowIndex, overflowDetails = null) {
       }
     });
 
-    // hide currently active tab
     tabToHide.classList.remove(ACTIVE_TAB_CLASS);
     tabToHide.classList.add(HIDDEN_TAB_CLASS);
 
-    // show new tab
     tabToShow.classList.remove(HIDDEN_TAB_CLASS);
     tabToShow.classList.add(ACTIVE_TAB_CLASS);
 
@@ -96,7 +82,6 @@ function showTab(block, rowIndex, overflowDetails = null) {
 
 function showTitle(block, tabsCount, direction) {
   const currentActiveTabTitle = block.getElementsByClassName(ACTIVE_TAB_TITLE_CLASS);
-
   if (!currentActiveTabTitle || (currentActiveTabTitle && currentActiveTabTitle.length !== 1)) {
     return;
   }
@@ -155,7 +140,6 @@ export default function decorate(block) {
       row.classList.add(`tab-content-${rowIndex}`);
       tabsCount += 1;
     }
-
     if (rowIndex === 1) {
       row.classList.add(ACTIVE_TAB_CLASS);
     } else if (rowIndex > 1) {
@@ -206,23 +190,19 @@ export default function decorate(block) {
         const backButton = document.createElement('div');
         backButton.classList.add('backward-tab-button');
         tabTitles.prepend(backButton);
-
         backButton.addEventListener('click', () => {
           showTitle(block, tabsCount, MOVE_TABS_BACK);
         });
       }
-
       const forwardButtons = block.getElementsByClassName('forward-tab-button');
       if (!forwardButtons || forwardButtons.length === 0) {
         const forwardButton = document.createElement('div');
         forwardButton.classList.add('forward-tab-button');
         tabTitles.appendChild(forwardButton);
-
         forwardButton.addEventListener('click', () => {
           showTitle(block, tabsCount, MOVE_TABS_FORWARD);
         });
       }
-
       const tabTitleToHide = block.getElementsByClassName('tab-title');
       [...tabTitleToHide].forEach((tab) => {
         if (!tab.classList.toString().includes(ACTIVE_TAB_TITLE_CLASS)) {
@@ -232,10 +212,8 @@ export default function decorate(block) {
     } else {
       const hiddenTabs = block.getElementsByClassName(HIDDEN_TAB_TITLE_CLASS);
       [...hiddenTabs].forEach((hiddenTab) => hiddenTab.classList.remove(HIDDEN_TAB_TITLE_CLASS));
-      
       const backButtons = block.getElementsByClassName('backward-tab-button');
       [...backButtons].forEach((button) => button.remove());
-
       const forwardButtons = block.getElementsByClassName('forward-tab-button');
       [...forwardButtons].forEach((button) => button.remove());
     }
