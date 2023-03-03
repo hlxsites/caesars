@@ -8,7 +8,7 @@ const classes = Object.freeze({
   activeTabTitle: 'active-tab-title',
   hiddenTabTitle: 'hidden-tab-title',
   activeTab: 'active-tab',
-  hiddenTab: 'hidden-tab'
+  hiddenTab: 'hidden-tab',
 });
 
 function showTab(block, rowIndex, overflowDetails = null) {

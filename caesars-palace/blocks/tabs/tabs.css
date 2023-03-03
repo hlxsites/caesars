@@ -58,6 +58,7 @@
 
 .tabs.block .hidden-tab {
   opacity: 0;
+  
   /* mimic display: none; but with animation support */
   position: absolute; 
   visibility: hidden;
