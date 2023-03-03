@@ -10,12 +10,14 @@ const HIDDEN_TAB_TITLE_CLASS = 'hidden-tab-title';
 const ACTIVE_TAB_CLASS = 'active-tab';
 const HIDDEN_TAB_CLASS = 'hidden-tab';
 
+const RESPONSIVE_MEDIA_QUERY = 'only screen and (min-width: 768px)';
+
 function showTab(block, rowIndex, overflowDetails = null) {
   const tabsActiveWithSlideOut = block.getElementsByClassName(TAB_SLIDE_OUT_ANIMATION);
+  const tabsActiveWithSlideIn = block.getElementsByClassName(TAB_SLIDE_IN_ANIMATION);
   [...tabsActiveWithSlideOut].forEach((item) => {
     if (item.classList) item.classList.remove(TAB_SLIDE_OUT_ANIMATION);
   });
-  const tabsActiveWithSlideIn = block.getElementsByClassName(TAB_SLIDE_IN_ANIMATION);
   [...tabsActiveWithSlideIn].forEach((item) => {
     if (item.classList) item.classList.remove(TAB_SLIDE_IN_ANIMATION);
   });
@@ -68,7 +70,7 @@ function showTab(block, rowIndex, overflowDetails = null) {
       return;
     }
 
-    const mediaWidthQueryMatcher = window.matchMedia('only screen and (min-width: 768px)');
+    const mediaWidthQueryMatcher = window.matchMedia(RESPONSIVE_MEDIA_QUERY);
     if (mediaWidthQueryMatcher.matches) {
       // Desktop
       if (tabToHideIndex > tabToShowIndex) { // slide out, then slide in
@@ -95,16 +97,11 @@ function showTab(block, rowIndex, overflowDetails = null) {
 function showTitle(block, tabsCount, direction) {
   const currentActiveTabTitle = block.getElementsByClassName(ACTIVE_TAB_TITLE_CLASS);
 
-  if (!currentActiveTabTitle) {
-    return;
-  }
-
-  if (currentActiveTabTitle.length !== 1) {
+  if (!currentActiveTabTitle || (currentActiveTabTitle && currentActiveTabTitle.length !== 1)) {
     return;
   }
 
   const tabTitleToHide = currentActiveTabTitle[0];
-
   let currentActiveIndex;
   tabTitleToHide.classList.forEach((tabClass) => {
     if (tabClass.startsWith('tab-navbar-element-')) {
@@ -124,19 +121,14 @@ function showTitle(block, tabsCount, direction) {
   }
 
   const nextTitleToActivate = block.getElementsByClassName(`tab-navbar-element-${indexToActivate}`);
-  if (!nextTitleToActivate) {
+  if (!nextTitleToActivate || (nextTitleToActivate && nextTitleToActivate.length !== 1)) {
     return;
   }
-
-  if (nextTitleToActivate.length !== 1) {
-    return;
-  }
-
-  const tabTitleToActivate = nextTitleToActivate[0];
 
   tabTitleToHide.classList.remove(ACTIVE_TAB_TITLE_CLASS);
   tabTitleToHide.classList.add(HIDDEN_TAB_TITLE_CLASS);
 
+  const tabTitleToActivate = nextTitleToActivate[0];
   tabTitleToActivate.classList.remove(HIDDEN_TAB_TITLE_CLASS);
   tabTitleToActivate.classList.add(ACTIVE_TAB_TITLE_CLASS);
 
@@ -206,11 +198,11 @@ export default function decorate(block) {
 
   block.append(tabsHolder);
 
-  const mediaWidthQueryMatcher = window.matchMedia('only screen and (min-width: 768px)');
+  const mediaWidthQueryMatcher = window.matchMedia(RESPONSIVE_MEDIA_QUERY);
   const mediaWidthChangeHandler = (event) => {
     if (event.matches === false) {
       const backButtons = block.getElementsByClassName('backward-tab-button');
-      if (!backButtons || (backButtons.length === 0)) {
+      if (!backButtons || backButtons.length === 0) {
         const backButton = document.createElement('div');
         backButton.classList.add('backward-tab-button');
         tabTitles.prepend(backButton);
@@ -221,7 +213,7 @@ export default function decorate(block) {
       }
 
       const forwardButtons = block.getElementsByClassName('forward-tab-button');
-      if (!forwardButtons || (forwardButtons.length === 0)) {
+      if (!forwardButtons || forwardButtons.length === 0) {
         const forwardButton = document.createElement('div');
         forwardButton.classList.add('forward-tab-button');
         tabTitles.appendChild(forwardButton);
