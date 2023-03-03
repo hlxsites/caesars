@@ -230,14 +230,14 @@ export default function decorate(block) {
         }
       });
     } else {
+      const hiddenTabs = block.getElementsByClassName(HIDDEN_TAB_TITLE_CLASS);
+      [...hiddenTabs].forEach((hiddenTab) => hiddenTab.classList.remove(HIDDEN_TAB_TITLE_CLASS));
+      
       const backButtons = block.getElementsByClassName('backward-tab-button');
       [...backButtons].forEach((button) => button.remove());
 
       const forwardButtons = block.getElementsByClassName('forward-tab-button');
       [...forwardButtons].forEach((button) => button.remove());
-
-      const hiddenTabs = block.getElementsByClassName(HIDDEN_TAB_TITLE_CLASS);
-      [...hiddenTabs].forEach((hiddenTab) => hiddenTab.classList.remove(HIDDEN_TAB_TITLE_CLASS));
     }
   };
   mediaWidthChangeHandler(mediaWidthQueryMatcher);
