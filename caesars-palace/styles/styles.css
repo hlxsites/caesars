@@ -333,6 +333,10 @@ main .section.has-teaser h4 {
   font-size: var(--heading-font-size-teaser);
 }
 
+main .section.has-button p {
+  text-align: center;
+}
+
 /* Responsive Breakpoints */
 
 /* Tablet (portrait) */
