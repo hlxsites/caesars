@@ -1,7 +1,6 @@
 const MOVE_TABS_FORWARD = 1;
 const MOVE_TABS_BACK = -1;
 const RESPONSIVE_MEDIA_QUERY = 'only screen and (min-width: 768px)';
-
 const classes = Object.freeze({
   tabSlideIn: 'active-tab-slide-in',
   tabSlideOut: 'active-tab-slide-out',
