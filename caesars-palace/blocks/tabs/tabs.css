@@ -58,34 +58,33 @@
 
 .tabs.block .hidden-tab {
   opacity: 0;
-
   /* mimic display: none; but with animation support */
   position: absolute; 
   visibility: hidden;
 }
 
-.tabs.block .tab-image {
+.tabs.block .tab .tab-image {
   display: flex;
 }
 
-.tabs.block .tab-image img {
+.tabs.block .tab .tab-image img {
   object-fit: cover;
 }
 
-.tabs.block .tab-text {
+.tabs.block .tab .tab-text {
   display: flex;
   flex-direction: column;
   padding: var(--layout-size-m) 0 var(--layout-size-m) var(--layout-size-m);
 }
 
-.tabs.block .tab-text h2,
-.tabs.block .tab-text h3,
-.tabs.block .tab-text h4 {
+.tabs.block .tab .tab-text h2,
+.tabs.block .tab .tab-text h3,
+.tabs.block .tab .tab-text h4 {
   text-transform: uppercase;
   margin-bottom: var(--layout-size-m);
 }
 
-.tabs.block .tab-text .button-container {
+.tabs.block .tab .tab-text .button-container {
   margin-left: auto; 
   margin-right: var(--layout-size-m);
   margin-bottom: 0;
@@ -180,12 +179,12 @@
     flex: 1;
   }
 
-  .tabs.block .tab-image img {
+  .tabs.block .tab .tab-image img {
     width: 1;
     height: auto;
   }
 
-  .tabs.block .tab-text .button-container {
+  .tabs.block .tab .tab-text .button-container {
     margin-left: 0; 
     margin-right: 0;
   }
