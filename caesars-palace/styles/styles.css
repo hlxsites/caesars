@@ -20,6 +20,7 @@
     /* colors */
     --static-color-white: #fff;
     --static-color-black: #141414;
+    --static-color-light-gray: #f1f1f6;
     --static-color-gray: #bec0c4;
     --static-color-gray-medium: #7c7c7c;
     --static-color-gray-dark: #4a4a4a;
@@ -57,6 +58,8 @@
     --layout-size-xl: 32px;
     --layout-size-xxl: 64px;
 
+    /* font-weights */
+    --clickable-font-weight: 600;
 }
 
 body {
@@ -151,7 +154,7 @@ button {
     font-family: var(--body-font-family);
     vertical-align: middle;
     font-style: normal;
-    font-weight: 600;
+    font-weight: var(--clickable-font-weight);
     letter-spacing: 1px;
     cursor: pointer;
     touch-action: manipulation;
