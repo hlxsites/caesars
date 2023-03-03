@@ -4,6 +4,9 @@ const MOVE_TABS_BACK = -1;
 const TAB_SLIDE_IN_ANIMATION = 'active-tab-slide-in';
 const TAB_SLIDE_OUT_ANIMATION = 'active-tab-slide-out';
 
+const ACTIVE_TAB_TITLE_CLASS = 'active-tab-title';
+const HIDDEN_TAB_TITLE_CLASS = 'hidden-tab-title';
+
 function showTab(block, rowIndex, overflowDetails = null) {
   const tabsActiveWithSlideOut = block.getElementsByClassName(TAB_SLIDE_OUT_ANIMATION);
   [...tabsActiveWithSlideOut].forEach((item) => {
@@ -15,7 +18,7 @@ function showTab(block, rowIndex, overflowDetails = null) {
   });
 
   const tabTitleToHighlightQueryResults = block.getElementsByClassName(`tab-navbar-element-${rowIndex}`);
-  const currentHighlightedTabQueryResults = block.getElementsByClassName('active-tab-title');
+  const currentHighlightedTabQueryResults = block.getElementsByClassName(ACTIVE_TAB_TITLE_CLASS);
 
   if (currentHighlightedTabQueryResults.length === 1
     && tabTitleToHighlightQueryResults.length === 1) {
@@ -23,10 +26,10 @@ function showTab(block, rowIndex, overflowDetails = null) {
     const tabTitleToHighlight = tabTitleToHighlightQueryResults[0];
 
     // hide currently active tab
-    currentHighlightedTab.classList.remove('active-tab-title');
+    currentHighlightedTab.classList.remove(ACTIVE_TAB_TITLE_CLASS);
 
     // show new tab
-    tabTitleToHighlight.classList.add('active-tab-title');
+    tabTitleToHighlight.classList.add(ACTIVE_TAB_TITLE_CLASS);
   }
 
   const tabToShowQueryResults = block.getElementsByClassName(`tab-content-${rowIndex}`);
@@ -87,7 +90,7 @@ function showTab(block, rowIndex, overflowDetails = null) {
 }
 
 function showTitle(block, tabsCount, direction) {
-  const currentActiveTabTitle = block.getElementsByClassName('active-tab-title');
+  const currentActiveTabTitle = block.getElementsByClassName(ACTIVE_TAB_TITLE_CLASS);
 
   if (!currentActiveTabTitle) {
     return;
@@ -128,11 +131,11 @@ function showTitle(block, tabsCount, direction) {
 
   const tabTitleToActivate = nextTitleToActivate[0];
 
-  tabTitleToHide.classList.remove('active-tab-title');
-  tabTitleToHide.classList.add('hidden-tab-title');
+  tabTitleToHide.classList.remove(ACTIVE_TAB_TITLE_CLASS);
+  tabTitleToHide.classList.add(HIDDEN_TAB_TITLE_CLASS);
 
-  tabTitleToActivate.classList.remove('hidden-tab-title');
-  tabTitleToActivate.classList.add('active-tab-title');
+  tabTitleToActivate.classList.remove(HIDDEN_TAB_TITLE_CLASS);
+  tabTitleToActivate.classList.add(ACTIVE_TAB_TITLE_CLASS);
 
   const overflowAnimationDetails = {
     overflowMovement,
@@ -171,9 +174,9 @@ export default function decorate(block) {
           divToMove.classList.add('tab-title');
           divToMove.classList.add(`tab-navbar-element-${rowIndex}`);
           if (rowIndex === 1) {
-            divToMove.classList.add('active-tab-title');
+            divToMove.classList.add(ACTIVE_TAB_TITLE_CLASS);
           } else {
-            divToMove.classList.add('hidden-tab-title');
+            divToMove.classList.add(HIDDEN_TAB_TITLE_CLASS);
           }
           tabTitles.appendChild(divToMove);
 
@@ -225,8 +228,8 @@ export default function decorate(block) {
 
       const tabTitleToHide = block.getElementsByClassName('tab-title');
       [...tabTitleToHide].forEach((tab) => {
-        if (!tab.classList.toString().includes('active-tab-title')) {
-          tab.classList.add('hidden-tab-title');
+        if (!tab.classList.toString().includes(ACTIVE_TAB_TITLE_CLASS)) {
+          tab.classList.add(HIDDEN_TAB_TITLE_CLASS);
         }
       });
     } else {
@@ -236,8 +239,8 @@ export default function decorate(block) {
       const forwardButtons = block.getElementsByClassName('forward-tab-button');
       [...forwardButtons].forEach((button) => button.remove());
 
-      const hiddenTabs = block.getElementsByClassName('hidden-tab-title');
-      [...hiddenTabs].forEach((hiddenTab) => hiddenTab.classList.remove('hidden-tab-title'));
+      const hiddenTabs = block.getElementsByClassName(HIDDEN_TAB_TITLE_CLASS);
+      [...hiddenTabs].forEach((hiddenTab) => hiddenTab.classList.remove(HIDDEN_TAB_TITLE_CLASS));
     }
   };
   mediaWidthChangeHandler(mediaWidthQueryMatcher);
