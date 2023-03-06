@@ -385,8 +385,13 @@ main .section.is-hero .button-container {
         --heading-font-size-xxl: 94px;
     }
 
-    main .section > div {
-        width: var(--screen-width-l);
+    main .section.is-hero {
+      padding: unset;
+    }
+
+    main .section.is-hero > div {
+      width: 100%;
+      margin: unset;
     }
 }
 
