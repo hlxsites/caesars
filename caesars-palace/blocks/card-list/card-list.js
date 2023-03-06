@@ -35,7 +35,7 @@ export default async function decorate(block) {
     cardImage.classList.add('card-image');
     const cardImageLink = document.createElement('a');
     cardImageLink.href = cardLink;
-    cardImageLink.appendChild(createOptimizedPicture(cardData.thumbnail, cardData.title, false, [{ media: '(min-width: 1170px)', width: '750' }, { media: '(max-width: 768px)', width: '335' }, { media: '(min-width: 480px)', height: '180' }]));
+    cardImageLink.appendChild(createOptimizedPicture(cardData.thumbnail, cardData.title, false, [{ media: '(min-width: 960px)', height: '440' }, { media: '(min-width: 768px)', height: '240' }, { media: '(min-width: 480px)', height: '180' }]));
     cardImage.appendChild(cardImageLink);
     // mobile
     const mobile = document.createElement('div');
@@ -44,10 +44,10 @@ export default async function decorate(block) {
     mobileTitle.classList.add('card-mobile-title');
     mobileTitle.innerHTML = cardData.title;
     mobile.appendChild(mobileTitle);
-    if (cfg.type == 'restaurants' && cardData.location) {
+    if (cfg.type == 'restaurants' && cardData.propertyName) {
       const mobileLocation = document.createElement('div');
       mobileLocation.classList.add('card-mobile-location');
-      mobileLocation.innerHTML = cardData.location;
+      mobileLocation.innerHTML = cardData.propertyName;
       mobile.appendChild(mobileLocation);
     }
     cardImage.appendChild(mobile);
