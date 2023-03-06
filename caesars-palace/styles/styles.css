@@ -395,4 +395,13 @@ main .section.is-hero .button-container {
     main .section > div {
         width: var(--screen-width-xl);
     }
+
+    main .section.is-hero {
+      padding: unset;
+    }
+
+    main .section.is-hero > div {
+      width: 100%;
+      margin: unset;
+    }
 }
