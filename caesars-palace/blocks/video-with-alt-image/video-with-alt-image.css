@@ -1,18 +1,33 @@
-.video-link {
+.video-with-alt-image.block .video-link {
   display: none;
 }
 
-.video-alt-image {
-  display: flex;
+.video-with-alt-image.block .video-alt-image {
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.video-with-alt-image.block .video-alt-image img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
 }
 
 /* Responsive Breakpoints */
 @media  only screen and (min-width: 1170px) {
-  .video-alt-image {
+  .video-with-alt-image.block .video-alt-image {
     display: none;
   }
 
-  .video-link {
+  .video-with-alt-image.block .video-link {
     display: flex;
+  }
+
+  .video-with-alt-image.block video {
+    width: 80%;
   }
 }

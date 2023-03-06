@@ -20,7 +20,6 @@ export default function decorate(block) {
   const mediaWidthQueryMatcher = window.matchMedia('only screen and (min-width: 1170px)');
   const mediaWidthChangeHandler = (event) => {
     if (event.matches === false) {
-      console.log("Event matches: hide video, display image (default)");
       block.querySelectorAll('video').forEach((videoElement) => {
         videoElement.toggleAttribute('autoplay', false);
         videoElement.toggleAttribute('loop', false);
