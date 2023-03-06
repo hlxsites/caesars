@@ -3,8 +3,6 @@
 }
 
 .video-with-alt-image.block .video-alt-image {
-  box-sizing: border-box;
-  position: relative;
   overflow: hidden;
   width: 100%;
   margin: 0;
@@ -24,9 +22,8 @@
   }
 
   .video-with-alt-image.block .video-link {
-    display: block;
-    box-sizing: border-box;
-    position: relative;
+    display: flex;
+    position: absolute;
     overflow: hidden;
     width: 100%;
     margin: 0;

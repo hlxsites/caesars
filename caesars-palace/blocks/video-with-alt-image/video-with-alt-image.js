@@ -36,6 +36,7 @@ export default function decorate(block) {
         videoElement.loop = true;
         videoElement.playsinline = true;
         videoElement.posterImage = posterImage;
+        videoElement.play();
       });
     }
   };

@@ -322,8 +322,10 @@ main .section.is-hero {
 }
 
 main .section.is-hero > div {
+  position: relative;
   width: 100%;
   margin: unset;
+  padding-left: unset;
 }
 
 main .section.is-hero h1 {
@@ -350,6 +352,24 @@ main .section.is-hero .button-container {
   border: 0;
   text-align: center;
   font-size: var(--body-font-size-s);
+}
+
+main .section.has-video-background {
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+main .section.has-video-background > video {
+  position: absolute;
+  z-index: -1;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
 }
 
 /* Responsive Breakpoints */
