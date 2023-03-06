@@ -316,8 +316,14 @@ main .section[data-section-status='initialized'] {
 main .section.is-hero {
   display: flex;
   flex-direction: column;
-  padding-top: 70px;
-  padding-bottom: 140px;
+  padding: unset;
+  padding-top: 72px;
+  padding-bottom: 144px;
+}
+
+main .section.is-hero > div {
+  width: 100%;
+  margin: unset;
 }
 
 main .section.is-hero h1 {
@@ -344,15 +350,6 @@ main .section.is-hero .button-container {
   border: 0;
   text-align: center;
   font-size: var(--body-font-size-s);
-}
-
-main .section.is-hero {
-  padding: unset;
-}
-
-main .section.is-hero > div {
-  width: 100%;
-  margin: unset;
 }
 
 /* Responsive Breakpoints */
