@@ -315,7 +315,6 @@ main .section[data-section-status='initialized'] {
 
 main .section.is-hero {
   display: flex;
-  align-items: center;
   flex-direction: column;
   padding-top: 70px;
   padding-bottom: 140px;
@@ -345,6 +344,15 @@ main .section.is-hero .button-container {
   border: 0;
   text-align: center;
   font-size: var(--body-font-size-s);
+}
+
+main .section.is-hero {
+  padding: unset;
+}
+
+main .section.is-hero > div {
+  width: 100%;
+  margin: unset;
 }
 
 /* Responsive Breakpoints */
@@ -384,29 +392,11 @@ main .section.is-hero .button-container {
     :root {
         --heading-font-size-xxl: 94px;
     }
-
-    main .section.is-hero {
-      padding: unset;
-    }
-
-    main .section.is-hero > div {
-      width: 100%;
-      margin: unset;
-    }
 }
 
 /* Desktop (large) */
 @media only screen and  (min-width: 1440px) {
     main .section > div {
         width: var(--screen-width-xl);
-    }
-
-    main .section.is-hero {
-      padding: unset;
-    }
-
-    main .section.is-hero > div {
-      width: 100%;
-      margin: unset;
     }
 }
