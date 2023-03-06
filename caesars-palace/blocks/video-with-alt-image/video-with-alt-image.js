@@ -1,8 +1,11 @@
 export default function decorate(block) {
+  block.querySelectorAll('img').forEach((image) => {
+    image.closest('div').classList.add('video-alt-image');
+  });
+
   block.querySelectorAll('a').forEach((videoLink) => {
     const divToReplace = videoLink.closest('div');
-    divToReplace.remove();
-
+    
     const videoDiv = document.createElement('div');
     videoDiv.classList.add('video-link');
     const videoElement = document.createElement('video');
@@ -11,15 +14,14 @@ export default function decorate(block) {
     videoDiv.appendChild(videoElement);
 
     block.append(videoDiv);
-  });
 
-  block.querySelectorAll('img').forEach((image) => {
-    image.closest('div').classList.add('video-alt-image');
+    divToReplace.remove();
   });
 
   const mediaWidthQueryMatcher = window.matchMedia('only screen and (min-width: 1170px)');
   const mediaWidthChangeHandler = (event) => {
     if (event.matches === false) {
+      console.log("Should hide video");
       block.querySelectorAll('video').forEach((videoElement) => {
         videoElement.toggleAttribute('autoplay', false);
         videoElement.toggleAttribute('loop', false);
@@ -27,9 +29,12 @@ export default function decorate(block) {
       });
     } else {
       block.querySelectorAll('video').forEach((videoElement) => {
+        console.log("Should show video");
         videoElement.toggleAttribute('autoplay', true);
         videoElement.toggleAttribute('loop', true);
         videoElement.toggleAttribute('playsinline', true);
+        videoElement.toggleAttribute('controls', true);
+        videoElement.play();
       });
     }
   };
