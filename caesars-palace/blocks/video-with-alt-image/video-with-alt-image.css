@@ -1,0 +1,18 @@
+.video-link {
+  display: none;
+}
+
+.video-alt-image {
+  display: flex;
+}
+
+/* Responsive Breakpoints */
+@media  only screen and (min-width: 1170px) {
+  .video-alt-image {
+    display: none;
+  }
+
+  .video-link {
+    display: flex;
+  }
+}
