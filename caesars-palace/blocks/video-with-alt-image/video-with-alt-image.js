@@ -1,6 +1,9 @@
 export default function decorate(block) {
+  let posterImage = null;
+
   block.querySelectorAll('img').forEach((image) => {
     image.closest('div').classList.add('video-alt-image');
+    posterImage = image.src;
   });
 
   block.querySelectorAll('a').forEach((videoLink) => {
@@ -13,9 +16,9 @@ export default function decorate(block) {
     videoElement.toggleAttribute('muted', true);
     videoDiv.appendChild(videoElement);
 
-    block.append(videoDiv);
-
     divToReplace.remove();
+
+    block.append(videoDiv);
   });
 
   const mediaWidthQueryMatcher = window.matchMedia('only screen and (min-width: 1170px)');
@@ -26,6 +29,7 @@ export default function decorate(block) {
         videoElement.toggleAttribute('autoplay', false);
         videoElement.toggleAttribute('loop', false);
         videoElement.toggleAttribute('playsinline', false);
+        videoElement.posterImage = '';
       });
     } else {
       block.querySelectorAll('video').forEach((videoElement) => {
@@ -33,8 +37,7 @@ export default function decorate(block) {
         videoElement.toggleAttribute('autoplay', true);
         videoElement.toggleAttribute('loop', true);
         videoElement.toggleAttribute('playsinline', true);
-        videoElement.toggleAttribute('controls', true);
-        videoElement.play();
+        videoElement.posterImage = posterImage;
       });
     }
   };
