@@ -1,13 +1,16 @@
-/* below 1170px width: show image, otherwise show video */
-
 export default function decorate(block) {
-  // turn link into video tag 
-  /* 
-  <video autoplay="" loop="" playsinline=""><source src="/content/dam/empire/clv/things-to-do/nightlife/omnia-nightclub/video/clv-omnia-main-room.mp4" type="video/mp4"></video>
-  */ 
-
   block.querySelectorAll('a').forEach((videoLink) => {
-    videoLink.closest('div').classList.add('video-link');
+    const divToReplace = videoLink.closest('div');
+    divToReplace.remove();
+
+    const videoDiv = document.createElement('div');
+    videoDiv.classList.add('video-link');
+    const videoElement = document.createElement('video');
+    videoElement.innerHTML = `<source src="${videoLink.href}" type="video/mp4">`;
+    videoElement.toggleAttribute('muted', true);
+    videoDiv.appendChild(videoElement);
+
+    block.append(videoDiv);
   });
 
   block.querySelectorAll('img').forEach((image) => {
@@ -17,9 +20,18 @@ export default function decorate(block) {
   const mediaWidthQueryMatcher = window.matchMedia('only screen and (min-width: 1170px)');
   const mediaWidthChangeHandler = (event) => {
     if (event.matches === false) {
-      console.log("Event matches");
+      console.log("Event matches: hide video, display image (default)");
+      block.querySelectorAll('video').forEach((videoElement) => {
+        videoElement.toggleAttribute('autoplay', false);
+        videoElement.toggleAttribute('loop', false);
+        videoElement.toggleAttribute('playsinline', false);
+      });
     } else {
-      console.log("Event does not match");
+      block.querySelectorAll('video').forEach((videoElement) => {
+        videoElement.toggleAttribute('autoplay', true);
+        videoElement.toggleAttribute('loop', true);
+        videoElement.toggleAttribute('playsinline', true);
+      });
     }
   };
 
