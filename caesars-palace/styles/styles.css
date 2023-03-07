@@ -387,10 +387,6 @@ main .section.has-video-background > picture img {
   height: 100%;
 }
 
-main .section > div:last-of-type {
-  padding-bottom: var(--layout-size-xxl);
-}
-
 main .section.has-background-block {
   overflow: hidden;
   width: 100%;
