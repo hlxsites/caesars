@@ -377,7 +377,7 @@ main .section.has-video-background h1 {
   line-height: 1.1;
   font-family: var(--heading-font-family);
   font-weight: var(--emphasized-font-weight);
-  margin-top: 3em;
+  margin-top: 2em;
 }
 
 main .section.has-video-background picture {
@@ -432,6 +432,10 @@ main .section.has-video-background > picture img {
 @media only screen and  (min-width: 1170px) {
     :root {
         --heading-font-size-xxl: 94px;
+    }
+
+    main .section.has-video-background h1 {
+      margin-top: 3em;
     }
 }
 
