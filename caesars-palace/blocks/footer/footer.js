@@ -25,7 +25,7 @@ export default async function decorate(block) {
     button.classList.add('button', 'primary');
   });
 
-  // decorate footer links
+  // decorate footer content
   const colContainer = footer.querySelector('div.footer-links > div');
   const cols = [...colContainer.children];
   const propertyContainer = document.createElement('div');
@@ -42,6 +42,7 @@ export default async function decorate(block) {
       col.classList.add('footer-property-social');
       const socialLinks = col.querySelectorAll('a');
       [...socialLinks].forEach((link) => {
+        link.target = '_blank';
         const textNode = [...link.childNodes].find((node) => node.nodeType === 3);
         const span = document.createElement('span');
         span.appendChild(textNode);

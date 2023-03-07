@@ -133,6 +133,7 @@ footer .footer .footer-property-links button {
   padding: 0;
   width: 100%;
   cursor: pointer;
+  overflow: visible;
 }
 
 footer .footer .footer-property-links button svg {
@@ -195,6 +196,11 @@ footer .footer .footer-property-links ul.open {
 
   footer .footer .footer-property-links ul {
     display: block;
+  }
+
+  footer .footer .footer-property-links button {
+    align-items: unset;
+    cursor: default;
   }
 
   footer .footer .footer-property-links button > span {
