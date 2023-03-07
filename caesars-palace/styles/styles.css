@@ -256,7 +256,7 @@ main .section.has-background {
 
 main .section.has-background > picture {
     position: absolute;
-    z-index: -1;
+    z-index: -5;
     top: 0;
     left: 0;
     bottom: 0;
@@ -355,21 +355,29 @@ main .section.is-hero .button-container {
 }
 
 main .section.has-video-background {
-  box-sizing: border-box;
-  position: relative;
   overflow: hidden;
   width: 100%;
-  margin: 0;
-  padding: 0;
 }
 
 main .section.has-video-background > video {
   position: absolute;
-  z-index: -1;
+  z-index: -5;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
+}
+
+main .section.has-video-background h1 {
+  text-align: center;
+  text-shadow: 0 2px 4px rgb(0 0 0 / 50%);
+  color: var(--static-color-white);
+  font-size: var(--heading-font-size-hero);
+  text-transform: uppercase;
+  line-height: 1.1;
+  font-family: var(--heading-font-family);
+  font-weight: var(--emphasized-font-weight);
+  margin-top: 3em;
 }
 
 /* Responsive Breakpoints */
