@@ -132,7 +132,7 @@
     line-height: 0.8;
     font-weight: 600;
     opacity: 0.95;
-    flex-shrink:0;
+    flex-shrink: 0;
     margin-left: var(--layout-size-xs);
     position: unset;
     display: unset;
