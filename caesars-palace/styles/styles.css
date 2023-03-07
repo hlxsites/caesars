@@ -380,6 +380,22 @@ main .section.has-video-background h1 {
   margin-top: 3em;
 }
 
+main .section.has-video-background picture {
+  position: absolute;
+  z-index: -5;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  min-height: var(--screen-width-s);
+}
+
+main .section.has-video-background > picture img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
 /* Responsive Breakpoints */
 
 /* Tablet (portrait) */
