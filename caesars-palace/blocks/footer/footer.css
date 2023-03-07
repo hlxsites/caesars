@@ -1,8 +1,11 @@
 footer {
+  --text-color: var(--static-color-white);
+  --link-color: var(--static-color-white);
+
   position: relative;
   background-color: var(--static-color-black);
-  color: var(--static-color-white);
   font-size: var(--body-font-size-s);
+  color: var(--text-color);
 }
 
 footer .footer {
@@ -20,9 +23,9 @@ footer .footer h2 {
   font-size: 20px;
   font-weight: bold;
   line-height: 18px;
-  padding-bottom: 24px;
   text-transform: uppercase;
   white-space: nowrap;
+  color: var(--text-color);
 }
 
 footer .footer ul {
@@ -44,11 +47,12 @@ footer .footer .footer-links > div {
   flex-flow: row nowrap;
 }
 
-/* Logo column */
-footer .footer .footer-links > div > div:first-child {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+footer .footer .footer-property-links > div {
+  padding-bottom: var(--layout-size-l);
+}
+
+footer .footer .footer-property-links button > span {
+  margin-left: 15px;
 }
 
 /* Disclaimer */
@@ -58,36 +62,14 @@ footer .footer .footer-content > div > p {
   text-align: center;
 }
 
-footer .footer .footer-links > div > div:first-child > p:first-child {
-  width: 150px;
-  margin: 0;
-  padding: 0 0 25px;
-}
-
-/* Property column */
-footer .footer .footer-property-content {
-  display: flex;
-  width: 100%;
-}
-
-footer .footer .footer-property-links {
-  display: flex;
-  flex-grow: 1;
-  flex-direction: column;
-  justify-content: space-evenly;
-  width: 100%;
-  margin: 0 auto;
-  padding: 0 var(--layout-size-m) var(--layout-size-l);
-}
-
-/* Property links */
-footer .footer .footer-property-links ul {
-  text-align: left;
-}
-
 /* Social links */
+footer .footer .footer-property-social h2 {
+  display: none;
+}
+
 footer .footer .footer-property-social ul {
   display: flex;
+  justify-content: flex-end;
 }
 
 footer .footer .footer-property-social ul li:not(:last-child) {
@@ -109,6 +91,67 @@ footer .footer .footer-property-social span:not(.icon) {
   text-transform: capitalize;
   font-size: var(--body-font-size-s);
   line-height: 36px;
+}
+
+/* Logo column */
+footer .footer .footer-links > div > div:first-child {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+footer .footer .footer-links > div > div:first-child > p:first-child {
+  width: 150px;
+  margin: 0;
+  padding: 0 0 25px;
+}
+
+/* Property column */
+footer .footer .footer-property-content {
+  display: block;
+  width: 40%;
+  margin: 0 auto;
+}
+
+/* Property links */
+footer .footer .footer-property-links {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 var(--layout-size-m) var(--layout-size-l);
+}
+
+footer .footer .footer-property-links button {
+  background: 0;
+  border: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0;
+  width: 100%;
+  cursor: pointer;
+}
+
+footer .footer .footer-property-links button svg {
+  width: 16px;
+  color: var(--static-color-white);
+  transition: all .2s ease-in-out;
+}
+
+footer .footer .footer-property-links button.open svg {
+  transform: scaleY(-1);
+}
+
+footer .footer .footer-property-links ul {
+  display: none;
+  text-align: left;
+}
+
+footer .footer .footer-property-links ul.open {
+  display: block;
 }
 
 /* Tablet (portrait) */
@@ -140,8 +183,27 @@ footer .footer .footer-property-social span:not(.icon) {
     width: var(--screen-width-l);
   }
 
+  footer .footer .footer-property-content {
+    display: flex;
+    width: 100%;
+    margin: unset;
+  }
+
   footer .footer .footer-property-links {
     flex-direction: row;
+  }
+
+  footer .footer .footer-property-links ul {
+    display: block;
+  }
+
+  footer .footer .footer-property-links button > span {
+    display: none;
+  }
+
+  footer .footer .footer-property-social h2 {
+    display: block;
+    padding-bottom: var(--layout-size-l);
   }
 
   footer .footer .footer-property-social ul {

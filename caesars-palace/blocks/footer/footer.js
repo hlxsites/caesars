@@ -50,4 +50,30 @@ export default async function decorate(block) {
       propertyContainer.appendChild(col);
     }
   });
+
+  // decorate property link headers
+  const headings = footer.querySelectorAll('.footer-property-links h2');
+  await Promise.all([...headings].map(async (heading) => {
+    const button = document.createElement('button');
+    heading.parentElement.insertBefore(button, heading);
+    button.appendChild(heading);
+    // add svg
+    try {
+      const response = await fetch(`${window.hlx.codeBasePath}/icons/chevron-down.svg`);
+      if (!response.ok) {
+        return;
+      }
+      const svg = await response.text();
+      const svgSpan = document.createElement('span');
+      svgSpan.innerHTML = svg;
+      button.appendChild(svgSpan);
+      button.addEventListener('click', () => {
+        button.classList.toggle('open');
+        button.nextElementSibling.classList.toggle('open');
+      });
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error(err);
+    }
+  }));
 }
