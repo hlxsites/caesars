@@ -1,6 +1,7 @@
 footer {
   --text-color: var(--static-color-white);
   --link-color: var(--static-color-white);
+  --heading-font-family: var(--body-font-family);
 
   position: relative;
   background-color: var(--static-color-black);
