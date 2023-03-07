@@ -25,6 +25,27 @@ async function getChevronSvg(iconPath) {
   return svg;
 }
 
+function getCurrentActiveIndex(){
+  // get active element
+  // get active element index
+}
+
+function showPreviousElement(){
+  console.log("Show previous element");
+
+  // get active element index (getCurrentActiveIndex)
+  // handle underflow
+  // hide current, make previous visible
+}
+
+function showNextElement(){
+  console.log("Show next element");
+
+  // get active element index (getCurrentActiveIndex)
+  // handle overflow
+  // hide current, make next visible
+}
+
 export default async function decorate(block) {
   const carouselContent = document.createElement('div');
   carouselContent.classList.add(`${classes.carouselElement}-holder`);
@@ -79,6 +100,7 @@ export default async function decorate(block) {
     backButton.appendChild(backChevronSpan);
     backButton.addEventListener('click', () => {
       console.log("Back!");
+      showPreviousElement(block);
     });
     block.append(backButton);
   }
@@ -93,6 +115,7 @@ export default async function decorate(block) {
     forwardButton.appendChild(forwardChevronSpan);
     forwardButton.addEventListener('click', () => {
       console.log("Forward!");
+      showNextElement(block);
     });
     block.append(forwardButton);
   }
