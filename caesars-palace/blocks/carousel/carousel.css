@@ -1,0 +1,47 @@
+.carousel-main-image {
+  position: unset; 
+  visibility: visible;
+}
+
+.carousel-alt-image {
+  /* mimic display: none; but with animation support */
+  position: absolute; 
+  visibility: hidden;
+}
+
+@media  only screen and (min-width: 1170px) {
+  .carousel-main-image {
+    position: absolute; 
+    visibility: hidden;
+  }
+
+  .carousel-alt-image {
+    position: unset; 
+    visibility: visible;
+  }
+}
+
+/* Animations */
+@keyframes slide-in {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slide-out {
+  from {
+    transform: translateX(-100vw);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
