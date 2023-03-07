@@ -1,3 +1,8 @@
+.carousel.block {
+  display: flex;
+  flex-direction: row;
+}
+
 .carousel.block .carousel-element-visible {
   position: unset; 
   visibility: visible;
@@ -17,6 +22,16 @@
   /* mimic display: none; but with animation support */
   position: absolute; 
   visibility: hidden;
+}
+
+.forward-carousel-button svg {
+  background-color: green;
+  width: 16px;
+}
+
+.back-carousel-button svg {
+  background-color: red;
+  width: 16px;
 }
 
 @media  only screen and (min-width: 1170px) {
