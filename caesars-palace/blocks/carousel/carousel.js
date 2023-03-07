@@ -1,3 +1,14 @@
+const classes = Object.freeze({
+  carouselElement: 'carousel-element',
+  activeCarouselElement: 'carousel-element-visible',
+  hiddenCarouselElement: 'carousel-element-hidden',
+  carouselImage: 'carousel-image',
+  carouselOnlyImage: 'carousel-only-image',
+  carouselMainImage: 'carousel-main-image',
+  carouselAltImage: 'carousel-alt-image',
+  carouselText: 'carousel-text',
+});
+
 async function getChevronSvg(iconPath) {
   let svg = null;
   try {
@@ -11,44 +22,42 @@ async function getChevronSvg(iconPath) {
     console.error(err);
     svg = null;
   }
-
   return svg;
 }
 
-
 export default async function decorate(block) {
   const carouselContent = document.createElement('div');
-  carouselContent.classList.add('carousel-elements-holder');
+  carouselContent.classList.add(`${classes.carouselElement}-holder`);
 
   [...block.children].forEach((row, rowIndex) => {
-    row.classList.add('carousel-element');
-    row.classList.add(`carousel-element-${rowIndex}`);
+    row.classList.add(classes.carouselElement);
+    row.classList.add(`${classes.carouselElement}-${rowIndex}`);
 
     if (rowIndex === 0) {
-      row.classList.add('carousel-element-visible');
+      row.classList.add(classes.activeCarouselElement);
     } else {
-      row.classList.add('carousel-element-hidden');
+      row.classList.add(classes.hiddenCarouselElement);
     }
 
     const imagesInRow = row.querySelectorAll('img');
     if (imagesInRow.length === 1) {
       const carouselImage = imagesInRow[0];
-      carouselImage.closest('div').classList.add('carousel-image');
-      carouselImage.closest('div').classList.add('carousel-only-image');
+      carouselImage.closest('div').classList.add(classes.carouselImage);
+      carouselImage.closest('div').classList.add(classes.carouselOnlyImage);
     } else if (imagesInRow.length === 2) {
       const carouselImage = imagesInRow[0];
-      carouselImage.closest('div').classList.add('carousel-image');
-      carouselImage.closest('div').classList.add('carousel-main-image');
+      carouselImage.closest('div').classList.add(classes.carouselImage);
+      carouselImage.closest('div').classList.add(classes.carouselMainImage);
 
       const carouselAltImage = imagesInRow[1];
-      carouselAltImage.closest('div').classList.add('carousel-image');
-      carouselAltImage.closest('div').classList.add('carousel-alt-image');
+      carouselAltImage.closest('div').classList.add(classes.carouselImage);
+      carouselAltImage.closest('div').classList.add(classes.carouselAltImage);
     }
 
     [...row.children].forEach((item) => {
       if (item.innerHTML) {
-        if (![...item.classList].includes('carousel-image')) {
-          item.classList.add('carousel-text');
+        if (![...item.classList].includes(classes.carouselImage)) {
+          item.classList.add(classes.carouselText);
         }
       } else {
         item.remove();
@@ -60,26 +69,31 @@ export default async function decorate(block) {
 
   // build the carousel
   const backChevron = await getChevronSvg('icons/chevron-left.svg');
-  const backChevronSpan = document.createElement('span');
-  backChevronSpan.innerHTML = backChevron;
-  const backButton = document.createElement('div');
-  backButton.classList.add('back-carousel-button');
-  backButton.appendChild(backChevronSpan);
-  backButton.addEventListener('click', () => {
-    console.log("Back!");
-  });
-  block.append(backButton);
+  const forwardChevron = await getChevronSvg('icons/chevron-right.svg');
+
+  if (backChevron && forwardChevron) {
+    const backChevronSpan = document.createElement('span');
+    backChevronSpan.innerHTML = backChevron;
+    const backButton = document.createElement('div');
+    backButton.classList.add('back-carousel-button');
+    backButton.appendChild(backChevronSpan);
+    backButton.addEventListener('click', () => {
+      console.log("Back!");
+    });
+    block.append(backButton);
+  }
 
   block.append(carouselContent);
 
-  const forwardChevron = await getChevronSvg('icons/chevron-right.svg');
-  const forwardChevronSpan = document.createElement('span');
-  forwardChevronSpan.innerHTML = forwardChevron;
-  const forwardButton = document.createElement('div');
-  forwardButton.classList.add('forward-carousel-button');
-  forwardButton.appendChild(forwardChevronSpan);
-  forwardButton.addEventListener('click', () => {
-    console.log("Forward!");
-  });
-  block.append(forwardButton);
+  if (backChevron && forwardChevron) {
+    const forwardChevronSpan = document.createElement('span');
+    forwardChevronSpan.innerHTML = forwardChevron;
+    const forwardButton = document.createElement('div');
+    forwardButton.classList.add('forward-carousel-button');
+    forwardButton.appendChild(forwardChevronSpan);
+    forwardButton.addEventListener('click', () => {
+      console.log("Forward!");
+    });
+    block.append(forwardButton);
+  }
 }
