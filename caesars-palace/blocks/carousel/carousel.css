@@ -1,21 +1,31 @@
-.carousel-main-image {
+.carousel.block .carousel-element-visible {
   position: unset; 
   visibility: visible;
 }
 
-.carousel-alt-image {
+.carousel.block .carousel-element-hidden {
+  position: absolute; 
+  visibility: hidden;
+}
+
+.carousel.block .carousel-element-visible .carousel-main-image {
+  position: unset; 
+  visibility: visible;
+}
+
+.carousel.block .carousel-element-visible .carousel-alt-image {
   /* mimic display: none; but with animation support */
   position: absolute; 
   visibility: hidden;
 }
 
 @media  only screen and (min-width: 1170px) {
-  .carousel-main-image {
+  .carousel.block .carousel-element-visible .carousel-main-image {
     position: absolute; 
     visibility: hidden;
   }
 
-  .carousel-alt-image {
+  .carousel.block .carousel-element-visible .carousel-alt-image {
     position: unset; 
     visibility: visible;
   }
