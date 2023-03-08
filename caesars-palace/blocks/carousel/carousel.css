@@ -35,7 +35,7 @@
   z-index: 1;
   width: 85%;
   color: var(--static-color-white);
-  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+  text-shadow: 0 2px 4px rgba(0,0,0,50%);
   line-height: 1.6;
   margin-left: 64px;
 }
@@ -104,35 +104,6 @@
   
   .carousel-text h2 {
     font-size: 20px;
-  }
-
-  .forward-carousel-button {
-    z-index: 5;
-    min-width: 32px;
-    position: absolute;
-    top: 50%;
-    right: 0;
-    background-color: green;
-  }
-  
-  .forward-carousel-button svg {
-    display: flex;
-    width: 16px;
-    padding-left: 8px;
-  }
-  
-  .back-carousel-button {
-    min-width: 32px;
-    position: absolute;
-    top: 50%;
-    z-index: 5;
-    background-color: green;
-  }
-  
-  .back-carousel-button svg {
-    display: flex;
-    width: 16px;
-    padding-left: 7px;
   }
 
   .forward-carousel-button {
