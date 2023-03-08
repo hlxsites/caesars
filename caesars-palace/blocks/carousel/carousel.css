@@ -21,12 +21,19 @@
   position: unset;
   visibility: visible;
   max-height: 450px;
+  min-height: 450px;
   overflow: hidden;
 }
 
 .carousel.block .carousel-visible-element .carousel-alt-image {
   position: absolute;
   visibility: hidden;
+}
+
+.carousel.block .carousel-only-image {
+  max-height: 450px;
+  min-height: 450px;
+  overflow: hidden;
 }
 
 .carousel-text {
@@ -87,6 +94,14 @@
     position: unset;
     visibility: visible;
     max-height: 670px;
+    min-height: 670px;
+    overflow: hidden;
+  }
+
+  .carousel.block .carousel-only-image {
+    max-height: 670px;
+    min-height: 670px;
+    overflow: hidden;
   }
 
   .carousel-text {
