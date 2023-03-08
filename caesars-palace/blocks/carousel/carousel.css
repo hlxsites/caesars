@@ -73,32 +73,13 @@
 
 
 .forward-carousel-button {
-  z-index: 5;
-  min-width: 32px;
   position: absolute;
-  top: 50%;
-  right: 0;
-  background-color: red;
-}
-
-.forward-carousel-button svg {
-  display: flex;
-  width: 16px;
-  padding-left: 8px;
+  visibility: hidden;
 }
 
 .back-carousel-button {
-  min-width: 32px;
   position: absolute;
-  top: 50%;
-  z-index: 5;
-  background-color: red;
-}
-
-.back-carousel-button svg {
-  display: flex;
-  width: 16px;
-  padding-left: 7px;
+  visibility: hidden;
 }
 
 @media only screen and (min-width: 1170px) {
@@ -151,6 +132,38 @@
     top: 50%;
     z-index: 5;
     background-color: green;
+  }
+  
+  .back-carousel-button svg {
+    display: flex;
+    width: 16px;
+    padding-left: 7px;
+  }
+
+  .forward-carousel-button {
+    visibility: visible;
+    position: absolute;
+    z-index: 5;
+    min-width: 32px;
+    top: 50%;
+    right: 0;
+    background-color: red;
+    
+  }
+  
+  .forward-carousel-button svg {
+    display: flex;
+    width: 16px;
+    padding-left: 8px;
+  }
+  
+  .back-carousel-button {
+    visibility: visible;
+    position: absolute;
+    z-index: 5;
+    min-width: 32px;
+    top: 50%;
+    background-color: red;
   }
   
   .back-carousel-button svg {
