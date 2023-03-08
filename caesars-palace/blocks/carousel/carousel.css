@@ -31,7 +31,7 @@
   position: absolute;
   top: 50%;
   z-index: 1;
-  width: 90%;
+  width: 85%;
   color: var(--static-color-white);
   text-shadow: 0 2px 4px rgba(0,0,0,0.5);
   line-height: 1.6;
@@ -43,7 +43,7 @@
 }
 
 .carousel-text h1 {
-  font-size: 64px;
+  font-size: 32px;
   text-transform: uppercase;
   line-height: 1.1;
   font-weight: 700;
@@ -64,6 +64,10 @@
 .right-text{
   text-align: right;
 }
+
+
+
+
 
 
 .forward-carousel-button {
@@ -95,9 +99,6 @@
   padding-left: 7px;
 }
 
-
-
-
 @media only screen and (min-width: 1170px) {
   .carousel.block .carousel-element-visible .carousel-main-image {
     position: absolute;
@@ -107,6 +108,22 @@
   .carousel.block .carousel-element-visible .carousel-alt-image {
     position: unset;
     visibility: visible;
+  }
+
+  .carousel-text {
+    width: 90%;
+    margin-left: 64px;
+  }
+
+  .carousel-text h1 {
+    font-size: 64px;
+    text-transform: uppercase;
+    line-height: 1.1;
+    font-weight: 700;
+  }
+  
+  .carousel-text h2 {
+    font-size: 20px;
   }
 }
 
