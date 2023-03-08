@@ -1,12 +1,10 @@
 .carousel.block {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+  display: block;
+  position: relative;
 }
 
 .carousel.block .carousel-element-holder{
-  display: flex;
-  flex-direction: column;
+  width:100%;
 }
 
 .carousel.block .carousel-element-visible {
@@ -25,15 +23,16 @@
 }
 
 .carousel.block .carousel-element-visible .carousel-alt-image {
-  /* mimic display: none; but with animation support */
   position: absolute; 
   visibility: hidden;
 }
 
 .forward-carousel-button {
-  display: flex;
-  align-items: center;
+  z-index: 5;
   min-width: 32px;
+    position: absolute;
+    top: 50%;
+    right: 0;
 }
 
 .forward-carousel-button svg {
@@ -52,9 +51,10 @@
 }
 
 .back-carousel-button {
-  display: flex;
-  align-items: center;
   min-width: 32px;
+    position: absolute;
+    top: 50%;
+    z-index: 5;
 }
 
 .back-carousel-button svg {
@@ -70,6 +70,13 @@
   transition: background-color 150ms cubic-bezier(0.4,0,0.2,1);
   width: 32px;
   height: 32px;
+}
+
+.carousel-text {
+  background-color: green;
+  position: absolute;
+  top: 50%;
+  z-index: 1;
 }
 
 @media  only screen and (min-width: 1170px) {
