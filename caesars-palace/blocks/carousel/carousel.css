@@ -20,6 +20,8 @@
 .carousel.block .carousel-element-visible .carousel-main-image {
   position: unset;
   visibility: visible;
+  max-height: 450px;
+  overflow: hidden;
 }
 
 .carousel.block .carousel-element-visible .carousel-alt-image {
@@ -108,9 +110,11 @@
   .carousel.block .carousel-element-visible .carousel-alt-image {
     position: unset;
     visibility: visible;
+    max-height: 670px;
   }
 
   .carousel-text {
+    top: 50%;
     width: 90%;
     margin-left: 64px;
   }
@@ -124,6 +128,35 @@
   
   .carousel-text h2 {
     font-size: 20px;
+  }
+
+  .forward-carousel-button {
+    z-index: 5;
+    min-width: 32px;
+    position: absolute;
+    top: 50%;
+    right: 0;
+    background-color: green;
+  }
+  
+  .forward-carousel-button svg {
+    display: flex;
+    width: 16px;
+    padding-left: 8px;
+  }
+  
+  .back-carousel-button {
+    min-width: 32px;
+    position: absolute;
+    top: 50%;
+    z-index: 5;
+    background-color: green;
+  }
+  
+  .back-carousel-button svg {
+    display: flex;
+    width: 16px;
+    padding-left: 7px;
   }
 }
 
