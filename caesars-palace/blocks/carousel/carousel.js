@@ -46,17 +46,39 @@ function getCurrentActiveIndex(block){
   return currentIndex;
 }
 
-function showPreviousElement(block){
+function showPreviousElement(block, totalCarouselElements){
+  console.log("totalCarouselElements:", totalCarouselElements);
+
   const currentActiveIndex = getCurrentActiveIndex(block);
   console.log(`Show before ${currentActiveIndex}`);
-  // handle underflow
+  if(!currentActiveIndex){
+    return;
+  }
+
+  let indexToShow = null;
+  if(currentActiveIndex === 0){
+    indexToShow = totalCarouselElements - 1;
+  } else {
+    indexToShow = currentActiveIndex - 1;
+  }
   // hide current, make previous visible
 }
 
-function showNextElement(block){
+function showNextElement(block, totalCarouselElements){
+  console.log("totalCarouselElements:", totalCarouselElements);
+
   const currentActiveIndex = getCurrentActiveIndex(block);
   console.log(`Show element after ${currentActiveIndex}`);
-  // handle overflow
+  if(!currentActiveIndex){
+    return;
+  }
+
+  let indexToShow = null;
+  indexToShow = currentActiveIndex + 1;
+  if(indexToShow === totalCarouselElements){
+    indexToShow = 0;
+  }
+
   // hide current, make next visible
 }
 
@@ -64,9 +86,12 @@ export default async function decorate(block) {
   const carouselContent = document.createElement('div');
   carouselContent.classList.add(`${classes.carouselElement}-holder`);
 
+  let totalCarouselElements = 0;
+
   [...block.children].forEach((row, rowIndex) => {
     row.classList.add(classes.carouselElement);
     row.classList.add(`${classes.carouselElement}-${rowIndex}`);
+    totalCarouselElements += 1;
 
     if (rowIndex === 0) {
       row.classList.add(classes.activeCarouselElement);
@@ -125,7 +150,8 @@ export default async function decorate(block) {
     backButton.appendChild(backChevronSpan);
     backButton.addEventListener('click', () => {
       console.log("Back!");
-      showPreviousElement(block);
+      console.log("Total of children:", totalCarouselElements);
+      showPreviousElement(block, totalCarouselElements);
     });
     block.append(backButton);
   }
@@ -140,7 +166,8 @@ export default async function decorate(block) {
     forwardButton.appendChild(forwardChevronSpan);
     forwardButton.addEventListener('click', () => {
       console.log("Forward!");
-      showNextElement(block);
+      console.log("Total of children:", totalCarouselElements);
+      showNextElement(block, totalCarouselElements);
     });
     block.append(forwardButton);
   }
