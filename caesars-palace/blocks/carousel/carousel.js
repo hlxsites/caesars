@@ -2,13 +2,12 @@ const direction = Object.freeze({
   slideIn: 'SLIDE_IN',
   slideOut: 'SLIDE_OUT',
 });
-
+const RESPONSIVE_MEDIA_QUERY = 'only screen and (min-width: 1170px)';
 const classes = Object.freeze({
   carouselElement: 'carousel-element',
   activeCarouselElement: 'carousel-visible-element',
   hiddenCarouselElement: 'carousel-hidden-element',
   carouselImage: 'carousel-image',
-  carouselOnlyImage: 'carousel-only-image',
   carouselMainImage: 'carousel-main-image',
   carouselAltImage: 'carousel-alt-image',
   carouselText: 'carousel-text',
@@ -84,9 +83,9 @@ function moveCarousel(block, from, to, moveDirection) {
     animatedElement.classList.remove(classes.carouselSlideOut);
   })
 
-  if(moveDirection === direction.slideOut){
+  if (moveDirection === direction.slideOut) {
     elementToShow.classList.add(classes.carouselSlideOut);
-  } else if (moveDirection === direction.slideIn){
+  } else if (moveDirection === direction.slideIn) {
     elementToShow.classList.add(classes.carouselSlideIn);
   }
 }
@@ -139,20 +138,40 @@ export default async function decorate(block) {
       row.classList.add(classes.hiddenCarouselElement);
     }
 
-    const imagesInRow = row.querySelectorAll('img');
-    if (imagesInRow.length === 1) {
-      const carouselImage = imagesInRow[0];
-      carouselImage.closest('div').classList.add(classes.carouselImage);
-      carouselImage.closest('div').classList.add(classes.carouselOnlyImage);
-    } else if (imagesInRow.length === 2) {
-      const carouselImage = imagesInRow[0];
-      carouselImage.closest('div').classList.add(classes.carouselImage);
-      carouselImage.closest('div').classList.add(classes.carouselMainImage);
+    const mediaWidthQueryMatcher = window.matchMedia(RESPONSIVE_MEDIA_QUERY);
+    const mediaWidthChangeHandler = (event) => {
+      const imagesInRow = row.querySelectorAll('img');
 
-      const carouselAltImage = imagesInRow[1];
-      carouselAltImage.closest('div').classList.add(classes.carouselImage);
-      carouselAltImage.closest('div').classList.add(classes.carouselAltImage);
-    }
+      if (event.matches === false) {
+        if (imagesInRow.length === 1) {
+          // only one image for mobile and desktop
+          const carouselImage = imagesInRow[0];
+          carouselImage.closest('div').classList.add(classes.carouselImage);
+          carouselImage.closest('div').classList.add(classes.carouselMainImage);
+        }
+      } else {
+        if (imagesInRow.length === 1) {
+          // only one image for mobile and desktop
+          const carouselImage = imagesInRow[0];
+          carouselImage.closest('div').classList.add(classes.carouselImage);
+          carouselImage.closest('div').classList.add(classes.carouselAltImage);
+        }
+      }
+
+      if (imagesInRow.length === 2) {
+        const carouselImage = imagesInRow[0];
+        carouselImage.closest('div').classList.add(classes.carouselImage);
+        carouselImage.closest('div').classList.add(classes.carouselMainImage);
+
+        const carouselAltImage = imagesInRow[1];
+        carouselAltImage.closest('div').classList.add(classes.carouselImage);
+        carouselAltImage.closest('div').classList.add(classes.carouselAltImage);
+      }
+    };
+    mediaWidthChangeHandler(mediaWidthQueryMatcher);
+    mediaWidthQueryMatcher.addEventListener('change', (event) => {
+      mediaWidthChangeHandler(event);
+    });
 
     block.querySelectorAll('h1').forEach((textContent) => {
       const textHolderDiv = textContent.closest('div');
