@@ -3,36 +3,36 @@
   position: relative;
 }
 
-.carousel.block .carousel-element-holder{
-  width:100%;
+.carousel.block .carousel-element-holder {
+  width: 100%;
 }
 
 .carousel.block .carousel-element-visible {
-  position: unset; 
+  position: unset;
   visibility: visible;
 }
 
 .carousel.block .carousel-element-hidden {
-  position: absolute; 
+  position: absolute;
   visibility: hidden;
 }
 
 .carousel.block .carousel-element-visible .carousel-main-image {
-  position: unset; 
+  position: unset;
   visibility: visible;
 }
 
 .carousel.block .carousel-element-visible .carousel-alt-image {
-  position: absolute; 
+  position: absolute;
   visibility: hidden;
 }
 
 .forward-carousel-button {
   z-index: 5;
   min-width: 32px;
-    position: absolute;
-    top: 50%;
-    right: 0;
+  position: absolute;
+  top: 50%;
+  right: 0;
 }
 
 .forward-carousel-button svg {
@@ -41,20 +41,21 @@
   padding-left: 8px;
 }
 
-.forward-carousel-button:hover {
-  transition: background-color 75ms cubic-bezier(0.4,0,0.2,1);
-  background-color: rgba(190,192,197,0.2);
+/* .forward-carousel-button:hover {
+  transition: background-color 75ms cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: rgba(190, 192, 197, 0.2);
   border-radius: 50%;
-  transition: background-color 150ms cubic-bezier(0.4,0,0.2,1);
+  transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
   width: 32px;
-  height: 32px;
-}
+  height: 24px;
+  padding-top: 6px;
+} */
 
 .back-carousel-button {
   min-width: 32px;
-    position: absolute;
-    top: 50%;
-    z-index: 5;
+  position: absolute;
+  top: 50%;
+  z-index: 5;
 }
 
 .back-carousel-button svg {
@@ -63,30 +64,29 @@
   padding-left: 7px;
 }
 
-.back-carousel-button:hover {
-  transition: background-color 75ms cubic-bezier(0.4,0,0.2,1);
-  background-color: rgba(190,192,197,0.2);
+/* .back-carousel-button:hover {
+  transition: background-color 75ms cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: rgba(190, 192, 197, 0.2);
   border-radius: 50%;
-  transition: background-color 150ms cubic-bezier(0.4,0,0.2,1);
+  transition: background-color 150ms cubic-bezier(0.4, 0, 0.2, 1);
   width: 32px;
   height: 32px;
-}
+} */
 
 .carousel-text {
-  background-color: green;
   position: absolute;
   top: 50%;
   z-index: 1;
 }
 
-@media  only screen and (min-width: 1170px) {
+@media only screen and (min-width: 1170px) {
   .carousel.block .carousel-element-visible .carousel-main-image {
-    position: absolute; 
+    position: absolute;
     visibility: hidden;
   }
 
   .carousel.block .carousel-element-visible .carousel-alt-image {
-    position: unset; 
+    position: unset;
     visibility: visible;
   }
 }
