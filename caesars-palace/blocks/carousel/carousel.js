@@ -25,61 +25,79 @@ async function getChevronSvg(iconPath) {
   return svg;
 }
 
-function getCurrentActiveIndex(block){
-  const currentActiveCarouselQueryResult = block.getElementsByClassName(classes.activeCarouselElement);
-  if(currentActiveCarouselQueryResult.length !== 1){
+function getCurrentActiveIndex(block) {
+  const activeCarouselQueryResult = block.getElementsByClassName(classes.activeCarouselElement);
+  if (activeCarouselQueryResult.length !== 1) {
     return;
   }
-  const currentActiveCarouselElement = currentActiveCarouselQueryResult[0].classList;
+  const currentActiveCarouselElement = activeCarouselQueryResult[0].classList;
   let currentIndex = null;
   let i = 0;
-  while(currentIndex === null && i < currentActiveCarouselElement.length){
+  while (currentIndex === null && i < currentActiveCarouselElement.length) {
     const item = currentActiveCarouselElement[i];
     if (item.startsWith(`${classes.carouselElement}-`)) {
       const possibleIndex = parseInt(item.split(`${classes.carouselElement}-`)[1], 10);
-      if(Number.isInteger(possibleIndex)){
+      if (Number.isInteger(possibleIndex)) {
         currentIndex = possibleIndex;
       }
     }
     i += 1;
   }
-  return currentIndex;
+
+  return currentIndex; // eslint-disable-line consistent-return
 }
 
-function showPreviousElement(block, totalCarouselElements){
-  console.log("totalCarouselElements:", totalCarouselElements);
+function moveCarousel(block, from, to) {
+  const elementToShowName = `${classes.carouselElement}-${to}`;
+  const elementToShowQueryResult = block.getElementsByClassName(elementToShowName);
+  if (elementToShowQueryResult.length !== 1) {
+    return;
+  }
+  const elementToShow = elementToShowQueryResult[0];
 
+  const elementToHideName = `${classes.carouselElement}-${from}`;
+  const elementToHideQueryResult = block.getElementsByClassName(elementToHideName);
+  if (elementToHideQueryResult.length !== 1) {
+    return;
+  }
+  const elementHide = elementToHideQueryResult[0];
+
+  elementHide.classList.remove('carousel-visible-element');
+  elementHide.classList.add('carousel-hidden-element');
+
+  elementToShow.classList.remove('carousel-hidden-element');
+  elementToShow.classList.add('carousel-visible-element');
+}
+
+function showPreviousElement(block, totalCarouselElements) {
   const currentActiveIndex = getCurrentActiveIndex(block);
-  console.log(`Show before ${currentActiveIndex}`);
-  if(!currentActiveIndex){
+  if (currentActiveIndex === null) {
     return;
   }
 
   let indexToShow = null;
-  if(currentActiveIndex === 0){
+  if (currentActiveIndex === 0) {
     indexToShow = totalCarouselElements - 1;
   } else {
     indexToShow = currentActiveIndex - 1;
   }
-  // hide current, make previous visible
+
+  moveCarousel(block, currentActiveIndex, indexToShow);
 }
 
-function showNextElement(block, totalCarouselElements){
-  console.log("totalCarouselElements:", totalCarouselElements);
-
+function showNextElement(block, totalCarouselElements) {
   const currentActiveIndex = getCurrentActiveIndex(block);
-  console.log(`Show element after ${currentActiveIndex}`);
-  if(!currentActiveIndex){
+  if (currentActiveIndex === null) {
     return;
   }
 
   let indexToShow = null;
   indexToShow = currentActiveIndex + 1;
-  if(indexToShow === totalCarouselElements){
+  if (indexToShow === totalCarouselElements) {
     indexToShow = 0;
   }
 
-  // hide current, make next visible
+  moveCarousel(block, currentActiveIndex, indexToShow);
 }
 
 export default async function decorate(block) {
@@ -116,9 +134,9 @@ export default async function decorate(block) {
 
     block.querySelectorAll('h1').forEach((textContent) => {
       const textHolderDiv = textContent.closest('div');
-      if(textHolderDiv.outerHTML.includes('data-align="right"')){
+      if (textHolderDiv.outerHTML.includes('data-align="right"')) {
         textHolderDiv.classList.add('right-text');
-      } else if (textHolderDiv.outerHTML.includes('data-align="left"')){
+      } else if (textHolderDiv.outerHTML.includes('data-align="left"')) {
         textHolderDiv.classList.add('left-text');
       } else {
         textHolderDiv.classList.add('center-text');
@@ -149,8 +167,6 @@ export default async function decorate(block) {
     backButton.classList.add('back-carousel-button');
     backButton.appendChild(backChevronSpan);
     backButton.addEventListener('click', () => {
-      console.log("Back!");
-      console.log("Total of children:", totalCarouselElements);
       showPreviousElement(block, totalCarouselElements);
     });
     block.append(backButton);
@@ -165,8 +181,6 @@ export default async function decorate(block) {
     forwardButton.classList.add('forward-carousel-button');
     forwardButton.appendChild(forwardChevronSpan);
     forwardButton.addEventListener('click', () => {
-      console.log("Forward!");
-      console.log("Total of children:", totalCarouselElements);
       showNextElement(block, totalCarouselElements);
     });
     block.append(forwardButton);
