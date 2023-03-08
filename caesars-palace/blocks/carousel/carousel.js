@@ -59,30 +59,24 @@ function addSwipeCapability(block, intervalId, totalCarouselElements) {
   let touchstartX = 0;
   let touchendX = 0;
 
-  block.addEventListener('touchstart', (e) => {
-    touchstartX = e.changedTouches[0].screenX;
-    console.log("TOUCHSTART: touchstartX", touchstartX);
+  block.addEventListener('touchstart', (event) => {
+    touchstartX = event.changedTouches[0].screenX;
   }, { passive: true });
 
-  block.addEventListener('touchend', (e) => {
-    console.log("TOUCHEND");
-    touchendX = e.changedTouches[0].screenX;
+  block.addEventListener('touchend', (event) => {
+    touchendX = event.changedTouches[0].screenX;
     if (Math.abs(touchendX - touchstartX) < TOUCH_MIN_CHANGE_TOLERANCE) {
-      console.log("See no change");
       return;
     }
 
     if (touchendX < touchstartX) {
-      console.log("showPreviousElement");
       clearInterval(intervalId);
       showPreviousElement(block, totalCarouselElements);
     }
     if (touchendX > touchstartX) {
-      console.log("showNextElement");
       clearInterval(intervalId);
       showNextElement(block, totalCarouselElements);
     }
-    console.log("TOUCHSTART: touchstartX", touchendX);
   }, { passive: true });
 }
 
@@ -155,7 +149,7 @@ function showNextElement(block, totalCarouselElements) {
 }
 
 export default async function decorate(block) {
-  // for autoscolling
+  // for autoscrolling
   const intervalId = setInterval(AUTOSCROLL_INTERVAL, block);
 
   const carouselContent = document.createElement('div');
