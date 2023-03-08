@@ -1,8 +1,10 @@
+const AUTOSCROLL_INTERVAL = 7000;
+const RESPONSIVE_MEDIA_QUERY = 'only screen and (min-width: 1170px)';
+const TOUCH_MIN_CHANGE_TOLERANCE = 5;
 const direction = Object.freeze({
   slideIn: 'SLIDE_IN',
   slideOut: 'SLIDE_OUT',
 });
-const RESPONSIVE_MEDIA_QUERY = 'only screen and (min-width: 1170px)';
 const classes = Object.freeze({
   carouselElement: 'carousel-element',
   activeCarouselElement: 'carousel-visible-element',
@@ -51,6 +53,37 @@ function getCurrentActiveIndex(block) {
   }
 
   return currentIndex; // eslint-disable-line consistent-return
+}
+
+function addSwipeCapability(block, intervalId, totalCarouselElements) {
+  let touchstartX = 0;
+  let touchendX = 0;
+
+  block.addEventListener('touchstart', (e) => {
+    touchstartX = e.changedTouches[0].screenX;
+    console.log("TOUCHSTART: touchstartX", touchstartX);
+  }, { passive: true });
+
+  block.addEventListener('touchend', (e) => {
+    console.log("TOUCHEND");
+    touchendX = e.changedTouches[0].screenX;
+    if (Math.abs(touchendX - touchstartX) < TOUCH_MIN_CHANGE_TOLERANCE) {
+      console.log("See no change");
+      return;
+    }
+
+    if (touchendX < touchstartX) {
+      console.log("showPreviousElement");
+      clearInterval(intervalId);
+      showPreviousElement(block, totalCarouselElements);
+    }
+    if (touchendX > touchstartX) {
+      console.log("showNextElement");
+      clearInterval(intervalId);
+      showNextElement(block, totalCarouselElements);
+    }
+    console.log("TOUCHSTART: touchstartX", touchendX);
+  }, { passive: true });
 }
 
 function moveCarousel(block, from, to, moveDirection) {
@@ -122,6 +155,9 @@ function showNextElement(block, totalCarouselElements) {
 }
 
 export default async function decorate(block) {
+  // for autoscolling
+  const intervalId = setInterval(AUTOSCROLL_INTERVAL, block);
+
   const carouselContent = document.createElement('div');
   carouselContent.classList.add(`${classes.carouselElement}-holder`);
 
@@ -197,7 +233,6 @@ export default async function decorate(block) {
     carouselContent.append(row);
   });
 
-  // build the carousel
   const backChevron = await getChevronSvg('icons/chevron-left.svg');
   const forwardChevron = await getChevronSvg('icons/chevron-right.svg');
 
@@ -226,4 +261,6 @@ export default async function decorate(block) {
     });
     block.append(forwardButton);
   }
+
+  addSwipeCapability(block, intervalId);
 }
