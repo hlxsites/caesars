@@ -80,6 +80,14 @@
   top: 50%;
   z-index: 1;
   width: 100%;
+  color: var(--static-color-white);
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.carousel-text h1 {
+  font-size: 64px;
+  text-transform: uppercase;
+  line-height: 1.1;
 }
 
 .left-text{
