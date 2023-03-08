@@ -7,24 +7,24 @@
   width: 100%;
 }
 
-.carousel.block .carousel-element-visible {
+.carousel.block .carousel-visible-element {
   position: unset;
   visibility: visible;
 }
 
-.carousel.block .carousel-element-hidden {
+.carousel.block .carousel-hidden-element {
   position: absolute;
   visibility: hidden;
 }
 
-.carousel.block .carousel-element-visible .carousel-main-image {
+.carousel.block .carousel-visible-element .carousel-main-image {
   position: unset;
   visibility: visible;
   max-height: 450px;
   overflow: hidden;
 }
 
-.carousel.block .carousel-element-visible .carousel-alt-image {
+.carousel.block .carousel-visible-element .carousel-alt-image {
   position: absolute;
   visibility: hidden;
 }
@@ -67,11 +67,6 @@
   text-align: right;
 }
 
-
-
-
-
-
 .forward-carousel-button {
   position: absolute;
   visibility: hidden;
@@ -83,12 +78,12 @@
 }
 
 @media only screen and (min-width: 1170px) {
-  .carousel.block .carousel-element-visible .carousel-main-image {
+  .carousel.block .carousel-visible-element .carousel-main-image {
     position: absolute;
     visibility: hidden;
   }
 
-  .carousel.block .carousel-element-visible .carousel-alt-image {
+  .carousel.block .carousel-visible-element .carousel-alt-image {
     position: unset;
     visibility: visible;
     max-height: 670px;

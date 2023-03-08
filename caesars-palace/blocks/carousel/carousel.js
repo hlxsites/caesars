@@ -1,7 +1,7 @@
 const classes = Object.freeze({
   carouselElement: 'carousel-element',
-  activeCarouselElement: 'carousel-element-visible',
-  hiddenCarouselElement: 'carousel-element-hidden',
+  activeCarouselElement: 'carousel-visible-element',
+  hiddenCarouselElement: 'carousel-hidden-element',
   carouselImage: 'carousel-image',
   carouselOnlyImage: 'carousel-only-image',
   carouselMainImage: 'carousel-main-image',
@@ -25,23 +25,37 @@ async function getChevronSvg(iconPath) {
   return svg;
 }
 
-function getCurrentActiveIndex(){
-  // get active element
-  // get active element index
+function getCurrentActiveIndex(block){
+  const currentActiveCarouselQueryResult = block.getElementsByClassName(classes.activeCarouselElement);
+  if(currentActiveCarouselQueryResult.length !== 1){
+    return;
+  }
+  const currentActiveCarouselElement = currentActiveCarouselQueryResult[0].classList;
+  let currentIndex = null;
+  let i = 0;
+  while(currentIndex === null && i < currentActiveCarouselElement.length){
+    const item = currentActiveCarouselElement[i];
+    if (item.startsWith(`${classes.carouselElement}-`)) {
+      const possibleIndex = parseInt(item.split(`${classes.carouselElement}-`)[1], 10);
+      if(Number.isInteger(possibleIndex)){
+        currentIndex = possibleIndex;
+      }
+    }
+    i += 1;
+  }
+  return currentIndex;
 }
 
-function showPreviousElement(){
-  console.log("Show previous element");
-
-  // get active element index (getCurrentActiveIndex)
+function showPreviousElement(block){
+  const currentActiveIndex = getCurrentActiveIndex(block);
+  console.log(`Show before ${currentActiveIndex}`);
   // handle underflow
   // hide current, make previous visible
 }
 
-function showNextElement(){
-  console.log("Show next element");
-
-  // get active element index (getCurrentActiveIndex)
+function showNextElement(block){
+  const currentActiveIndex = getCurrentActiveIndex(block);
+  console.log(`Show element after ${currentActiveIndex}`);
   // handle overflow
   // hide current, make next visible
 }
