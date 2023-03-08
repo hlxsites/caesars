@@ -1,3 +1,8 @@
+const direction = Object.freeze({
+  slideIn: 'SLIDE_IN',
+  slideOut: 'SLIDE_OUT',
+});
+
 const classes = Object.freeze({
   carouselElement: 'carousel-element',
   activeCarouselElement: 'carousel-visible-element',
@@ -7,6 +12,8 @@ const classes = Object.freeze({
   carouselMainImage: 'carousel-main-image',
   carouselAltImage: 'carousel-alt-image',
   carouselText: 'carousel-text',
+  carouselSlideOut: 'carousel-slide-out',
+  carouselSlideIn: 'carousel-slide-in',
 });
 
 async function getChevronSvg(iconPath) {
@@ -47,7 +54,7 @@ function getCurrentActiveIndex(block) {
   return currentIndex; // eslint-disable-line consistent-return
 }
 
-function moveCarousel(block, from, to) {
+function moveCarousel(block, from, to, moveDirection) {
   const elementToShowName = `${classes.carouselElement}-${to}`;
   const elementToShowQueryResult = block.getElementsByClassName(elementToShowName);
   if (elementToShowQueryResult.length !== 1) {
@@ -67,6 +74,21 @@ function moveCarousel(block, from, to) {
 
   elementToShow.classList.remove('carousel-hidden-element');
   elementToShow.classList.add('carousel-visible-element');
+
+  const animationSlideIn = block.getElementsByClassName(classes.carouselSlideIn);
+  [...animationSlideIn].forEach((animatedElement) => {
+    animatedElement.classList.remove(classes.carouselSlideIn);
+  })
+  const animationSlideOut = block.getElementsByClassName(classes.carouselSlideOut);
+  [...animationSlideOut].forEach((animatedElement) => {
+    animatedElement.classList.remove(classes.carouselSlideOut);
+  })
+
+  if(moveDirection === direction.slideOut){
+    elementToShow.classList.add(classes.carouselSlideOut);
+  } else if (moveDirection === direction.slideIn){
+    elementToShow.classList.add(classes.carouselSlideIn);
+  }
 }
 
 function showPreviousElement(block, totalCarouselElements) {
@@ -82,7 +104,7 @@ function showPreviousElement(block, totalCarouselElements) {
     indexToShow = currentActiveIndex - 1;
   }
 
-  moveCarousel(block, currentActiveIndex, indexToShow);
+  moveCarousel(block, currentActiveIndex, indexToShow, direction.slideOut);
 }
 
 function showNextElement(block, totalCarouselElements) {
@@ -97,7 +119,7 @@ function showNextElement(block, totalCarouselElements) {
     indexToShow = 0;
   }
 
-  moveCarousel(block, currentActiveIndex, indexToShow);
+  moveCarousel(block, currentActiveIndex, indexToShow, direction.slideIn);
 }
 
 export default async function decorate(block) {

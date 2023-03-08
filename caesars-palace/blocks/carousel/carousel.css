@@ -1,6 +1,8 @@
 .carousel.block {
   display: block;
   position: relative;
+  --mobile-carousel-image-size: 450px;
+  --desktop-carousel-image-size: 500px;
 }
 
 .carousel.block .carousel-element-holder {
@@ -17,11 +19,21 @@
   visibility: hidden;
 }
 
+.carousel.block .carousel-slide-out {
+  animation-name: slide-out;
+  animation-duration: 0.3s;
+}
+
+.carousel.block .carousel-slide-in {
+  animation-name: slide-in;
+  animation-duration: 0.3s;
+}
+
 .carousel.block .carousel-visible-element .carousel-main-image {
   position: unset;
   visibility: visible;
-  max-height: 450px;
-  min-height: 450px;
+  max-height: var(--mobile-carousel-image-size);
+  min-height: var(--mobile-carousel-image-size);
   overflow: hidden;
 }
 
@@ -31,8 +43,8 @@
 }
 
 .carousel.block .carousel-only-image {
-  max-height: 450px;
-  min-height: 450px;
+  max-height: var(--mobile-carousel-image-size);
+  min-height: var(--mobile-carousel-image-size);
   overflow: hidden;
 }
 
@@ -93,14 +105,14 @@
   .carousel.block .carousel-visible-element .carousel-alt-image {
     position: unset;
     visibility: visible;
-    max-height: 670px;
-    min-height: 670px;
+    max-height: var(--desktop-carousel-image-size);
+    min-height: var(--desktop-carousel-image-size);
     overflow: hidden;
   }
 
   .carousel.block .carousel-only-image {
-    max-height: 670px;
-    min-height: 670px;
+    max-height: var(--desktop-carousel-image-size);
+    min-height: var(--desktop-carousel-image-size);
     overflow: hidden;
   }
 
