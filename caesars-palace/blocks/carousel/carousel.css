@@ -95,14 +95,10 @@
   .carousel.block .carousel-visible-element .carousel-alt-image {
     position: unset;
     visibility: visible;
-    max-height: var(--desktop-carousel-image-size);
-    min-height: var(--desktop-carousel-image-size);
     overflow: hidden;
   }
 
   .carousel.block .carousel-only-image {
-    max-height: var(--desktop-carousel-image-size);
-    min-height: var(--desktop-carousel-image-size);
     overflow: hidden;
   }
 
@@ -130,8 +126,6 @@
     min-width: 32px;
     top: 50%;
     right: 0;
-    background-color: red;
-    
   }
   
   .forward-carousel-button svg {
@@ -146,7 +140,6 @@
     z-index: 5;
     min-width: 32px;
     top: 50%;
-    background-color: red;
   }
   
   .back-carousel-button svg {
