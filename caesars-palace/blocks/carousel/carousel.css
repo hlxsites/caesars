@@ -124,14 +124,27 @@
     position: absolute;
     z-index: 5;
     min-width: 32px;
+    min-height: 32px;
     top: 50%;
     right: 0;
+    margin-right: 1em;
+    margin-top: 0.3em;
+  }
+
+  .forward-carousel-button:hover {
+    border: 0;
+    border-radius: 50%;
+    background-color: rgba(190,192,197,0.2);
+    transition: background-color 75ms cubic-bezier(0.4,0,0.2,1);
   }
   
   .forward-carousel-button svg {
     display: flex;
     width: 16px;
     padding-left: 8px;
+    margin-top: 6px;
+    margin-left: 1px;
+    color: var(--static-color-white);
   }
   
   .back-carousel-button {
@@ -139,13 +152,25 @@
     position: absolute;
     z-index: 5;
     min-width: 32px;
+    min-height: 32px;
+    margin-left: 0.4em;
+    margin-top: 0.3em;
     top: 50%;
+  }
+
+  .back-carousel-button:hover {
+    border: 0;
+    border-radius: 50%;
+    background-color: rgba(190,192,197,0.2);
+    transition: background-color 75ms cubic-bezier(0.4,0,0.2,1);
   }
   
   .back-carousel-button svg {
     display: flex;
     width: 16px;
-    padding-left: 7px;
+    color: var(--static-color-white);
+    padding-left: 6px;
+    padding-top: 6px;
   }
 
   .carousel.block .carousel-slide-out {
