@@ -19,16 +19,6 @@
   visibility: hidden;
 }
 
-.carousel.block .carousel-slide-out {
-  animation-name: slide-out;
-  animation-duration: 0.3s;
-}
-
-.carousel.block .carousel-slide-in {
-  animation-name: slide-in;
-  animation-duration: 0.3s;
-}
-
 .carousel.block .carousel-visible-element .carousel-main-image {
   position: unset;
   visibility: visible;
@@ -163,6 +153,16 @@
     display: flex;
     width: 16px;
     padding-left: 7px;
+  }
+
+  .carousel.block .carousel-slide-out {
+    animation-name: slide-out;
+    animation-duration: 0.3s;
+  }
+  
+  .carousel.block .carousel-slide-in {
+    animation-name: slide-in;
+    animation-duration: 0.3s;
   }
 }
 
