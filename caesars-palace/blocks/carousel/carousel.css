@@ -33,6 +33,7 @@
   position: absolute;
   top: 50%;
   right: 0;
+  background-color: red;
 }
 
 .forward-carousel-button svg {
@@ -56,6 +57,7 @@
   position: absolute;
   top: 50%;
   z-index: 5;
+  background-color: red;
 }
 
 .back-carousel-button svg {
@@ -77,6 +79,19 @@
   position: absolute;
   top: 50%;
   z-index: 1;
+  width: 100%;
+}
+
+.left-text{
+  text-align: left;
+}
+
+.right-text{
+  text-align: right;
+}
+
+.center-text{
+  text-align:center;
 }
 
 @media only screen and (min-width: 1170px) {

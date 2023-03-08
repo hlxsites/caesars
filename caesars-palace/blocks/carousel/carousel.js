@@ -75,6 +75,17 @@ export default async function decorate(block) {
       carouselAltImage.closest('div').classList.add(classes.carouselAltImage);
     }
 
+    block.querySelectorAll('h1').forEach((textContent) => {
+      const textHolderDiv = textContent.closest('div');
+      if(textHolderDiv.outerHTML.includes('data-align="right"')){
+        textHolderDiv.classList.add('right-text');
+      } else if (textHolderDiv.outerHTML.includes('data-align="left"')){
+        textHolderDiv.classList.add('left-text');
+      } else {
+        textHolderDiv.classList.add('center-text');
+      }
+    });
+
     [...row.children].forEach((item) => {
       if (item.innerHTML) {
         if (![...item.classList].includes(classes.carouselImage)) {
