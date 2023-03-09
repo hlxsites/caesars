@@ -245,7 +245,13 @@ export default async function decorate(block) {
   let prevScroll = 0;
 
   const movementStartEventHandler = (e) => {
-    let offset = e.changedTouches[0].screenX || e.pageX;
+    let offset = 0;
+    if(e.changedTouches && e.changedTouches.length >= 1){
+      offset = e.changedTouches[0].screenX;
+    } else {
+      offset = e.pageX;
+    }
+    
     isDown = true;
     startX = offset - carousel.offsetLeft;
     startScroll = carousel.scrollLeft;
@@ -284,7 +290,13 @@ export default async function decorate(block) {
   }, { passive: true });
 
   const movementChangeEventHandler = (e) => {
-    let offset = e.changedTouches[0].screenX || e.pageX;
+    let offset = 0;
+    if(e.changedTouches && e.changedTouches.length >= 1){
+      offset = e.changedTouches[0].screenX;
+    } else {
+      offset = e.pageX;
+    }
+
     if (!isDown) {
       return;
     }

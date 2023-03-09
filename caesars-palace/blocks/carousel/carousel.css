@@ -64,11 +64,11 @@
 }
 
 .carousel.block .carousel-nav-prev {
-  left: 0;
+  display: none;
 }
 
 .carousel.block .carousel-nav-next {
-  right: 0;
+  display: none;
 }
 
 .carousel.block .carousel-nav-next svg {
@@ -129,5 +129,15 @@
 
   .carousel.block .carousel-slide img {
     min-height: 670px;
+  }
+
+  .carousel.block .carousel-nav-prev {
+    left: 0;
+    display: unset;
+  }
+  
+  .carousel.block .carousel-nav-next {
+    right: 0;
+    display: unset;
   }
 }
