@@ -1,6 +1,6 @@
 const AUTOSCROLL_INTERVAL = 7000;
 const RESPONSIVE_MEDIA_QUERY = 'only screen and (min-width: 1170px)';
-const TOUCH_MIN_CHANGE_TOLERANCE = 5;
+const TOUCH_MIN_CHANGE_TOLERANCE = 10;
 const direction = Object.freeze({
   slideIn: 'SLIDE_IN',
   slideOut: 'SLIDE_OUT',
@@ -58,25 +58,58 @@ function getCurrentActiveIndex(block) {
 function addSwipeCapability(block, intervalId, totalCarouselElements) {
   let touchstartX = 0;
   let touchendX = 0;
+  let offset = 0;
 
   block.addEventListener('touchstart', (event) => {
     touchstartX = event.changedTouches[0].screenX;
   }, { passive: true });
 
+  block.addEventListener('touchmove', (event) => {
+    offset = event.changedTouches[0].screenX - touchstartX;
+    const activeCarouselQueryResult = block.getElementsByClassName(classes.activeCarouselElement);
+    if (activeCarouselQueryResult.length !== 1) {
+      return;
+    }
+    const currentActiveCarouselElement = activeCarouselQueryResult[0];
+    currentActiveCarouselElement.style.transform = `translate(${offset}px)`;
+  }, { passive: true });
+
   block.addEventListener('touchend', (event) => {
     touchendX = event.changedTouches[0].screenX;
+
+    const activeCarouselQueryResult = block.getElementsByClassName(classes.activeCarouselElement);
+    if (activeCarouselQueryResult.length !== 1) {
+      return;
+    }
+    const currentActiveCarouselElement = activeCarouselQueryResult[0];
+    currentActiveCarouselElement.style.transform = `translate(0)`;
+
     const moveSize = Math.abs(touchendX - touchstartX);
     if (moveSize < TOUCH_MIN_CHANGE_TOLERANCE) {
+      console.log("NO CHANGE");
       return;
     }
 
+    const currentActiveIndex = getCurrentActiveIndex(block);
     if (touchendX < touchstartX) {
       clearInterval(intervalId);
-      showPreviousElement(block, totalCarouselElements);
+      if(currentActiveIndex === 0){
+        showNextElement(block, totalCarouselElements);
+      } else if(currentActiveIndex === totalCarouselElements){
+        showNextElement(block, totalCarouselElements);
+      } else {
+        showNextElement(block, totalCarouselElements);
+      }
     }
     if (touchendX > touchstartX) {
       clearInterval(intervalId);
-      showNextElement(block, totalCarouselElements);
+      if(currentActiveIndex === 0){
+        showPreviousElement(block, totalCarouselElements);
+      } else if(currentActiveIndex === totalCarouselElements){
+        showPreviousElement(block, totalCarouselElements);
+      } else {
+        showPreviousElement(block, totalCarouselElements);
+      }
     }
   }, { passive: true });
 }
@@ -175,14 +208,12 @@ export default async function decorate(block) {
 
       if (event.matches === false) {
         if (imagesInRow.length === 1) {
-          // only one image for mobile and desktop
           const carouselImage = imagesInRow[0];
           carouselImage.closest('div').classList.add(classes.carouselImage);
           carouselImage.closest('div').classList.add(classes.carouselMainImage);
         }
       } else {
         if (imagesInRow.length === 1) {
-          // only one image for mobile and desktop
           const carouselImage = imagesInRow[0];
           carouselImage.closest('div').classList.add(classes.carouselImage);
           carouselImage.closest('div').classList.add(classes.carouselAltImage);
@@ -257,5 +288,5 @@ export default async function decorate(block) {
     block.append(forwardButton);
   }
 
-  addSwipeCapability(block, intervalId);
+  addSwipeCapability(block, intervalId, totalCarouselElements);
 }
