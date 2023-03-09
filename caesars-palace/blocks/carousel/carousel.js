@@ -1,4 +1,4 @@
-const AUTOSCROLL_INTERVAL = 7000; /* Autoscroll only if mouse not hovering block, and no touch event */
+
 
 const RESPONSIVE_MEDIA_QUERY = 'only screen and (min-width: 1170px)';
 const TOUCH_MIN_CHANGE_TOLERANCE = 100;
@@ -270,6 +270,7 @@ export default async function decorate(block) {
     block.append(forwardButton);
   }
 
+  let intervalId = null;
   // const intervalId = setInterval(() => {
   //   showNextElement(block, totalCarouselElements);
   // }, AUTOSCROLL_INTERVAL);
