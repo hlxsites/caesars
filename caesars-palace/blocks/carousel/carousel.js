@@ -222,11 +222,11 @@ function buildSlide(slide, index) {
 }
 
 function startAutoScroll(block) {
-  // if (!scrollInterval) {
-  //   scrollInterval = setInterval(() => {
-  //     scrollToSlide(block, curSlide < maxSlide ? curSlide + 1 : 0);
-  //   }, DEFAULT_SCROLL_INTERVAL);
-  // }
+  if (!scrollInterval) {
+    scrollInterval = setInterval(() => {
+      scrollToSlide(block, curSlide < maxSlide ? curSlide + 1 : 0);
+    }, DEFAULT_SCROLL_INTERVAL);
+  }
 }
 
 /**
@@ -251,7 +251,7 @@ export default async function decorate(block) {
     } else {
       offset = e.pageX;
     }
-    
+
     isDown = true;
     startX = offset - carousel.offsetLeft;
     startScroll = carousel.scrollLeft;
