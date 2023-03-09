@@ -20,6 +20,22 @@ let scrollInterval;
 let curSlide = 0;
 let maxSlide = 0;
 
+async function getChevronSvg(iconPath) {
+  let svg = null;
+  try {
+    const response = await fetch(`${window.hlx.codeBasePath}/${iconPath}`);
+    if (!response.ok) {
+      return svg;
+    }
+    svg = await response.text();
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error(err);
+    svg = null;
+  }
+  return svg;
+}
+
 /**
  * Clear any active scroll intervals
  */
@@ -140,9 +156,20 @@ function snapScroll(el, dir = 1) {
  * @param dir A string of either 'prev or 'next'
  * @return {HTMLDivElement} The resulting nav element
  */
-function buildNav(navigrationDirection) {
+async function buildNav(navigrationDirection) {
   // TODO
   const btn = document.createElement('div');
+
+  let chevron;
+  if (navigrationDirection === NAVIGATION_DIRECTION_PREV) {
+    chevron = await getChevronSvg('icons/chevron-left.svg');
+  } else if (navigrationDirection === NAVIGATION_DIRECTION_NEXT) {
+    chevron = await getChevronSvg('icons/chevron-right.svg');
+  }
+  const chevronButton = document.createElement('span');
+  chevronButton.innerHTML = chevron;
+  btn.appendChild(chevronButton);
+
   btn.classList.add('carousel-nav', `carousel-nav-${navigrationDirection}`);
   btn.addEventListener('click', (e) => {
     let nextSlide = 0;
@@ -203,7 +230,7 @@ function startAutoScroll(block) {
  *
  * @param block HTML block from Franklin
  */
-export default function decorate(block) {
+export default async function decorate(block) {
   const carousel = document.createElement('div');
   carousel.classList.add('carousel-slide-container');
 
@@ -264,8 +291,8 @@ export default function decorate(block) {
 
   // add nav buttons and dots to block
   if (slides.length > 1) {
-    const prevBtn = buildNav('prev');
-    const nextBtn = buildNav('next');
+    const prevBtn = await buildNav('prev');
+    const nextBtn = await buildNav('next');
     block.append(prevBtn, nextBtn);
   }
 
