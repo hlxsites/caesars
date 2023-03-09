@@ -324,6 +324,13 @@ main .section > div:last-of-type {
   padding-bottom: var(--layout-size-xxl);
 }
 
+/* progressive section appearance */
+main .section[data-section-status='loading'],
+main .section[data-section-status='initialized'] {
+  display: none;
+}
+
+/* hero */
 main .section.is-hero > div {
   position: relative;
   width: 100%;
@@ -338,12 +345,6 @@ main .section.is-hero > div:last-of-type {
 main .section.is-hero > div:first-of-type {
   padding-top: unset;
   width: 100%;
-}
-
-/* progressive section appearance */
-main .section[data-section-status='loading'],
-main .section[data-section-status='initialized'] {
-  display: none;
 }
 
 main .section.is-hero {
@@ -417,11 +418,6 @@ main .section.has-video-background > picture img {
   object-fit: cover;
   width: 100%;
   height: 100%;
-}
-
-main .section.has-background-block {
-  overflow: hidden;
-  width: 100%;
 }
 
 main .section.is-hero.has-background-block {
