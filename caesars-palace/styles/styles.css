@@ -451,6 +451,10 @@ main .section.is-hero.has-background-block > div:first-child {
   position: absolute;
 }
 
+main .section.is-hero.has-background-block > div:nth-child(2) {
+  margin-top: 520px;
+}
+
 /* Responsive Breakpoints */
 
 /* Tablet (portrait) */
