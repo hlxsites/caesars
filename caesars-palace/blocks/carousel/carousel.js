@@ -110,6 +110,7 @@ function calculateSlideHeight(carousel, slide) {
 function scrollToSlide(carousel, slideIndex = 0) {
   const carouselSlider = carousel.querySelector('.carousel-slide-container');
   calculateSlideHeight(carouselSlider, carouselSlider.children[slideIndex]);
+
   carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * slideIndex, behavior: 'smooth' });
 
   // sync slide
@@ -222,7 +223,6 @@ function buildSlide(slide, index) {
 }
 
 function startAutoScroll(block) {
-  // TODO: Restore
   // if (!scrollInterval) {
   //   scrollInterval = setInterval(() => {
   //     scrollToSlide(block, curSlide < maxSlide ? curSlide + 1 : 0);

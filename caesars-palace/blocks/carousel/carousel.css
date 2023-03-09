@@ -29,7 +29,8 @@
 
 .carousel.block .carousel-slide img {
   width: 100%;
-  min-height: 670px;
+  max-height: 670px;
+  object-fit: cover;
 }
 
 .carousel.block .carousel-slide > div {
@@ -124,5 +125,9 @@
   .carousel.block .carousel-main-image {
     position: absolute;
     visibility: hidden;
+  }
+
+  .carousel.block .carousel-slide img {
+    min-height: 670px;
   }
 }
