@@ -17,7 +17,7 @@
   position: relative;
   overflow: hidden;
   margin: 0 auto;
-  transition: height 0.2s linear
+  transition: height 0.2s linear;
 }
 
 .carousel.block .carousel-slide {
