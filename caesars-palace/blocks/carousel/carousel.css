@@ -12,6 +12,9 @@
 .carousel.block .carousel-visible-element {
   position: unset;
   visibility: visible;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
 }
 
 .carousel.block .carousel-image img {
@@ -45,6 +48,7 @@
   color: var(--static-color-white);
   text-shadow: 0 2px 4px rgba(0, 0, 0, 50%);
   line-height: 1.6;
+  border: 3px solid red;
 }
 
 .carousel-text .button-container {
