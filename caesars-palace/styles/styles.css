@@ -313,6 +313,7 @@ main .section.has-overlay::before {
 main .section > div {
   position: relative;
   margin: 0 auto;
+  padding: 0 var(--layout-size-m);
 }
 
 main .section > div:first-of-type {
@@ -327,7 +328,7 @@ main .section.is-hero > div {
   position: relative;
   width: 100%;
   margin: unset;
-  padding-left: unset;
+  padding: unset;
 }
 
 main .section.is-hero > div:last-of-type {
@@ -450,7 +451,7 @@ main .section.is-hero.has-background-block {
     --heading-font-size-xs: 16px;
   }
 
-  main .section  >  div {
+  main .section > div {
     width: var(--screen-width-m);
   }
 
@@ -466,7 +467,7 @@ main .section.is-hero.has-background-block {
     --heading-font-size-xxl: 94px;
   }
 
-  main .section  >  div {
+  main .section > div {
       width: var(--screen-width-l);
   }
 
