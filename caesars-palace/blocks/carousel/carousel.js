@@ -92,20 +92,32 @@ function moveCarousel(block, from, to, moveDirection) {
   }
 }
 
+function getPreviousIndex(currentActiveIndex, totalCarouselElements){
+  let indexToShow = 0;
+  if (currentActiveIndex === 0) {
+    indexToShow = totalCarouselElements - 1;
+  } else {
+    indexToShow = currentActiveIndex - 1;
+  }
+  return indexToShow;
+}
+
 function showPreviousElement(block, totalCarouselElements) {
   const currentActiveIndex = getCurrentActiveIndex(block);
   if (currentActiveIndex === null) {
     return;
   }
 
-  let indexToShow = null;
-  if (currentActiveIndex === 0) {
-    indexToShow = totalCarouselElements - 1;
-  } else {
-    indexToShow = currentActiveIndex - 1;
-  }
-
+  let indexToShow = getPreviousIndex(currentActiveIndex, totalCarouselElements);
   moveCarousel(block, currentActiveIndex, indexToShow, direction.slideOut);
+}
+
+function getNextIndex(currentActiveIndex, totalCarouselElements){
+  let indexToShow = currentActiveIndex + 1;
+  if (indexToShow === totalCarouselElements) {
+    indexToShow = 0;
+  }
+  return indexToShow;
 }
 
 function showNextElement(block, totalCarouselElements) {
@@ -114,12 +126,7 @@ function showNextElement(block, totalCarouselElements) {
     return;
   }
 
-  let indexToShow = null;
-  indexToShow = currentActiveIndex + 1;
-  if (indexToShow === totalCarouselElements) {
-    indexToShow = 0;
-  }
-
+  let indexToShow = getNextIndex(currentActiveIndex, totalCarouselElements);
   moveCarousel(block, currentActiveIndex, indexToShow, direction.slideIn);
 }
 
@@ -138,6 +145,10 @@ function addSwipeCapability(block, intervalId, totalCarouselElements) {
     if (activeCarouselQueryResult.length !== 1) {
       return;
     }
+
+    const currentMovingIndex = getCurrentActiveIndex(block);
+    console.log("Current moving index is: ", currentMovingIndex);
+
     const currentActiveCarouselElement = activeCarouselQueryResult[0];
     currentActiveCarouselElement.style.transform = `translate(${offset}px)`;
     currentActiveCarouselElement.classList.add('is-moving');

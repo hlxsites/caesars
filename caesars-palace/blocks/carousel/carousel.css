@@ -11,6 +11,7 @@
 .carousel.block .is-moving {
   border: 5px solid red;
 }
+
 .carousel.block .is-moving-previous {
   border: 5px solid orange;
   visibility: visible;
