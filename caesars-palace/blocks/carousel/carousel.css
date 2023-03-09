@@ -1,254 +1,113 @@
-.carousel.block {
-  display: block;
+/* Carousel block styles */
+
+/** Carousel section styling */
+.section.carousel-container {
+  background: var(--neutral-bone);
+  padding: var(--spacer-layout-06) 0 var(--spacer-layout-06);
+}
+
+.carousel {
   position: relative;
-
-  --mobile-carousel-image-size: 450px;
-  --desktop-carousel-image-size: 500px;
-}
-
-/* transform: translate(calc(-960px), -450px); */
-/* transform: translate(calc(+960px), -450px); */
-.carousel.block .is-moving {
-  border: 5px solid red;
-}
-
-.carousel.block .is-moving-previous {
-  border: 5px solid orange;
-  visibility: visible;
-}
-.carousel.block .is-moving-next {
-  border: 5px solid purple;
-  visibility: visible;
-}
-
-.carousel.block .carousel-element-holder {
   width: 100%;
-}
-
-.carousel.block .carousel-visible-element {
-  position: unset;
-  visibility: visible;
-  align-items: center;
-  justify-content: center;
+  height: 100%;
+  order: 1;
   display: flex;
-  flex-direction: column;
+  flex-flow: row wrap;
+  align-content: flex-start;
+  align-items: flex-start;
+  justify-content: center;
+  margin: 0 auto;
+  text-align: center;
 }
 
-.carousel.block .carousel-image img {
+.carousel .carousel-slide-container {
   width: 100%;
-  object-fit: cover;
-}
-
-.carousel.block .carousel-hidden-element {
-  position: absolute;
-  visibility: hidden;
-}
-
-.carousel.block .carousel-visible-element .carousel-main-image {
-  position: unset;
-  visibility: visible;
-  width: 100%;
-  max-height: var(--mobile-carousel-image-size);
-  min-height: var(--mobile-carousel-image-size);
+  max-width: 740px;
+  position: relative;
   overflow: hidden;
+  margin: 0 auto;
+  transition: height 0.2s linear
 }
 
-.carousel.block .carousel-visible-element .carousel-alt-image {
+.carousel .carousel-slide {
+  width: 100%;
+  height: 100%;
   position: absolute;
-  visibility: hidden;
+  transition: all 0.5s;
 }
 
-.carousel.block .carousel-text {
+.carousel .carousel-slide > div {
+  font-family: var(--serif-font);
+  font-weight: var(--font-weight-light);
+  line-height: var(--line-height-120);
+  letter-spacing: var(--letter-spacing-1-75);
+  font-size: var(--font-size-28);
+}
+
+.carousel .carousel-slide > figure {
+  align-content: center;
+  align-items: center;
+  display: flex;
+  flex-flow: column nowrap;
+  gap: var(--spacer-layout-01);
+  justify-content: space-between;
+  margin: var(--spacer-layout-03) auto 0;
+  width: fit-content;
+}
+
+.carousel .carousel-slide > figure img {
+  border-radius: 50%;
+  height: 64px;
+  width: 64px;
+  margin-bottom: 0;
+  margin-right: var(--spacer-layout-02);
+}
+
+.carousel .carousel-slide > figure figcaption.caption {
+  font-family: var(--sans-serif-font-semibold);
+  font-size: var(--font-size-16);
+  letter-spacing: var(--letter-spacing-001-em);
+  line-height: var(--line-height-160);
+  font-weight: var(--font-weight-medium);
+}
+
+/* Carousel Navigation */
+.carousel .carousel-nav {
+  opacity: 0;
+  z-index: 2;
+  top: 125px;
+  height: 54px;
+  width: 54px;
   position: absolute;
-  z-index: 1;
-  color: var(--static-color-white);
-  text-shadow: 0 2px 4px rgba(0 0 0 / 50%);
-  line-height: 1.6;
-  max-width: 100%;
+  transition: 0.5s;
+  cursor: pointer;
 }
 
-.carousel.block .carousel-text .button-container {
-  text-shadow: none;
+.carousel .carousel-nav:hover {
 }
 
-.carousel.block .carousel-text h1 {
-  font-size: 32px;
-  text-transform: uppercase;
-  line-height: 1.1;
-  font-weight: var(--emphasized-font-weight);
+.carousel .carousel-nav-prev {
+  left: 0;
+  transform: rotate(180deg);
 }
 
-.carousel.block .carousel-text h2 {
-  font-size: 20px;
+.carousel .carousel-nav-next {
+  right: 0;
 }
 
-.carousel.block .left-text {
-  text-align: center;
+/* Links within carousel container */
+.section.carousel-container .button-container {
 }
 
-.carousel.block .center-text {
-  text-align: center;
-}
+/* Media queries */
 
-.carousel.block .right-text {
-  text-align: center;
-}
-
-.carousel.block .forward-carousel-button {
-  position: absolute;
-  visibility: hidden;
-}
-
-.carousel.block .back-carousel-button {
-  position: absolute;
-  visibility: hidden;
-}
-
-.carousel.block .carousel-slide-out {
-  animation-name: slide-out;
-  animation-duration: 0.3s;
-}
-
-.carousel.block .carousel-slide-in {
-  animation-name: slide-in;
-  animation-duration: 0.3s;
-}
-
-@media only screen and (min-width: 1170px) {
-  .carousel.block .carousel-visible-element .carousel-main-image {
-    position: absolute;
-    visibility: hidden;
-    min-height: 700px;
+@media screen and (min-width: 1200px) {
+  .carousel:hover .carousel-nav {
+      opacity: 1;
   }
 
-  .carousel.block .carousel-visible-element .carousel-alt-image {
-    position: unset;
-    visibility: visible;
-    overflow: hidden;
-    width: 100%;
-  }
-
-  .carousel.block .carousel-only-image {
-    overflow: hidden;
-  }
-
-  .carousel-text {
-    margin-top: unset;
-    top: 40%;
-    width: 90%;
-    margin-left: 64px;
-    margin-right: 64px;
-  }
-
-  .carousel.block .left-text {
-    text-align: left;
-  }
-
-  .carousel.block .center-text {
-    text-align: center;
-  }
-
-  .carousel.block .right-text {
-    text-align: right;
-  }
-
-  .carousel.block .carousel-text h1 {
-    font-size: 64px;
-    text-transform: uppercase;
-    line-height: 1.1;
-    font-weight: var(--emphasized-font-weight);
-  }
-
-  .carousel.block .carousel-text h2 {
-    font-size: 20px;
-  }
-
-  .carousel.block .forward-carousel-button {
-    visibility: visible;
-    position: absolute;
-    z-index: 5;
-    min-width: 32px;
-    min-height: 32px;
-    top: 50%;
-    right: 0;
-    margin-right: 1em;
-    margin-top: 0.3em;
-  }
-
-  .carousel.block .forward-carousel-button:hover {
-    border: 0;
-    border-radius: 50%;
-    background-color: rgba(190 192 197 / 20%);
-    transition: background-color 75ms cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .carousel.block .forward-carousel-button svg {
-    display: flex;
-    width: 16px;
-    padding-left: 8px;
-    margin-top: 6px;
-    margin-left: 1px;
-    color: var(--static-color-white);
-  }
-
-  .carousel.block .back-carousel-button {
-    visibility: visible;
-    position: absolute;
-    z-index: 5;
-    min-width: 32px;
-    min-height: 32px;
-    margin-left: 0.4em;
-    margin-top: 0.3em;
-    top: 50%;
-  }
-
-  .carousel.block .back-carousel-button:hover {
-    border: 0;
-    border-radius: 50%;
-    background-color: rgba(190 192 197 / 20%);
-    transition: background-color 75ms cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .carousel.block .back-carousel-button svg {
-    display: flex;
-    width: 16px;
-    color: var(--static-color-white);
-    padding-left: 6px;
-    padding-top: 6px;
-  }
-
-  .carousel.block .carousel-slide-out {
-    animation-name: slide-out;
-    animation-duration: 0.3s;
-  }
-
-  .carousel.block .carousel-slide-in {
-    animation-name: slide-in;
-    animation-duration: 0.3s;
-  }
-}
-
-/* Animations */
-@keyframes slide-in {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
-@keyframes slide-out {
-  from {
-    transform: translateX(-100vw);
-    opacity: 0;
-  }
-
-  to {
-    transform: translateX(0);
-    opacity: 1;
+  .carousel .carousel-slide figure {
+      flex-flow: row nowrap;
+      gap: var(--spacer-layout-02);
   }
 }
