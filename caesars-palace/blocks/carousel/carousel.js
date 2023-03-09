@@ -65,7 +65,8 @@ function addSwipeCapability(block, intervalId, totalCarouselElements) {
 
   block.addEventListener('touchend', (event) => {
     touchendX = event.changedTouches[0].screenX;
-    if (Math.abs(touchendX - touchstartX) < TOUCH_MIN_CHANGE_TOLERANCE) {
+    const moveSize = Math.abs(touchendX - touchstartX);
+    if (moveSize < TOUCH_MIN_CHANGE_TOLERANCE) {
       return;
     }
 
@@ -149,7 +150,7 @@ function showNextElement(block, totalCarouselElements) {
 }
 
 export default async function decorate(block) {
-  // for autoscrolling
+  // for future autoscrolling
   const intervalId = setInterval(AUTOSCROLL_INTERVAL, block);
 
   const carouselContent = document.createElement('div');

@@ -85,6 +85,16 @@
   visibility: hidden;
 }
 
+.carousel.block .carousel-slide-out {
+  animation-name: slide-out;
+  animation-duration: 0.3s;
+}
+
+.carousel.block .carousel-slide-in {
+  animation-name: slide-in;
+  animation-duration: 0.3s;
+}
+
 @media only screen and (min-width: 1170px) {
   .carousel.block .carousel-visible-element .carousel-main-image {
     position: absolute;
