@@ -171,9 +171,6 @@ function addSwipeCapability(block, intervalId, totalCarouselElements) {
 }
 
 export default async function decorate(block) {
-  // for future autoscrolling
-  const intervalId = setInterval(AUTOSCROLL_INTERVAL, block);
-
   const carouselContent = document.createElement('div');
   carouselContent.classList.add(`${classes.carouselElement}-holder`);
 
@@ -272,6 +269,10 @@ export default async function decorate(block) {
     });
     block.append(forwardButton);
   }
+
+  const intervalId = setInterval(() => {
+    showNextElement(block, totalCarouselElements);
+  }, AUTOSCROLL_INTERVAL);
 
   addSwipeCapability(block, intervalId, totalCarouselElements);
 }
