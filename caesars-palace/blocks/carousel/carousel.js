@@ -4,7 +4,7 @@
  * Features:
  * - smooth scrolling
  * - mouse drag between slides
- * - TODO: swipe between slides
+ * - swipe between slides
  * - TODO: allow endless sliding
  * - next and previous navigation button
  */
@@ -156,7 +156,6 @@ function snapScroll(el, dir = 1) {
  * @return {HTMLDivElement} The resulting nav element
  */
 async function buildNav(navigrationDirection) {
-  // TODO
   const btn = document.createElement('div');
 
   let chevron;
