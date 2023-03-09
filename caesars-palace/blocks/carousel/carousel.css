@@ -6,6 +6,18 @@
   --desktop-carousel-image-size: 500px;
 }
 
+.carousel.block .is-moving {
+  border: 5px solid red;
+}
+.carousel.block .is-moving-previous {
+  border: 5px solid orange;
+  visibility: visible;
+}
+.carousel.block .is-moving-next {
+  border: 5px solid purple;
+  visibility: visible;
+}
+
 .carousel.block .carousel-element-holder {
   width: 100%;
 }
@@ -60,7 +72,7 @@
   font-size: 32px;
   text-transform: uppercase;
   line-height: 1.1;
-  font-weight: 700;
+  font-weight: var(--emphasized-font-weight);
 }
 
 .carousel.block .carousel-text h2 {
@@ -91,12 +103,12 @@
 
 .carousel.block .carousel-slide-out {
   animation-name: slide-out;
-  animation-duration: 0.3s;
+  animation-duration: var(--transition-animation-duration);
 }
 
 .carousel.block .carousel-slide-in {
   animation-name: slide-in;
-  animation-duration: 0.3s;
+  animation-duration: var(--transition-animation-duration);
 }
 
 @media only screen and (min-width: 1170px) {
@@ -141,7 +153,7 @@
     font-size: 64px;
     text-transform: uppercase;
     line-height: 1.1;
-    font-weight: 700;
+    font-weight: var(--emphasized-font-weight);
   }
 
   .carousel.block .carousel-text h2 {
@@ -204,12 +216,12 @@
 
   .carousel.block .carousel-slide-out {
     animation-name: slide-out;
-    animation-duration: 0.3s;
+    animation-duration: var(--transition-animation-duration);
   }
 
   .carousel.block .carousel-slide-in {
     animation-name: slide-in;
-    animation-duration: 0.3s;
+    animation-duration: var(--transition-animation-duration);
   }
 }
 

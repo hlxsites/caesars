@@ -140,6 +140,7 @@ function addSwipeCapability(block, intervalId, totalCarouselElements) {
     }
     const currentActiveCarouselElement = activeCarouselQueryResult[0];
     currentActiveCarouselElement.style.transform = `translate(${offset}px)`;
+    currentActiveCarouselElement.classList.add('is-moving');
   }, { passive: true });
 
   block.addEventListener('touchend', (event) => {
@@ -151,6 +152,7 @@ function addSwipeCapability(block, intervalId, totalCarouselElements) {
     }
     const currentActiveCarouselElement = activeCarouselQueryResult[0];
     currentActiveCarouselElement.style.transform = 'translate(0)';
+    currentActiveCarouselElement.classList.remove('is-moving');
 
     const moveSize = Math.abs(touchendX - touchstartX);
     if (moveSize < TOUCH_MIN_CHANGE_TOLERANCE) {

@@ -71,6 +71,9 @@
   /* font-weights */
   --clickable-font-weight: 600;
   --emphasized-font-weight: 700;
+
+  /* animations */
+  --transition-animation-duration: var(--transition-animation-duration);
 }
 
 body {

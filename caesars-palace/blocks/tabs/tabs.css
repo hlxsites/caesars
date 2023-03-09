@@ -93,18 +93,18 @@
 
 .tabs.block .active-tab-slide-in {
   animation-name: slide-in;
-  animation-duration: 0.3s;
+  animation-duration: var(--transition-animation-duration);
 }
 
 .tabs.block .active-tab-slide-out {
   animation-name: slide-out;
-  animation-duration: 0.3s;
+  animation-duration: var(--transition-animation-duration);
 }
 
 .tabs.block .hidden-tab .tab-text {
   opacity: 0;
   animation-name: text-slide-out;
-  animation-duration: 0.3s;
+  animation-duration: var(--transition-animation-duration);
 }
 
 /* Responsive Breakpoints */
@@ -157,7 +157,7 @@
 
   .tabs.block .active-tab-title {
     padding-bottom: var(--layout-size-xxs);
-    font-weight: 700;
+    font-weight: var(--emphasized-font-weight);
     width: unset;
     padding-top: unset;
   }
@@ -192,18 +192,18 @@
 
   .tabs.block .active-tab-slide-in {
     animation-name: slide-in;
-    animation-duration: 0.3s;
+    animation-duration: var(--transition-animation-duration);
   }
   
   .tabs.block .active-tab-slide-out {
     animation-name: slide-out;
-    animation-duration: 0.3s;
+    animation-duration: var(--transition-animation-duration);
   }
   
   .tabs.block .hidden-tab .tab-text {
     opacity: 0;
     animation-name: text-slide-out;
-    animation-duration: 0.3s;
+    animation-duration: var(--transition-animation-duration);
   }
 }
 
