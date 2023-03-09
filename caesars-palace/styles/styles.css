@@ -378,6 +378,7 @@ main .section.is-hero h4 {
   font-family: var(--heading-font-family);
   font-weight: var(--emphasized-font-weight);
   font-size: var(--heading-font-size-teaser);
+  padding-bottom: 50px;
 }
 
 main .section.is-hero .button-container {
@@ -389,7 +390,6 @@ main .section.is-hero .button-container {
 main .section.has-video-background {
   overflow: hidden;
   width: 100%;
-  padding-bottom: var(--layout-size-xxl);
 }
 
 main .section.has-video-background h1 {

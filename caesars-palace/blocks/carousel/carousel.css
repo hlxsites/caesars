@@ -47,7 +47,7 @@
   position: absolute;
   z-index: 1;
   color: var(--static-color-white);
-  text-shadow: 0 2px 4px rgba(0, 0, 0, 50%);
+  text-shadow: 0 2px 4px rgba(0 0 0 / 50%);
   line-height: 1.6;
   max-width: 100%;
 }
@@ -163,7 +163,7 @@
   .carousel.block .forward-carousel-button:hover {
     border: 0;
     border-radius: 50%;
-    background-color: rgba(190, 192, 197, 0.2);
+    background-color: rgba(190 192 197 / 20%);
     transition: background-color 75ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
@@ -190,7 +190,7 @@
   .carousel.block .back-carousel-button:hover {
     border: 0;
     border-radius: 50%;
-    background-color: rgba(190, 192, 197, 0.2);
+    background-color: rgba(190 192 197 / 20%);
     transition: background-color 75ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
