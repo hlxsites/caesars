@@ -447,6 +447,10 @@ main .section.is-hero.has-background-block {
   width: 100%;
 }
 
+main .section.is-hero.has-background-block > div:first-child {
+  position: absolute;
+}
+
 /* Responsive Breakpoints */
 
 /* Tablet (portrait) */
