@@ -43,47 +43,48 @@
   visibility: hidden;
 }
 
-.carousel-text {
+.carousel.block .carousel-text {
   position: absolute;
   z-index: 1;
   color: var(--static-color-white);
   text-shadow: 0 2px 4px rgba(0, 0, 0, 50%);
   line-height: 1.6;
+  max-width: 100%;
 }
 
-.carousel-text .button-container {
+.carousel.block .carousel-text .button-container {
   text-shadow: none;
 }
 
-.carousel-text h1 {
+.carousel.block .carousel-text h1 {
   font-size: 32px;
   text-transform: uppercase;
   line-height: 1.1;
   font-weight: 700;
 }
 
-.carousel-text h2 {
+.carousel.block .carousel-text h2 {
   font-size: 20px;
 }
 
-.left-text {
+.carousel.block .left-text {
   text-align: center;
 }
 
-.center-text {
+.carousel.block .center-text {
   text-align: center;
 }
 
-.right-text {
+.carousel.block .right-text {
   text-align: center;
 }
 
-.forward-carousel-button {
+.carousel.block .forward-carousel-button {
   position: absolute;
   visibility: hidden;
 }
 
-.back-carousel-button {
+.carousel.block .back-carousel-button {
   position: absolute;
   visibility: hidden;
 }
@@ -123,30 +124,30 @@
     margin-right: 64px;
   }
 
-  .left-text {
+  .carousel.block .left-text {
     text-align: left;
   }
 
-  .center-text {
+  .carousel.block .center-text {
     text-align: center;
   }
 
-  .right-text {
+  .carousel.block .right-text {
     text-align: right;
   }
 
-  .carousel-text h1 {
+  .carousel.block .carousel-text h1 {
     font-size: 64px;
     text-transform: uppercase;
     line-height: 1.1;
     font-weight: 700;
   }
 
-  .carousel-text h2 {
+  .carousel.block .carousel-text h2 {
     font-size: 20px;
   }
 
-  .forward-carousel-button {
+  .carousel.block .forward-carousel-button {
     visibility: visible;
     position: absolute;
     z-index: 5;
@@ -158,14 +159,14 @@
     margin-top: 0.3em;
   }
 
-  .forward-carousel-button:hover {
+  .carousel.block .forward-carousel-button:hover {
     border: 0;
     border-radius: 50%;
     background-color: rgba(190, 192, 197, 0.2);
     transition: background-color 75ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .forward-carousel-button svg {
+  .carousel.block .forward-carousel-button svg {
     display: flex;
     width: 16px;
     padding-left: 8px;
@@ -174,7 +175,7 @@
     color: var(--static-color-white);
   }
 
-  .back-carousel-button {
+  .carousel.block .back-carousel-button {
     visibility: visible;
     position: absolute;
     z-index: 5;
@@ -185,14 +186,14 @@
     top: 50%;
   }
 
-  .back-carousel-button:hover {
+  .carousel.block .back-carousel-button:hover {
     border: 0;
     border-radius: 50%;
     background-color: rgba(190, 192, 197, 0.2);
     transition: background-color 75ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .back-carousel-button svg {
+  .carousel.block .back-carousel-button svg {
     display: flex;
     width: 16px;
     color: var(--static-color-white);
