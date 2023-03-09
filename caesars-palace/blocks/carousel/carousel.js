@@ -1,6 +1,7 @@
-const AUTOSCROLL_INTERVAL = 7000;
+const AUTOSCROLL_INTERVAL = 7000; /* Autoscroll only if mouse not hovering block, and no touch event */
+
 const RESPONSIVE_MEDIA_QUERY = 'only screen and (min-width: 1170px)';
-const TOUCH_MIN_CHANGE_TOLERANCE = 10;
+const TOUCH_MIN_CHANGE_TOLERANCE = 100;
 const direction = Object.freeze({
   slideIn: 'SLIDE_IN',
   slideOut: 'SLIDE_OUT',
@@ -38,6 +39,7 @@ function getCurrentActiveIndex(block) {
   if (activeCarouselQueryResult.length !== 1) {
     return;
   }
+
   const currentActiveCarouselElement = activeCarouselQueryResult[0].classList;
   let currentIndex = null;
   let i = 0;
@@ -53,65 +55,6 @@ function getCurrentActiveIndex(block) {
   }
 
   return currentIndex; // eslint-disable-line consistent-return
-}
-
-function addSwipeCapability(block, intervalId, totalCarouselElements) {
-  let touchstartX = 0;
-  let touchendX = 0;
-  let offset = 0;
-
-  block.addEventListener('touchstart', (event) => {
-    touchstartX = event.changedTouches[0].screenX;
-  }, { passive: true });
-
-  block.addEventListener('touchmove', (event) => {
-    offset = event.changedTouches[0].screenX - touchstartX;
-    const activeCarouselQueryResult = block.getElementsByClassName(classes.activeCarouselElement);
-    if (activeCarouselQueryResult.length !== 1) {
-      return;
-    }
-    const currentActiveCarouselElement = activeCarouselQueryResult[0];
-    currentActiveCarouselElement.style.transform = `translate(${offset}px)`;
-  }, { passive: true });
-
-  block.addEventListener('touchend', (event) => {
-    touchendX = event.changedTouches[0].screenX;
-
-    const activeCarouselQueryResult = block.getElementsByClassName(classes.activeCarouselElement);
-    if (activeCarouselQueryResult.length !== 1) {
-      return;
-    }
-    const currentActiveCarouselElement = activeCarouselQueryResult[0];
-    currentActiveCarouselElement.style.transform = `translate(0)`;
-
-    const moveSize = Math.abs(touchendX - touchstartX);
-    if (moveSize < TOUCH_MIN_CHANGE_TOLERANCE) {
-      console.log("NO CHANGE");
-      return;
-    }
-
-    const currentActiveIndex = getCurrentActiveIndex(block);
-    if (touchendX < touchstartX) {
-      clearInterval(intervalId);
-      if(currentActiveIndex === 0){
-        showNextElement(block, totalCarouselElements);
-      } else if(currentActiveIndex === totalCarouselElements){
-        showNextElement(block, totalCarouselElements);
-      } else {
-        showNextElement(block, totalCarouselElements);
-      }
-    }
-    if (touchendX > touchstartX) {
-      clearInterval(intervalId);
-      if(currentActiveIndex === 0){
-        showPreviousElement(block, totalCarouselElements);
-      } else if(currentActiveIndex === totalCarouselElements){
-        showPreviousElement(block, totalCarouselElements);
-      } else {
-        showPreviousElement(block, totalCarouselElements);
-      }
-    }
-  }, { passive: true });
 }
 
 function moveCarousel(block, from, to, moveDirection) {
@@ -138,11 +81,11 @@ function moveCarousel(block, from, to, moveDirection) {
   const animationSlideIn = block.getElementsByClassName(classes.carouselSlideIn);
   [...animationSlideIn].forEach((animatedElement) => {
     animatedElement.classList.remove(classes.carouselSlideIn);
-  })
+  });
   const animationSlideOut = block.getElementsByClassName(classes.carouselSlideOut);
   [...animationSlideOut].forEach((animatedElement) => {
     animatedElement.classList.remove(classes.carouselSlideOut);
-  })
+  });
 
   if (moveDirection === direction.slideOut) {
     elementToShow.classList.add(classes.carouselSlideOut);
@@ -182,6 +125,51 @@ function showNextElement(block, totalCarouselElements) {
   moveCarousel(block, currentActiveIndex, indexToShow, direction.slideIn);
 }
 
+function addSwipeCapability(block, intervalId, totalCarouselElements) {
+  let touchstartX = 0;
+  let touchendX = 0;
+  let offset = 0;
+
+  block.addEventListener('touchstart', (event) => {
+    touchstartX = event.changedTouches[0].screenX;
+  }, { passive: true });
+
+  block.addEventListener('touchmove', (event) => {
+    offset = event.changedTouches[0].screenX - touchstartX;
+    const activeCarouselQueryResult = block.getElementsByClassName(classes.activeCarouselElement);
+    if (activeCarouselQueryResult.length !== 1) {
+      return;
+    }
+    const currentActiveCarouselElement = activeCarouselQueryResult[0];
+    currentActiveCarouselElement.style.transform = `translate(${offset}px)`;
+  }, { passive: true });
+
+  block.addEventListener('touchend', (event) => {
+    touchendX = event.changedTouches[0].screenX;
+
+    const activeCarouselQueryResult = block.getElementsByClassName(classes.activeCarouselElement);
+    if (activeCarouselQueryResult.length !== 1) {
+      return;
+    }
+    const currentActiveCarouselElement = activeCarouselQueryResult[0];
+    currentActiveCarouselElement.style.transform = 'translate(0)';
+
+    const moveSize = Math.abs(touchendX - touchstartX);
+    if (moveSize < TOUCH_MIN_CHANGE_TOLERANCE) {
+      return;
+    }
+
+    if (touchendX < touchstartX) {
+      clearInterval(intervalId);
+      showNextElement(block, totalCarouselElements);
+    }
+    if (touchendX > touchstartX) {
+      clearInterval(intervalId);
+      showPreviousElement(block, totalCarouselElements);
+    }
+  }, { passive: true });
+}
+
 export default async function decorate(block) {
   // for future autoscrolling
   const intervalId = setInterval(AUTOSCROLL_INTERVAL, block);
@@ -206,15 +194,12 @@ export default async function decorate(block) {
     const mediaWidthChangeHandler = (event) => {
       const imagesInRow = row.querySelectorAll('img');
 
-      if (event.matches === false) {
-        if (imagesInRow.length === 1) {
-          const carouselImage = imagesInRow[0];
+      if (imagesInRow.length === 1) {
+        const carouselImage = imagesInRow[0];
+        if (event.matches === false) {
           carouselImage.closest('div').classList.add(classes.carouselImage);
           carouselImage.closest('div').classList.add(classes.carouselMainImage);
-        }
-      } else {
-        if (imagesInRow.length === 1) {
-          const carouselImage = imagesInRow[0];
+        } else {
           carouselImage.closest('div').classList.add(classes.carouselImage);
           carouselImage.closest('div').classList.add(classes.carouselAltImage);
         }
