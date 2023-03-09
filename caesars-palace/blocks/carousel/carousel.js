@@ -1,5 +1,3 @@
-
-
 const RESPONSIVE_MEDIA_QUERY = 'only screen and (min-width: 1170px)';
 const TOUCH_MIN_CHANGE_TOLERANCE = 100;
 const direction = Object.freeze({
@@ -270,7 +268,7 @@ export default async function decorate(block) {
     block.append(forwardButton);
   }
 
-  let intervalId = null;
+  const intervalId = null;
   // const intervalId = setInterval(() => {
   //   showNextElement(block, totalCarouselElements);
   // }, AUTOSCROLL_INTERVAL);

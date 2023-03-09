@@ -296,11 +296,11 @@ main .section.has-overlay::before {
 main .section > div {
     position: relative;
     margin: 0 auto;
-    padding: 0 var(--layout-size-m);
 }
 
 main .section > div:first-of-type {
     padding-top: var(--layout-size-xxl);
+    width: 100%;
 }
 
 main .section > div:last-of-type {

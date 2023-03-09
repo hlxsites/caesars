@@ -1,6 +1,7 @@
 .carousel.block {
   display: block;
   position: relative;
+
   --mobile-carousel-image-size: 450px;
   --desktop-carousel-image-size: 500px;
 }
@@ -20,6 +21,7 @@
 
 .carousel.block .carousel-image img {
   width: 100%;
+  object-fit: cover;
 }
 
 .carousel.block .carousel-hidden-element {
@@ -94,12 +96,6 @@
 .carousel.block .carousel-slide-in {
   animation-name: slide-in;
   animation-duration: 0.3s;
-}
-
-@media only screen and (min-width: 400px) {
-  .carousel-text {
-    margin-top: 15em;
-  }
 }
 
 @media only screen and (min-width: 1170px) {
