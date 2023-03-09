@@ -10,9 +10,10 @@
  */
 
 const DEFAULT_SCROLL_INTERVAL = 5000;
-const SLIDE_CAPTION_SIZE = 64;
+const MIN_HEIGHT = 670;
 const SLIDE_ID_PREFIX = 'carousel-slide';
-const SLIDE_CONTROL_ID_PREFIX = 'carousel-slide-control';
+const NAVIGATION_DIRECTION_PREV = 'prev';
+const NAVIGATION_DIRECTION_NEXT = 'next';
 
 let resizeTimeout;
 let scrollInterval;
@@ -79,7 +80,8 @@ function calculateSlideHeight(carousel, slide) {
       textOptions,
     );
     const bodyHeight = parseFloat(bodyStyle.lineHeight) * lineCount;
-    carousel.style.height = `${bodyHeight + 570}px`;
+    
+    carousel.style.height = `${bodyHeight + MIN_HEIGHT}px`;
   });
 }
 
@@ -138,14 +140,15 @@ function snapScroll(el, dir = 1) {
  * @param dir A string of either 'prev or 'next'
  * @return {HTMLDivElement} The resulting nav element
  */
-function buildNav(dir) {
+function buildNav(navigrationDirection) {
+  // TODO
   const btn = document.createElement('div');
-  btn.classList.add('carousel-nav', `carousel-nav-${dir}`);
+  btn.classList.add('carousel-nav', `carousel-nav-${navigrationDirection}`);
   btn.addEventListener('click', (e) => {
     let nextSlide = 0;
-    if (dir === 'prev') {
+    if (navigrationDirection === NAVIGATION_DIRECTION_PREV) {
       nextSlide = curSlide === 0 ? maxSlide : curSlide - 1;
-    } else {
+    } else if (navigrationDirection === NAVIGATION_DIRECTION_NEXT) {
       nextSlide = curSlide === maxSlide ? 0 : curSlide + 1;
     }
     const carousel = e.target.closest('.carousel');
@@ -172,6 +175,16 @@ function buildSlide(slide, index) {
   if (index !== 0) {
     slide.setAttribute('tabindex', '-1');
   }
+
+  // build image slider content
+  const slideMainImage = slide.children[0];
+  slideMainImage.classList.add('carousel-main-image');
+
+  const slideAltImage = slide.children[1];
+  slideAltImage.classList.add('carousel-alt-image');
+
+  const slideTextImage = slide.children[2];
+  slideTextImage.classList.add('carousel-text');
 
   return slide;
 }
