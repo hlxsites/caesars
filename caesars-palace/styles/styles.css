@@ -204,6 +204,10 @@ button {
   text-overflow: ellipsis;
 }
 
+main .button-container > a.primary {
+  padding: var(--layout-size-xs) 0 0;
+}
+
 /* Primary button */
 .button-container > strong > a.primary:hover,
 .button-container > strong > a.primary:active,
@@ -229,11 +233,6 @@ button.secondary {
 .button-container > em > a.secondary:active,
 button {
     text-decoration: none;
-}
-
-/* Link button */
-main .button-container > a.primary {
-  padding: var(--layout-size-xs) 0 0;
 }
 
 main .button-container > a.primary::after {

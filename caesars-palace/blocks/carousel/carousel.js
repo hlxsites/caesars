@@ -356,7 +356,6 @@ export default async function decorate(block) {
   });
 
   window.addEventListener('resize', () => {
-    // clear the timeout
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => calculateSlideHeight(carousel, slides[curSlide]), 500);
   });
