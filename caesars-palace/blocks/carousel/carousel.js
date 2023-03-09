@@ -96,7 +96,7 @@ function calculateSlideHeight(carousel, slide) {
       textOptions,
     );
     const bodyHeight = parseFloat(bodyStyle.lineHeight) * lineCount;
-    
+
     carousel.style.height = `${bodyHeight + MIN_HEIGHT}px`;
   });
 }
@@ -172,16 +172,11 @@ async function buildNav(navigrationDirection) {
   btn.addEventListener('click', (e) => {
     let nextSlide = 0;
 
-    console.log(`curSlide: `, curSlide);
-    console.log(`maxSlide: `, maxSlide);
-
     if (navigrationDirection === NAVIGATION_DIRECTION_PREV) {
       nextSlide = curSlide === 0 ? maxSlide : curSlide - 1;
     } else if (navigrationDirection === NAVIGATION_DIRECTION_NEXT) {
       nextSlide = curSlide === maxSlide ? 0 : curSlide + 1;
     }
-
-    console.log(`nextSlide: `, nextSlide);
 
     const carousel = e.target.closest('.carousel');
     stopAutoScroll();
@@ -246,7 +241,7 @@ export default async function decorate(block) {
 
   const movementStartEventHandler = (e) => {
     let offset = 0;
-    if(e.changedTouches && e.changedTouches.length >= 1){
+    if (e.changedTouches && e.changedTouches.length >= 1) {
       offset = e.changedTouches[0].screenX;
     } else {
       offset = e.pageX;
@@ -256,7 +251,7 @@ export default async function decorate(block) {
     startX = offset - carousel.offsetLeft;
     startScroll = carousel.scrollLeft;
     prevScroll = startScroll;
-  }
+  };
   carousel.addEventListener('mousedown', (e) => {
     movementStartEventHandler(e);
   });
@@ -281,7 +276,7 @@ export default async function decorate(block) {
       snapScroll(carousel, carousel.scrollLeft > startScroll ? 1 : -1);
     }
     isDown = false;
-  }
+  };
   carousel.addEventListener('mouseup', () => {
     movementEndEventHandler();
   });
@@ -291,7 +286,7 @@ export default async function decorate(block) {
 
   const movementChangeEventHandler = (e) => {
     let offset = 0;
-    if(e.changedTouches && e.changedTouches.length >= 1){
+    if (e.changedTouches && e.changedTouches.length >= 1) {
       offset = e.changedTouches[0].screenX;
     } else {
       offset = e.pageX;
