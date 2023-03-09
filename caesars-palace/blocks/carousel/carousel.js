@@ -5,7 +5,7 @@
  * - smooth scrolling
  * - mouse drag between slides
  * - TODO: swipe between slides
- * - TODO: allow endless swiping/sliding
+ * - TODO: allow endless sliding
  * - next and previous navigation button
  */
 
@@ -245,12 +245,19 @@ export default async function decorate(block) {
   let startScroll = 0;
   let prevScroll = 0;
 
-  carousel.addEventListener('mousedown', (e) => {
+  const movementStartEventHandler = (e) => {
+    let offset = e.changedTouches[0].screenX || e.pageX;
     isDown = true;
-    startX = e.pageX - carousel.offsetLeft;
+    startX = offset - carousel.offsetLeft;
     startScroll = carousel.scrollLeft;
     prevScroll = startScroll;
+  }
+  carousel.addEventListener('mousedown', (e) => {
+    movementStartEventHandler(e);
   });
+  carousel.addEventListener('touchstart', (e) => {
+    movementStartEventHandler(e);
+  }, { passive: true });
 
   carousel.addEventListener('mouseenter', () => {
     stopAutoScroll();
@@ -264,22 +271,35 @@ export default async function decorate(block) {
     isDown = false;
   });
 
-  carousel.addEventListener('mouseup', () => {
+  const movementEndEventHandler = () => {
     if (isDown) {
       snapScroll(carousel, carousel.scrollLeft > startScroll ? 1 : -1);
     }
     isDown = false;
+  }
+  carousel.addEventListener('mouseup', () => {
+    movementEndEventHandler();
   });
+  carousel.addEventListener('touchend', () => {
+    movementEndEventHandler();
+  }, { passive: true });
 
-  carousel.addEventListener('mousemove', (e) => {
+  const movementChangeEventHandler = (e) => {
+    let offset = e.changedTouches[0].screenX || e.pageX;
     if (!isDown) {
       return;
     }
     e.preventDefault();
-    const x = e.pageX - carousel.offsetLeft;
+    const x = offset - carousel.offsetLeft;
     const walk = (x - startX);
     carousel.scrollLeft = prevScroll - walk;
+  };
+  carousel.addEventListener('mousemove', (e) => {
+    movementChangeEventHandler(e);
   });
+  carousel.addEventListener('touchmove', (e) => {
+    movementChangeEventHandler(e);
+  }, { passive: true });
 
   // process each slide
   const slides = [...block.children];
