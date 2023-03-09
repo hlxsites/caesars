@@ -395,7 +395,7 @@ main .section.has-background-block {
 /* Responsive Breakpoints */
 
 /* Tablet (portrait) */
-@media only screen and (min-width: 768px) {
+@media only screen and (min-width: 360px) {
     main .section > div {
         width: var(--screen-width-s);
     }

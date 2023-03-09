@@ -47,7 +47,6 @@
   color: var(--static-color-white);
   text-shadow: 0 2px 4px rgba(0, 0, 0, 50%);
   line-height: 1.6;
-  margin-top: 15em;
 }
 
 .carousel-text .button-container {
@@ -95,6 +94,12 @@
 .carousel.block .carousel-slide-in {
   animation-name: slide-in;
   animation-duration: 0.3s;
+}
+
+@media only screen and (min-width: 400px) {
+  .carousel-text {
+    margin-top: 15em;
+  }
 }
 
 @media only screen and (min-width: 1170px) {
