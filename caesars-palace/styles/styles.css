@@ -13,12 +13,16 @@
 :root {
   /* screen width breakpoints */
   --screen-width-s: 768px;
+
   /* Tablet (portrait) */
   --screen-width-m: 960px;
+
   /* Tablet (landscape) */
   --screen-width-l: 1170px;
+
   /* Desktop (small) */
   --screen-width-xl: 1440px;
+
   /* Desktop (large) */
 
   /* colors */
@@ -178,9 +182,9 @@ button {
 }
 
 /* Primary/Secondary button */
-.cet-card strong>a,
-.button-container>strong>a.primary,
-.button-container>em>a.secondary,
+.cet-card strong > a,
+.button-container > strong > a.primary,
+.button-container > em > a.secondary,
 button {
   min-width: 133px;
   border: 1px solid var(--static-color-black);
@@ -196,7 +200,7 @@ button {
 }
 
 /* Secondary button */
-.button-container>em>a.secondary,
+.button-container > em > a.secondary,
 button.secondary {
   background-color: var(--static-color-white);
   border: 1px solid var(--static-color-gray-dark);
@@ -204,11 +208,11 @@ button.secondary {
 }
 
 /* Link button */
-main .button-container>a.primary {
+main .button-container > a.primary {
   padding: var(--layout-size-xs) 0 0;
 }
 
-main .button-container>a.primary::after {
+main .button-container > a.primary::after {
   content: '';
   display: inline-block;
   position: relative;
@@ -267,7 +271,7 @@ main .section.has-background {
   padding: 0;
 }
 
-main .section.has-background>picture {
+main .section.has-background > picture {
   position: absolute;
   z-index: -5;
   top: 0;
@@ -276,7 +280,7 @@ main .section.has-background>picture {
   right: 0;
 }
 
-main .section.has-background>picture img {
+main .section.has-background > picture img {
   object-fit: cover;
   width: 100%;
   height: 100%;
@@ -306,26 +310,33 @@ main .section.has-overlay::before {
   opacity: .8;
 }
 
-main .section>div {
+main .section > div {
   position: relative;
   margin: 0 auto;
 }
 
-main .section>div:first-of-type {
+main .section > div:first-of-type {
   padding-top: var(--layout-size-xxl);
 }
 
-main .section.is-hero>div:first-of-type {
-  padding-top: unset;
-  width: 100%;
+main .section > div:last-of-type {
+  padding-bottom: var(--layout-size-xxl);
 }
 
-main .section.is-hero>div:last-of-type {
+main .section.is-hero > div {
+  position: relative;
+  width: 100%;
+  margin: unset;
+  padding-left: unset;
+}
+
+main .section.is-hero > div:last-of-type {
   padding-bottom: unset;
 }
 
-main .section>div:last-of-type {
-  padding-bottom: var(--layout-size-xxl);
+main .section.is-hero > div:first-of-type {
+  padding-top: unset;
+  width: 100%;
 }
 
 /* progressive section appearance */
@@ -344,13 +355,6 @@ main .section.is-hero.has-background {
   overflow: hidden;
   width: 100%;
   padding-top: 145px;
-}
-
-main .section.is-hero>div {
-  position: relative;
-  width: 100%;
-  margin: unset;
-  padding-left: unset;
 }
 
 main .section.is-hero h1 {
@@ -406,7 +410,7 @@ main .section.has-video-background picture {
   min-height: var(--screen-width-s);
 }
 
-main .section.has-video-background>picture img {
+main .section.has-video-background > picture img {
   object-fit: cover;
   width: 100%;
   height: 100%;
@@ -426,7 +430,7 @@ main .section.is-hero.has-background-block {
 
 /* Tablet (portrait) */
 @media only screen and (min-width: 768px) {
-  main .section>div {
+  main .section > div {
     width: var(--screen-width-s);
   }
 }
@@ -444,7 +448,7 @@ main .section.is-hero.has-background-block {
     --heading-font-size-xs: 16px;
   }
 
-  main .section>div {
+  main .section  >  div {
     width: var(--screen-width-m);
   }
 
@@ -460,7 +464,7 @@ main .section.is-hero.has-background-block {
     --heading-font-size-xxl: 94px;
   }
 
-  main .section > div {
+  main .section  >  div {
       width: var(--screen-width-l);
   }
 
@@ -468,7 +472,7 @@ main .section.is-hero.has-background-block {
     margin-top: 3em;
   }
 
-  main .section.has-video-background>video {
+  main .section.has-video-background > video {
     position: absolute;
     z-index: -5;
     top: 0;
@@ -476,15 +480,11 @@ main .section.is-hero.has-background-block {
     bottom: 0;
     right: 0;
   }
-
-  main .section>div {
-    width: var(--screen-width-l);
-  }
 }
 
 /* Desktop (large) */
 @media only screen and (min-width: 1440px) {
-  main .section>div {
+  main .section > div {
     width: var(--screen-width-xl);
   }
 }
