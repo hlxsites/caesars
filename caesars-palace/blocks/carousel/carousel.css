@@ -110,6 +110,7 @@
     position: unset;
     visibility: visible;
     overflow: hidden;
+    width: 100%;
   }
 
   .carousel.block .carousel-only-image {

@@ -303,6 +303,15 @@ main .section > div:first-of-type {
     width: 100%;
 }
 
+main .section.is-hero > div:first-of-type {
+  padding-top: unset;
+  width: 100%;
+}
+
+main .section.is-hero > div:last-of-type {
+  padding-bottom: unset;
+}
+
 main .section > div:last-of-type {
     padding-bottom: var(--layout-size-xxl);
 }
@@ -317,8 +326,12 @@ main .section.is-hero {
   display: flex;
   flex-direction: column;
   padding: unset;
-  padding-top: 72px;
-  padding-bottom: 144px;
+}
+
+main .section.is-hero.has-background {
+  overflow: hidden;
+  width: 100%;
+  padding-top: 145px;
 }
 
 main .section.is-hero > div {
@@ -368,7 +381,7 @@ main .section.has-video-background h1 {
   line-height: 1.1;
   font-family: var(--heading-font-family);
   font-weight: var(--emphasized-font-weight);
-  margin-top: 2em;
+  margin-top: 145px;
 }
 
 main .section.has-video-background picture {
@@ -388,6 +401,11 @@ main .section.has-video-background > picture img {
 }
 
 main .section.has-background-block {
+  overflow: hidden;
+  width: 100%;
+}
+
+main .section.is-hero.has-background-block {
   overflow: hidden;
   width: 100%;
 }
