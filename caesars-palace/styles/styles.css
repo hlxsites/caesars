@@ -355,6 +355,7 @@ main .section.is-hero.has-background {
   overflow: hidden;
   width: 100%;
   padding-top: 145px;
+  padding-bottom: var(--layout-size-xxl);
 }
 
 main .section.is-hero h1 {
@@ -386,6 +387,7 @@ main .section.is-hero .button-container {
 main .section.has-video-background {
   overflow: hidden;
   width: 100%;
+  padding-bottom: var(--layout-size-xxl);
 }
 
 main .section.has-video-background h1 {
