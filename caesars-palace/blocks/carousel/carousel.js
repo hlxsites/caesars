@@ -233,7 +233,7 @@ export default async function decorate(block) {
   const carousel = document.createElement('div');
   carousel.classList.add('carousel-slide-container');
 
-  // make carousel draggable
+  // make carousel draggable and swipeable
   let isDown = false;
   let startX = 0;
   let startScroll = 0;
@@ -262,7 +262,6 @@ export default async function decorate(block) {
   carousel.addEventListener('mouseenter', () => {
     stopAutoScroll();
   });
-
   carousel.addEventListener('mouseleave', () => {
     if (isDown) {
       snapScroll(carousel, carousel.scrollLeft > startScroll ? 1 : -1);
@@ -327,13 +326,12 @@ export default async function decorate(block) {
     block.append(prevBtn, nextBtn);
   }
 
-  // auto scroll when visible
+  // auto scroll when visible only
   const intersectionOptions = {
     root: null,
     rootMargin: '0px',
     threshold: 1.0,
   };
-
   const handleAutoScroll = (entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
@@ -343,7 +341,6 @@ export default async function decorate(block) {
       }
     });
   };
-
   const carouselObserver = new IntersectionObserver(handleAutoScroll, intersectionOptions);
   carouselObserver.observe(block);
 
