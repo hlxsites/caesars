@@ -116,10 +116,8 @@ function scrollToSlide(carousel, slideIndex = 0) {
   [...carouselSlider.children].forEach((slide, index) => {
     if (index === slideIndex) {
       slide.removeAttribute('tabindex');
-      slide.setAttribute('aria-hidden', 'false');
     } else {
       slide.setAttribute('tabindex', '-1');
-      slide.setAttribute('aria-hidden', 'true');
     }
   });
   curSlide = slideIndex;
@@ -173,11 +171,18 @@ async function buildNav(navigrationDirection) {
   btn.classList.add('carousel-nav', `carousel-nav-${navigrationDirection}`);
   btn.addEventListener('click', (e) => {
     let nextSlide = 0;
+
+    console.log(`curSlide: `, curSlide);
+    console.log(`maxSlide: `, maxSlide);
+
     if (navigrationDirection === NAVIGATION_DIRECTION_PREV) {
       nextSlide = curSlide === 0 ? maxSlide : curSlide - 1;
     } else if (navigrationDirection === NAVIGATION_DIRECTION_NEXT) {
       nextSlide = curSlide === maxSlide ? 0 : curSlide + 1;
     }
+
+    console.log(`nextSlide: `, nextSlide);
+
     const carousel = e.target.closest('.carousel');
     stopAutoScroll();
     scrollToSlide(carousel, nextSlide);
