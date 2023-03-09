@@ -51,7 +51,12 @@
   position: absolute;
   transition: 0.5s;
   cursor: pointer;
+  margin-left: 16px;
+  margin-right: 16px;
+  padding: 10px 10px 10px 10px;
 }
+
+
 
 .carousel .carousel-nav svg {
   color: var(--static-color-white);
@@ -72,7 +77,12 @@
   right: 0;
 }
 
-.carousel .button-container {
+.carousel .carousel-nav-next svg {
+  height: 32px;
+}
+
+.carousel .carousel-nav-prev svg {
+  height: 32px
 }
 
 .carousel .carousel-alt-image {
