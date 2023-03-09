@@ -13,6 +13,7 @@
   position: unset;
   visibility: visible;
   align-items: center;
+  justify-content: center;
   display: flex;
   flex-direction: column;
 }
@@ -42,13 +43,11 @@
 
 .carousel-text {
   position: absolute;
-  top: 50%;
   z-index: 1;
-  width: 85%;
   color: var(--static-color-white);
   text-shadow: 0 2px 4px rgba(0, 0, 0, 50%);
   line-height: 1.6;
-  border: 3px solid red;
+  margin-top: 15em;
 }
 
 .carousel-text .button-container {
@@ -116,7 +115,8 @@
   }
 
   .carousel-text {
-    top: 50%;
+    margin-top: unset;
+    top: 40%;
     width: 90%;
     margin-left: 64px;
     margin-right: 64px;
