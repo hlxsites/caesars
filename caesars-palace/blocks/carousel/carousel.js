@@ -270,9 +270,9 @@ export default async function decorate(block) {
     block.append(forwardButton);
   }
 
-  const intervalId = setInterval(() => {
-    showNextElement(block, totalCarouselElements);
-  }, AUTOSCROLL_INTERVAL);
+  // const intervalId = setInterval(() => {
+  //   showNextElement(block, totalCarouselElements);
+  // }, AUTOSCROLL_INTERVAL);
 
   addSwipeCapability(block, intervalId, totalCarouselElements);
 }

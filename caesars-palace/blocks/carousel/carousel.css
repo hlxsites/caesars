@@ -43,9 +43,8 @@
   z-index: 1;
   width: 85%;
   color: var(--static-color-white);
-  text-shadow: 0 2px 4px rgba(0,0,0,50%);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 50%);
   line-height: 1.6;
-  margin-left: 64px;
 }
 
 .carousel-text .button-container {
@@ -63,16 +62,16 @@
   font-size: 20px;
 }
 
-.left-text{
-  text-align: left;
+.left-text {
+  text-align: center;
 }
 
-.center-text{
-  text-align:center;
+.center-text {
+  text-align: center;
 }
 
-.right-text{
-  text-align: right;
+.right-text {
+  text-align: center;
 }
 
 .forward-carousel-button {
@@ -118,13 +117,25 @@
     margin-left: 64px;
   }
 
+  .left-text {
+    text-align: left;
+  }
+
+  .center-text {
+    text-align: center;
+  }
+
+  .right-text {
+    text-align: right;
+  }
+
   .carousel-text h1 {
     font-size: 64px;
     text-transform: uppercase;
     line-height: 1.1;
     font-weight: 700;
   }
-  
+
   .carousel-text h2 {
     font-size: 20px;
   }
@@ -144,10 +155,10 @@
   .forward-carousel-button:hover {
     border: 0;
     border-radius: 50%;
-    background-color: rgba(190,192,197,0.2);
-    transition: background-color 75ms cubic-bezier(0.4,0,0.2,1);
+    background-color: rgba(190, 192, 197, 0.2);
+    transition: background-color 75ms cubic-bezier(0.4, 0, 0.2, 1);
   }
-  
+
   .forward-carousel-button svg {
     display: flex;
     width: 16px;
@@ -156,7 +167,7 @@
     margin-left: 1px;
     color: var(--static-color-white);
   }
-  
+
   .back-carousel-button {
     visibility: visible;
     position: absolute;
@@ -171,10 +182,10 @@
   .back-carousel-button:hover {
     border: 0;
     border-radius: 50%;
-    background-color: rgba(190,192,197,0.2);
-    transition: background-color 75ms cubic-bezier(0.4,0,0.2,1);
+    background-color: rgba(190, 192, 197, 0.2);
+    transition: background-color 75ms cubic-bezier(0.4, 0, 0.2, 1);
   }
-  
+
   .back-carousel-button svg {
     display: flex;
     width: 16px;
@@ -187,7 +198,7 @@
     animation-name: slide-out;
     animation-duration: 0.3s;
   }
-  
+
   .carousel.block .carousel-slide-in {
     animation-name: slide-in;
     animation-duration: 0.3s;
