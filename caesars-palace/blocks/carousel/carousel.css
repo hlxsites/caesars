@@ -6,6 +6,8 @@
   --desktop-carousel-image-size: 500px;
 }
 
+/* transform: translate(calc(-960px), -450px); */
+/* transform: translate(calc(+960px), -450px); */
 .carousel.block .is-moving {
   border: 5px solid red;
 }
@@ -103,12 +105,12 @@
 
 .carousel.block .carousel-slide-out {
   animation-name: slide-out;
-  animation-duration: var(--transition-animation-duration);
+  animation-duration: 0.3s;
 }
 
 .carousel.block .carousel-slide-in {
   animation-name: slide-in;
-  animation-duration: var(--transition-animation-duration);
+  animation-duration: 0.3s;
 }
 
 @media only screen and (min-width: 1170px) {
@@ -216,12 +218,12 @@
 
   .carousel.block .carousel-slide-out {
     animation-name: slide-out;
-    animation-duration: var(--transition-animation-duration);
+    animation-duration: 0.3s;
   }
 
   .carousel.block .carousel-slide-in {
     animation-name: slide-in;
-    animation-duration: var(--transition-animation-duration);
+    animation-duration: 0.3s;
   }
 }
 

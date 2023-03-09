@@ -93,18 +93,18 @@
 
 .tabs.block .active-tab-slide-in {
   animation-name: slide-in;
-  animation-duration: var(--transition-animation-duration);
+  animation-duration: 0.3s;
 }
 
 .tabs.block .active-tab-slide-out {
   animation-name: slide-out;
-  animation-duration: var(--transition-animation-duration);
+  animation-duration: 0.3s;
 }
 
 .tabs.block .hidden-tab .tab-text {
   opacity: 0;
   animation-name: text-slide-out;
-  animation-duration: var(--transition-animation-duration);
+  animation-duration: 0.3s;
 }
 
 /* Responsive Breakpoints */
@@ -192,18 +192,18 @@
 
   .tabs.block .active-tab-slide-in {
     animation-name: slide-in;
-    animation-duration: var(--transition-animation-duration);
+    animation-duration: 0.3s;
   }
   
   .tabs.block .active-tab-slide-out {
     animation-name: slide-out;
-    animation-duration: var(--transition-animation-duration);
+    animation-duration: 0.3s;
   }
   
   .tabs.block .hidden-tab .tab-text {
     opacity: 0;
     animation-name: text-slide-out;
-    animation-duration: var(--transition-animation-duration);
+    animation-duration: 0.3s;
   }
 }
 
