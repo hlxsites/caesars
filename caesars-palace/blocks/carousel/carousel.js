@@ -10,18 +10,15 @@
  */
 
 const DEFAULT_SCROLL_INTERVAL_MS = 5000;
-const MIN_HEIGHT_PX = 670;
 const SLIDE_ID_PREFIX = 'carousel-slide';
 const NAVIGATION_DIRECTION_PREV = 'prev';
 const NAVIGATION_DIRECTION_NEXT = 'next';
 const SLIDE_ANIMATION_DURATION_MS = 640;
 
-let resizeTimeout;
+const firstVisibleSlide = 1;
 let scrollInterval;
-let firstVisibleSlide =1;
 let curSlide = 1;
 let maxVisibleSlides = 0;
-let gotFocusedOnce = false;
 
 async function getChevronSvg(iconPath) {
   let svg = null;
