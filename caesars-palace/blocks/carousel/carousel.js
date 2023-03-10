@@ -80,31 +80,6 @@ function getLineCount(text, width, options = {}) {
 }
 
 /**
- * Calculate the actual height of a slide based on its contents.
- *
- * @param carousel The carousel
- * @param slide A slide within the carousel
- */
-function calculateSlideHeight(carousel, slide) {
-  requestAnimationFrame(() => {
-    const slideBody = slide.querySelector('div');
-    const bodyStyle = window.getComputedStyle(slideBody);
-    const textOptions = {
-      font: `${bodyStyle.fontWeight} ${bodyStyle.fontSize} ${bodyStyle.fontFamily}`,
-      letterSpacing: '0.0175em',
-    };
-    const lineCount = getLineCount(
-      slideBody.textContent,
-      parseInt(bodyStyle.width, 10),
-      textOptions,
-    );
-    const bodyHeight = parseFloat(bodyStyle.lineHeight) * lineCount;
-
-    carousel.style.height = `${bodyHeight + MIN_HEIGHT_PX}px`;
-  });
-}
-
-/**
  * Scroll a single slide into view.
  *
  * @param carousel The carousel
@@ -112,15 +87,8 @@ function calculateSlideHeight(carousel, slide) {
  */
 function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
   const carouselSlider = carousel.querySelector('.carousel-slide-container');
-  calculateSlideHeight(carouselSlider, carouselSlider.children[slideIndex]);
 
-  console.log("Request to scroll to slide ", slideIndex)
-  console.log("maxVisibleSlides: ", maxVisibleSlides)
-  console.log("firstVisibleSlide: ", firstVisibleSlide)
-  console.log("carouselSlider.offsetWidth", carouselSlider.offsetWidth)
   if(slideIndex >= firstVisibleSlide && slideIndex <= maxVisibleSlides){
-    console.log("Default - sliding of ", carouselSlider.offsetWidth);
-
     // normal sliding
     carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * slideIndex, behavior: scrollBehavior });
 
@@ -138,7 +106,7 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
     if(slideIndex === 0){
       // sliding from first to last
       carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * slideIndex, behavior: 'smooth' });
-      setTimeout(() => scrollToSlide(carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * maxVisibleSlides, behavior: 'auto' })), SLIDE_ANIMATION_DURATION_MS);
+      setTimeout(() => scrollTo(carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * maxVisibleSlides, behavior: 'auto' })), SLIDE_ANIMATION_DURATION_MS);
 
       // sync slide state
       [...carouselSlider.children].forEach((slide, index) => {
@@ -279,7 +247,6 @@ function createClone(item, targetIndex) {
  * @param {Element} element carousel to add clones to
  */
 function addClones(element) {
-  console.log("Building infinite scrolling");
   if (element.children.length < 2) return;
 
   const initialChildren = [...element.children];
@@ -409,9 +376,6 @@ export default async function decorate(block) {
   addClones(carousel);
   block.append(carousel);
 
-  // calculate height of first slide
-  calculateSlideHeight(carousel, slides[firstVisibleSlide]);
-
   // add nav buttons
   if (slides.length > 1) {
     const prevBtn = await buildNav('prev');
@@ -451,10 +415,5 @@ export default async function decorate(block) {
     } else {
       startAutoScroll(block, scrollDisplayTime);
     }
-  });
-
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(() => calculateSlideHeight(carousel, slides[curSlide]), 500);
   });
 }

@@ -18,6 +18,7 @@
   overflow: hidden;
   margin: 0 auto;
   transition: height 0.2s linear;
+  height: 670px;
 }
 
 .carousel.block .carousel-slide {
