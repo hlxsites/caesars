@@ -108,7 +108,7 @@ function calculateSlideHeight(carousel, slide) {
  * @param carousel The carousel
  * @param slideIndex {number} The slide index
  */
-function scrollToSlide(carousel, slideIndex = 0) {
+function scrollToSlide(carousel, slideIndex = 1) {
   const carouselSlider = carousel.querySelector('.carousel-slide-container');
   calculateSlideHeight(carouselSlider, carouselSlider.children[slideIndex]);
 
@@ -178,7 +178,7 @@ async function buildNav(navigrationDirection) {
 
   btn.classList.add('carousel-nav', `carousel-nav-${navigrationDirection}`);
   btn.addEventListener('click', (e) => {
-    let nextSlide = 0;
+    let nextSlide = firstVisibleSlide;
 
     if (navigrationDirection === NAVIGATION_DIRECTION_PREV) {
       nextSlide = curSlide === firstVisibleSlide ? maxVisibleSlides : curSlide - 1;
@@ -374,7 +374,7 @@ export default async function decorate(block) {
   block.append(carousel);
 
   // calculate height of first slide
-  calculateSlideHeight(carousel, slides[0]);
+  calculateSlideHeight(carousel, slides[firstVisibleSlide]);
 
   // add nav buttons
   if (slides.length > 1) {
