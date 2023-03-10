@@ -307,27 +307,22 @@ export default async function decorate(block) {
     movementEndEventHandler();
   }, { passive: true });
 
-  const movementChangeEventHandler = (e) => {
-    let offset = 0;
-    if (e.changedTouches && e.changedTouches.length >= 1) {
-      offset = e.changedTouches[0].screenX;
-    } else {
-      offset = e.pageX;
-    }
-
+  carousel.addEventListener('mousemove', (e) => {
     if (!isDown) {
       return;
     }
     e.preventDefault();
-    const x = offset - carousel.offsetLeft;
+    const x = e.pageX - carousel.offsetLeft;
     const walk = (x - startX);
     carousel.scrollLeft = prevScroll - walk;
-  };
-  carousel.addEventListener('mousemove', (e) => {
-    movementChangeEventHandler(e);
   });
   carousel.addEventListener('touchmove', (e) => {
-    movementChangeEventHandler(e);
+    if (!isDown) {
+      return;
+    }
+    const x = e.changedTouches[0].screenX - carousel.offsetLeft;
+    const walk = (x - startX);
+    carousel.scrollLeft = prevScroll - walk;
   }, { passive: true });
 
   // add carousel to page
