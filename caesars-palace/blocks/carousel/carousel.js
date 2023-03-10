@@ -217,6 +217,42 @@ function buildSlide(slide, index) {
 }
 
 /**
+ * Clone an existing carousel item
+ * @param {Element} item carousel item to be cloned
+ * @returns the clone of the carousel item
+ */
+function createClone(item) {
+  const clone = item.cloneNode(true);
+  clone.classList.add('clone');
+
+  console.log("Returned clone: ");
+  console.log(clone);
+  return clone;
+}
+
+/**
+ * Create clone items at the beginning and end of the carousel
+ * to create the illusion of infinite scrolling
+ * @param {Element} block
+ */
+function addClones(block) {
+  console.log("Building infinite scrolling");
+  if (block.children.length < 2) return;
+
+  const initialChildren = [...block.children];
+
+  const cloneForEnd = createClone(initialChildren[0]);
+  console.log("cloneForEnd:");
+  console.log(cloneForEnd);
+  // block.lastChild.after(cloneForEnd);
+
+  const cloneForbeginning = createClone(initialChildren[initialChildren.length - 1]);
+  console.log("cloneForbeginning:");
+  console.log(cloneForbeginning);
+  // block.firstChild.before(firstClone);
+}
+
+/**
  * Start auto-scrolling
  * @param {*} block Block
  * @param {*} interval Optionel, configured time in ms to show a slide
@@ -229,32 +265,6 @@ function startAutoScroll(block, interval) {
       scrollToSlide(block, curSlide < maxSlide ? curSlide + 1 : 0);
     }, intervalToUse);
   }
-}
-
-/**
- * Clone an existing carousel item
- * @param {Element} item carousel item to be cloned
- * @returns the clone of the carousel item
- */
-function createClone(item) {
-  const clone = item.cloneNode(true);
-  clone.classList.add('clone');
-
-  return clone;
-}
-
-/**
- * Create clone items at the beginning and end of the carousel
- * to create the illusion of infinite scrolling
- * @param {Element} block
- */
-function createClones(block) {
-  if (block.children.length < 2) return;
-
-  const initialChildren = [...block.children];
-
-  block.lastChild.after(createClone(initialChildren[0]));
-  block.firstChild.before(createClone(initialChildren[initialChildren.length - 2]));
 }
 
 /**
@@ -356,6 +366,7 @@ export default async function decorate(block) {
   slides.forEach((slide, index) => {
     carousel.appendChild(buildSlide(slide, index));
   });
+  addClones(carousel);
   block.append(carousel);
 
   // calculate height of first slide
