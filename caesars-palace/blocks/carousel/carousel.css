@@ -32,6 +32,9 @@
   max-height: 670px;
   object-fit: cover;
   object-position: left top;
+
+  /* hint browser to use GPU */
+  transform: translate3d(0, 0, 0);
 }
 
 .carousel.block .carousel-slide > div {
