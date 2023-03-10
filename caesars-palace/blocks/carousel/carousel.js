@@ -199,7 +199,7 @@ function buildSlide(slide, index) {
   slide.style.transform = `translateX(${index * 100}%)`;
 
   slide.setAttribute('role', 'tabpanel');
-  if (index !== 0) {
+  if (index !== 1) {
     slide.setAttribute('tabindex', '-1');
   }
 
@@ -221,35 +221,30 @@ function buildSlide(slide, index) {
  * @param {Element} item carousel item to be cloned
  * @returns the clone of the carousel item
  */
-function createClone(item) {
+function createClone(item, targetIndex) {
   const clone = item.cloneNode(true);
   clone.classList.add('clone');
-
-  console.log("Returned clone: ");
-  console.log(clone);
+  clone.setAttribute('data-slide-index', targetIndex);
+  clone.style.transform = `translateX(${targetIndex * 100}%)`;
   return clone;
 }
 
 /**
  * Create clone items at the beginning and end of the carousel
  * to create the illusion of infinite scrolling
- * @param {Element} block
+ * @param {Element} element carousel to add clones to
  */
-function addClones(block) {
+function addClones(element) {
   console.log("Building infinite scrolling");
-  if (block.children.length < 2) return;
+  if (element.children.length < 2) return;
 
-  const initialChildren = [...block.children];
+  const initialChildren = [...element.children];
 
-  const cloneForEnd = createClone(initialChildren[0]);
-  console.log("cloneForEnd:");
-  console.log(cloneForEnd);
-  // block.lastChild.after(cloneForEnd);
+  const cloneForEnd = createClone(initialChildren[0], initialChildren.length + 1);
+  element.lastChild.after(cloneForEnd);
 
-  const cloneForbeginning = createClone(initialChildren[initialChildren.length - 1]);
-  console.log("cloneForbeginning:");
-  console.log(cloneForbeginning);
-  // block.firstChild.before(firstClone);
+  const cloneForBeginning = createClone(initialChildren[initialChildren.length - 1], 0);
+  element.firstChild.before(cloneForBeginning);
 }
 
 /**
@@ -364,7 +359,7 @@ export default async function decorate(block) {
   const slides = [...block.children];
   maxSlide = slides.length - 1;
   slides.forEach((slide, index) => {
-    carousel.appendChild(buildSlide(slide, index));
+    carousel.appendChild(buildSlide(slide, index+1));
   });
   addClones(carousel);
   block.append(carousel);
