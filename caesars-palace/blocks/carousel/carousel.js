@@ -17,7 +17,8 @@ const NAVIGATION_DIRECTION_NEXT = 'next';
 
 let resizeTimeout;
 let scrollInterval;
-let curSlide = 0;
+let firstVisibleSlide =1;
+let curSlide = 1;
 let maxVisibleSlides = 0;
 
 async function getChevronSvg(iconPath) {
@@ -111,17 +112,24 @@ function scrollToSlide(carousel, slideIndex = 0) {
   const carouselSlider = carousel.querySelector('.carousel-slide-container');
   calculateSlideHeight(carouselSlider, carouselSlider.children[slideIndex]);
 
-  carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * slideIndex, behavior: 'smooth' });
+  console.log("Request to scroll to slide ", slideIndex)
+  console.log("maxVisibleSlides: ", maxVisibleSlides)
+  if(slideIndex >= firstVisibleSlide && slideIndex <= maxVisibleSlides){
+    // normal sliding
+    carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * slideIndex, behavior: 'smooth' });
 
-  // sync slide
-  [...carouselSlider.children].forEach((slide, index) => {
-    if (index === slideIndex) {
-      slide.removeAttribute('tabindex');
-    } else {
-      slide.setAttribute('tabindex', '-1');
-    }
-  });
-  curSlide = slideIndex;
+    // sync slide state
+    [...carouselSlider.children].forEach((slide, index) => {
+      if (index === slideIndex) {
+        slide.removeAttribute('tabindex');
+      } else {
+        slide.setAttribute('tabindex', '-1');
+      }
+    });
+    curSlide = slideIndex;
+  } else {
+    // handle infinite sliding
+  }
 }
 
 /**
@@ -173,9 +181,9 @@ async function buildNav(navigrationDirection) {
     let nextSlide = 0;
 
     if (navigrationDirection === NAVIGATION_DIRECTION_PREV) {
-      nextSlide = curSlide === 0 ? maxVisibleSlides : curSlide - 1;
+      nextSlide = curSlide === firstVisibleSlide ? maxVisibleSlides : curSlide - 1;
     } else if (navigrationDirection === NAVIGATION_DIRECTION_NEXT) {
-      nextSlide = curSlide === maxVisibleSlides ? 0 : curSlide + 1;
+      nextSlide = curSlide === maxVisibleSlides ? firstVisibleSlide : curSlide + 1;
     }
 
     const carousel = e.target.closest('.carousel');
@@ -254,12 +262,13 @@ function addClones(element) {
  * Defaults to DEFAULT_SCROLL_INTERVAL_MS
  */
 function startAutoScroll(block, interval) {
-  const intervalToUse = interval || DEFAULT_SCROLL_INTERVAL_MS;
-  if (!scrollInterval) {
-    scrollInterval = setInterval(() => {
-      scrollToSlide(block, curSlide < maxVisibleSlides ? curSlide + 1 : 0);
-    }, intervalToUse);
-  }
+  // TODO: Restore once done debugging endless sliding
+  // const intervalToUse = interval || DEFAULT_SCROLL_INTERVAL_MS;
+  // if (!scrollInterval) {
+  //   scrollInterval = setInterval(() => {
+  //     scrollToSlide(block, curSlide < maxVisibleSlides ? curSlide + 1 : 0);
+  //   }, intervalToUse);
+  // }
 }
 
 /**
@@ -357,7 +366,7 @@ export default async function decorate(block) {
 
   // add carousel to page
   const slides = [...block.children];
-  maxVisibleSlides = slides.length - 1;
+  maxVisibleSlides = slides.length;
   slides.forEach((slide, index) => {
     carousel.appendChild(buildSlide(slide, index+1));
   });
