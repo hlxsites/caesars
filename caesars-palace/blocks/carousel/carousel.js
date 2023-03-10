@@ -133,8 +133,33 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
     // handle infinite sliding illusion
     if(slideIndex === 0){
       // sliding from first to last
+      carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * slideIndex, behavior: 'smooth' });
+      carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * maxVisibleSlides, behavior: 'auto' });
+
+      // sync slide state
+      [...carouselSlider.children].forEach((slide, index) => {
+        if (index === maxVisibleSlides) {
+          slide.removeAttribute('tabindex');
+        } else {
+          slide.setAttribute('tabindex', '-1');
+        }
+      });
+      curSlide = maxVisibleSlides;
+      
     } else if (slideIndex === maxVisibleSlides+1){
       // sliding from last to first
+      carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * slideIndex, behavior: 'smooth' });
+      carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * firstVisibleSlide, behavior: 'auto' });
+
+      // sync slide state
+      [...carouselSlider.children].forEach((slide, index) => {
+        if (index === firstVisibleSlide) {
+          slide.removeAttribute('tabindex');
+        } else {
+          slide.setAttribute('tabindex', '-1');
+        }
+      });
+      curSlide = firstVisibleSlide;
     }
   }
 }
@@ -188,9 +213,9 @@ async function buildNav(navigrationDirection) {
     let nextSlide = firstVisibleSlide;
 
     if (navigrationDirection === NAVIGATION_DIRECTION_PREV) {
-      nextSlide = curSlide === firstVisibleSlide ? maxVisibleSlides : curSlide - 1;
+      nextSlide = curSlide === firstVisibleSlide ? 0 : curSlide - 1;
     } else if (navigrationDirection === NAVIGATION_DIRECTION_NEXT) {
-      nextSlide = curSlide === maxVisibleSlides ? firstVisibleSlide : curSlide + 1;
+      nextSlide = curSlide === maxVisibleSlides ? maxVisibleSlides+1 : curSlide + 1;
     }
 
     const carousel = e.target.closest('.carousel');
