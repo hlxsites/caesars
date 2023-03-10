@@ -26,7 +26,7 @@ div.faq-container div > h1 {
     justify-content: center;
     align-items: center;
     margin: 0 auto;
-    margin-bottom: 24px;
+    margin-bottom: var(--layout-size-l);
     color: var(--static-color-white);
     font-size: 36px
 }
@@ -36,7 +36,7 @@ div.faq-container .questions-content {
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 32px;
+    padding: var(--layout-size-xl);
     border-top: 1px solid rgb(255 255 255 / 40%);
     border-bottom: 1px solid transparent;
     cursor: pointer;
@@ -45,13 +45,13 @@ div.faq-container .questions-content {
 
 div.faq-container .questions-content:last-of-type {
     border-bottom: 1px solid rgb(255 255 255 / 40%);
-    margin-bottom: 64px
+    margin-bottom: var(--layout-size-xxl);
 }
 
 div.faq-container .questions-content-text {
     flex: 1;
     flex-direction: column;
-    margin-right: 16px;
+    margin-right: var(--layout-size-m);
     color: var(--static-color-white);
 }
 
@@ -65,7 +65,7 @@ div.faq-container .questions-content-text > div:nth-child(1) {
 div.faq-container .questions-content-text > div:nth-child(2) {
     display: none;
     visibility: hidden;
-    margin-top: 16px;
+    margin-top: var(--layout-size-m);
 }
 
 /* Expanded */
