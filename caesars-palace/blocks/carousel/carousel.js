@@ -21,6 +21,7 @@ let scrollInterval;
 let firstVisibleSlide =1;
 let curSlide = 1;
 let maxVisibleSlides = 0;
+let gotFocusedOnce = false;
 
 async function getChevronSvg(iconPath) {
   let svg = null;
@@ -115,8 +116,10 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
 
   console.log("Request to scroll to slide ", slideIndex)
   console.log("maxVisibleSlides: ", maxVisibleSlides)
+  console.log("firstVisibleSlide: ", firstVisibleSlide)
+  console.log("carouselSlider.offsetWidth", carouselSlider.offsetWidth)
   if(slideIndex >= firstVisibleSlide && slideIndex <= maxVisibleSlides){
-    console.log("Sliding of ", carouselSlider.offsetWidth);
+    console.log("Default - sliding of ", carouselSlider.offsetWidth);
 
     // normal sliding
     carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * slideIndex, behavior: scrollBehavior });
@@ -434,6 +437,14 @@ export default async function decorate(block) {
   const carouselObserver = new IntersectionObserver(handleAutoScroll, intersectionOptions);
   carouselObserver.observe(block);
 
+  const observer = new IntersectionObserver((entries) => {
+    if (entries.some((e) => e.isIntersecting)) {
+      handleAutoScroll(entries);
+      scrollToSlide(block, firstVisibleSlide, 'instant');
+    }
+  }, intersectionOptions);
+  observer.observe(block);
+
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
       stopAutoScroll();
@@ -446,6 +457,4 @@ export default async function decorate(block) {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => calculateSlideHeight(carousel, slides[curSlide]), 500);
   });
-
-  setTimeout(() => scrollToSlide(block, firstVisibleSlide, 'instant'), 0);
 }
