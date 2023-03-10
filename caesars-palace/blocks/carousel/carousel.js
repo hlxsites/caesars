@@ -216,6 +216,12 @@ function buildSlide(slide, index) {
   return slide;
 }
 
+/**
+ * Start auto-scrolling
+ * @param {*} block Block
+ * @param {*} interval Optionel, configured time in ms to show a slide
+ * Defaults to DEFAULT_SCROLL_INTERVAL_MS
+ */
 function startAutoScroll(block, interval) {
   const intervalToUse = interval || DEFAULT_SCROLL_INTERVAL_MS;
   if (!scrollInterval) {
@@ -226,12 +232,40 @@ function startAutoScroll(block, interval) {
 }
 
 /**
+ * Clone an existing carousel item
+ * @param {Element} item carousel item to be cloned
+ * @returns the clone of the carousel item
+ */
+function createClone(item) {
+  const clone = item.cloneNode(true);
+  clone.classList.add('clone');
+
+  return clone;
+}
+
+/**
+ * Create clone items at the beginning and end of the carousel
+ * to create the illusion of infinite scrolling
+ * @param {Element} block
+ */
+function createClones(block) {
+  if (block.children.length < 2) return;
+
+  const initialChildren = [...block.children];
+
+  block.lastChild.after(createClone(initialChildren[0]));
+  block.firstChild.before(createClone(initialChildren[initialChildren.length - 2]));
+}
+
+/**
  * Decorate and transform a carousel block.
  *
  * @param block HTML block from Franklin
  */
 export default async function decorate(block) {
   let scrollDisplayTime = DEFAULT_SCROLL_INTERVAL_MS;
+
+  // first line is configuration of display time per carousel element
   const configuredScrollDisplayTime = parseInt(block.children[0].innerText, 10);
   if (!Number.isNaN(configuredScrollDisplayTime)
     && Number.isInteger(configuredScrollDisplayTime)) {
@@ -239,6 +273,7 @@ export default async function decorate(block) {
   }
   block.children[0].remove();
 
+  // now, let's build the carousel
   const carousel = document.createElement('div');
   carousel.classList.add('carousel-slide-container');
 
@@ -315,20 +350,18 @@ export default async function decorate(block) {
     movementChangeEventHandler(e);
   }, { passive: true });
 
-  // process each slide
+  // add carousel to page
   const slides = [...block.children];
   maxSlide = slides.length - 1;
   slides.forEach((slide, index) => {
     carousel.appendChild(buildSlide(slide, index));
   });
-
-  // add decorated carousel to block
   block.append(carousel);
 
   // calculate height of first slide
   calculateSlideHeight(carousel, slides[0]);
 
-  // add nav buttons and dots to block
+  // add nav buttons
   if (slides.length > 1) {
     const prevBtn = await buildNav('prev');
     const nextBtn = await buildNav('next');
