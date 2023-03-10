@@ -37,14 +37,14 @@ div.faq-container .questions-content {
     flex-direction: row;
     align-items: center;
     padding: 32px;
-    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    border-top: 1px solid rgb(255 255 255 / 40%);
     border-bottom: 1px solid transparent;
     cursor: pointer;
     transition: border-bottom-color .15s ease-in-out, border-top-color .15s ease-in-out
 }
 
 div.faq-container .questions-content:last-of-type {
-    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+    border-bottom: 1px solid rgb(255 255 255 / 40%);
     margin-bottom: 64px
 }
 
