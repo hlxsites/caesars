@@ -5,7 +5,7 @@
  * - smooth scrolling
  * - mouse drag between slides
  * - swipe between slides
- * - TODO: allow endless sliding
+ * - allow endless sliding
  * - next and previous navigation button
  */
 
@@ -14,6 +14,7 @@ const MIN_HEIGHT_PX = 670;
 const SLIDE_ID_PREFIX = 'carousel-slide';
 const NAVIGATION_DIRECTION_PREV = 'prev';
 const NAVIGATION_DIRECTION_NEXT = 'next';
+const SLIDE_ANIMATION_DURATION_MS = 640;
 
 let resizeTimeout;
 let scrollInterval;
@@ -134,7 +135,7 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
     if(slideIndex === 0){
       // sliding from first to last
       carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * slideIndex, behavior: 'smooth' });
-      carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * maxVisibleSlides, behavior: 'auto' });
+      setTimeout(() => scrollToSlide(carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * maxVisibleSlides, behavior: 'auto' })), SLIDE_ANIMATION_DURATION_MS);
 
       // sync slide state
       [...carouselSlider.children].forEach((slide, index) => {
@@ -149,7 +150,7 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
     } else if (slideIndex === maxVisibleSlides+1){
       // sliding from last to first
       carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * slideIndex, behavior: 'smooth' });
-      carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * firstVisibleSlide, behavior: 'auto' });
+      setTimeout(() => carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * firstVisibleSlide, behavior: 'auto' }), SLIDE_ANIMATION_DURATION_MS);
 
       // sync slide state
       [...carouselSlider.children].forEach((slide, index) => {
