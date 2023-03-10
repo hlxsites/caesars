@@ -45,38 +45,6 @@ function stopAutoScroll() {
 }
 
 /**
- * Count how many lines a block of text will consume when wrapped within a container
- * that has a maximum width.
- * @param text The full text
- * @param width Width of container
- * @param options Options to be applied to context (eg. font style)
- *
- * @return {number} The number of lines
- */
-function getLineCount(text, width, options = {}) {
-  // re-use canvas object for better performance
-  const canvas = getLineCount.canvas || (getLineCount.canvas = document.createElement('canvas'));
-  const context = canvas.getContext('2d');
-  Object.entries(options).forEach(([key, value]) => {
-    if (key in context) {
-      context[key] = value;
-    }
-  });
-  const words = text.split(' ');
-  let testLine = '';
-  let lineCount = 1;
-  words.forEach((w, index) => {
-    testLine += `${w} `;
-    const { width: testWidth } = context.measureText(testLine);
-    if (testWidth > width && index > 0) {
-      lineCount += 1;
-      testLine = `${w} `;
-    }
-  });
-  return lineCount;
-}
-
-/**
  * Scroll a single slide into view.
  *
  * @param carousel The carousel
@@ -85,7 +53,7 @@ function getLineCount(text, width, options = {}) {
 function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
   const carouselSlider = carousel.querySelector('.carousel-slide-container');
 
-  if(slideIndex >= firstVisibleSlide && slideIndex <= maxVisibleSlides){
+  if (slideIndex >= firstVisibleSlide && slideIndex <= maxVisibleSlides) {
     // normal sliding
     carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * slideIndex, behavior: scrollBehavior });
 
@@ -100,10 +68,10 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
     curSlide = slideIndex;
   } else {
     // handle infinite sliding illusion
-    if(slideIndex === 0){
+    if (slideIndex === 0) {
       // sliding from first to last
       carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * slideIndex, behavior: 'smooth' });
-      setTimeout(() => scrollTo(carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * maxVisibleSlides, behavior: 'auto' })), SLIDE_ANIMATION_DURATION_MS);
+      setTimeout(() => carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * maxVisibleSlides, behavior: 'auto' }), SLIDE_ANIMATION_DURATION_MS);
 
       // sync slide state
       [...carouselSlider.children].forEach((slide, index) => {
@@ -114,8 +82,8 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
         }
       });
       curSlide = maxVisibleSlides;
-      
-    } else if (slideIndex === maxVisibleSlides+1){
+
+    } else if (slideIndex === maxVisibleSlides + 1) {
       // sliding from last to first
       carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * slideIndex, behavior: 'smooth' });
       setTimeout(() => carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * firstVisibleSlide, behavior: 'auto' }), SLIDE_ANIMATION_DURATION_MS);
@@ -184,7 +152,7 @@ async function buildNav(navigrationDirection) {
     if (navigrationDirection === NAVIGATION_DIRECTION_PREV) {
       nextSlide = curSlide === firstVisibleSlide ? 0 : curSlide - 1;
     } else if (navigrationDirection === NAVIGATION_DIRECTION_NEXT) {
-      nextSlide = curSlide === maxVisibleSlides ? maxVisibleSlides+1 : curSlide + 1;
+      nextSlide = curSlide === maxVisibleSlides ? maxVisibleSlides + 1 : curSlide + 1;
     }
 
     const carousel = e.target.closest('.carousel');
@@ -262,13 +230,12 @@ function addClones(element) {
  * Defaults to DEFAULT_SCROLL_INTERVAL_MS
  */
 function startAutoScroll(block, interval) {
-  // TODO: Restore once done debugging endless sliding
-  // const intervalToUse = interval || DEFAULT_SCROLL_INTERVAL_MS;
-  // if (!scrollInterval) {
-  //   scrollInterval = setInterval(() => {
-  //     scrollToSlide(block, curSlide < maxVisibleSlides ? curSlide + 1 : firstVisibleSlide);
-  //   }, intervalToUse);
-  // }
+  const intervalToUse = interval || DEFAULT_SCROLL_INTERVAL_MS;
+  if (!scrollInterval) {
+    scrollInterval = setInterval(() => {
+      scrollToSlide(block, curSlide < maxVisibleSlides ? curSlide + 1 : firstVisibleSlide);
+    }, intervalToUse);
+  }
 }
 
 /**
@@ -368,7 +335,7 @@ export default async function decorate(block) {
   const slides = [...block.children];
   maxVisibleSlides = slides.length;
   slides.forEach((slide, index) => {
-    carousel.appendChild(buildSlide(slide, index+1));
+    carousel.appendChild(buildSlide(slide, index + 1));
   });
   addClones(carousel);
   block.append(carousel);
