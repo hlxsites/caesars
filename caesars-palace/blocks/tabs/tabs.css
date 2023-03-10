@@ -22,7 +22,7 @@
   display: flex;
   width: 100%;
   justify-content: center;
-  font-weight: 700;
+  font-weight: var(--emphasized-font-weight);
   line-height: 1.1;
   font-size: 150%;
   padding-top: var(--layout-size-xs);
@@ -132,7 +132,7 @@
     line-height: 0.8;
     font-weight: 600;
     opacity: 0.95;
-    flex-shrink:0;
+    flex-shrink: 0;
     margin-left: var(--layout-size-xs);
     position: unset;
     display: unset;
@@ -157,7 +157,7 @@
 
   .tabs.block .active-tab-title {
     padding-bottom: var(--layout-size-xxs);
-    font-weight: 700;
+    font-weight: var(--emphasized-font-weight);
     width: unset;
     padding-top: unset;
   }

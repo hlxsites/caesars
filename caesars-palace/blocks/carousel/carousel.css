@@ -1,0 +1,135 @@
+.carousel.block {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  order: 1;
+  display: flex;
+  flex-flow: row wrap;
+  align-content: flex-start;
+  align-items: flex-start;
+  justify-content: center;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.carousel.block .carousel-slide-container {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto;
+  transition: height 0.2s linear;
+  height: 670px;
+}
+
+.carousel.block .carousel-slide {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  transition: all 0.5s;
+}
+
+.carousel.block .carousel-slide img {
+  width: 100%;
+  max-height: 670px;
+  object-fit: cover;
+  object-position: left top;
+
+  /* hint browser to use GPU */
+  transform: translate3d(0, 0, 0);
+}
+
+.carousel.block .carousel-slide > div {
+  font-family: var(--heading-font-family);
+  line-height: 1.1;
+  letter-spacing: 1px;
+}
+
+.carousel.block .carousel-nav {
+  display: none;
+}
+
+.carousel.block .carousel-main-image {
+  position: unset;
+  visibility: visible;
+}
+
+.carousel.block .carousel-alt-image {
+  position: absolute;
+  visibility: hidden;
+}
+
+.carousel.block .carousel-text {
+  position: absolute;
+  z-index: 3;
+  color: var(--static-color-white);
+  text-shadow: 0 2px 4px rgba(0 0 0 / 50%);
+  line-height: 1.6;
+  top: 50%;
+  width: 100%;
+  text-align: center;
+}
+
+.carousel.block .carousel-text .button-container {
+  text-shadow: none;
+}
+
+.carousel.block .carousel-text h1 {
+  font-size: 32px;
+  text-transform: uppercase;
+  line-height: 1.1;
+  font-weight: var(--emphasized-font-weight);
+}
+
+.carousel.block .carousel-text h2 {
+  font-size: 20px;
+}
+
+/* Responsive breakpoints */
+@media screen and (min-width: 1170px) {
+  .carousel.block .carousel-alt-image {
+    position: unset;
+    visibility: visible;
+  }
+
+  .carousel.block .carousel-main-image {
+    position: absolute;
+    visibility: hidden;
+  }
+
+  .carousel.block .carousel-slide img {
+    min-height: 670px;
+  }
+
+  .carousel.block .carousel-nav-prev {
+    left: 0;
+  }
+  
+  .carousel.block .carousel-nav-next {
+    right: 0;
+  }
+
+  .carousel.block .carousel-nav svg {
+    color: var(--static-color-white);
+    height: 32px;
+  }
+
+  .carousel.block .carousel-nav {
+    display: unset;
+    z-index: 2;
+    top: 50%;
+    height: 32px;
+    width: 32px;
+    position: absolute;
+    cursor: pointer;
+    margin-left: 16px;
+    margin-right: 16px;
+    padding: 10px;
+  }
+  
+  .carousel.block .carousel-nav:hover {
+    border: 0;
+    border-radius: 50%;
+    background-color: rgba(190 192 197 / 20%);
+    transition: background-color 75ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
