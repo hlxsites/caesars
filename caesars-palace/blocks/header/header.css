@@ -140,7 +140,7 @@ header nav .nav-sections ul  {
 }
 
 header nav .nav-sections ul > li {
-  font-weight: 700;
+  font-weight: var(--emphasized-font-weight);
 }
 
 header nav .nav-sections ul > li > ul {
