@@ -55,7 +55,10 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
 
   if (slideIndex >= firstVisibleSlide && slideIndex <= maxVisibleSlides) {
     // normal sliding
-    carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * slideIndex, behavior: scrollBehavior });
+    carouselSlider.scrollTo({
+      left: carouselSlider.offsetWidth * slideIndex,
+      behavior: scrollBehavior,
+    });
 
     // sync slide state
     [...carouselSlider.children].forEach((slide, index) => {
