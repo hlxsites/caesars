@@ -130,8 +130,12 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
     });
     curSlide = slideIndex;
   } else {
-    console.log("Else");
-    // handle infinite sliding
+    // handle infinite sliding illusion
+    if(slideIndex === 0){
+      // sliding from first to last
+    } else if (slideIndex === maxVisibleSlides+1){
+      // sliding from last to first
+    }
   }
 }
 
@@ -269,7 +273,7 @@ function startAutoScroll(block, interval) {
   // const intervalToUse = interval || DEFAULT_SCROLL_INTERVAL_MS;
   // if (!scrollInterval) {
   //   scrollInterval = setInterval(() => {
-  //     scrollToSlide(block, curSlide < maxVisibleSlides ? curSlide + 1 : 0);
+  //     scrollToSlide(block, curSlide < maxVisibleSlides ? curSlide + 1 : firstVisibleSlide);
   //   }, intervalToUse);
   // }
 }
