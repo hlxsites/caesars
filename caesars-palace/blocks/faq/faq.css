@@ -1,0 +1,148 @@
+/*
+FAQ Block (2->3->5 columns per row across key media breakpoints)
+*/
+
+div.faq-container {
+    background-color: var(--static-color-gray-dark);
+    padding: 0;
+}
+
+div.faq-container .faq-wrapper {
+    display: flex;
+    flex-direction: column;
+    max-width: 1200px;
+    margin: 16px auto;
+}
+
+div.faq-container .faq {
+    padding: 10px;
+    margin: 10px;
+}
+
+/* Header/Title */
+div.faq-container div > h1 {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    margin-bottom: 24px;
+    color: var(--static-color-white);
+    font-size: 36px
+}
+
+/* FAQ Row */
+div.faq-container .questions-content {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 32px;
+    border-top: 1px solid rgba(255, 255, 255, 0.4);
+    border-bottom: 1px solid transparent;
+    cursor: pointer;
+    transition: border-bottom-color .15s ease-in-out, border-top-color .15s ease-in-out
+}
+
+div.faq-container .questions-content:last-of-type {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+    margin-bottom: 64px
+}
+
+div.faq-container .questions-content-text {
+    flex: 1;
+    flex-direction: column;
+    margin-right: 16px;
+    color: var(--static-color-white);
+}
+
+/* Question Cell */
+div.faq-container .questions-content-text > div:nth-child(1) {
+    font-weight: bold;
+    transition: color .15s ease-in-out
+}
+
+/* Answer Cell */
+div.faq-container .questions-content-text > div:nth-child(2) {
+    display: none;
+    visibility: hidden;
+    margin-top: 16px;
+}
+
+/* Expanded */
+div.faq-container .questions-content.expanded {
+    border-top-color: var(--static-color-white);
+    border-bottom-color: var(--static-color-white);
+}
+
+div.faq-container .questions-content.expanded .questions-content-text > div:nth-child(2) {
+    display: block;
+    visibility: visible;
+    animation: fadeSlide .15s ease-in-out
+}
+
+div.faq-container .questions-content.expanded .questions-content-text > div:nth-child(2) a {
+    color: var(--static-color-white);
+    text-decoration: none;
+    font-weight: var(--clickable-font-weight);
+}
+
+/* Toggle Icon */
+.toggle {
+    display: flex;
+    align-items: center;
+}
+
+/* Circle */
+.toggle span {
+    padding: 2px;
+    border: 2px solid var(--static-color-white);
+    border-radius: 50%;
+}
+
+/* Inside circle */
+.toggle span > i {
+    position: relative;
+    display: block;
+    width: 24px;
+    height: 24px;
+}
+
+.toggle span > i::before, .toggle span > i::after {
+    content: '';
+    display: inline-block;
+    position: absolute;
+    transition: transform .15s ease-in-out;
+}
+
+/* Vertical line */
+.toggle span > i::before {
+    top: 0;
+    left: 11px;
+    width: 2px;
+    height: 100%;
+    background: var(--static-color-white);
+}
+
+/* Horizontal line */
+.toggle span > i::after {
+    top: 11px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--static-color-white);
+}
+
+.toggle .expanded > i::before {
+    transform: rotate(90deg);
+}
+
+/* Tablet (landscape) */
+@media (min-width: var(--screen-width-m)) {
+    div.faq-container .faq-wrapper {
+        margin: 0 auto;
+    }
+
+    div.faq-container div > h1 {
+        font-size: 60px
+    }
+}
