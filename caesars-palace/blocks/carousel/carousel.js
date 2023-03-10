@@ -69,38 +69,34 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
       }
     });
     curSlide = slideIndex;
-  } else {
-    // handle infinite sliding illusion
-    if (slideIndex === 0) {
-      // sliding from first to last
-      carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * slideIndex, behavior: 'smooth' });
-      setTimeout(() => carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * maxVisibleSlides, behavior: 'auto' }), SLIDE_ANIMATION_DURATION_MS);
+  } else if (slideIndex === 0) {
+    // sliding from first to last
+    carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * slideIndex, behavior: 'smooth' });
+    setTimeout(() => carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * maxVisibleSlides, behavior: 'auto' }), SLIDE_ANIMATION_DURATION_MS);
 
-      // sync slide state
-      [...carouselSlider.children].forEach((slide, index) => {
-        if (index === maxVisibleSlides) {
-          slide.removeAttribute('tabindex');
-        } else {
-          slide.setAttribute('tabindex', '-1');
-        }
-      });
-      curSlide = maxVisibleSlides;
+    // sync slide state
+    [...carouselSlider.children].forEach((slide, index) => {
+      if (index === maxVisibleSlides) {
+        slide.removeAttribute('tabindex');
+      } else {
+        slide.setAttribute('tabindex', '-1');
+      }
+    });
+    curSlide = maxVisibleSlides;
+  } else if (slideIndex === maxVisibleSlides + 1) {
+    // sliding from last to first
+    carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * slideIndex, behavior: 'smooth' });
+    setTimeout(() => carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * firstVisibleSlide, behavior: 'auto' }), SLIDE_ANIMATION_DURATION_MS);
 
-    } else if (slideIndex === maxVisibleSlides + 1) {
-      // sliding from last to first
-      carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * slideIndex, behavior: 'smooth' });
-      setTimeout(() => carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * firstVisibleSlide, behavior: 'auto' }), SLIDE_ANIMATION_DURATION_MS);
-
-      // sync slide state
-      [...carouselSlider.children].forEach((slide, index) => {
-        if (index === firstVisibleSlide) {
-          slide.removeAttribute('tabindex');
-        } else {
-          slide.setAttribute('tabindex', '-1');
-        }
-      });
-      curSlide = firstVisibleSlide;
-    }
+    // sync slide state
+    [...carouselSlider.children].forEach((slide, index) => {
+      if (index === firstVisibleSlide) {
+        slide.removeAttribute('tabindex');
+      } else {
+        slide.setAttribute('tabindex', '-1');
+      }
+    });
+    curSlide = firstVisibleSlide;
   }
 }
 
