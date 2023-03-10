@@ -9,8 +9,8 @@
  * - next and previous navigation button
  */
 
-const DEFAULT_SCROLL_INTERVAL = 5000;
-const MIN_HEIGHT = 670;
+const DEFAULT_SCROLL_INTERVAL_MS = 5000;
+const MIN_HEIGHT_PX = 670;
 const SLIDE_ID_PREFIX = 'carousel-slide';
 const NAVIGATION_DIRECTION_PREV = 'prev';
 const NAVIGATION_DIRECTION_NEXT = 'next';
@@ -97,7 +97,7 @@ function calculateSlideHeight(carousel, slide) {
     );
     const bodyHeight = parseFloat(bodyStyle.lineHeight) * lineCount;
 
-    carousel.style.height = `${bodyHeight + MIN_HEIGHT}px`;
+    carousel.style.height = `${bodyHeight + MIN_HEIGHT_PX}px`;
   });
 }
 
@@ -216,11 +216,12 @@ function buildSlide(slide, index) {
   return slide;
 }
 
-function startAutoScroll(block) {
+function startAutoScroll(block, interval) {
+  const intervalToUse = interval || DEFAULT_SCROLL_INTERVAL_MS;
   if (!scrollInterval) {
     scrollInterval = setInterval(() => {
       scrollToSlide(block, curSlide < maxSlide ? curSlide + 1 : 0);
-    }, DEFAULT_SCROLL_INTERVAL);
+    }, intervalToUse);
   }
 }
 
@@ -230,6 +231,14 @@ function startAutoScroll(block) {
  * @param block HTML block from Franklin
  */
 export default async function decorate(block) {
+  let scrollDisplayTime = DEFAULT_SCROLL_INTERVAL_MS;
+  const configuredScrollDisplayTime = parseInt(block.children[0].innerText, 10);
+  if (!Number.isNaN(configuredScrollDisplayTime)
+    && Number.isInteger(configuredScrollDisplayTime)) {
+    scrollDisplayTime = configuredScrollDisplayTime * 1000;
+  }
+  block.children[0].remove();
+
   const carousel = document.createElement('div');
   carousel.classList.add('carousel-slide-container');
 
@@ -266,7 +275,7 @@ export default async function decorate(block) {
     if (isDown) {
       snapScroll(carousel, carousel.scrollLeft > startScroll ? 1 : -1);
     }
-    startAutoScroll(block);
+    startAutoScroll(block, scrollDisplayTime);
     isDown = false;
   });
 
@@ -335,7 +344,7 @@ export default async function decorate(block) {
   const handleAutoScroll = (entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        startAutoScroll(block);
+        startAutoScroll(block, scrollDisplayTime);
       } else {
         stopAutoScroll();
       }
@@ -348,7 +357,7 @@ export default async function decorate(block) {
     if (document.hidden) {
       stopAutoScroll();
     } else {
-      startAutoScroll(block);
+      startAutoScroll(block, scrollDisplayTime);
     }
   });
 
