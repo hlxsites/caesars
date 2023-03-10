@@ -18,7 +18,7 @@ const NAVIGATION_DIRECTION_NEXT = 'next';
 let resizeTimeout;
 let scrollInterval;
 let curSlide = 0;
-let maxSlide = 0;
+let maxVisibleSlides = 0;
 
 async function getChevronSvg(iconPath) {
   let svg = null;
@@ -173,9 +173,9 @@ async function buildNav(navigrationDirection) {
     let nextSlide = 0;
 
     if (navigrationDirection === NAVIGATION_DIRECTION_PREV) {
-      nextSlide = curSlide === 0 ? maxSlide : curSlide - 1;
+      nextSlide = curSlide === 0 ? maxVisibleSlides : curSlide - 1;
     } else if (navigrationDirection === NAVIGATION_DIRECTION_NEXT) {
-      nextSlide = curSlide === maxSlide ? 0 : curSlide + 1;
+      nextSlide = curSlide === maxVisibleSlides ? 0 : curSlide + 1;
     }
 
     const carousel = e.target.closest('.carousel');
@@ -257,7 +257,7 @@ function startAutoScroll(block, interval) {
   const intervalToUse = interval || DEFAULT_SCROLL_INTERVAL_MS;
   if (!scrollInterval) {
     scrollInterval = setInterval(() => {
-      scrollToSlide(block, curSlide < maxSlide ? curSlide + 1 : 0);
+      scrollToSlide(block, curSlide < maxVisibleSlides ? curSlide + 1 : 0);
     }, intervalToUse);
   }
 }
@@ -357,7 +357,7 @@ export default async function decorate(block) {
 
   // add carousel to page
   const slides = [...block.children];
-  maxSlide = slides.length - 1;
+  maxVisibleSlides = slides.length - 1;
   slides.forEach((slide, index) => {
     carousel.appendChild(buildSlide(slide, index+1));
   });
