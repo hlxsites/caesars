@@ -108,15 +108,17 @@ function calculateSlideHeight(carousel, slide) {
  * @param carousel The carousel
  * @param slideIndex {number} The slide index
  */
-function scrollToSlide(carousel, slideIndex = 1) {
+function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
   const carouselSlider = carousel.querySelector('.carousel-slide-container');
   calculateSlideHeight(carouselSlider, carouselSlider.children[slideIndex]);
 
   console.log("Request to scroll to slide ", slideIndex)
   console.log("maxVisibleSlides: ", maxVisibleSlides)
   if(slideIndex >= firstVisibleSlide && slideIndex <= maxVisibleSlides){
+    console.log("Sliding of ", carouselSlider.offsetWidth);
+
     // normal sliding
-    carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * slideIndex, behavior: 'smooth' });
+    carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * slideIndex, behavior: scrollBehavior });
 
     // sync slide state
     [...carouselSlider.children].forEach((slide, index) => {
@@ -128,6 +130,7 @@ function scrollToSlide(carousel, slideIndex = 1) {
     });
     curSlide = slideIndex;
   } else {
+    console.log("Else");
     // handle infinite sliding
   }
 }
@@ -413,4 +416,6 @@ export default async function decorate(block) {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => calculateSlideHeight(carousel, slides[curSlide]), 500);
   });
+
+  setTimeout(() => scrollToSlide(block, firstVisibleSlide, 'instant'), 0);
 }
