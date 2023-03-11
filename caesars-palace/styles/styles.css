@@ -36,6 +36,7 @@
   --link-color: var(--static-color-black);
   --background-color: var(--static-color-white);
   --text-color: #343840;
+  --button-hover-color-gray: #565d6a;
 
   /* fonts */
   --body-font-family: 'Open Sans', sans-serif;
