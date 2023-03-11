@@ -46,6 +46,15 @@ function toggleAllNavSections(sections, expanded = false) {
   });
 }
 
+function toggleNavSectionTitles(navSectionTitle, navSection) {
+  const expanded = navSectionTitle.getAttribute('aria-expanded') === 'true';
+  navSection.querySelectorAll('ul > li').forEach((section) => {
+    section.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+  });
+  navSectionTitle.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+  navSection.setAttribute('aria-expanded', expanded ? 'false' : 'true');
+}
+
 /**
  * Toggles the entire nav
  * @param {Element} nav The container element
@@ -96,6 +105,8 @@ export default async function decorate(block) {
   block.textContent = '';
   let globalNav;
   let globalNavSections;
+  // let globalNavLogin;
+  // let globalNavLogo;
 
   // fetch global nav
   if (window.location.host.endsWith('.page') || window.location.host.endsWith('.live') || window.location.host.startsWith('localhost')) {
@@ -107,11 +118,18 @@ export default async function decorate(block) {
     const globalNavJson = await globalNav.json();
     // console.log(`Global header: ${JSON.stringify(globalNavJson)}`);
     if (globalNavJson.navItems) {
-      const div = document.createElement('div');
-      div.classList.add('global-nav');
+      const globalNavDiv = document.createElement('div');
+      globalNavDiv.classList.add('global-nav');
+      const globalNavTitle = document.createElement('div');
+      globalNavTitle.classList.add('global-nav-title');
+      globalNavTitle.setAttribute('aria-expanded', false);
+      globalNavTitle.innerHTML = 'Caesars Entertainment';
+      globalNavDiv.appendChild(globalNavTitle);
+      globalNavDiv.setAttribute('aria-expanded', false);
       const ul = document.createElement('ul');
       globalNavJson.navItems.forEach((item) => {
         const li = document.createElement('li');
+        li.setAttribute('aria-expanded', false);
         const link = document.createElement('a');
         link.href = item.path;
         link.innerHTML += item.text;
@@ -120,8 +138,11 @@ export default async function decorate(block) {
         li.append(link);
         ul.append(li);
       });
-      div.appendChild(ul);
-      globalNavSections = div;
+      globalNavDiv.appendChild(ul);
+      globalNavSections = globalNavDiv;
+      globalNavTitle.addEventListener('click', () => {
+        toggleNavSectionTitles(globalNavTitle, globalNavSections);
+      });
     }
   }
 
@@ -150,8 +171,17 @@ export default async function decorate(block) {
     if (navSections) {
       const newDiv = document.createElement('div');
       newDiv.classList.add('local-nav');
+      const localNavTitle = document.createElement('div');
+      localNavTitle.classList.add('local-nav-title');
+      localNavTitle.setAttribute('aria-expanded', false);
+      localNavTitle.innerHTML = 'Property Links';
+      newDiv.appendChild(localNavTitle);
       while (navSections.hasChildNodes()) newDiv.appendChild(navSections.firstChild);
+      newDiv.setAttribute('aria-expanded', false);
       navSections.append(newDiv);
+      localNavTitle.addEventListener('click', () => {
+        toggleNavSectionTitles(localNavTitle, newDiv);
+      });
       if (globalNavSections) navSections.append(globalNavSections);
       navSections.querySelectorAll(':scope > ul > li').forEach((navSection) => {
         if (navSection.querySelector('ul')) navSection.classList.add('nav-drop');

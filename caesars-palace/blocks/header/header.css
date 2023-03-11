@@ -161,6 +161,42 @@ header nav .nav-sections .global-nav[aria-hidden=true] {
   display: none;
 }
 
+header nav[aria-expanded=true] .nav-sections .local-nav-title,
+header nav[aria-expanded=true] .nav-sections .global-nav-title {
+  display: flex;
+  position: relative;
+  font-size: var(--heading-font-size-xxs);
+  font-weight: bold;
+  letter-spacing: 1px;
+  line-height: 25px;
+  color: var(--static-color-slate-gray);
+  padding: 0 var(--layout-size-m);
+  cursor: pointer;
+  align-items: center;
+  height: 44px;
+}
+
+header nav[aria-expanded=true] .nav-sections .local-nav[aria-expanded="false"] .local-nav-title::after,
+header nav[aria-expanded=true] .nav-sections .global-nav[aria-expanded="false"] .global-nav-title::after {
+  content: '';
+  position: absolute;
+  right: 16px;
+  width: 16px;
+  height: 16px;
+  background: url('../../icons/chevron-down.svg');
+}
+
+header nav[aria-expanded=true] .nav-sections .local-nav[aria-expanded="true"] .local-nav-title::after,
+header nav[aria-expanded=true] .nav-sections .global-nav[aria-expanded="true"] .global-nav-title::after {
+  content: '';
+  position: absolute;
+  right: 16px;
+  width: 16px;
+  height: 16px;
+  background: url('../../icons/chevron-down.svg');
+  transform: rotate(180deg);
+}
+
 header nav .nav-sections ul  {
   list-style: none;
   padding-left: 0;
@@ -178,6 +214,11 @@ header nav .nav-sections ul > li > ul {
 
 header nav .nav-sections ul > li > ul > li {
   font-weight: 500;
+}
+
+header nav[aria-expanded=true] .nav-sections .local-nav[aria-expanded=false] ul,
+header nav[aria-expanded=true] .nav-sections .global-nav[aria-expanded=false] ul {
+  display: none;
 }
 
 /* tools */
