@@ -55,6 +55,7 @@ function toggleAllNavSections(sections, expanded = false) {
 function toggleMenu(nav, navSections, forceExpanded = null) {
   const expanded = forceExpanded !== null ? !forceExpanded : nav.getAttribute('aria-expanded') === 'true';
   const button = nav.querySelector('.nav-hamburger button');
+  const globalNavSections = nav.querySelector('.nav-sections .global-nav');
   document.body.style.overflowY = (expanded || isDesktop.matches) ? '' : 'hidden';
   nav.setAttribute('aria-expanded', expanded ? 'false' : 'true');
   toggleAllNavSections(navSections, expanded || isDesktop.matches ? 'false' : 'true');
@@ -62,6 +63,7 @@ function toggleMenu(nav, navSections, forceExpanded = null) {
   // enable nav dropdown keyboard accessibility
   const navDrops = navSections.querySelectorAll('.nav-drop');
   if (isDesktop.matches) {
+    globalNavSections.setAttribute('aria-hidden', true);
     navDrops.forEach((drop) => {
       if (!drop.hasAttribute('tabindex')) {
         drop.setAttribute('role', 'button');
@@ -70,6 +72,7 @@ function toggleMenu(nav, navSections, forceExpanded = null) {
       }
     });
   } else {
+    globalNavSections.removeAttribute('aria-hidden', true);
     navDrops.forEach((drop) => {
       drop.removeAttribute('role');
       drop.removeAttribute('tabindex');
@@ -91,25 +94,36 @@ function toggleMenu(nav, navSections, forceExpanded = null) {
  */
 export default async function decorate(block) {
   block.textContent = '';
+  let globalNav;
+  let globalNavSections;
 
   // fetch global nav
-  // const globalNav = await fetch('https://www.caesars.com/content/empire/en/jcr:content/root/header.model.json');
-  // if (globalNav.ok) {
-  //   const globalNavJson = await globalNav.json();
-  //   if (globalNavJson.navItems) {
-  //     const ul = document.createElement('ul');
-  //     globalNavJson.navItems.forEach((item) => {
-  //       const li = document.createElement('li');
-  //       const link = document.createElement('a');
-  //       link.href = item.path;
-  //       link.innerHTML += item.text;
-  //       link.setAttribute('target', item.target);
-  //       link.setAttribute('aria-label', item.text);
-  //       li.append(link);
-  //       ul.append(li);
-  //     });
-  //   }
-  // }
+  if (window.location.host.endsWith('.page') || window.location.host.endsWith('.live') || window.location.host.startsWith('localhost')) {
+    globalNav = await fetch('../../resources/header.model.json');
+  } else {
+    globalNav = await fetch('https://www.caesars.com/content/empire/en/jcr:content/root/header.model.json');
+  }
+  if (globalNav.ok) {
+    const globalNavJson = await globalNav.json();
+    // console.log(`Global header: ${JSON.stringify(globalNavJson)}`);
+    if (globalNavJson.navItems) {
+      const div = document.createElement('div');
+      div.classList.add('global-nav');
+      const ul = document.createElement('ul');
+      globalNavJson.navItems.forEach((item) => {
+        const li = document.createElement('li');
+        const link = document.createElement('a');
+        link.href = item.path;
+        link.innerHTML += item.text;
+        link.setAttribute('target', item.target);
+        link.setAttribute('aria-label', item.text);
+        li.append(link);
+        ul.append(li);
+      });
+      div.appendChild(ul);
+      globalNavSections = div;
+    }
+  }
 
   // fetch nav content
   const navPath = getMetadata('nav') || '/caesars-palace/nav';
@@ -134,6 +148,11 @@ export default async function decorate(block) {
 
     const navSections = nav.querySelector('.nav-sections');
     if (navSections) {
+      const newDiv = document.createElement('div');
+      newDiv.classList.add('local-nav');
+      while (navSections.hasChildNodes()) newDiv.appendChild(navSections.firstChild);
+      navSections.append(newDiv);
+      if (globalNavSections) navSections.append(globalNavSections);
       navSections.querySelectorAll(':scope > ul > li').forEach((navSection) => {
         if (navSection.querySelector('ul')) navSection.classList.add('nav-drop');
         navSection.addEventListener('click', () => {
