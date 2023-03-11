@@ -116,7 +116,6 @@ export default async function decorate(block) {
   }
   if (globalNav.ok) {
     const globalNavJson = await globalNav.json();
-    // console.log(`Global header: ${JSON.stringify(globalNavJson)}`);
     if (globalNavJson.navItems) {
       const globalNavDiv = document.createElement('div');
       globalNavDiv.classList.add('global-nav');
@@ -208,6 +207,16 @@ export default async function decorate(block) {
     toggleMenu(nav, navSections, isDesktop.matches);
     isDesktop.addEventListener('change', () => toggleMenu(nav, navSections, isDesktop.matches));
 
+    // close the mobile menu when clicking anywhere outside of it
+    window.addEventListener('click', (event) => {
+      const expanded = nav.getAttribute('aria-expanded') === 'true';
+      if (!isDesktop.matches && expanded) {
+        const rect = navSections.getBoundingClientRect();
+        if (event.clientX > rect.right) {
+          toggleMenu(nav, navSections);
+        }
+      }
+    });
     decorateIcons(nav);
     const navWrapper = document.createElement('div');
     navWrapper.className = 'nav-wrapper';
