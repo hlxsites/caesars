@@ -10,6 +10,17 @@ export default function decorate(block) {
   console.log("Star item is ", starItem);
 
   [...block.children].forEach((row) => {
-    console.log(row);
+    row.classList.add('accordion-panel');
+
+    const accordionTitle = row.children[0];
+      accordionTitle.classList.add('accordion-item-title');
+
+      const accordionImage = row.children[1];
+      accordionImage.classList.add('accordion-item-image');
+
+    if(row.children.length === 3){
+      const accordionDescription = row.children[2];
+      accordionDescription.classList.add('accordion-item-description');
+    }
   });
 }
