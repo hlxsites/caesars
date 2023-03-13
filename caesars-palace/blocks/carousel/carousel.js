@@ -184,7 +184,7 @@ function buildSlide(slide, index) {
   slideMainImage.classList.add('carousel-main-image');
 
   const slideAltImage = slide.children[1];
-  if(![...slideAltImage.classList].includes('carousel-alt-video')){
+  if (![...slideAltImage.classList].includes('carousel-alt-video')) {
     slideAltImage.classList.add('carousel-alt-image');
   }
 
@@ -232,13 +232,12 @@ function addClones(element) {
  * Defaults to DEFAULT_SCROLL_INTERVAL_MS
  */
 function startAutoScroll(block, interval) {
-  // TODO: restore bahavior once done debugging
-  // const intervalToUse = interval || DEFAULT_SCROLL_INTERVAL_MS;
-  // if (!scrollInterval) {
-  //   scrollInterval = setInterval(() => {
-  //     scrollToSlide(block, curSlide < maxVisibleSlides ? curSlide + 1 : firstVisibleSlide);
-  //   }, intervalToUse);
-  // }
+  const intervalToUse = interval || DEFAULT_SCROLL_INTERVAL_MS;
+  if (!scrollInterval) {
+    scrollInterval = setInterval(() => {
+      scrollToSlide(block, curSlide < maxVisibleSlides ? curSlide + 1 : firstVisibleSlide);
+    }, intervalToUse);
+  }
 }
 
 /**
@@ -260,7 +259,7 @@ export default async function decorate(block) {
   // turn video links into displayable videos
   block.querySelectorAll('a').forEach((videoLink) => {
     const foundLink = videoLink.href;
-    if(foundLink && foundLink.endsWith(`.mp4`)){
+    if (foundLink && foundLink.endsWith('.mp4')) {
       const divToReplace = videoLink.closest('div');
       divToReplace.classList.add('carousel-alt-video');
 
@@ -368,14 +367,12 @@ export default async function decorate(block) {
   const mediaWidthQueryMatcher = window.matchMedia('only screen and (min-width: 1170px)');
   const mediaWidthChangeHandler = (event) => {
     if (event.matches === false) {
-      console.log("Event matches")
       block.querySelectorAll('video').forEach((videoElement) => {
         videoElement.autoplay = false;
         videoElement.loop = false;
         videoElement.playsinline = false;
       });
     } else {
-      console.log("Event does not match")
       block.querySelectorAll('video').forEach((videoElement) => {
         videoElement.autoplay = true;
         videoElement.loop = true;
