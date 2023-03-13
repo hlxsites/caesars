@@ -15,11 +15,11 @@ export default function decorate(block) {
       row.classList.add('accordion-panel-selected');
     }
 
-    const accordionTitle = row.children[0];
-    accordionTitle.classList.add('accordion-item-title');
-
-    const accordionImage = row.children[1];
+    const accordionImage = row.children[0];
     accordionImage.classList.add('accordion-item-image');
+
+    const accordionTitle = row.children[1];
+    accordionTitle.classList.add('accordion-item-title');
 
     if (row.children.length === 3) {
       const accordionDescription = row.children[2];

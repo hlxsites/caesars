@@ -5,7 +5,6 @@
 
 .accordion.block .accordion-panel {
   border: 3px solid red;
-  box-sizing: border-box;
   height: 296px;
 }
 
@@ -20,14 +19,11 @@
 }
 
 .accordion.block .accordion-item-image > picture {
+  display: flex;
 }
 
 .accordion.block .accordion-item-image > picture img {
-  position: relative;
-  overflow: hidden;
-  object-fit: cover;
-  height: 268px;
-  z-index: -1;
+  display: flex;
 }
 
 .accordion.block .accordion-item-description {
@@ -37,7 +33,6 @@
 /* Responsive breakpoints */
 @media screen and (min-width: 960px) {
   .accordion.block .accordion-panel {
-    box-sizing: border-box;
     height: 580px;
   }
 
