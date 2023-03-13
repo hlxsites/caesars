@@ -42,6 +42,7 @@
   transform: scale(0.8);
   float: right;
   margin-bottom: 10px;
+  cursor: pointer;
 }
 
 .close-button.hide {
@@ -57,6 +58,7 @@
 
 .show-more {
   text-transform: lowercase;
+  cursor: pointer;
 }
 
 .long-description {
