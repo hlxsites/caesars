@@ -172,11 +172,11 @@ export default async function decorate(block) {
       newDiv.classList.add('local-nav');
       const localNavTitle = document.createElement('div');
       localNavTitle.classList.add('local-nav-title');
-      localNavTitle.setAttribute('aria-expanded', false);
+      localNavTitle.setAttribute('aria-expanded', true);
       localNavTitle.innerHTML = 'Property Links';
       newDiv.appendChild(localNavTitle);
       while (navSections.hasChildNodes()) newDiv.appendChild(navSections.firstChild);
-      newDiv.setAttribute('aria-expanded', false);
+      newDiv.setAttribute('aria-expanded', true);
       navSections.append(newDiv);
       localNavTitle.addEventListener('click', () => {
         toggleNavSectionTitles(localNavTitle, newDiv);

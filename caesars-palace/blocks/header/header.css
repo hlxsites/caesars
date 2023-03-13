@@ -295,7 +295,7 @@ header nav .nav-tools p:first-of-type a:hover {
   box-shadow: none;
 }
 
-@media (min-width: 900px) {
+@media (min-width: 1170px) {
   header nav {
     display: flex;
     justify-content: space-between;
