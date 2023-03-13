@@ -1,0 +1,25 @@
+.accordion.block {
+}
+
+.accordion.block .accordion-panel {
+}
+
+.accordion.block .accordion-panel-selected {
+}
+
+.accordion.block .accordion-item-title {
+}
+
+.accordion.block .accordion-item-image {
+}
+
+.accordion.block .accordion-item-description {
+  display: none;
+}
+
+/* Responsive breakpoints */
+@media screen and (min-width: 960px) {
+  .accordion.block .accordion-item-description {
+    display: flex;
+  }
+}

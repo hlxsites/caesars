@@ -12,7 +12,7 @@ export default function decorate(block) {
   [...block.children].forEach((row, index) => {
     row.classList.add('accordion-panel');
     if (selectedItem === index + 1) {
-      row.classList.add(`accordion-panel-selected`);
+      row.classList.add('accordion-panel-selected');
     }
 
     const accordionTitle = row.children[0];
@@ -25,5 +25,18 @@ export default function decorate(block) {
       const accordionDescription = row.children[2];
       accordionDescription.classList.add('accordion-item-description');
     }
+  });
+
+  const mediaWidthQueryMatcher = window.matchMedia('only screen and (min-width: 960px)');
+  const mediaWidthChangeHandler = (event) => {
+    if (event.matches === false) {
+      console.log("Make whole panel item clickable");
+    } else {
+      console.log("Show description with button");
+    }
+  };
+  mediaWidthChangeHandler(mediaWidthQueryMatcher);
+  mediaWidthQueryMatcher.addEventListener('change', (event) => {
+    mediaWidthChangeHandler(event);
   });
 }
