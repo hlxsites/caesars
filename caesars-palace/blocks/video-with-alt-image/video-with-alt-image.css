@@ -1,0 +1,38 @@
+.video-with-alt-image.block .video-link {
+  display: none;
+}
+
+.video-with-alt-image.block .video-alt-image {
+  overflow: hidden;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.video-with-alt-image.block .video-alt-image img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+/* Responsive Breakpoints */
+@media  only screen and (min-width: 1170px) {
+  .video-with-alt-image.block .video-alt-image {
+    display: none;
+  }
+
+  .video-with-alt-image.block .video-link {
+    display: flex;
+    position: absolute;
+    overflow: hidden;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  .video-with-alt-image.block video {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+  }
+}
