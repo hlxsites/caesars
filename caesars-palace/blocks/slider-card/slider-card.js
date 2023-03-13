@@ -73,7 +73,7 @@ export default function decorate(block) {
   const slides = Array.from(document.querySelectorAll('.card'));
 
   function getPositionX(event) {
-    return event.touches[0].clientX;
+    return event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
   }
 
   function setSliderPosition() {
@@ -96,16 +96,15 @@ export default function decorate(block) {
     };
   }
 
-  function setPositionByIndex() {
+  function setPositionByIndex(isDesktop) {
     const scalingFactor = isATablet() ? 0.96 : 0.85;
-    currentTranslate = currentIndex * -window.innerWidth * scalingFactor;
+    currentTranslate = isDesktop ? 0 : currentIndex * -window.innerWidth * scalingFactor;
     prevTranslate = currentTranslate;
     setSliderPosition();
   }
 
   function touchEnd() {
     isDragging = false;
-    cancelAnimationFrame(animationID);
 
     const movedBy = currentTranslate - prevTranslate;
 
@@ -117,7 +116,14 @@ export default function decorate(block) {
       currentIndex -= 1;
     }
 
-    setPositionByIndex();
+    setPositionByIndex(false);
+    cancelAnimationFrame(animationID);
+  }
+
+  function moveEnd() {
+    isDragging = false;
+    setPositionByIndex(true);
+    cancelAnimationFrame(animationID);
   }
 
   function touchMove(event) {
@@ -127,14 +133,26 @@ export default function decorate(block) {
     }
   }
 
-  // We add the card slider feature only for mobiles and ipads
-  if (window.innerWidth < 1170) {
-    slides.forEach((slide, index) => {
-      slide.addEventListener('touchstart', touchStart(index), {
-        passive: true,
-      });
-      slide.addEventListener('touchend', touchEnd, { passive: true });
-      slide.addEventListener('touchmove', touchMove, { passive: true });
+  // For desktop animation
+  slider.addEventListener('mousedown', touchStart(0), {
+    passive: true,
+  });
+  slider.addEventListener('mouseup', moveEnd, {
+    passive: true,
+  });
+  slider.addEventListener('mouseleave', moveEnd, {
+    passive: true,
+  });
+
+  // Card slider animation for mobiles and ipads
+  slides.forEach((slide, index) => {
+    const slideImage = slide.querySelector('img');
+    slideImage.addEventListener('dragstart', (e) => e.preventDefault());
+    slide.addEventListener('touchstart', touchStart(index), {
+      passive: true,
     });
-  }
+    slide.addEventListener('touchend', touchEnd, { passive: true });
+    slide.addEventListener('touchmove', touchMove, { passive: true });
+    slide.addEventListener('mousemove', touchMove, { passive: true });
+  });
 }

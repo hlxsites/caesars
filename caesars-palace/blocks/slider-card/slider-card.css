@@ -50,8 +50,8 @@
 }
 
 .card .short-description .title {
-  font-family: Montserrat, sans-serif;
-  font-weight: 700;
+  font-family: var(--text-font-family);
+  font-weight: var(--emphasized-font-weight);
   font-size: 18px;
   text-transform: uppercase;
 }
@@ -87,8 +87,8 @@
 @media only screen and (min-width: 481px) and (max-width: 768px) {
   .long-description.show > p:first-of-type {
     display: block;
-    font-family: Montserrat, sans-serif;
-    font-weight: 700;
+    font-family: var(--text-font-family);
+    font-weight: var(--emphasized-font-weight);
     font-size: 18px;
     text-transform: uppercase;
   }
