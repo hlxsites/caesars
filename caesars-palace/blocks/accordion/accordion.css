@@ -4,10 +4,13 @@
 }
 
 .accordion.block .accordion-panel {
-  height: 266px;
+  flex-basis: 0;
   flex-grow: 1;
+  height: 266px;
   position: relative;
   overflow: hidden;
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .accordion.block .accordion-panel-selected {}
@@ -52,9 +55,10 @@
 @media screen and (min-width: 960px) {
   .accordion.block .accordion-panel {
     height: 580px;
-    flex-grow: 1;
     position: relative;
     overflow: hidden;
+    margin-left: 5px;
+    margin-right: 5px;
   }
 
   .accordion.block .accordion-item-title {
@@ -64,7 +68,6 @@
     padding-bottom: 16px;
     padding-left: 16px;
     padding-right: 16px;
-    text-align: center;
   }
 
   .accordion.block .accordion-panel-selected {
