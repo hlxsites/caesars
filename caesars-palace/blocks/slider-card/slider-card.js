@@ -62,8 +62,6 @@ export default function decorate(block) {
     });
   }
 
-  // work on card slider
-
   let isDragging = false;
   let startPos = 0;
   let currentTranslate = 0;
