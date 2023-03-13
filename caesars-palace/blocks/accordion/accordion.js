@@ -11,8 +11,6 @@ export default function decorate(block) {
 
   [...block.children].forEach((row, index) => {
     row.classList.add('accordion-panel');
-    row.classList.add(`accordion-panel-${index}`);
-
     if (selectedItem === index + 1) {
       row.classList.add(`accordion-panel-selected`);
     }
