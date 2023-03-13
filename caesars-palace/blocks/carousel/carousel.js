@@ -184,7 +184,9 @@ function buildSlide(slide, index) {
   slideMainImage.classList.add('carousel-main-image');
 
   const slideAltImage = slide.children[1];
-  slideAltImage.classList.add('carousel-alt-image');
+  if(![...slideAltImage.classList].includes('carousel-alt-video')){
+    slideAltImage.classList.add('carousel-alt-image');
+  }
 
   const slideTextImage = slide.children[2];
   slideTextImage.classList.add('carousel-text');
@@ -230,12 +232,13 @@ function addClones(element) {
  * Defaults to DEFAULT_SCROLL_INTERVAL_MS
  */
 function startAutoScroll(block, interval) {
-  const intervalToUse = interval || DEFAULT_SCROLL_INTERVAL_MS;
-  if (!scrollInterval) {
-    scrollInterval = setInterval(() => {
-      scrollToSlide(block, curSlide < maxVisibleSlides ? curSlide + 1 : firstVisibleSlide);
-    }, intervalToUse);
-  }
+  // TODO: restore bahavior once done debugging
+  // const intervalToUse = interval || DEFAULT_SCROLL_INTERVAL_MS;
+  // if (!scrollInterval) {
+  //   scrollInterval = setInterval(() => {
+  //     scrollToSlide(block, curSlide < maxVisibleSlides ? curSlide + 1 : firstVisibleSlide);
+  //   }, intervalToUse);
+  // }
 }
 
 /**
@@ -253,6 +256,26 @@ export default async function decorate(block) {
     scrollDisplayTime = configuredScrollDisplayTime * 1000;
   }
   block.children[0].remove();
+
+  // turn video links into displayable videos
+  block.querySelectorAll('a').forEach((videoLink) => {
+    const foundLink = videoLink.href;
+    if(foundLink && foundLink.endsWith(`.mp4`)){
+      const divToReplace = videoLink.closest('div');
+      divToReplace.classList.add('carousel-alt-video');
+
+      const videoDiv = document.createElement('div');
+      videoDiv.classList.add('carousel-video');
+
+      const videoElement = document.createElement('video');
+      videoElement.innerHTML = `<source src="${videoLink.href}" type="video/mp4">`;
+      videoElement.muted = true;
+      videoDiv.appendChild(videoElement);
+
+      divToReplace.appendChild(videoElement);
+      videoLink.remove();
+    }
+  });
 
   // now, let's build the carousel
   const carousel = document.createElement('div');
@@ -341,6 +364,31 @@ export default async function decorate(block) {
     const nextBtn = await buildNav('next');
     block.append(prevBtn, nextBtn);
   }
+
+  const mediaWidthQueryMatcher = window.matchMedia('only screen and (min-width: 1170px)');
+  const mediaWidthChangeHandler = (event) => {
+    if (event.matches === false) {
+      console.log("Event matches")
+      block.querySelectorAll('video').forEach((videoElement) => {
+        videoElement.autoplay = false;
+        videoElement.loop = false;
+        videoElement.playsinline = false;
+      });
+    } else {
+      console.log("Event does not match")
+      block.querySelectorAll('video').forEach((videoElement) => {
+        videoElement.autoplay = true;
+        videoElement.loop = true;
+        videoElement.playsinline = true;
+        videoElement.play();
+      });
+    }
+  };
+
+  mediaWidthChangeHandler(mediaWidthQueryMatcher);
+  mediaWidthQueryMatcher.addEventListener('change', (event) => {
+    mediaWidthChangeHandler(event);
+  });
 
   // auto scroll when visible only
   const intersectionOptions = {
