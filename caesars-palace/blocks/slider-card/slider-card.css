@@ -37,7 +37,7 @@
 }
 
 .slider-card .card .close-button {
-  background: url("../../icons/close.svg") no-repeat;
+  background: url("../../icons/close-bold.svg") no-repeat;
   min-width: 20px;
   min-height: 20px;
   transform: scale(0.8);
