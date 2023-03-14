@@ -73,6 +73,8 @@
   }
 
   .accordion.block .accordion-panel {
+    display: flex;
+    flex-direction: column;
     height: 580px;
     min-width: unset;
     position: unset;
@@ -114,6 +116,9 @@
 
   .accordion.block .accordion-item-description .button-container {
     text-align: right;
+    bottom: 0;
+    position: absolute;
+    right: 16px;
   }
 }
 
