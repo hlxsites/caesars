@@ -35,24 +35,16 @@ export default function decorate(block) {
   // add all the event listeners
   const movementStartEventHandler = (e) => {
   };
-  accordionSlider.addEventListener('mousedown', (e) => {
-    movementStartEventHandler(e);
-  });
   accordionSlider.addEventListener('touchstart', (e) => {
     movementStartEventHandler(e);
   }, { passive: true });
 
   const movementEndEventHandler = () => {
   };
-  accordionSlider.addEventListener('mouseup', () => {
-    movementEndEventHandler();
-  });
   accordionSlider.addEventListener('touchend', () => {
     movementEndEventHandler();
   }, { passive: true });
 
-  accordionSlider.addEventListener('mousemove', (e) => {
-  });
   accordionSlider.addEventListener('touchmove', (e) => {
   }, { passive: true });
 
