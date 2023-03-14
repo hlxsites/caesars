@@ -8,6 +8,7 @@
   flex-grow: 1;
   height: 266px;
   min-width: 90%;
+  box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.06);
   position: relative;
   overflow: hidden;
   margin-left: 10px;
@@ -56,6 +57,7 @@
 /* Responsive breakpoints */
 @media screen and (min-width: 960px) {
   .accordion.block .accordion-panel {
+    /*     transition: height 700ms cubic-bezier(0.4,0,0.2,1); */
     height: 580px;
     min-width: unset;
     position: relative;
