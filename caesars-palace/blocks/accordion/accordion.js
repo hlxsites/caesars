@@ -5,6 +5,7 @@ export default function decorate(block) {
   accordionSlider.classList.add('accordion-slider');
   [...block.children].forEach((row, index) => {
     row.classList.add('accordion-panel');
+    row.classList.add(`accordion-panel-${index}`);
 
     if(index === DEFAULT_SELECTED_PANEL){
       row.classList.add('accordion-panel-selected');
@@ -22,6 +23,22 @@ export default function decorate(block) {
     }
 
     accordionSlider.appendChild(row);
+
+    row.addEventListener('mouseenter', () => {
+      const selectedItems = block.getElementsByClassName('accordion-panel-selected');
+      [...selectedItems].forEach((item) => {
+        item.classList.remove('accordion-panel-selected');
+      });
+      row.classList.add('accordion-panel-selected');
+    });
+    row.addEventListener('mouseleave', () => {
+      row.classList.remove('accordion-panel-selected');
+      const selectedItems = block.getElementsByClassName(`accordion-panel-${DEFAULT_SELECTED_PANEL}`);
+      [...selectedItems].forEach((item) => {
+        item.classList.add('accordion-panel-selected');
+      });
+    });
+    
   });
   block.appendChild(accordionSlider);
 
