@@ -7,7 +7,7 @@ export default function decorate(block) {
     row.classList.add('accordion-panel');
     row.classList.add(`accordion-panel-${index}`);
 
-    if(index === DEFAULT_SELECTED_PANEL){
+    if (index === DEFAULT_SELECTED_PANEL) {
       row.classList.add('accordion-panel-selected');
     }
 
