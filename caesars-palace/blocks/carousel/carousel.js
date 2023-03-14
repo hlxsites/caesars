@@ -200,6 +200,7 @@ function buildSlide(slide, index) {
 function createClone(item, targetIndex) {
   const clone = item.cloneNode(true);
   clone.classList.add('clone');
+  clone.id = `data-slide-index${targetIndex}`;
   clone.setAttribute('data-slide-index', targetIndex);
   clone.style.transform = `translateX(${targetIndex * 100}%)`;
   return clone;
