@@ -9,6 +9,7 @@
   overflow-x: scroll;
   scrollbar-width: none;
   -ms-overflow-style: none;
+  scroll-snap-type: x mandatory;
 }
 
 .accordion.block .accordion-slider::-webkit-scrollbar {
@@ -29,6 +30,7 @@
   overflow: hidden;
   margin-left: 10px;
   margin-right: 10px;
+  scroll-snap-align: start;
 }
 
 .accordion.block .accordion-item-title {
