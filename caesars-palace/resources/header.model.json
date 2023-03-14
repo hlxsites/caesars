@@ -1,0 +1,56 @@
+{
+    "style": "cet-header--light",
+    "logoFileReference": "/content/dam/empire/logos/navigation-logos/caesars-rewards-logo-160px.svg",
+    "propLogoFileReference": "",
+    "propLogoPath": "",
+    "propLogoTitle": null,
+    "navItems": [
+        {
+            "text": "Book A Hotel",
+            "path": "https://www.caesars.com/book",
+            "target": ""
+        },
+        {
+            "text": "Flights + Hotel",
+            "path": "https://www.caesars.com/flights-hotels",
+            "target": ""
+        },
+        {
+            "text": "Deals",
+            "path": "https://www.caesars.com/book/promotions-and-packages",
+            "target": ""
+        },
+        {
+            "text": "Destinations",
+            "path": "https://www.caesars.com/destinations",
+            "target": ""
+        },
+        {
+            "text": "Groups & Meetings",
+            "path": "https://www.caesars.com/meetings",
+            "target": ""
+        },
+        {
+            "text": "My Reservations",
+            "path": "https://www.caesars.com/book/my-reservation",
+            "target": ""
+        },
+        {
+            "text": "My Rewards",
+            "path": "https://www.caesars.com/myrewards",
+            "target": ""
+        }
+    ],
+    "currentPageLanguage": "en",
+    "languageItems": null,
+    "propNavItems": null,
+    "linkLabel": "BOOK A ROOM",
+    "linkMobileLabel": "BOOK",
+    "path": "",
+    "propertyLinksLabelText": "",
+    "largePropertyLogo": false,
+    "status": null,
+    "message": null,
+    "hideCta": false,
+    "showNotificationBanner": false
+}
