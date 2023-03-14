@@ -152,8 +152,16 @@ export default function decorate(block) {
 
   function setPositionByIndex() {
     const scalingFactor = isATablet() ? 0.96 : 0.85;
+    if (isADesktop()) {
+      /* Number of cards x card-width */
+      if (window.innerWidth < 3 * 320 && prevTranslate === 0) {
+        currentTranslate = currentIndex * -window.innerWidth * 0.4;
+      } else {
+        currentTranslate = 0;
+      }
+    }
     currentTranslate = isADesktop()
-      ? 0
+      ? currentTranslate
       : currentIndex * -window.innerWidth * scalingFactor;
     prevTranslate = currentTranslate;
     setSliderPosition();
