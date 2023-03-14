@@ -271,8 +271,8 @@ header nav .nav-tools p:first-of-type a {
   align-items: center;
   padding: 8px 16px;
   min-width: unset;
-  color: #fff;
-  font-size: 9px;
+  color: var(--static-color-white);
+  font-size: var(--link-font-size-xs);
   font-weight: 700;
   line-height: 22.4px;
   border-radius: 0;
@@ -305,7 +305,7 @@ header nav .nav-tools p:first-of-type a:hover {
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 0 16px;
+    padding: 0 var(--layout-size-m);
     justify-content: flex-start;
     max-width: 1170px;
     height: var(--global-nav-height);
@@ -346,7 +346,7 @@ header nav .nav-tools p:first-of-type a:hover {
 
   header .global-nav-desktop ul li a {
     color: #343840;
-    font-size: 11px;
+    font-size: var(--link-font-size-s);
     font-weight: 400;
     align-items: center;
     text-decoration: none;
@@ -357,7 +357,7 @@ header nav .nav-tools p:first-of-type a:hover {
     background-image: none;
     border-radius: 4px;
     vertical-align: middle;
-    padding: 0 16px;
+    padding: 0 var(--layout-size-m);
     text-transform: uppercase;
     line-height: 36px;
     min-width: 133px;
@@ -391,7 +391,7 @@ header nav .nav-tools p:first-of-type a:hover {
     display: flex;
     height: 120px;
     min-width: 200px;
-    background-color: #141414;
+    background-color: var(--static-color-black);
     transition: height 200ms cubic-bezier(0.4,0,1,1);
     transition: transform 200ms cubic-bezier(0.4,0,1,1);
     box-shadow: 0 20px 25px -5px rgb(0 0 0 / 10%), 0 10px 10px -5px rgb(0 0 0 / 6%);
@@ -476,16 +476,16 @@ header nav .nav-tools p:first-of-type a:hover {
 
   header nav .nav-sections ul li {
     border: 0;
-    padding: 0 16px;
+    padding: 0 var(--layout-size-m);
     margin: unset;
   }
 
   header nav[aria-expanded=true] .nav-sections .local-nav[aria-expanded="true"] ul li a {
-    color: #fff;
+    color: var(--static-color-white);
     opacity: unset;
     display: inline-block;
     text-decoration: none;
-    font-size: 12px;
+    font-size: var(--body-font-size-xs);
     font-weight: 600;
     height: 70px;
     line-height: 6;
@@ -503,7 +503,7 @@ header nav .nav-tools p:first-of-type a:hover {
     transform: scaleX(0);
     transition: transform .15s cubic-bezier(0.4, 0, 0.2, 1);
     margin: -22px auto 0;
-    background-color: #fff;
+    background-color: var(--static-color-white);
   }
 
   header nav[aria-expanded=true] .nav-sections .local-nav[aria-expanded="true"] ul li a:hover::after {
@@ -512,21 +512,21 @@ header nav .nav-tools p:first-of-type a:hover {
 
   /* Tools */
   header nav .nav-tools p:last-of-type a {
-    color: #141414;
-    border-color: #141414;
-    background-color: #fff;
+    color: var(--static-color-black);
+    border-color: var(--static-color-black);
+    background-color: var(--static-color-white);
     border: 1px solid #4a4a4a;
 
     /* font-family: 'Open Sans',sans-serif; */
     font-weight: 600;
-    font-size: 14px;
+    font-size: var(--body-font-size-s);
     text-align: center;
     white-space: nowrap;
     touch-action: manipulation;
     background-image: none;
     border-radius: 4px;
     vertical-align: middle;
-    padding: 0 16px;
+    padding: 0 var(--layout-size-m);
     text-transform: uppercase;
     display: inline-block;
     height: 36px;
@@ -538,7 +538,7 @@ header nav .nav-tools p:first-of-type a:hover {
   }
 
   header nav .nav-tools p:last-of-type a:hover {
-    background: #fff;
+    background: var(--static-color-white);
     text-decoration: none;
     box-shadow: none;
   }

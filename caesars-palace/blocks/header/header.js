@@ -4,6 +4,8 @@ import { getMetadata, decorateIcons } from '../../scripts/lib-franklin.js';
 const isDesktop = window.matchMedia('(min-width: 1170px)');
 // const MAX_NAV_ITEMS_DESKTOP = 6;
 const CAESARS_DOT_COM = 'https://www.caesars.com';
+const GLOBAL_HEADER_JSON = '/content/empire/en/jcr:content/root/header.model.json';
+const GLOBAL_HEADER_JSON_LOCAL = '../../resources/header.model.json';
 
 async function createGlobalNavLogo(logoFileReference) {
   // Add logo
@@ -142,9 +144,9 @@ export default async function decorate(block) {
 
   // fetch global nav
   if (window.location.host.endsWith('.page') || window.location.host.endsWith('.live') || window.location.host.startsWith('localhost')) {
-    globalNav = await fetch('../../resources/header.model.json');
+    globalNav = await fetch(`${GLOBAL_HEADER_JSON_LOCAL}`);
   } else {
-    globalNav = await fetch('https://www.caesars.com/content/empire/en/jcr:content/root/header.model.json');
+    globalNav = await fetch(`${CAESARS_DOT_COM}${GLOBAL_HEADER_JSON}`);
   }
   if (globalNav.ok) {
     const globalNavJson = await globalNav.json();

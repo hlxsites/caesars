@@ -59,10 +59,14 @@
   --heading-font-size-xs: 14px;
   --heading-font-size-xxs: 10px;
 
-    /* nav height */
-    --nav-height: 70px;
-    --mobile-nav-height: 40px;
-    --global-nav-height: 40px;
+  /* link font sizes */
+  --link-font-size-s: 11px;
+  --link-font-size-xs: 9px;
+
+  /* nav height */
+  --nav-height: 70px;
+  --mobile-nav-height: 40px;
+  --global-nav-height: 40px;
 
   /* layout sizes */
   --layout-size-xxs: 4px;
