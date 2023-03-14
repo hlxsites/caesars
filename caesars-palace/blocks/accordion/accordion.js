@@ -12,8 +12,7 @@ export default function decorate(block) {
   [...block.children].forEach((row, index) => {
     row.classList.add('accordion-panel');
     if (selectedItem === index + 1) {
-      // TODO
-      // row.classList.add('accordion-panel-selected');
+      row.classList.add('accordion-panel-selected');
     }
 
     const accordionImage = row.children[0];
