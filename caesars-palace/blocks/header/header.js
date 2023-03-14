@@ -267,7 +267,7 @@ export default async function decorate(block) {
     const header = block.parentNode;
     window.addEventListener('scroll', () => {
       const scrollAmount = window.scrollY;
-      if (scrollAmount > header.offsetHeight) {
+      if (scrollAmount > 0) {
         header.classList.add('is-sticky');
       } else {
         header.classList.remove('is-sticky');
