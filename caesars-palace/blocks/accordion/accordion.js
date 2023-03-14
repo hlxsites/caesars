@@ -9,6 +9,8 @@ export default function decorate(block) {
   block.children[0].remove();
   console.log("Star item is ", selectedItem);
 
+  const accordionSlider = document.createElement('div');
+  accordionSlider.classList.add('accordion-slider');
   [...block.children].forEach((row, index) => {
     row.classList.add('accordion-panel');
     if (selectedItem === index + 1) {
@@ -25,7 +27,34 @@ export default function decorate(block) {
       const accordionDescription = row.children[2];
       accordionDescription.classList.add('accordion-item-description');
     }
+
+    accordionSlider.appendChild(row);
   });
+  block.appendChild(accordionSlider);
+
+  // add all the event listeners
+  const movementStartEventHandler = (e) => {
+  };
+  accordionSlider.addEventListener('mousedown', (e) => {
+    movementStartEventHandler(e);
+  });
+  accordionSlider.addEventListener('touchstart', (e) => {
+    movementStartEventHandler(e);
+  }, { passive: true });
+
+  const movementEndEventHandler = () => {
+  };
+  accordionSlider.addEventListener('mouseup', () => {
+    movementEndEventHandler();
+  });
+  accordionSlider.addEventListener('touchend', () => {
+    movementEndEventHandler();
+  }, { passive: true });
+
+  accordionSlider.addEventListener('mousemove', (e) => {
+  });
+  accordionSlider.addEventListener('touchmove', (e) => {
+  }, { passive: true });
 
   const mediaWidthQueryMatcher = window.matchMedia('only screen and (min-width: 960px)');
   const mediaWidthChangeHandler = (event) => {
