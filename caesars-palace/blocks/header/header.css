@@ -364,6 +364,10 @@ header nav .nav-tools p:first-of-type a:hover {
     letter-spacing: 1px;
   }
 
+  header .global-nav-desktop ul li a:hover {
+    text-decoration: none;
+  } 
+  
   /* Local Nav */
   header nav {
     display: flex;
