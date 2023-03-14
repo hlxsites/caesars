@@ -1,14 +1,17 @@
-.accordion-slider {
+.accordion.block {
+  height: 296px;
+}
+
+.accordion.block .accordion-slider {
   display: flex;
   flex-direction: row;
   overflow: hidden;
   overflow-x: scroll;
-  height: 296px;
   scrollbar-width: none;
   -ms-overflow-style: none;
 }
 
-.accordion-slider::-webkit-scrollbar {
+.accordion.block .accordion-slider::-webkit-scrollbar {
   display: none;
 }
 
@@ -64,8 +67,13 @@
 
 /* Responsive breakpoints */
 @media screen and (min-width: 960px) {
-  .accordion-slider {
+  .accordion.block {
     height: 760px;
+    align-items: center;
+  }
+
+  .accordion.block .accordion-slider {
+    margin-top: 48px;
     align-items: center;
   }
 
