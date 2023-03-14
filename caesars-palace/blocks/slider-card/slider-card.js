@@ -23,11 +23,40 @@ export default function decorate(block) {
     }
   });
 
+  const mediaQuery = window.matchMedia(
+    'only screen and (min-width: 481px) and (max-width:768px)',
+  );
+
+  const mediaWidthChangeHandler = (event) => {
+    if (event.matches) {
+      const shortDesriptionTabletDivs = document.querySelectorAll('.short-description');
+      shortDesriptionTabletDivs.forEach((div) => {
+        div.style.display = 'none';
+      });
+
+      const longDescriptionDivs = document.querySelectorAll('.long-description');
+      longDescriptionDivs.forEach((div) => {
+        div.classList.add('show');
+      });
+    }
+  };
+  let isDragging = false;
+  let startPos = 0;
+  let currentTranslate = 0;
+  let prevTranslate = 0;
+  let animationID = 0;
+  let currentIndex = 0;
+
+  mediaWidthChangeHandler(mediaQuery);
+  mediaQuery.addEventListener('change', (event) => {
+    mediaWidthChangeHandler(event);
+  });
+
   function isATablet() {
-    const mediaQuery = window.matchMedia(
+    const mediaQueryTablet = window.matchMedia(
       'only screen and (min-width: 481px) and (max-width:768px)',
     );
-    return mediaQuery.matches;
+    return mediaQueryTablet.matches;
   }
 
   document.querySelectorAll('.close-button').forEach((item) => {
@@ -62,18 +91,18 @@ export default function decorate(block) {
     });
   }
 
-  let isDragging = false;
-  let startPos = 0;
-  let currentTranslate = 0;
-  let prevTranslate = 0;
-  let animationID = 0;
-  let currentIndex = 0;
-
   const slider = document.querySelector('.slider-card');
   const slides = Array.from(document.querySelectorAll('.card'));
 
+  function isADesktop() {
+    const mediaDesktop = window.matchMedia('only screen and (min-width: 1170px)');
+    return mediaDesktop.matches;
+  }
+
   function getPositionX(event) {
-    return event.type.includes('mouse') ? event.pageX : event.touches[0].clientX;
+    return event.type.includes('mouse')
+      ? event.pageX
+      : event.touches[0].clientX;
   }
 
   function setSliderPosition() {
@@ -92,13 +121,14 @@ export default function decorate(block) {
       currentIndex = index;
       startPos = getPositionX(event);
       isDragging = true;
-      animationID = requestAnimationFrame(animation);
     };
   }
 
-  function setPositionByIndex(isDesktop) {
+  function setPositionByIndex() {
     const scalingFactor = isATablet() ? 0.96 : 0.85;
-    currentTranslate = isDesktop ? 0 : currentIndex * -window.innerWidth * scalingFactor;
+    currentTranslate = isADesktop()
+      ? 0
+      : currentIndex * -window.innerWidth * scalingFactor;
     prevTranslate = currentTranslate;
     setSliderPosition();
   }
@@ -108,43 +138,46 @@ export default function decorate(block) {
 
     const movedBy = currentTranslate - prevTranslate;
 
-    if (movedBy < -100 && currentIndex < slides.length - 1) {
+    if (!isADesktop() && movedBy < -100 && currentIndex < slides.length - 1) {
       currentIndex += 1;
     }
 
-    if (movedBy > 100 && currentIndex > 0) {
+    if (!isADesktop() && movedBy > 100 && currentIndex > 0) {
       currentIndex -= 1;
     }
 
-    setPositionByIndex(false);
+    setPositionByIndex();
     cancelAnimationFrame(animationID);
   }
 
   function moveEnd() {
     isDragging = false;
-    setPositionByIndex(true);
+    setPositionByIndex();
     cancelAnimationFrame(animationID);
   }
 
   function touchMove(event) {
     if (isDragging) {
+      animationID = requestAnimationFrame(animation);
       const currentPosition = getPositionX(event);
       currentTranslate = prevTranslate + currentPosition - startPos;
     }
   }
 
   // For desktop animation
-  slider.addEventListener('mousedown', touchStart(0), {
-    passive: true,
-  });
-  slider.addEventListener('mouseup', moveEnd, {
-    passive: true,
-  });
-  slider.addEventListener('mouseleave', moveEnd, {
-    passive: true,
-  });
+  if (isADesktop()) {
+    slider.addEventListener('mousedown', touchStart(0), {
+      passive: true,
+    });
+    slider.addEventListener('mouseup', moveEnd, {
+      passive: true,
+    });
+    slider.addEventListener('mouseleave', moveEnd, {
+      passive: true,
+    });
+  }
 
-  // Card slider animation for mobiles and ipads
+  // Card slider animation
   slides.forEach((slide, index) => {
     const slideImage = slide.querySelector('img');
     slideImage.addEventListener('dragstart', (e) => e.preventDefault());
@@ -153,6 +186,28 @@ export default function decorate(block) {
     });
     slide.addEventListener('touchend', touchEnd, { passive: true });
     slide.addEventListener('touchmove', touchMove, { passive: true });
-    slide.addEventListener('mousemove', touchMove, { passive: true });
+  });
+
+  const mediaQueryDesktop = window.matchMedia(
+    'only screen and (min-width: 1120px)',
+  );
+
+  const mediaWidthDesktopChangeHandler = (event) => {
+    if (event.matches) {
+      slider.addEventListener('mousedown', touchStart(0), {
+        passive: true,
+      });
+      slider.addEventListener('mouseup', moveEnd, {
+        passive: true,
+      });
+      slider.addEventListener('mouseleave', moveEnd, {
+        passive: true,
+      });
+    }
+  };
+
+  mediaWidthDesktopChangeHandler(mediaQueryDesktop);
+  mediaQueryDesktop.addEventListener('change', (event) => {
+    mediaWidthDesktopChangeHandler(event);
   });
 }
