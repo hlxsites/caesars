@@ -376,6 +376,10 @@ main .section.is-hero {
   padding: unset;
 }
 
+main .section.is-hero em {
+  font-style: normal;
+}
+
 main .section.is-hero h1 {
   text-align: center;
   text-shadow: 0 2px 4px rgb(0 0 0 / 50%);
@@ -388,6 +392,7 @@ main .section.is-hero h1 {
 }
 
 main .section.is-hero h4 {
+  font-style: normal;
   text-align: center;
   text-shadow: 0 2px 4px rgb(0 0 0 / 50%);
   color: var(--static-color-white);
