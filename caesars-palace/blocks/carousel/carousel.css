@@ -58,6 +58,11 @@
   visibility: hidden;
 }
 
+.carousel.block .carousel-alt-video {
+  position: absolute;
+  visibility: hidden;
+}
+
 .carousel.block .carousel-text {
   position: absolute;
   z-index: 3;
@@ -87,6 +92,11 @@
 /* Responsive breakpoints */
 @media screen and (min-width: 1170px) {
   .carousel.block .carousel-alt-image {
+    position: unset;
+    visibility: visible;
+  }
+
+  .carousel.block .carousel-alt-video {
     position: unset;
     visibility: visible;
   }
