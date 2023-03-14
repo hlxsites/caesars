@@ -84,7 +84,7 @@
   object-fit: cover;
 }
 
-@media only screen and (min-width: 481px) and (max-width: 768px) {
+@media only screen and (min-width: 481px) and (max-width: 1024px) {
   .slider-card .card .long-description.show > p:first-of-type {
     display: block;
     font-family: var(--text-font-family);

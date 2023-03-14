@@ -54,7 +54,7 @@ export default function decorate(block) {
 
   function isATablet() {
     const mediaQueryTablet = window.matchMedia(
-      'only screen and (min-width: 481px) and (max-width:768px)',
+      'only screen and (min-width: 481px) and (max-width:1024px)',
     );
     return mediaQueryTablet.matches;
   }
