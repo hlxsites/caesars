@@ -2,6 +2,11 @@ import { getMetadata, decorateIcons } from '../../scripts/lib-franklin.js';
 
 // media query match that indicates mobile/tablet width
 const isDesktop = window.matchMedia('(min-width: 1170px)');
+// const MAX_NAV_ITEMS_DESKTOP = 6;
+
+// function createGlobalNav(json) {
+
+// }
 
 function closeOnEscape(e) {
   if (e.code === 'Escape') {
@@ -182,16 +187,6 @@ export default async function decorate(block) {
         toggleNavSectionTitles(localNavTitle, newDiv);
       });
       if (globalNavSections) navSections.append(globalNavSections);
-      navSections.querySelectorAll(':scope > ul > li').forEach((navSection) => {
-        if (navSection.querySelector('ul')) navSection.classList.add('nav-drop');
-        navSection.addEventListener('click', () => {
-          if (isDesktop.matches) {
-            const expanded = navSection.getAttribute('aria-expanded') === 'true';
-            toggleAllNavSections(navSections);
-            navSection.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-          }
-        });
-      });
     }
 
     // hamburger for mobile
@@ -203,9 +198,25 @@ export default async function decorate(block) {
     hamburger.addEventListener('click', () => toggleMenu(nav, navSections));
     nav.prepend(hamburger);
     nav.setAttribute('aria-expanded', 'false');
+
     // prevent mobile nav behavior on window resize
     toggleMenu(nav, navSections, isDesktop.matches);
-    isDesktop.addEventListener('change', () => toggleMenu(nav, navSections, isDesktop.matches));
+
+    // add event listeners when window width changes
+    isDesktop.addEventListener('change', () => {
+      const localNavTitle = block.querySelector('.local-nav-title');
+      const globalNavTitle = block.querySelector('.global-nav-title');
+      toggleMenu(nav, navSections, isDesktop.matches);
+      if (isDesktop.matches) {
+        localNavTitle.removeEventListener('click');
+        globalNavTitle.removeEventListener('click');
+      } else {
+        localNavTitle.addEventListener('click', () => {
+          toggleNavSectionTitles(localNavTitle, localNavTitle.parentElement());
+          toggleNavSectionTitles(globalNavTitle, globalNavTitle.parentElement());
+        });
+      }
+    });
 
     // close the mobile menu when clicking anywhere outside of it
     window.addEventListener('click', (event) => {
@@ -217,6 +228,18 @@ export default async function decorate(block) {
         }
       }
     });
+
+    // add page scroll listener to know when header turns to sticky
+    const header = block.parentNode;
+    window.addEventListener('scroll', () => {
+      const scrollAmount = window.scrollY;
+      if (scrollAmount > header.offsetHeight) {
+        header.classList.add('is-sticky');
+      } else {
+        header.classList.remove('is-sticky');
+      }
+    });
+
     decorateIcons(nav);
     const navWrapper = document.createElement('div');
     navWrapper.className = 'nav-wrapper';

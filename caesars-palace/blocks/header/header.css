@@ -233,14 +233,14 @@ header nav[aria-expanded=true] .nav-sections .local-nav[aria-expanded="true"] ul
 header nav[aria-expanded=true] .nav-sections .global-nav[aria-expanded="true"] ul li {
   margin-left: -1em;
   padding-left: 1em;
-  transition: background 150ms cubic-bezier(0.4,0,0.2,1);
+  transition: background-color 150ms cubic-bezier(0.4,0,0.2,1);
 }
 
 header nav[aria-expanded=true] .nav-sections .local-nav[aria-expanded="true"] ul li:hover,
 header nav[aria-expanded=true] .nav-sections .global-nav[aria-expanded="true"] ul li:hover {
   cursor: pointer;
-  transition: background 75ms cubic-bezier(0.4,0,0.2,1);
-  background: var(--static-color-light-gray);
+  transition: background-color 75ms cubic-bezier(0.4,0,0.2,1);
+  background-color: var(--static-color-light-gray);
 }
 
 header nav[aria-expanded=true] .nav-sections .local-nav[aria-expanded="true"] ul li a,
@@ -296,99 +296,191 @@ header nav .nav-tools p:first-of-type a:hover {
 }
 
 @media (min-width: 1170px) {
+  /* Nav */
   header nav {
     display: flex;
     justify-content: space-between;
-  }
-
-  header nav[aria-expanded=true] {
-    min-height: 0;
+    max-width: 1170px;
+    height: var(--nav-height);
     overflow: visible;
+
+    /* max-width: unset; */
+    background-color: rgb(20 20 20 / 9%);
   }
   
+  header nav::after {
+    display: none;
+  }
+
+  /* Hide Hamburger */
   header nav .nav-hamburger {
     display: none;
     visibility: hidden;
   }
 
-  header nav .nav-sections {
-    display: block;
-    visibility: visible;
-    white-space: nowrap;
+  /* Nav Brand / Logo */
+  header nav .nav-brand {
+    display: flex;
+    height: 120px;
+    min-width: 200px;
+    background-color: #141414;
+    transition: height 200ms cubic-bezier(0.4,0,1,1);
+    transition: transform 200ms cubic-bezier(0.4,0,1,1);
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 10%), 0 10px 10px -5px rgb(0 0 0 / 6%);
+    align-items: unset;
   }
 
-  header nav[aria-expanded=true] .nav-sections {
-    align-self: unset;
+  header.is-sticky nav .nav-brand {
+    height: var(--nav-height);
+  }
+  
+  header nav .nav-brand p {
+    height: var(--nav-height);
   }
 
-  header nav .nav-sections .nav-drop {
-    position: relative;
-    padding-right: 16px;
-    cursor: pointer;
+  header nav .nav-brand p a {
+    display: flex;
+    align-items: center;
+    height: var(--nav-height);
   }
 
-  header nav .nav-sections .nav-drop::after {
+  header.is-sticky nav .nav-brand p a {
+    height: var(--nav-height);
+  }
+
+  header nav .nav-brand p a::after {
     content: '';
-    display: inline-block;
     position: absolute;
-    top: .5em;
-    right: 2px;
-    transform: rotate(135deg);
-    width: 6px;
-    height: 6px;
-    border: 2px solid currentcolor;
-    border-radius: 0 1px 0 0;
-    border-width: 2px 2px 0 0;
+    background: url('../../icons/caesars-palace-logo.svg') no-repeat;
+    height: 58px;
+    width: 215px;
+    left: 0;
+    top: 50%;
   }
 
-  header nav .nav-sections .nav-drop[aria-expanded=true]::after {
+  header.is-sticky nav .nav-brand p a::after {
+    top: auto;
+    left: 0;
+  }
+
+  /* Nav Section */
+  header nav[aria-expanded=true] .nav-sections {
+    display: flex;
+    position: relative;
+    align-self: unset;
+    visibility: visible;
+    flex-direction: column;
+    list-style-type: none;
+    background-color: rgb(20 20 20 / 9%);
+    height: unset;
+    width: unset;
+    padding: unset;
+    overflow: unset;
     top: unset;
-    bottom: .5em;
-    transform: rotate(315deg);
+    left: unset;
+    border: unset;
+  }
+
+  header nav[aria-expanded=true] .nav-sections > div {
+    border: unset;
+  }
+
+  header nav[aria-expanded=true] .nav-sections .local-nav-title {
+    display: none;
   }
 
   header nav .nav-sections ul {
     display: flex;
-    gap: 2em;
+    position: relative;
     margin: 0;
-    font-size: var(--body-font-size-xs);
+    flex-direction: row;
+    top: unset;
+    left: unset;
+    background-color: rgb(20 20 20 / 9%);
+    border: 0;
+    width: 100%;
+    height: 100%;
+    max-height: unset;
+    transform: none;
+    transition: none;
   }
 
-  header nav .nav-sections > ul > li {
-    flex: 0 1 auto;
-    position: relative;
-    font-weight: 500;
+  header nav .nav-sections ul li {
+    border: 0;
+    padding: 0 16px;
+    margin: unset;
   }
 
-  header nav .nav-sections > ul > li > ul {
-    display: none;
-    position: relative;
+  header nav[aria-expanded=true] .nav-sections .local-nav[aria-expanded="true"] ul li a {
+    color: #fff;
+    opacity: unset;
+    display: inline-block;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+    height: 70px;
+    line-height: 6;
   }
 
-  header nav .nav-sections > ul > li[aria-expanded=true] > ul {
-    display: block;
-    position: absolute;
-    left: -1em;
-    width: 200px;
-    margin-top: 12px;
-    padding: 1em;
-    background-color: var(--highlight-background-color);
-    white-space: initial;
+  header nav[aria-expanded=true] .nav-sections .local-nav[aria-expanded="true"] ul li:hover {
+    background-color: unset;
+    transition: unset;
   }
 
-  header nav .nav-sections > ul > li > ul::before {
+  header nav[aria-expanded=true] .nav-sections .local-nav[aria-expanded="true"] ul li a::after {
     content: '';
-    position: absolute;
-    top: -8px;
-    left: 8px;
-    width: 0;
-    height: 0;
-    border-left: 8px solid transparent;
-    border-right: 8px solid transparent;    
-    border-bottom: 8px solid var(--highlight-background-color);
+    display: block;
+    height: 3px;
+    transform: scaleX(0);
+    transition: transform .15s cubic-bezier(0.4, 0, 0.2, 1);
+    margin: -22px auto 0;
+    background-color: #fff;
   }
 
-  header nav .nav-sections > ul > li > ul > li {
-    padding: 8px 0;
+  header nav[aria-expanded=true] .nav-sections .local-nav[aria-expanded="true"] ul li a:hover::after {
+    transform: scaleX(1);
+  }
+
+  /* Tools */
+  header nav .nav-tools p:last-of-type a {
+    color: #141414;
+    border-color: #141414;
+    background-color: #fff;
+    border: 1px solid #4a4a4a;
+
+    /* font-family: 'Open Sans',sans-serif; */
+    font-weight: 600;
+    font-size: 14px;
+    text-align: center;
+    white-space: nowrap;
+    touch-action: manipulation;
+    background-image: none;
+    border-radius: 4px;
+    vertical-align: middle;
+    padding: 0 16px;
+    text-transform: uppercase;
+    display: inline-block;
+    height: 36px;
+    line-height: 36px;
+    min-width: 133px;
+    letter-spacing: 1px;
+    transition: background-color 150ms cubic-bezier(0.4,0,0.2,1);
+    transition: box-shadow 150ms cubic-bezier(0.4,0,0.2,1);
+  }
+
+  header nav .nav-tools p:last-of-type a:hover {
+    background: #fff;
+    text-decoration: none;
+    box-shadow: none;
+  }
+
+  header nav .nav-tools p:first-of-type a {
+    display: none;
+  }
+}
+
+@media (min-width: 1400px) {
+  header nav[aria-expanded=true] {
+    max-width: 1400px;
   }
 }
