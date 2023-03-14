@@ -2,11 +2,6 @@
   box-sizing: border-box;
 }
 
-/* To prevent scrolling on the cards */
-.slider-card-wrapper {
-  overflow: hidden;
-}
-
 .slider-card-wrapper .slider-card {
   margin: 0;
   padding: 0;
@@ -15,6 +10,12 @@
   gap: 16px;
   transform: translateX(0);
   transition: transform 0.3s ease-out;
+}
+
+
+/* To prevent scrolling on the cards */
+.slider-card-wrapper {
+  overflow: hidden;
 }
 
 .slider-card-wrapper .slider-card .card {
@@ -84,7 +85,7 @@
   object-fit: cover;
 }
 
-@media only screen and (min-width: 481px) and (max-width: 1024px) {
+@media only screen and (min-width: 481px) and (max-width: 768px) {
   .slider-card .card .long-description.show > p:first-of-type {
     display: block;
     font-family: var(--text-font-family);
@@ -94,10 +95,10 @@
   }
 }
 
-@media (min-width: 1170px) {
+@media (min-width: 769px) {
   .slider-card-wrapper .slider-card {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(320px, 1fr));
     grid-auto-rows: 1fr;
     grid-gap: 16px;
     overflow: scroll;

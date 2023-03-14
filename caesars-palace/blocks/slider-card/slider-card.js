@@ -23,6 +23,28 @@ export default function decorate(block) {
     }
   });
 
+  const mobileMediaQuery = window.matchMedia('only screen and (max-width:480px)');
+  const mobileMediaWidthChangeHandler = (event) => {
+    if (event.matches) {
+      const shortDesriptionTabletDivs = document.querySelectorAll('.short-description');
+      shortDesriptionTabletDivs.forEach((div) => {
+        div.classList.add('show');
+        div.classList.remove('hide');
+      });
+
+      const longDescriptionDivs = document.querySelectorAll('.long-description');
+      longDescriptionDivs.forEach((div) => {
+        div.classList.add('hide');
+        div.classList.remove('show');
+      });
+    }
+  };
+
+  mobileMediaWidthChangeHandler(mobileMediaQuery);
+  mobileMediaQuery.addEventListener('change', (event) => {
+    mobileMediaWidthChangeHandler(event);
+  });
+
   const mediaQuery = window.matchMedia(
     'only screen and (min-width: 481px) and (max-width:768px)',
   );
@@ -31,12 +53,14 @@ export default function decorate(block) {
     if (event.matches) {
       const shortDesriptionTabletDivs = document.querySelectorAll('.short-description');
       shortDesriptionTabletDivs.forEach((div) => {
-        div.style.display = 'none';
+        div.classList.add('hide');
+        div.classList.remove('show');
       });
 
       const longDescriptionDivs = document.querySelectorAll('.long-description');
       longDescriptionDivs.forEach((div) => {
         div.classList.add('show');
+        div.classList.remove('hide');
       });
     }
   };
@@ -54,7 +78,7 @@ export default function decorate(block) {
 
   function isATablet() {
     const mediaQueryTablet = window.matchMedia(
-      'only screen and (min-width: 481px) and (max-width:1024px)',
+      'only screen and (min-width: 481px) and (max-width:768px)',
     );
     return mediaQueryTablet.matches;
   }
@@ -82,12 +106,14 @@ export default function decorate(block) {
   if (isATablet()) {
     const shortDesriptionTabletDivs = document.querySelectorAll('.short-description');
     shortDesriptionTabletDivs.forEach((div) => {
-      div.style.display = 'none';
+      div.classList.add('hide');
+      div.classList.remove('show');
     });
 
     const longDescriptionDivs = document.querySelectorAll('.long-description');
     longDescriptionDivs.forEach((div) => {
       div.classList.add('show');
+      div.classList.remove('hide');
     });
   }
 
@@ -95,7 +121,7 @@ export default function decorate(block) {
   const slides = Array.from(document.querySelectorAll('.card'));
 
   function isADesktop() {
-    const mediaDesktop = window.matchMedia('only screen and (min-width: 1170px)');
+    const mediaDesktop = window.matchMedia('only screen and (min-width: 769px)');
     return mediaDesktop.matches;
   }
 
@@ -189,11 +215,22 @@ export default function decorate(block) {
   });
 
   const mediaQueryDesktop = window.matchMedia(
-    'only screen and (min-width: 1120px)',
+    'only screen and (min-width: 769px)',
   );
 
   const mediaWidthDesktopChangeHandler = (event) => {
     if (event.matches) {
+      const shortDesriptionTabletDivs = document.querySelectorAll('.short-description');
+      shortDesriptionTabletDivs.forEach((div) => {
+        div.classList.add('show');
+        div.classList.remove('hide');
+      });
+
+      const longDescriptionDivs = document.querySelectorAll('.long-description');
+      longDescriptionDivs.forEach((div) => {
+        div.classList.add('hide');
+        div.classList.remove('show');
+      });
       slider.addEventListener('mousedown', touchStart(0), {
         passive: true,
       });
