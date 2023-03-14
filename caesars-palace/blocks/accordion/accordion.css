@@ -118,6 +118,10 @@
     position: absolute;
     right: var(--layout-size-m);
   }
+
+  .accordion.block .accordion-item-image>picture img {
+    object-position: 50% 50%;
+  }
 }
 
 /* Animations */
