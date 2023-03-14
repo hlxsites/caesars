@@ -19,22 +19,6 @@ export default function decorate(block) {
   });
   block.appendChild(accordionSlider);
 
-  // add all the event listeners
-  const movementStartEventHandler = (e) => {
-  };
-  accordionSlider.addEventListener('touchstart', (e) => {
-    movementStartEventHandler(e);
-  }, { passive: true });
-
-  const movementEndEventHandler = () => {
-  };
-  accordionSlider.addEventListener('touchend', () => {
-    movementEndEventHandler();
-  }, { passive: true });
-
-  accordionSlider.addEventListener('touchmove', (e) => {
-  }, { passive: true });
-
   const mediaWidthQueryMatcher = window.matchMedia('only screen and (min-width: 960px)');
   const mediaWidthChangeHandler = (event) => {
     if (event.matches === false) {
