@@ -1,6 +1,8 @@
 .accordion-slider {
   display: flex;
   flex-direction: row;
+  overflow: hidden;
+  overflow-x: scroll;
 }
 
 .accordion.block .accordion-slider div:first-child {
@@ -11,7 +13,7 @@
   flex-basis: 0;
   flex-grow: 1;
   height: 266px;
-  min-width: 100%;
+  min-width: 95%;
   box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 10px 10px -5px rgba(0,0,0,0.06);
   position: relative;
   overflow: hidden;
