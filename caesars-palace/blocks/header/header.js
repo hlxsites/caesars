@@ -6,6 +6,7 @@ const isDesktop = window.matchMedia('(min-width: 1170px)');
 const CAESARS_DOT_COM = 'https://www.caesars.com';
 const GLOBAL_HEADER_JSON = '/content/empire/en/jcr:content/root/header.model.json';
 const GLOBAL_HEADER_JSON_LOCAL = '../../resources/header.model.json';
+const GLOBAL_HEADER_LOGO_LOCAL = '../../icons/caesars-global-logo.svg';
 
 async function createGlobalNavLogo(logoFileReference) {
   // Add logo
@@ -15,10 +16,11 @@ async function createGlobalNavLogo(logoFileReference) {
     try {
       let response;
       if (window.location.host.endsWith('.page') || window.location.host.endsWith('.live') || window.location.host.startsWith('localhost')) {
-        response = await fetch(`${CAESARS_DOT_COM}${logoFileReference}`);
+        response = await fetch(`${GLOBAL_HEADER_LOGO_LOCAL}`);
       } else {
         response = await fetch(`${logoFileReference}`);
       }
+      if (!response.ok) response = await fetch(`${GLOBAL_HEADER_LOGO_LOCAL}`);
       if (response.ok) {
         const svg = await response.text();
         const svgSpan = document.createElement('span');
