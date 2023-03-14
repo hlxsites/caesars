@@ -3,10 +3,33 @@ import { getMetadata, decorateIcons } from '../../scripts/lib-franklin.js';
 // media query match that indicates mobile/tablet width
 const isDesktop = window.matchMedia('(min-width: 1170px)');
 // const MAX_NAV_ITEMS_DESKTOP = 6;
+const CAESARS_DOT_COM = 'https://www.caesars.com';
 
-// function createGlobalNav(json) {
-
-// }
+async function createGlobalNavLogo(logoFileReference) {
+  // Add logo
+  const logo = document.createElement('div');
+  logo.classList.add('logo');
+  if (logoFileReference) {
+    try {
+      let response;
+      if (window.location.host.endsWith('.page') || window.location.host.endsWith('.live') || window.location.host.startsWith('localhost')) {
+        response = await fetch(`${CAESARS_DOT_COM}${logoFileReference}`);
+      } else {
+        response = await fetch(`${logoFileReference}`);
+      }
+      if (response.ok) {
+        const svg = await response.text();
+        const svgSpan = document.createElement('span');
+        svgSpan.innerHTML = svg;
+        logo.appendChild(svgSpan);
+      }
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error('error', err);
+    }
+  }
+  return logo;
+}
 
 function closeOnEscape(e) {
   if (e.code === 'Escape') {
@@ -112,6 +135,10 @@ export default async function decorate(block) {
   let globalNavSections;
   // let globalNavLogin;
   // let globalNavLogo;
+  const globalNavDesktop = document.createElement('div');
+  globalNavDesktop.classList.add('global-nav-desktop');
+  const globalNavSection = document.createElement('div');
+  globalNavSection.classList.add('global-nav-section');
 
   // fetch global nav
   if (window.location.host.endsWith('.page') || window.location.host.endsWith('.live') || window.location.host.startsWith('localhost')) {
@@ -143,11 +170,18 @@ export default async function decorate(block) {
         ul.append(li);
       });
       globalNavDiv.appendChild(ul);
+      const globalNavLinks = ul.cloneNode(true);
+      globalNavSection.appendChild(globalNavLinks);
+      globalNavDesktop.appendChild(globalNavSection);
       globalNavSections = globalNavDiv;
       globalNavTitle.addEventListener('click', () => {
         toggleNavSectionTitles(globalNavTitle, globalNavSections);
       });
     }
+    if (globalNavJson.logoFileReference) {
+      globalNavDesktop.prepend(await createGlobalNavLogo(globalNavJson.logoFileReference));
+    }
+    if (globalNavJson.style) globalNavDesktop.classList.add(globalNavJson.style);
   }
 
   // fetch nav content
@@ -244,6 +278,7 @@ export default async function decorate(block) {
     const navWrapper = document.createElement('div');
     navWrapper.className = 'nav-wrapper';
     navWrapper.append(nav);
+    block.prepend(globalNavDesktop);
     block.append(navWrapper);
   }
 }
