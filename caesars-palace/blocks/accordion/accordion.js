@@ -38,16 +38,40 @@ export default function decorate(block) {
         item.classList.add('accordion-panel-selected');
       });
     });
-    
   });
   block.appendChild(accordionSlider);
 
   const mediaWidthQueryMatcher = window.matchMedia('only screen and (min-width: 960px)');
   const mediaWidthChangeHandler = (event) => {
     if (event.matches === false) {
-      console.log("Make whole panel item clickable");
+      const accordionPanels = block.getElementsByClassName('accordion-panel');
+      [...accordionPanels].forEach((panel) => {
+        let targetLink;
+        let targetTitle;
+        panel.querySelectorAll('a').forEach((link) => {
+          // last link will always be the action button
+          targetLink = link.href;
+          targetTitle = link.title;
+        });
+
+        const link = document.createElement('a');
+        link.classList.add('highlight-card-link');
+        link.href = targetLink;
+        link.title = targetTitle;
+
+        link.innerHTML = panel.innerHTML;
+        panel.innerHTML = '';
+        panel.append(link);
+      });
     } else {
-      console.log("Show description with button");
+      const accordionPanels = block.getElementsByClassName('accordion-panel');
+      [...accordionPanels].forEach((panel) => {
+        const wrapper = panel.firstChild;
+        if (panel.firstChild && panel.firstChild.href) {
+          const wrappedContent = wrapper.innerHTML;
+          panel.innerHTML = wrappedContent;
+        }
+      });
     }
   };
   mediaWidthChangeHandler(mediaWidthQueryMatcher);
