@@ -73,8 +73,8 @@
   }
 
   .accordion.block .accordion-slider {
-    margin-top: 48px;
     align-items: center;
+    height: 792px;
   }
 
   .accordion.block .accordion-panel {
