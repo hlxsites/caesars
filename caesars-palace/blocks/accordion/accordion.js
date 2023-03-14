@@ -1,21 +1,8 @@
 export default function decorate(block) {
-  // first line is configuration of star item to be open/selected by default
-  let selectedItem = 1;
-  const configuredStarElement = parseInt(block.children[0].innerText, 10);
-  if (!Number.isNaN(configuredStarElement)
-    && Number.isInteger(configuredStarElement)) {
-    selectedItem = configuredStarElement;
-  }
-  block.children[0].remove();
-  console.log("Star item is ", selectedItem);
-
   const accordionSlider = document.createElement('div');
   accordionSlider.classList.add('accordion-slider');
   [...block.children].forEach((row, index) => {
     row.classList.add('accordion-panel');
-    if (selectedItem === index + 1) {
-      row.classList.add('accordion-panel-selected');
-    }
 
     const accordionImage = row.children[0];
     accordionImage.classList.add('accordion-item-image');
