@@ -1,8 +1,14 @@
+const DEFAULT_SELECTED_PANEL = 1;
+
 export default function decorate(block) {
   const accordionSlider = document.createElement('div');
   accordionSlider.classList.add('accordion-slider');
   [...block.children].forEach((row, index) => {
     row.classList.add('accordion-panel');
+
+    if(index === DEFAULT_SELECTED_PANEL){
+      row.classList.add('accordion-panel-selected');
+    }
 
     const accordionImage = row.children[0];
     accordionImage.classList.add('accordion-item-image');
