@@ -2,7 +2,12 @@
   box-sizing: border-box;
 }
 
-.slider-card {
+/* To prevent scrolling on the cards */
+.slider-card-wrapper {
+  overflow: hidden;
+}
+
+.slider-card-wrapper .slider-card {
   margin: 0;
   padding: 0;
   display: flex;
@@ -12,18 +17,13 @@
   transition: transform 0.3s ease-out;
 }
 
-/* To prevent scrolling on the cards */
-.slider-card-wrapper {
-  overflow: hidden;
-}
-
-.card {
+.slider-card-wrapper .slider-card .card {
   flex: 1 0 100%;
   height: auto;
   width: 100%;
 }
 
-.card .short-description {
+.slider-card .card .short-description {
   padding: 16px;
   border: 1px solid var(--highlight-background-color);
   background: #fff;
@@ -31,11 +31,11 @@
   height: 180px;
 }
 
-.card .short-description.hide {
+.slider-card .card .short-description.hide {
   display: none;
 }
 
-.close-button {
+.slider-card .card .close-button {
   background: url("../../icons/close.svg") no-repeat;
   min-width: 20px;
   min-height: 20px;
@@ -45,27 +45,27 @@
   cursor: pointer;
 }
 
-.close-button.hide {
+.slider-card .card .close-button.hide {
   display: none;
 }
 
-.card .short-description .title {
+.slider-card .card .short-description .title {
   font-family: var(--text-font-family);
   font-weight: var(--emphasized-font-weight);
   font-size: 18px;
   text-transform: uppercase;
 }
 
-.show-more {
+.slider-card .card .show-more {
   text-transform: lowercase;
   cursor: pointer;
 }
 
-.long-description {
+.slider-card .card .long-description {
   display: none;
 }
 
-.long-description.show {
+.slider-card .card .long-description.show {
   padding: 16px;
   border: 1px solid var(--highlight-background-color);
   background: #fff;
@@ -74,18 +74,18 @@
   height: 180px;
 }
 
-.long-description.show > p:first-of-type {
+.slider-card .card .long-description.show > p:first-of-type {
   display: none;
 }
 
-.card > div > picture > img {
+.slider-card .card > div > picture > img {
   width: 100%;
   aspect-ratio: 4 / 3;
   object-fit: cover;
 }
 
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  .long-description.show > p:first-of-type {
+  .slider-card .long-description.show > p:first-of-type {
     display: block;
     font-family: var(--text-font-family);
     font-weight: var(--emphasized-font-weight);
@@ -95,7 +95,7 @@
 }
 
 @media (min-width: 1170px) {
-  .slider-card {
+  .slider-card-wrapper .slider-card {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-auto-rows: 1fr;
@@ -104,7 +104,7 @@
     font-size: 16px;
   }
 
-  .card .short-description {
+  .slider-card .card .short-description {
     margin: -35px 15px 15px;
     box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%);
     background: #fff;
@@ -114,7 +114,7 @@
     height: 190px;
   }
 
-  .long-description.show {
+  .slider-card .card .long-description.show {
     margin: -35px 15px 15px;
     box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%);
     position: relative;
@@ -123,7 +123,7 @@
     height: 190px;
   }
 
-  .close-button {
+  .slider-card .card .close-button {
     margin: -27px 20px 20px;
     position: relative;
     z-index: 2;
