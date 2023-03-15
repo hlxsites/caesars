@@ -436,6 +436,14 @@ main .section.is-hero h4 {
   padding-bottom: 50px;
 }
 
+main .section.is-hero h5 {
+  font-style: normal;
+  text-align: center;
+  color: var(--static-color-white);
+  font-size: var(--heading-font-size-xs);
+  font-family: var(--body-font-family);
+}
+
 main .section.is-hero .button-container {
   border: 0;
   text-align: center;
