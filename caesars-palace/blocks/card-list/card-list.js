@@ -10,7 +10,7 @@ export default async function decorate(block) {
   if (cfg.filters) {
     const fullWidth = document.createElement('div');
     fullWidth.classList.add('full-width');
-    fullWidth.appendChild(buildFilterPanel(block, cfg.filters));
+    addFilterPanel(block, fullWidth, cfg.filters);
     // card count and active filters
     const activeFilters = document.createElement('div');
     activeFilters.classList.add('active-filters');
@@ -46,7 +46,7 @@ export default async function decorate(block) {
     cardImage.classList.add('card-image');
     const cardImageLink = document.createElement('a');
     cardImageLink.href = cardLink;
-    cardImageLink.appendChild(createOptimizedPicture(cardData.thumbnail, cardData.title, false, [{ media: '(min-width: 960px)', height: '440' }, { media: '(min-width: 768px)', height: '240' }, { media: '(min-width: 480px)', height: '180' }]));
+    cardImageLink.appendChild(createOptimizedPicture(cardData.thumbnail, cardData.title, false, [{ media: '(min-width: 960px)', width: '480' }, { width: '350' } ]));
     cardImage.appendChild(cardImageLink);
     // mobile
     const mobile = document.createElement('div');
@@ -174,8 +174,7 @@ function readConfig(block) {
 }
 
 // todo: add special handling for dining options and open now.
-function buildFilterPanel(block, filters, cardIndex) {
-
+function addFilterPanel(block, fullWidth, filters) {
   // filter panel
   const filterPanel = document.createElement('div');
   filterPanel.classList.add('filter-panel');
@@ -183,17 +182,18 @@ function buildFilterPanel(block, filters, cardIndex) {
   filterLabel.classList.add('filter-label')
   filterLabel.innerHTML = 'Filter By:';
   filterPanel.appendChild(filterLabel);
-
-  // filter group
   const filterGroup = document.createElement('div');
   filterGroup.classList.add('filter-group');
+  const mobileFilterGroup = document.createElement('div');
+  mobileFilterGroup.classList.add('filter-group'); // test 
+  //mobileFilterGroup.classList.add('mobile-filter-group');
   filters.forEach(filter => {
     const filterDropdown = document.createElement('div');
     filterDropdown.classList.add('dropdown');
-
     // category
     const filterTarget = document.createElement('div');
     filterTarget.classList.add('dropdown-target');
+    filterTarget.addEventListener('click', toggleDropdown);
     if (filter.icon) {
       filter.icon.classList.add('dropdown-target-icon');
       filterTarget.appendChild(filter.icon);
@@ -205,44 +205,99 @@ function buildFilterPanel(block, filters, cardIndex) {
     filterName.appendChild(filterNameLink);
     filterTarget.appendChild(filterName);
     filterDropdown.appendChild(filterTarget);
-
     // options
     const filterContent = document.createElement('div');
     filterContent.classList.add('dropdown-content');
     filterDropdown.appendChild(filterContent);
     filter.element = filterContent;
-
     filterGroup.appendChild(filterDropdown);
-   
+    // mobile options
+    const mobileFilterDropdown = filterDropdown.cloneNode(true);
+    filter.mobileElement = mobileFilterDropdown.querySelector('.dropdown-content');
+    mobileFilterDropdown.querySelector('.dropdown-target').addEventListener('click', toggleDropdown);
+    mobileFilterGroup.appendChild(mobileFilterDropdown);
   });
   filterPanel.appendChild(filterGroup);
-
   // clear button
   const filterClear = document.createElement('div');
   filterClear.classList.add('filter-clear');
-  const clearButton = document.createElement('div');
-  clearButton.classList.add('link-button');
-  clearButton.classList.add('link-button-ghost');
-  clearButton.addEventListener('click', clearFilters);
-  const clearLink = document.createElement('a');
-  clearLink.innerHTML = 'clear';
-  clearButton.appendChild(clearLink);
-  filterClear.appendChild(clearButton)
+  filterClear.appendChild(createButton('Clear', clearFilters, 'ghost'));
   filterPanel.appendChild(filterClear);
-  
   // edit button
   const filterEdit = document.createElement('div');
   filterEdit.classList.add('filter-edit');
-  const editButton = document.createElement('div');
-  editButton.classList.add('link-button');
-  editButton.classList.add('link-button-ghost');
-  const editLink = document.createElement('a');
-  editLink.href = 'https://www.google.com';
-  editLink.innerHTML = 'edit';
-  editButton.appendChild(editLink);
-  filterEdit.appendChild(editButton);
+  filterEdit.appendChild(createButton('Edit', toggleMobileFilters, 'ghost'));
   filterPanel.appendChild(filterEdit);
-  return filterPanel;
+  fullWidth.appendChild(filterPanel);
+  // filter modal
+  const modal = document.createElement('div');
+  modal.classList.add('modal');
+  //modal.classList.add('open'); // temporary
+  const mobileFilterPanel = document.createElement('div');
+  mobileFilterPanel.classList.add('mobile-filter-panel');
+  const filterModal = document.createElement('div');
+  filterModal.classList.add('modal-main');
+  filterModal.setAttribute('role', 'dialog');
+  filterModal.setAttribute('aria_labelledby', 'modal-label');
+  filterModal.setAttribute('aria_describedby', 'modal-description');
+  filterModal.setAttribute('aria-modal', true);
+  mobileFilterPanel.appendChild(filterModal);
+  const modalClose = document.createElement('div');
+  modalClose.classList.add('close-button');
+  modalClose.setAttribute('aria-label', 'Close');
+  modalClose.setAttribute('role', 'button');
+  modalClose.addEventListener('click', toggleMobileFilters);
+  filterModal.append(modalClose);
+  const modalLabel = document.createElement('h2');
+  modalLabel.classList.add('h2');
+  modalLabel.id = 'modal-label';
+  modalLabel.innerHTML = 'Filter By:';
+  filterModal.appendChild(modalLabel);
+  const modalDescription = document.createElement('div');
+  modalDescription.classList.add('modal-contents');
+  modalDescription.id = 'modal-description';
+  filterModal.appendChild(modalDescription);
+  modalDescription.appendChild(mobileFilterGroup);
+  const mobileFilterClear = document.createElement('div');
+  mobileFilterClear.classList.add('clear');
+  mobileFilterClear.appendChild(createButton('Clear', clearFilters, 'light'));
+  modalDescription.appendChild(mobileFilterClear);
+  modal.appendChild(mobileFilterPanel);
+  block.appendChild(modal);
+}
+
+function createButton(title, clickEvent, style) {
+  const button = document.createElement('div');
+  button.classList.add('link-button');
+  if (style) {
+    button.classList.add('link-button-' + style);
+  }
+  button.addEventListener('click', clickEvent);
+  const buttonLink = document.createElement('a');
+  buttonLink.title = title;
+  buttonLink.target = '_self';
+  buttonLink.setAttribute('aria-label', title);
+  buttonLink.innerHTML = title;
+  button.appendChild(buttonLink);
+  return button;
+}
+
+function toggleDropdown() {
+  const dropdown = this.closest('.dropdown');
+  if (dropdown.classList.contains('open')) {
+    dropdown.classList.remove('open');
+  } else {
+    dropdown.classList.add('open');
+  }
+}
+
+function toggleMobileFilters() {
+  const modal = this.closest('.card-list.block').querySelector('.modal')
+  if (modal.classList.contains('open')) {
+    modal.classList.remove('open');
+  } else {
+    modal.classList.add('open');
+  }
 }
 
 function preprocessCardData(cardData, type) {
@@ -273,8 +328,13 @@ function processFiltersWithCard(cardData, card, filters) {
       } 
       filterValues.forEach(filterValue => {
         if (!filter.values.includes(filterValue)) {
-          // new filter value.  add to dropdown.
-          filter.element.appendChild(createDropdownOption(filter, filterValue));
+          // new filter option found. add.
+          const filterOption = createFilterOption(filter, filterValue);
+          filter.element.appendChild(filterOption);
+          // mobile filter option.
+          const mobileFilterOption = filterOption.cloneNode(true);
+          mobileFilterOption.addEventListener('change', toggleFilter);
+          filter.mobileElement.appendChild(mobileFilterOption);
           filter.values.push(filterValue);
         }
         cardFilters.push(filter.property + ':' + filterValue);
@@ -287,7 +347,7 @@ function processFiltersWithCard(cardData, card, filters) {
   }
 }
 
-function createDropdownOption(filter, filterValue) {
+function createFilterOption(filter, filterValue) {
   const checkbox = document.createElement('div');
   checkbox.classList.add('checkbox');
   checkbox.setAttribute('data-filter', filter.property + ':' + filterValue);
@@ -329,7 +389,8 @@ function toggleFilter() {
   const block = this.closest('.card-list.block');
   const activeFilterList = block.querySelector('ul.active-filter-list');
   const toggleOn = this.querySelector('input.checkbox-input').checked;
-  // remove
+  const mobile = this.closest('.mobile-filter-panel');
+  block.querySelector('.' + (!mobile ? 'mobile-' : '') + 'filter-panel div[data-filter="' + filter + '"] input[type="checkbox"]').checked = toggleOn;
   if (toggleOn) {
     const activeFilter = document.createElement('li');
     activeFilter.classList.add('active-filter');
@@ -431,6 +492,7 @@ function drawPagination(block) {
     const nextText = document.createElement('span');
     nextText.classList.add('next-text');
     nextText.innerHTML = 'Next';
+    next.appendChild(nextText);
     pagination.appendChild(next);
     cardResults.appendChild(pagination);
   }
@@ -477,7 +539,7 @@ function handlePagination() {
   });
   // scroll to top of block
   window.scroll({
-    top: this.closest('.card-list.block').offsetTop,
+    top: this.closest('.card-list.block').scrollTop,
     left: 0,
     behavior: 'smooth'
   });
