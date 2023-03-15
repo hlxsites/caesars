@@ -53,7 +53,7 @@
   --heading-font-size-hero: 64px;
   --heading-font-size-xxl: 54px;
   --heading-font-size-xl: 36px;
-  --heading-font-size-teaser: 20px;
+  --heading-font-size-teaser: 26px;
   --heading-font-size-l: 22px;
   --heading-font-size-m: 18px;
   --heading-font-size-s: 16px;
@@ -295,6 +295,27 @@ main .section {
   padding: 0 var(--layout-size-m);
 }
 
+main .section.has-centered-text > div > p {
+  text-align: center;
+}
+
+main .section.has-centered-title > div > h2 {
+  text-align: center;
+  text-transform: uppercase;
+}
+
+main .section.has-light-color-text {
+  color: var(--static-color-white);
+}
+
+main .section.has-dark-color-text {
+  color: var(--static-color-black);
+}
+
+main .section.has-background-color {
+  background-color: var(--static-color-light-gray);
+}
+
 main .section.has-background {
   box-sizing: border-box;
   position: relative;
@@ -302,6 +323,10 @@ main .section.has-background {
   width: 100%;
   margin: 0;
   padding: 0;
+}
+
+main .section.has-background-overlay {
+  background-color: rgba(0 0 0 / 50%);
 }
 
 main .section.has-background > picture {

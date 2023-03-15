@@ -79,10 +79,10 @@
 }
 
 .carousel.block .carousel-text h1 {
-  font-size: 32px;
   text-transform: uppercase;
   line-height: 1.1;
   font-weight: var(--emphasized-font-weight);
+  font-size: var(--heading-font-size-xl);
 }
 
 .carousel.block .carousel-text h2 {
