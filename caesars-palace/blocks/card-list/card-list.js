@@ -137,6 +137,8 @@ export default async function decorate(block) {
   });
   block.appendChild(cardResults);
   drawPagination(block);
+  // close dropdowns when they lose focus.
+  document.addEventListener('click', closeDropdown);
 }
 
 function readConfig(block) {
@@ -282,7 +284,23 @@ function createButton(title, clickEvent, style) {
   return button;
 }
 
-function toggleDropdown() {
+function closeDropdown(event) {
+  document.querySelectorAll('.card-list.block .dropdown.open').forEach(dropdown => {
+    const dropdownRect = dropdown.getBoundingClientRect();
+    if (event.clientX < dropdownRect.left || event.clientX > dropdownRect.right 
+      || event.clientY < dropdownRect.top || event.clientY > dropdownRect.bottom) {
+        // outside dropdown category
+      const optionsRect = dropdown.querySelector('.dropdown-content').getBoundingClientRect();
+      if (event.clientX < optionsRect.left || event.clientX > optionsRect.right 
+        || event.clientY < optionsRect.top || event.clientY > optionsRect.bottom) {
+          // outside options list
+          dropdown.classList.remove('open');
+      }
+    }
+  })
+}
+
+function toggleDropdown(event) {
   const dropdown = this.closest('.dropdown');
   if (dropdown.classList.contains('open')) {
     dropdown.classList.remove('open');
