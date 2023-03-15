@@ -3,6 +3,6 @@ export default function decorate(block) {
 
   if (statsContainerElement) {
     const columnsInRow = statsContainerElement.children.length;
-    statsContainerElement.style = `grid-template-columns: repeat(${columnsInRow}, 1fr);`
+    statsContainerElement.style = `grid-template-columns: repeat(${columnsInRow}, 1fr)`;
   }
 }
