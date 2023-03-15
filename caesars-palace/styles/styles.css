@@ -295,6 +295,23 @@ main .section {
   padding: 0 var(--layout-size-m);
 }
 
+main .section.has-centered-text > div > p {
+  text-align: center;
+}
+
+main .section.has-centered-title > div > h2 {
+  text-align: center;
+  text-transform: uppercase;
+}
+
+main .section.has-light-color-text {
+  color: var(--static-color-white);
+}
+
+main .section.has-dark-color-text{
+  color: var(--static-color-black);
+}
+
 main .section.has-background {
   box-sizing: border-box;
   position: relative;
