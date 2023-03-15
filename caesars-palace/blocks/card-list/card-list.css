@@ -787,20 +787,6 @@
   width: 100%;
 }
 
-.card-list.block .pagination button.active-page {
-  background-color: rgba(190,192,197,0.2);
-}
-
-.card-list.block .pagination button.page {
-  display: none;
-}
-
-@media only screen and (min-width: 480px) {
-  .card-list.block .pagination button.page {
-    display: block;
-  }
-}
-
 .card-list.block .pagination button {
   background: transparent;
   border: 0;
@@ -815,39 +801,45 @@
   line-height: unset;
 }
 
-.card-list.block .pagination button.hidden {
+.card-list.block .pagination button.page {
+  display: none;
+}
+
+@media only screen and (min-width: 480px) {
+  .card-list.block .pagination button.page {
+    display: block;
+  }
+}
+
+.card-list.block .pagination button:not(.active-page) .page-number {
+  opacity: .5;
+}
+
+.card-list.block .pagination button.active-page {
+  background-color: rgba(190,192,197,0.2);
+}
+
+.card-list.block .pagination button.hidden > span {
   display: none;
   cursor: unset;
   pointer-events: none;
 }
 
 @media only screen and (min-width: 480px) {
-
   .card-list.block .pagination button:not(.hidden):hover {
     transition: background-color 75ms cubic-bezier(0.4,0,0.2,1);
     background-color: rgba(190,192,197,0.2);
   }
   .card-list.block .pagination button .previous-text, .pagination button .next-text {
     display: none;
-    color: #343840;
   }
-
-}
-
-.card-list.block .pagination button .pagination-number {
-  opacity: .5;
-  color: #343840;
-  transition: opacity 150ms cubic-bezier(0.4,0,0.2,1);
-}
-
-.card-list.block .pagination button.active-page .pagination-number {
-  opacity: 1;
 }
 
 .card-list.block .pagination .chevron {
   display: flex;
   align-items: center;
   width: auto;
+  opacity: 1;
 }
 
 @media only screen and (min-width: 480px) {
@@ -856,8 +848,11 @@
   }
 }
 
-.card-list.block .pagination .chevron-left {
-  margin-right: 32px;
+@media only screen and (min-width: 480px) {
+  .card-list.block .pagination .chevron-left {
+    width: 32px;
+    margin-right: 32px;
+  }
 }
 
 .card-list.block .pagination .chevron-right {
@@ -866,6 +861,7 @@
 
 @media only screen and (min-width: 480px) {
   .card-list.block .pagination .chevron-right {
+    width: 32px;
     margin-left: 32px;
   }
 }
@@ -877,26 +873,8 @@
   content: '';
   display: block;
   margin-left: 12px;
-  margin-right: 6px;
+  margin-right: 12px;
 }
-
-/*
-.card-list.block .pagination .chevron-left:not(.hidden)::after {
-  background: url('../../icons/chevron-left.svg') no-repeat;
-  height: 50%;
-  content: '';
-  display: block;
-  margin-left: 12px;
-}
-
-.card-list.block .pagination .chevron-right:not(.hidden)::after {
-  background: url('../../icons/chevron-right.svg') no-repeat;
-  height: 50%;
-  content: '';
-  display: block;
-  margin-left: 12px;
-}
-*/
 
 .card-list.block .pagination .chevron-right:not(.hidden)::after {
   background: url('../../icons/chevron-right.svg') no-repeat;
@@ -904,11 +882,7 @@
   width: 10px;
   content: '';
   display: block;
-  margin-left: 6px;
+  margin-left: 12px;
   margin-right: 12px;
-}
-
-.card-list.block .pagination .chevron {
-  opacity: 1;
 }
 
