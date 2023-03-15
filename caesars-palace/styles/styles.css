@@ -425,6 +425,11 @@ main .section.is-hero h1 {
   font-weight: var(--emphasized-font-weight);
 }
 
+main .section.is-hero.has-left-aligned-text h1 {
+  text-align: left;
+  margin-left: 20%;
+}
+
 main .section.is-hero h4 {
   font-style: normal;
   text-align: center;
@@ -436,6 +441,12 @@ main .section.is-hero h4 {
   padding-bottom: 50px;
 }
 
+main .section.is-hero.has-left-aligned-text h4 {
+  text-align: left;
+  margin-left: 20%;
+  padding-bottom: unset;
+}
+
 main .section.is-hero h5 {
   font-style: normal;
   text-align: center;
@@ -444,10 +455,20 @@ main .section.is-hero h5 {
   font-family: var(--body-font-family);
 }
 
+main .section.is-hero.has-left-aligned-text h5 {
+  text-align: left;
+  margin-left: 20%;
+}
+
 main .section.is-hero .button-container {
   border: 0;
   text-align: center;
   font-size: var(--body-font-size-s);
+}
+
+main .section.is-hero.has-left-aligned-text .button-container {
+  text-align: left;
+  margin-left: 20%;
 }
 
 main .section.is-hero.has-background {
