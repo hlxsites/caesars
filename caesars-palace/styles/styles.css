@@ -308,8 +308,12 @@ main .section.has-light-color-text {
   color: var(--static-color-white);
 }
 
-main .section.has-dark-color-text{
+main .section.has-dark-color-text {
   color: var(--static-color-black);
+}
+
+main .section.has-background-color {
+  background-color: var(--static-color-light-gray);
 }
 
 main .section.has-background {
