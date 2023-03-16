@@ -274,7 +274,7 @@
 
 .card-list.block .active-filters .card-count {
     font-size: 26px;
-    font-family: "Oswald",sans-serif;
+    font-family: Oswald, sans-serif;
     font-weight: 600;
     text-transform: uppercase;
     margin-bottom: 32px;
@@ -591,9 +591,6 @@
 
 .card-list.block .card-image {
   border-radius: 8px 8px 0 0;
-}
-
-.card-list.block .card-image {
   display: flex;
 }
 
@@ -613,11 +610,13 @@
   .card-list.block .card-mobile {
     display: none;
   }
+
   .card-list.block .card-image {
     display: block;
-    border-radius: 8px 8px 0 8px;
+    border-radius: 8px 8px 0;
     box-shadow: 0 2px 4px 0 rgba(0,0,0,10%);
   }
+
   .card-list.block .card-image > a {
     flex-direction: unset;
   }
@@ -637,7 +636,7 @@
   width: 120px;
   min-width: 120px;
   object-fit: cover;
-  border-radius: 8px 0 0 0;
+  border-radius: 8px 0 0;
   box-shadow: 0 2px 4px 0 rgba(0,0,0,10%);
 }
 
@@ -777,7 +776,7 @@
 }
 
 .card-list.block .card-bottom {
-  margin: 8px 16px 8px 16px;
+  margin: 8px 16px;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
@@ -791,7 +790,7 @@
 
 @media only screen and (min-width: 768px) {
   .card-list.block .card-bottom {
-    margin: 16px 24px 24px 24px;
+    margin: 16px 24px 24px;
   }
 }
 
@@ -907,7 +906,7 @@
 }
 
 .card-list.block .pagination button:not(.active-page) .page-number {
-  opacity: 50%;
+  opacity: 0.5;
 }
 
 .card-list.block .pagination button.active-page {
