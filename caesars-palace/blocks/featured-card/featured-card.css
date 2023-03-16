@@ -4,7 +4,7 @@
 }
 
 .featured-card-wrapper {
-  padding-bottom: 8px !important;
+  padding-bottom: var(--layout-size-xs) !important;
   background-color: rgba(0 0 0 / 80%);
 }
 
@@ -41,8 +41,8 @@
 }
 
 .featured-card-content h4 {
-  padding-top: 16px;
-  padding-bottom: 16px;
+  padding-top: var(--layout-size-m);
+  padding-bottom: var(--layout-size-m);
   font-weight: 600;
     font-size: 36px;
 }
@@ -52,7 +52,7 @@
 }
 
 .featured-card-text .button-container {
-  padding-top: 8px;
+  padding-top: var(--layout-size-xs);
 }
 
 /* Responsive Breakpoints */
@@ -78,14 +78,10 @@
     flex: 1 0 50%;
   }
 
+  .featured-card-text > p,
   .featured-card-text > h4 {
-    padding-left: 32px;
-    padding-right: 32px;
-  }
-
-  .featured-card-text > p {
-    padding-left: 32px;
-    padding-right: 32px;
+    padding-left: var(--layout-size-xl);
+    padding-right: var(--layout-size-xl);
   }
 
   .featured-card-text h4 {
