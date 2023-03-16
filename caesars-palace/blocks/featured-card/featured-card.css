@@ -1,3 +1,10 @@
+.featured-card-background {}
+
+.featured-card-content {}
+
+.featured-card-image {}
+
+.featured-card-text {}
+
 /* Responsive Breakpoints */
-@media  only screen and (min-width: 768px) {
-}
+@media only screen and (min-width: 768px) {}
