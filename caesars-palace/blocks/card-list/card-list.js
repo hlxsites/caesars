@@ -84,7 +84,7 @@ function handlePagination() {
   }
   // hide/show cards
   cardResults.querySelectorAll('div.card:not(.filtered)').forEach((card, index) => {
-    if (Math.ceil((index + 1) / Number(pageSize)) == pageNumber) {
+    if (Math.ceil((index + 1) / pageSize) === Number(pageNumber)) {
       card.classList.remove('hidden');
     } else {
       card.classList.add('hidden');
