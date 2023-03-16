@@ -21,11 +21,10 @@ function readConfig(block) {
             config.filters = [];
           }
           const filterSplit = cols[1].textContent.trim().split(',');
-          const icon = cols[1].querySelector('span');
           config.filters.push({
             name: filterSplit[0].trim(),
             property: filterSplit[1].trim(),
-            icon: icon,
+            icon: cols[1].querySelector('span'), 
             values: [],
           });
           row.remove();
@@ -105,7 +104,7 @@ function clearFilters() {
  * Toggles the mobile filter modal.
  */
 function toggleMobileFilterModal() {
-  const modal = this.closest('.card-list.block').querySelector('.modal')
+  const modal = this.closest('.card-list.block').querySelector('.modal');
   if (modal.classList.contains('open')) {
     modal.classList.remove('open');
   } else {
@@ -116,7 +115,7 @@ function toggleMobileFilterModal() {
 /**
  * Creates a button
  * @param  {String} title of the button
- * @param  {Event} event to fire when button is clicked 
+ * @param  {Event} event to fire when button is clicked
  * @param  {String} style of button
  * @returns button
  */
@@ -124,7 +123,7 @@ function createButton(title, clickEvent, style) {
   const button = document.createElement('div');
   button.classList.add('link-button');
   if (style) {
-    button.classList.add('link-button-' + style);
+    button.classList.add(`link-button-${style}`);
   }
   button.addEventListener('click', clickEvent);
   const buttonLink = document.createElement('a');
@@ -141,7 +140,7 @@ function addFilterPanel(block, fullWidth, filters) {
   const filterPanel = document.createElement('div');
   filterPanel.classList.add('filter-panel');
   const filterLabel = document.createElement('div');
-  filterLabel.classList.add('filter-label')
+  filterLabel.classList.add('filter-label');
   filterLabel.innerHTML = 'Filter By:';
   filterPanel.appendChild(filterLabel);
   const filterGroup = document.createElement('div');
@@ -160,7 +159,7 @@ function addFilterPanel(block, fullWidth, filters) {
       filterTarget.appendChild(filter.icon);
     }
     const filterName = document.createElement('div');
-    filterName.classList.add('dropdown-target-button')
+    filterName.classList.add('dropdown-target-button');
     filterName.classList.add('link-button');
     const filterNameLink = document.createElement('a');
     filterNameLink.innerHTML = filter.name;
@@ -194,7 +193,6 @@ function addFilterPanel(block, fullWidth, filters) {
   // filter modal
   const modal = document.createElement('div');
   modal.classList.add('modal');
-  //modal.classList.add('open'); // temporary
   const mobileFilterPanel = document.createElement('div');
   mobileFilterPanel.classList.add('mobile-filter-panel');
   const filterModal = document.createElement('div');
@@ -270,7 +268,7 @@ function toggleFilter() {
   } else {
     activeFilterList.querySelector(`[data-filter="${filter}"]`).remove();
   }
-  performFiltering(block, activeFilterList)
+  performFiltering(block, activeFilterList);
 }
 
 function createFilterOption(filter, filterValue) {
@@ -317,7 +315,7 @@ function processFiltersWithCard(cardData, card, filters) {
           filter.mobileElement.appendChild(mobileFilterOption);
           filter.values.push(filterValue);
         }
-        cardFilters.push(filter.property + ':' + filterValue);
+        cardFilters.push(`${filter.property}:${filterValue}`);
       });
     }
   });
@@ -345,7 +343,7 @@ function createCard(cardData, index, cfg) {
   cardImage.classList.add('card-image');
   const cardImageLink = document.createElement('a');
   cardImageLink.href = cardLink;
-  cardImageLink.appendChild(createOptimizedPicture(cardData.thumbnail, cardData.title, false, [{ media: '(min-width: 960px)', width: '480' }, { width: '350' } ]));
+  cardImageLink.appendChild(createOptimizedPicture(cardData.thumbnail, cardData.title, false, [{ media: '(min-width: 960px)', width: '480' }, { width: '350' }]));
   cardImage.appendChild(cardImageLink);
   // mobile
   const mobile = document.createElement('div');
@@ -470,7 +468,7 @@ function handlePagination() {
   }
   // hide/show cards
   cardResults.querySelectorAll('div.card:not(.filtered)').forEach((card, index) => {
-    if (Math.ceil((index + 1)/pageSize) == pageNumber) {
+    if (Math.ceil((index + 1) / Number(pageSize)) == pageNumber) {
       card.classList.remove('hidden');
     } else {
       card.classList.add('hidden');
@@ -521,7 +519,7 @@ function drawPagination(block) {
       const pageNumber = document.createElement('span');
       pageNumber.classList.add('page-number');
       pageNumber.innerHTML = pageIndex;
-      pageIndex += 1
+      pageIndex += 1;
       page.appendChild(pageNumber);
       pagination.appendChild(page);
     }
