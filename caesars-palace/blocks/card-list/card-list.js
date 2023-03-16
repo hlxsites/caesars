@@ -3,8 +3,7 @@ import { lookupCardsByType } from '../../scripts/scripts.js';
 
 /**
  * Reads the block configurations.
- * 
- * @param block 
+ * @param block
  * @returns configuration object.
  */
 function readConfig(block) {
@@ -14,10 +13,10 @@ function readConfig(block) {
       const cols = [...row.children];
       if (cols[1]) {
         const configName = cols[0].textContent;
-        if (configName == 'type') {
+        if (configName === 'type') {
           config.type = cols[1].textContent;
           row.remove();
-        } else if (configName == 'filter') {
+        } else if (configName === 'filter') {
           if (!config.filters) {
             config.filters = [];
           }
@@ -30,7 +29,7 @@ function readConfig(block) {
               values: []
             });
           row.remove();
-        } else if (configName == 'page-size') {
+        } else if (configName === 'page-size') {
           config.pageSize = Number(cols[1].textContent);
           row.remove();
         }
@@ -230,15 +229,15 @@ function addFilterPanel(block, fullWidth, filters) {
 }
 
 function preprocessCardData(cardData, type) {
-  if (type == 'restaurants') {
+  if (type === 'restaurants') {
     cardData.diningOptions = [];
-    if (cardData.dineIn && cardData.dineIn == 'true') {
+    if (cardData.dineIn && cardData.dineIn === 'true') {
       cardData.diningOptions.push('Dine In');
     }
-    if (cardData.takeOut && cardData.takeOut == 'true') {
+    if (cardData.takeOut && cardData.takeOut === 'true') {
       cardData.diningOptions.push('Take Out');
     }
-    if (cardData.delivery && cardData.delivery == 'true') {
+    if (cardData.delivery && cardData.delivery === 'true') {
       cardData.diningOptions.push('Delivery');
     }
   }
@@ -305,8 +304,8 @@ function processFiltersWithCard(cardData, card, filters) {
     if (filterValues) {
       // some values may be arrays.  convert single values.
       if (!Array.isArray(filterValues)) {
-        filterValues = [ filterValues ];
-      } 
+        filterValues = [filterValues];
+      }
       filterValues.forEach(filterValue => {
         if (!filter.values.includes(filterValue)) {
           // new filter option found. add.
@@ -319,7 +318,7 @@ function processFiltersWithCard(cardData, card, filters) {
           filter.values.push(filterValue);
         }
         cardFilters.push(filter.property + ':' + filterValue);
-      })
+      });
     }
   });
   if (cardFilters.length > 0) {
@@ -330,125 +329,128 @@ function processFiltersWithCard(cardData, card, filters) {
 
 function createCard(cardData, index, cfg) {
   const card = document.createElement('div');
-    card.classList.add('card');
-    if (index >= cfg.pageSize) {
-      card.classList.add('hidden');
-    }
-    // preprocess for synthetic filters
-    preprocessCardData(cardData, cfg.type);
-    // populate filters and tag cards
-    if (cfg.filters) {
-      processFiltersWithCard(cardData, card, cfg.filters);
-    }
-    const cardLink = cardData.pageUrl != '' ? cardData.pageUrl : cardData.secondaryUrl;
-    // card image
-    const cardImage = document.createElement('div');
-    cardImage.classList.add('card-image');
-    const cardImageLink = document.createElement('a');
-    cardImageLink.href = cardLink;
-    cardImageLink.appendChild(createOptimizedPicture(cardData.thumbnail, cardData.title, false, [{ media: '(min-width: 960px)', width: '480' }, { width: '350' } ]));
-    cardImage.appendChild(cardImageLink);
-    // mobile
-    const mobile = document.createElement('div');
-    mobile.classList.add('card-mobile');
-    const mobileTitle = document.createElement('div');
-    mobileTitle.classList.add('card-mobile-title');
-    mobileTitle.innerHTML = cardData.title;
-    mobile.appendChild(mobileTitle);
-    if (cfg.type == 'restaurants' && cardData.propertyName) {
-      const mobileLocation = document.createElement('div');
-      mobileLocation.classList.add('card-mobile-location');
-      mobileLocation.innerHTML = cardData.propertyName;
-      mobile.appendChild(mobileLocation);
-    }
-    cardImage.appendChild(mobile);
-    card.appendChild(cardImage);
-    // card content
-    const cardContent = document.createElement('div');
-    cardContent.classList.add('card-content');
-    // card top
-    const cardTop = document.createElement('div');
-    cardTop.classList.add('card-top');
-    // title
-    const title = document.createElement('div');
-    title.classList.add('card-title');
-    const titleLink = document.createElement('a');
-    titleLink.href = cardLink;
-    const titleH4 = document.createElement('h4');
-    titleH4.innerHTML = cardData.title;
-    titleLink.appendChild(titleH4);
-    title.appendChild(titleLink);
-    cardTop.appendChild(title);
-    // description
-    const descriptionDiv = document.createElement('div');
-    descriptionDiv.classList.add('card-description');
-    const descriptionP = document.createElement('p');
-    descriptionP.innerHTML = cardData.description;
-    descriptionDiv.appendChild(descriptionP);
-    cardTop.appendChild(descriptionDiv);
-    // subtitle
-    if (cardData.propertyName && cardData.propertyName != '') {
-      const subtitleDiv = document.createElement('div');
-      subtitleDiv.classList.add('card-subtitle');
-      subtitleDiv.innerHTML = cardData.propertyName;
-      cardTop.appendChild(subtitleDiv);
-    }
-    cardContent.appendChild(cardTop);
-    // card bottom
-    const cardBottom = document.createElement('div');
-    cardBottom.classList.add('card-bottom')
-    // card bottom left
-    const cardBottomLeft = document.createElement('div');
-    cardBottomLeft.classList.add('card-bottom-left');
-    if (cardData.location) {
-      const locationDiv = document.createElement('span');
-      locationDiv.innerHTML = cardData.location;
-      cardBottomLeft.appendChild(locationDiv);
-    }
-    const categoryDiv = document.createElement('div');
-    categoryDiv.innerHTML = cfg.type == 'restaurants' ? cardData.cuisine : cardData.category;
-    cardBottomLeft.appendChild(categoryDiv);
-    cardBottom.appendChild(cardBottomLeft);
-    // card bottom middle
-    const cardBottomMiddle = document.createElement('div');
-    cardBottomMiddle.classList.add('card-bottom-middle');
-    if (cfg.type == 'restaurants' && cardData.price && cardData.price != '') {
-      const price = document.createElement('span');
-      price.classList.add('card-price');
-      price.innerHTML = cardData.price;
-      cardBottomMiddle.appendChild(price);
-      const priceUnused = document.createElement('span');
-      priceUnused.classList.add('card-price-unused');
-      priceUnused.innerHTML = '$'.repeat(4 - cardData.price.length);
-      cardBottomMiddle.appendChild(priceUnused);
-    }
-    cardBottom.appendChild(cardBottomMiddle);
-    // card bottom right
-    const linkDiv = document.createElement('div');
-    linkDiv.classList.add('card-bottom-right');
-    const link = document.createElement('a');
-    link.href = cardLink;
-    linkDiv.appendChild(link);
-    cardBottom.appendChild(linkDiv);
-    cardContent.appendChild(cardBottom)
-    // add to card and results
-    card.appendChild(cardContent);
-    return card;
+  card.classList.add('card');
+  if (index >= cfg.pageSize) {
+    card.classList.add('hidden');
+  }
+  // preprocess for synthetic filters
+  preprocessCardData(cardData, cfg.type);
+  // populate filters and tag cards
+  if (cfg.filters) {
+    processFiltersWithCard(cardData, card, cfg.filters);
+  }
+  const cardLink = cardData.pageUrl !== '' ? cardData.pageUrl : cardData.secondaryUrl;
+  // card image
+  const cardImage = document.createElement('div');
+  cardImage.classList.add('card-image');
+  const cardImageLink = document.createElement('a');
+  cardImageLink.href = cardLink;
+  cardImageLink.appendChild(createOptimizedPicture(cardData.thumbnail, cardData.title, false, [{ media: '(min-width: 960px)', width: '480' }, { width: '350' } ]));
+  cardImage.appendChild(cardImageLink);
+  // mobile
+  const mobile = document.createElement('div');
+  mobile.classList.add('card-mobile');
+  const mobileTitle = document.createElement('div');
+  mobileTitle.classList.add('card-mobile-title');
+  mobileTitle.innerHTML = cardData.title;
+  mobile.appendChild(mobileTitle);
+  if (cfg.type === 'restaurants' && cardData.propertyName) {
+    const mobileLocation = document.createElement('div');
+    mobileLocation.classList.add('card-mobile-location');
+    mobileLocation.innerHTML = cardData.propertyName;
+    mobile.appendChild(mobileLocation);
+  }
+  cardImage.appendChild(mobile);
+  card.appendChild(cardImage);
+  // card content
+  const cardContent = document.createElement('div');
+  cardContent.classList.add('card-content');
+  // card top
+  const cardTop = document.createElement('div');
+  cardTop.classList.add('card-top');
+  // title
+  const title = document.createElement('div');
+  title.classList.add('card-title');
+  const titleLink = document.createElement('a');
+  titleLink.href = cardLink;
+  const titleH4 = document.createElement('h4');
+  titleH4.innerHTML = cardData.title;
+  titleLink.appendChild(titleH4);
+  title.appendChild(titleLink);
+  cardTop.appendChild(title);
+  // description
+  const descriptionDiv = document.createElement('div');
+  descriptionDiv.classList.add('card-description');
+  const descriptionP = document.createElement('p');
+  descriptionP.innerHTML = cardData.description;
+  descriptionDiv.appendChild(descriptionP);
+  cardTop.appendChild(descriptionDiv);
+  // subtitle
+  if (cardData.propertyName && cardData.propertyName !== '') {
+    const subtitleDiv = document.createElement('div');
+    subtitleDiv.classList.add('card-subtitle');
+    subtitleDiv.innerHTML = cardData.propertyName;
+    cardTop.appendChild(subtitleDiv);
+  }
+  cardContent.appendChild(cardTop);
+  // card bottom
+  const cardBottom = document.createElement('div');
+  cardBottom.classList.add('card-bottom');
+  // card bottom left
+  const cardBottomLeft = document.createElement('div');
+  cardBottomLeft.classList.add('card-bottom-left');
+  if (cardData.location) {
+    const locationDiv = document.createElement('span');
+    locationDiv.innerHTML = cardData.location;
+    cardBottomLeft.appendChild(locationDiv);
+  }
+  const categoryDiv = document.createElement('div');
+  categoryDiv.innerHTML = cfg.type === 'restaurants' ? cardData.cuisine : cardData.category;
+  cardBottomLeft.appendChild(categoryDiv);
+  cardBottom.appendChild(cardBottomLeft);
+  // card bottom middle
+  const cardBottomMiddle = document.createElement('div');
+  cardBottomMiddle.classList.add('card-bottom-middle');
+  if (cfg.type === 'restaurants' && cardData.price && cardData.price !== '') {
+    const price = document.createElement('span');
+    price.classList.add('card-price');
+    price.innerHTML = cardData.price;
+    cardBottomMiddle.appendChild(price);
+    const priceUnused = document.createElement('span');
+    priceUnused.classList.add('card-price-unused');
+    priceUnused.innerHTML = '$'.repeat(4 - cardData.price.length);
+    cardBottomMiddle.appendChild(priceUnused);
+  }
+  cardBottom.appendChild(cardBottomMiddle);
+  // card bottom right
+  const linkDiv = document.createElement('div');
+  linkDiv.classList.add('card-bottom-right');
+  const link = document.createElement('a');
+  link.href = cardLink;
+  linkDiv.appendChild(link);
+  cardBottom.appendChild(linkDiv);
+  cardContent.appendChild(cardBottom);
+  // add to card and results
+  card.appendChild(cardContent);
+  return card;
 }
 
 function nextPage() {
   const pagination = this.closest('div.pagination');
-  let pageNumber = pagination.querySelector('button.active-page').getAttribute('data-page-number');
-  pagination.querySelector('button[data-page-number="' + ++pageNumber + '"]').click();
+  let pageNumber = Number(pagination.querySelector('button.active-page').getAttribute('data-page-number'));
+  pageNumber += 1;
+  pagination.querySelector(`button[data-page-number="${pageNumber}"]`).click();
 }
 
 function previousPage() {
   const pagination = this.closest('div.pagination');
-  let pageNumber = pagination.querySelector('button.active-page').getAttribute('data-page-number');
-  pagination.querySelector('button[data-page-number="' + --pageNumber + '"]').click();
+  let pageNumber = Number(pagination.querySelector('button.active-page').getAttribute('data-page-number'));
+  pageNumber -= 1;
+  pagination.querySelector(`button[data-page-number="${pageNumber}"]`).click();
 }
 
 function handlePagination() {
+  debugger;
   const totalPages = this.closest('div.pagination').getAttribute('data-total-pages');
   const cardResults = this.closest('div.card-results');
   cardResults.querySelector('button.active-page').classList.remove('active-page');
@@ -556,7 +558,7 @@ function closeDropdown(event) {
           dropdown.classList.remove('open');
       }
     }
-  })
+  });
 }
 
 export default async function decorate(block) {
@@ -587,7 +589,7 @@ export default async function decorate(block) {
   const cardResults = document.createElement('div');
   cardResults.classList.add('card-results');
   cardResults.setAttribute('data-page-size', cfg.pageSize);
-  cardIndex.data.forEach((cardData, index) => {  
+  cardIndex.data.forEach((cardData, index) => {
     cardResults.appendChild(createCard(cardData, index, cfg));
   });
   block.appendChild(cardResults);
