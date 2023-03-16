@@ -1,10 +1,57 @@
-.featured-card-background {}
+.featured-card-wrapper {
+  padding-bottom: 8px !important;
+}
 
-.featured-card-content {}
+.featured-card.block {
+  margin-top: -42px;
+}
 
-.featured-card-image {}
+.section.featured-card-container {
+  padding-top: var(--layout-size-xl);
+  padding-bottom: var(--layout-size-xl);
+}
 
-.featured-card-text {}
+.featured-card-background {
+  box-sizing: border-box;
+  overflow: hidden;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.featured-card-background > div > picture {
+  position: absolute;
+  z-index: -5;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.featured-card-background > div > picture img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.featured-card-content {
+  background-color: rgba(0 0 0 / 80%);
+  text-align: center;
+  color: var(--static-color-white);
+}
+
+.featured-card-content h4 {
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+
+.featured-card-image {
+  object-fit: cover;
+}
+
+.featured-card-text .button-container {
+  padding-top: 8px;
+}
 
 /* Responsive Breakpoints */
 @media only screen and (min-width: 768px) {}
