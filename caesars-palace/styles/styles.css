@@ -12,18 +12,18 @@
 
 :root {
   /* screen width breakpoints */
-  --screen-width-s: 768px;
 
   /* Tablet (portrait) */
-  --screen-width-m: 960px;
+  --screen-width-s: 768px;
 
   /* Tablet (landscape) */
-  --screen-width-l: 1170px;
+  --screen-width-m: 960px;
 
   /* Desktop (small) */
-  --screen-width-xl: 1440px;
+  --screen-width-l: 1170px;
 
   /* Desktop (large) */
+  --screen-width-xl: 1440px;
 
   /* colors */
   --static-color-white: #fff;
@@ -65,9 +65,9 @@
   --link-font-size-xs: 9px;
 
   /* nav height */
-  --nav-height: 70px;
-  --mobile-nav-height: 40px;
-  --global-nav-height: 40px;
+  --nav-height: 40px;
+  --global-nav-height: 0;
+  --full-nav-height: calc(var(--global-nav-height) + var(--nav-height));
 
   /* layout sizes */
   --layout-size-xxs: 4px;
@@ -102,7 +102,7 @@ body.appear {
 }
 
 header {
-  height: var(--nav-height);
+  height: var(--full-nav-height);
 }
 
 h1,
@@ -116,7 +116,7 @@ h6 {
   line-height: 1.1;
   padding: 0;
   margin: 0;
-  scroll-margin: calc(var(--nav-height) + 1em);
+  scroll-margin: calc(var(--full-nav-height) + 1em);
 }
 
 h1 {
@@ -189,6 +189,10 @@ button {
   cursor: pointer;
   touch-action: manipulation;
   text-transform: capitalize;
+}
+
+p.button-container {
+  margin: 0;
 }
 
 /* Link button */
@@ -374,14 +378,6 @@ main .section > div {
   padding: 0 var(--layout-size-m);
 }
 
-main .section > div:first-of-type {
-  padding-top: var(--layout-size-xxl);
-}
-
-main .section > div:last-of-type {
-  padding-bottom: var(--layout-size-xxl);
-}
-
 /* progressive section appearance */
 main .section[data-section-status='loading'],
 main .section[data-section-status='initialized'] {
@@ -394,6 +390,14 @@ main .section.is-hero > div {
   width: 100%;
   margin: unset;
   padding: unset;
+}
+
+main .section.with-padding > div:first-of-type {
+  padding-top: var(--layout-size-xxl);
+}
+
+main .section.with-padding > div:last-of-type {
+  padding-bottom: var(--layout-size-xxl);
 }
 
 main .section.is-hero > div:last-of-type {
@@ -530,6 +534,8 @@ main .section.is-hero.has-background-block > div:nth-child(2) {
 /* Desktop (small) */
 @media only screen and (min-width: 1170px) {
   :root {
+    --nav-height: 70px;
+    --global-nav-height: 40px;
     --heading-font-size-xxl: 94px;
   }
 
