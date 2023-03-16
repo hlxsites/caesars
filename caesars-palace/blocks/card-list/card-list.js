@@ -1,4 +1,4 @@
-import { readBlockConfig, createOptimizedPicture } from '../../scripts/lib-franklin.js';
+import { createOptimizedPicture } from '../../scripts/lib-franklin.js';
 import { lookupCardsByType } from '../../scripts/scripts.js';
 
 export default async function decorate(block) {
@@ -202,6 +202,7 @@ function addFilterPanel(block, fullWidth, filters) {
     }
     const filterName = document.createElement('div');
     filterName.classList.add('dropdown-target-button')
+    filterName.classList.add('link-button');
     const filterNameLink = document.createElement('a');
     filterNameLink.innerHTML = filter.name;
     filterName.appendChild(filterNameLink);
