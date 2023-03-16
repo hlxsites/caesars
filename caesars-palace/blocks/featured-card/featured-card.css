@@ -1,5 +1,6 @@
 .featured-card-wrapper {
   padding-bottom: 8px !important;
+  background-color: rgba(0 0 0 / 80%);
 }
 
 .featured-card.block {
@@ -35,7 +36,6 @@
 }
 
 .featured-card-content {
-  background-color: rgba(0 0 0 / 80%);
   text-align: center;
   color: var(--static-color-white);
 }
