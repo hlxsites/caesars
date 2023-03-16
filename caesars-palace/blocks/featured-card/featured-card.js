@@ -1,9 +1,9 @@
 export default function decorate(block) {
   const blockElements = [...block.children];
-  const backgroundImageElement = blockElements[0];
+  const backgroundImageElement = blockElements[blockElements.length-1];
   backgroundImageElement.classList.add('featured-card-background');
 
-  const blockContent = blockElements[1];
+  const blockContent = blockElements[0];
   blockContent.classList.add('featured-card-content');
 
   blockContent.querySelectorAll('img').forEach((image) => {
