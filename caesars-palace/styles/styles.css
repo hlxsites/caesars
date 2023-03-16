@@ -299,6 +299,12 @@ main .section.has-centered-text > div > p {
   text-align: center;
 }
 
+main .section.has-shorter-width > div > p {
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 main .section.has-centered-title > div > h2 {
   text-align: center;
   text-transform: uppercase;
