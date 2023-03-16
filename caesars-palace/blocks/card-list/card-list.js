@@ -50,9 +50,57 @@ function toggleDropdown() {
   }
 }
 
+function previousPage() {
+  const pagination = this.closest('div.pagination');
+  let pageNumber = Number(pagination.querySelector('button.active-page').getAttribute('data-page-number'));
+  pageNumber -= 1;
+  pagination.querySelector(`button[data-page-number="${pageNumber}"]`).click();
+}
+
+function nextPage() {
+  const pagination = this.closest('div.pagination');
+  let pageNumber = Number(pagination.querySelector('button.active-page').getAttribute('data-page-number'));
+  pageNumber += 1;
+  pagination.querySelector(`button[data-page-number="${pageNumber}"]`).click();
+}
+
+function handlePagination() {
+  const totalPages = this.closest('div.pagination').getAttribute('data-total-pages');
+  const cardResults = this.closest('div.card-results');
+  cardResults.querySelector('button.active-page').classList.remove('active-page');
+  this.classList.add('active-page');
+  const pageSize = cardResults.getAttribute('data-page-size');
+  const pageNumber = this.getAttribute('data-page-number');
+  // handle previous/next
+  if (pageNumber > 1) {
+    cardResults.querySelector('button.previous').classList.remove('hidden');
+  } else {
+    cardResults.querySelector('button.previous').classList.add('hidden');
+  }
+  if (pageNumber < totalPages) {
+    cardResults.querySelector('button.next').classList.remove('hidden');
+  } else {
+    cardResults.querySelector('button.next').classList.add('hidden');
+  }
+  // hide/show cards
+  cardResults.querySelectorAll('div.card:not(.filtered)').forEach((card, index) => {
+    if (Math.ceil((index + 1) / Number(pageSize)) == pageNumber) {
+      card.classList.remove('hidden');
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+  // scroll to top of block
+  window.scroll({
+    top: this.closest('.card-list.block').scrollTop,
+    left: 0,
+    behavior: 'smooth',
+  });
+}
+
 function drawPagination(block) {
   const cardResults = block.querySelector('div.card-results');
-  const pagination = cardResults.querySelector('div.pagination');
+  let pagination = cardResults.querySelector('div.pagination');
   if (pagination) {
     pagination.remove();
   }
@@ -489,54 +537,6 @@ function createCard(cardData, index, cfg) {
   // add to card and results
   card.appendChild(cardContent);
   return card;
-}
-
-function nextPage() {
-  const pagination = this.closest('div.pagination');
-  let pageNumber = Number(pagination.querySelector('button.active-page').getAttribute('data-page-number'));
-  pageNumber += 1;
-  pagination.querySelector(`button[data-page-number="${pageNumber}"]`).click();
-}
-
-function previousPage() {
-  const pagination = this.closest('div.pagination');
-  let pageNumber = Number(pagination.querySelector('button.active-page').getAttribute('data-page-number'));
-  pageNumber -= 1;
-  pagination.querySelector(`button[data-page-number="${pageNumber}"]`).click();
-}
-
-function handlePagination() {
-  const totalPages = this.closest('div.pagination').getAttribute('data-total-pages');
-  const cardResults = this.closest('div.card-results');
-  cardResults.querySelector('button.active-page').classList.remove('active-page');
-  this.classList.add('active-page');
-  const pageSize = cardResults.getAttribute('data-page-size');
-  const pageNumber = this.getAttribute('data-page-number');
-  // handle previous/next
-  if (pageNumber > 1) {
-    cardResults.querySelector('button.previous').classList.remove('hidden');
-  } else {
-    cardResults.querySelector('button.previous').classList.add('hidden');
-  }
-  if (pageNumber < totalPages) {
-    cardResults.querySelector('button.next').classList.remove('hidden');
-  } else {
-    cardResults.querySelector('button.next').classList.add('hidden');
-  }
-  // hide/show cards
-  cardResults.querySelectorAll('div.card:not(.filtered)').forEach((card, index) => {
-    if (Math.ceil((index + 1) / Number(pageSize)) == pageNumber) {
-      card.classList.remove('hidden');
-    } else {
-      card.classList.add('hidden');
-    }
-  });
-  // scroll to top of block
-  window.scroll({
-    top: this.closest('.card-list.block').scrollTop,
-    left: 0,
-    behavior: 'smooth',
-  });
 }
 
 /**
