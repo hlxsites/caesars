@@ -303,6 +303,12 @@ main .section.has-centered-text > div > p {
   text-align: center;
 }
 
+main .section.has-shorter-width > div > p {
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 main .section.has-centered-title > div > h2 {
   text-align: center;
   text-transform: uppercase;
@@ -429,6 +435,11 @@ main .section.is-hero h1 {
   font-weight: var(--emphasized-font-weight);
 }
 
+main .section.is-hero.left-aligned h1 {
+  text-align: left;
+  margin-left: 20%;
+}
+
 main .section.is-hero h4 {
   font-style: normal;
   text-align: center;
@@ -440,10 +451,34 @@ main .section.is-hero h4 {
   padding-bottom: 50px;
 }
 
+main .section.is-hero.left-aligned h4 {
+  text-align: left;
+  margin-left: 20%;
+  padding-bottom: unset;
+}
+
+main .section.is-hero h5 {
+  font-style: normal;
+  text-align: center;
+  color: var(--static-color-white);
+  font-size: var(--heading-font-size-xs);
+  font-family: var(--body-font-family);
+}
+
+main .section.is-hero.left-aligned h5 {
+  text-align: left;
+  margin-left: 20%;
+}
+
 main .section.is-hero .button-container {
   border: 0;
   text-align: center;
   font-size: var(--body-font-size-s);
+}
+
+main .section.is-hero.left-aligned .button-container {
+  text-align: left;
+  margin-left: 20%;
 }
 
 main .section.is-hero.has-background {
