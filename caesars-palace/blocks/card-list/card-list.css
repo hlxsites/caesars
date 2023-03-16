@@ -75,17 +75,12 @@
   line-height: 0;
 }
 
-
-
-
 .card-list.block .full-width {
   margin: 0 calc((100vw - 100%) / -2);
   width: 100vw !important;
 }
 
 .card-list.block .filter-panel {
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
   display: flex;
   flex-wrap: wrap;
   max-width: 100%;
@@ -154,6 +149,13 @@
   }
 }
 
+.card-list.block .dropdown {
+  position: relative;
+  display: inline-flex;
+  height: 70px;
+  margin-right: 8px;
+}
+
 .card-list.block .filter-panel .filter-group .dropdown {
   margin-right: 16px;
 }
@@ -162,14 +164,6 @@
   .card-list.block .filter-panel .filter-group .dropdown {
     margin-right: 48px;
   }
-}
-
-
-.card-list.block .dropdown {
-  position: relative;
-  display: inline-flex;
-  height: 70px;
-  margin-right: 8px;
 }
 
 .card-list.block .dropdown-target {
@@ -280,7 +274,7 @@
 
 .card-list.block .active-filters .card-count {
     font-size: 26px;
-    font-family: 'Oswald',sans-serif;
+    font-family: "Oswald",sans-serif;
     font-weight: 600;
     text-transform: uppercase;
     margin-bottom: 32px;
@@ -333,7 +327,7 @@
 }
 
 .card-list.block .active-filter-list > li > span:hover {
-  background: url(../../icons/times.svg) no-repeat;
+  background: url('../../icons/times.svg') no-repeat;
   cursor: pointer;
 }
 
@@ -611,7 +605,7 @@
   flex-direction: column;
   width: 100%;
   border-radius: 0 8px 0 0;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,10%);
   padding: 12px;
 }
 
@@ -622,7 +616,7 @@
   .card-list.block .card-image {
     display: block;
     border-radius: 8px 8px 0 8px;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,10%);
   }
   .card-list.block .card-image > a {
     flex-direction: unset;
@@ -633,7 +627,7 @@
   .card-list.block .card-image {
     display: block;
     border-radius: 8px 8px 0 0;
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,10%);
   }
 }
 
@@ -644,7 +638,7 @@
   min-width: 120px;
   object-fit: cover;
   border-radius: 8px 0 0 0;
-  box-shadow: 0 2px 4px 0 rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,10%);
 }
 
 @media only screen and (min-width: 480px) {
@@ -726,7 +720,7 @@
     margin-top: 24px;
     margin-left: 24px;
     margin-right: 24px;
-    border-bottom: 1px solid rgba(112,119,132,0.2);
+    border-bottom: 1px solid rgba(112,119,132,20%);
     min-height: 80px;
     padding: 0;
   }
@@ -814,6 +808,8 @@
 
 .card-list.block .card-bottom-left > span {
   display: none;
+  color: #707784;
+  font-size: 12px;
 }
 
 .card-list.block .card-price {
@@ -828,11 +824,6 @@
   letter-spacing: 1px;
   font-size: 13px;
   font-weight: var(--clickable-font-weight);
-}
-
-.card-list.block .card-bottom-left > span {
-  color: #707784;
-  font-size: 12px;
 }
 
 .card-list.block .card-title > a > h4 {
@@ -863,7 +854,7 @@
 .card-list.block .card-bottom-right > a {
   display: flex;
   background: transparent;
-  border: 1px solid rgba(112,119,132,0.3);
+  border: 1px solid rgba(112,119,132,30%);
   border-radius: 50%;
   align-items: center;
   justify-content: center;
@@ -882,16 +873,6 @@
   right: 1px;
   stroke: #707784;
 }
-
-
-
-
-
-
-
-
-
-
 
 /* PAGINATION */
 
@@ -926,7 +907,7 @@
 }
 
 .card-list.block .pagination button:not(.active-page) .page-number {
-  opacity: .5;
+  opacity: 50%;
 }
 
 .card-list.block .pagination button.active-page {
@@ -944,6 +925,7 @@
     transition: background-color 75ms cubic-bezier(0.4,0,0.2,1);
     background-color: rgba(190,192,197,0.2);
   }
+
   .card-list.block .pagination button .previous-text, .pagination button .next-text {
     display: none;
   }
