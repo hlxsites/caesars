@@ -129,9 +129,9 @@
     }
     
     .columns.columns-2-cols.cet-card.full-width.image-end > div > div:first-child .button-container.button-group .button.primary {
-    background-color: var(--static-color-white);
-    border: 1px solid var(--static-color-gray-dark);
-    color: var(--text-color);
+        background-color: var(--static-color-white);
+        border: 1px solid var(--static-color-gray-dark);
+        color: var(--text-color);
     }
 
     .columns.columns-2-cols.cet-card.full-width > div > div > * {
