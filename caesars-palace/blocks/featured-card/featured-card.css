@@ -43,6 +43,8 @@
 .featured-card-content h4 {
   padding-top: 16px;
   padding-bottom: 16px;
+  font-weight: 600;
+    font-size: 36px;
 }
 
 .featured-card-image {
@@ -56,37 +58,47 @@
 /* Responsive Breakpoints */
 @media only screen and (min-width: 768px) {
   .section.featured-card-container {
-    padding-top: var(--layout-size-xl);
-    padding-bottom: 64px;
   }
 
   .featured-card-wrapper {
-    padding-bottom: var(--layout-size-xxl) !important;
-    background-color: rgba(0 0 0 / 80%);
-    min-height: 380px;
   }
 
   .featured-card.block {
-    margin-top: unset;
   }
-  
+
   .featured-card-content {
+    display: flex;
+    margin-top: 64px;
     text-align: left;
     color: var(--static-color-white);
   }
 
   .featured-card-image {
-    position: absolute;
-    object-fit: cover;
-    width: 50%;
-    margin-left: 45%;
-    margin-top: 5%;
+    flex: 1 0 50%;
+  }
+
+  .featured-card-image > picture {
+  }
+
+  .featured-card-image > picture > img {
   }
 
   .featured-card-text {
-    position: absolute;
-    width: 30%;
-    padding-left: 120px;
-    padding-right: 136px;
+    flex: 1 0 50%;
+  }
+
+  .featured-card-text > h4 {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+
+  .featured-card-text > p {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+
+  .featured-card-text h4 {
+    font-weight: 600;
+    font-size: 36px;
   }
 }
