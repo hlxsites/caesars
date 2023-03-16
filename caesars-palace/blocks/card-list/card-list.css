@@ -15,8 +15,8 @@
 }
 
 .link-button a {
-  font-family: 'Open Sans',sans-serif;
-  font-weight: 600;
+  font-family: var(--body-font-family);
+  font-weight: var(--clickable-font-weight);
   font-size: 14px;
   text-align: center;
   white-space: nowrap;
@@ -130,9 +130,9 @@
 }
 
 .card-list.block .filter-panel .filter-label {
-  font-family: 'Montserrat',sans-serif;
+  font-family: var(--text-font-family);
   text-transform: uppercase;
-  font-weight: 600;
+  font-weight: var(--clickable-font-weight);
   white-space: nowrap;
   margin-right: 16px;
 }
@@ -193,7 +193,6 @@
   }
 }
 
-
 @media only screen and (min-width: 1170px) {
   .card-list.block .dropdown-target svg {
     width: 32px;
@@ -219,7 +218,7 @@
   display: flex;
   align-items: center;
   border: 0;
-  font-weight: 600;
+  font-weight: var(--clickable-font-weight);
   border-radius: 0;
   padding: 0;
   text-transform: unset;
@@ -241,7 +240,6 @@
     background: url('../../icons/chevron-white-down.svg') no-repeat;
   }
 }
-
 
 .card-list.block .dropdown.open .dropdown-target-button > a::after {
   transform: scaleY(-1);
@@ -275,20 +273,68 @@
   }
 }
 
+.card-list.block .active-filters {
+  display: flex;
+  align-items: center;
+}
+
+.card-list.block .active-filters .card-count {
+    font-size: 26px;
+    font-family: 'Oswald',sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+    z-index: -1;
+    min-width: 140px;
+    padding-left: 16px;
+    padding-right: 16px;
+}
+
 .card-list.block .active-filter-list {
   display: none;
 }
 
-.card-list.block .active-filters {
-  font-size: 26px;
-  font-family: 'Oswald',sans-serif;
-  font-weight: 600;
-  text-transform: uppercase;
-  margin-bottom: 32px;
-  z-index: -1;
-  min-width: 140px;
-  padding-left: 16px;
-  padding-right: 16px;
+@media only screen and (min-width: 768px) {
+  .card-list.block .active-filter-list {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    list-style-type: none;
+    margin-bottom: 32px;
+  }
+}
+
+.card-list.block .active-filter-list li {
+  border-radius: 4px;
+  background-color: #f1f1f6;
+  text-align: center;
+  min-width: 70px;
+  min-height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-left: 5px;
+  margin-right: 10px;
+}
+
+.card-list.block .active-filter-list > li > label {
+  margin: 0;
+  font-size: 12px;
+  align-items: center;
+  display: flex;
+}
+
+.card-list.block .active-filter-list > li > span {
+  height: 18px;
+  width: 18px;
+  margin-left: 5px;
+}
+
+.card-list.block .active-filter-list > li > span:hover {
+  background: url(../../icons/times.svg) no-repeat;
+  cursor: pointer;
 }
 
 /** MOBILE FILTER **/
@@ -623,14 +669,14 @@
 
 .card-list.block .card-mobile-title {
   font-size: 10px;
-  font-family: var(--montserrat-font-family);
+  font-family: var(--text-font-family);
   font-weight: 700;
   text-transform: uppercase;
 }
 
 .card-list.block .card-mobile-location {
   font-size: 10px;
-  font-weight: 600;
+  font-weight: var(--clickable-font-weight);
   color: gray;
 }
 
@@ -756,7 +802,7 @@
 }
 
 .card-list.block .card-bottom-left {
-  font-weight: 600;
+  font-weight: var(--clickable-font-weight);
   display: flex;
   flex-direction: column;
   min-width: 170px;
@@ -774,14 +820,14 @@
   color: #707784;
   letter-spacing: 1px;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: var(--clickable-font-weight);
 }
 
 .card-list.block .card-price-unused {
   color: #d1d3d4;
   letter-spacing: 1px;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: var(--clickable-font-weight);
 }
 
 .card-list.block .card-bottom-left > span {
@@ -790,7 +836,7 @@
 }
 
 .card-list.block .card-title > a > h4 {
-  font-family: var(--montserrat-font-family);
+  font-family: var(--text-font-family);
   font-weight: 700;
   margin-bottom: 4px;
   font-size: 10px;

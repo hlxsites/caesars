@@ -11,13 +11,14 @@ export default async function decorate(block) {
     const fullWidth = document.createElement('div');
     fullWidth.classList.add('full-width');
     addFilterPanel(block, fullWidth, cfg.filters);
-    // card count and active filters
+    // card count
     const activeFilters = document.createElement('div');
     activeFilters.classList.add('active-filters');
     const cardCount = document.createElement('span');
     cardCount.classList.add('card-count');
     cardCount.innerHTML = cardIndex.data.length + ' Results';
     activeFilters.appendChild(cardCount);
+    // active filters
     const activeFilterList = document.createElement('ul');
     activeFilterList.classList.add('active-filter-list');
     activeFilters.appendChild(activeFilterList);
@@ -29,7 +30,16 @@ export default async function decorate(block) {
   cardResults.classList.add('card-results');
   cardResults.setAttribute('data-page-size', cfg.pageSize);
   cardIndex.data.forEach((cardData, index) => {  
-    const card = document.createElement('div');
+    cardResults.appendChild(createCard(cardData, index, cfg));
+  });
+  block.appendChild(cardResults);
+  drawPagination(block);
+  // close dropdowns when they lose focus.
+  document.addEventListener('click', closeDropdown);
+}
+
+function createCard(cardData, index, cfg) {
+  const card = document.createElement('div');
     card.classList.add('card');
     if (index >= cfg.pageSize) {
       card.classList.add('hidden');
@@ -133,14 +143,15 @@ export default async function decorate(block) {
     cardContent.appendChild(cardBottom)
     // add to card and results
     card.appendChild(cardContent);
-    cardResults.appendChild(card);
-  });
-  block.appendChild(cardResults);
-  drawPagination(block);
-  // close dropdowns when they lose focus.
-  document.addEventListener('click', closeDropdown);
+    return card;
 }
 
+/**
+ * Reads the block configurations.
+ * 
+ * @param block 
+ * @returns configuration object.
+ */
 function readConfig(block) {
   const config = { pageSize: 12 };
   block.querySelectorAll(':scope>div').forEach((row) => {
@@ -155,7 +166,6 @@ function readConfig(block) {
           if (!config.filters) {
             config.filters = [];
           }
-          // todo: add some error handling here
           const filterSplit = cols[1].textContent.trim().split(',');
           const icon = cols[1].querySelector('span');
           config.filters.push({
@@ -187,8 +197,7 @@ function addFilterPanel(block, fullWidth, filters) {
   const filterGroup = document.createElement('div');
   filterGroup.classList.add('filter-group');
   const mobileFilterGroup = document.createElement('div');
-  mobileFilterGroup.classList.add('filter-group'); // test 
-  //mobileFilterGroup.classList.add('mobile-filter-group');
+  mobileFilterGroup.classList.add('filter-group');
   filters.forEach(filter => {
     const filterDropdown = document.createElement('div');
     filterDropdown.classList.add('dropdown');
@@ -229,7 +238,7 @@ function addFilterPanel(block, fullWidth, filters) {
   // edit button
   const filterEdit = document.createElement('div');
   filterEdit.classList.add('filter-edit');
-  filterEdit.appendChild(createButton('Edit', toggleMobileFilters, 'ghost'));
+  filterEdit.appendChild(createButton('Edit', toggleMobileFilterModal, 'ghost'));
   filterPanel.appendChild(filterEdit);
   fullWidth.appendChild(filterPanel);
   // filter modal
@@ -249,7 +258,7 @@ function addFilterPanel(block, fullWidth, filters) {
   modalClose.classList.add('close-button');
   modalClose.setAttribute('aria-label', 'Close');
   modalClose.setAttribute('role', 'button');
-  modalClose.addEventListener('click', toggleMobileFilters);
+  modalClose.addEventListener('click', toggleMobileFilterModal);
   filterModal.append(modalClose);
   const modalLabel = document.createElement('h2');
   modalLabel.classList.add('h2');
@@ -269,6 +278,13 @@ function addFilterPanel(block, fullWidth, filters) {
   block.appendChild(modal);
 }
 
+/**
+ * Creates a button
+ * @param  {String} title of the button
+ * @param  {Event} event to fire when button is clicked 
+ * @param  {String} style of button
+ * @returns button
+ */
 function createButton(title, clickEvent, style) {
   const button = document.createElement('div');
   button.classList.add('link-button');
@@ -285,6 +301,10 @@ function createButton(title, clickEvent, style) {
   return button;
 }
 
+/**
+ * Close any open dropdown in the block, if click outside of heading or options.
+ * @param {Event} Click event
+ */
 function closeDropdown(event) {
   document.querySelectorAll('.card-list.block .dropdown.open').forEach(dropdown => {
     const dropdownRect = dropdown.getBoundingClientRect();
@@ -301,7 +321,10 @@ function closeDropdown(event) {
   })
 }
 
-function toggleDropdown(event) {
+/**
+ * Toggles a dropdown.
+ */
+function toggleDropdown() {
   const dropdown = this.closest('.dropdown');
   if (dropdown.classList.contains('open')) {
     dropdown.classList.remove('open');
@@ -310,7 +333,10 @@ function toggleDropdown(event) {
   }
 }
 
-function toggleMobileFilters() {
+/**
+ * Toggles the mobile filter modal.
+ */
+function toggleMobileFilterModal() {
   const modal = this.closest('.card-list.block').querySelector('.modal')
   if (modal.classList.contains('open')) {
     modal.classList.remove('open');
@@ -331,7 +357,7 @@ function preprocessCardData(cardData, type) {
     if (cardData.delivery && cardData.delivery == 'true') {
       cardData.diningOptions.push('Delivery');
     }
-    cardData['openNow'] = true;
+    // todo: add special handling for open now.
   }
 }
 
@@ -404,12 +430,17 @@ function clearFilters() {
 }
 
 function toggleFilter() {
-  const filter = this.getAttribute('data-filter');
+  const filter = this.hasAttribute('data-filter') ? this.getAttribute('data-filter') : this.closest('.active-filter').getAttribute('data-filter');
   const block = this.closest('.card-list.block');
   const activeFilterList = block.querySelector('ul.active-filter-list');
-  const toggleOn = this.querySelector('input.checkbox-input').checked;
-  const mobile = this.closest('.mobile-filter-panel');
-  block.querySelector('.' + (!mobile ? 'mobile-' : '') + 'filter-panel div[data-filter="' + filter + '"] input[type="checkbox"]').checked = toggleOn;
+  let toggleOn = false;
+  const checkbox = this.querySelector('input.checkbox-input');
+  if (checkbox) {
+    toggleOn = checkbox.checked;
+  }
+  // toggle both checkboxes
+  block.querySelector('.mobile-filter-panel div[data-filter="' + filter + '"] input[type="checkbox"]').checked = toggleOn;
+  block.querySelector('.filter-panel div[data-filter="' + filter + '"] input[type="checkbox"]').checked = toggleOn;
   if (toggleOn) {
     const activeFilter = document.createElement('li');
     activeFilter.classList.add('active-filter');
@@ -417,6 +448,10 @@ function toggleFilter() {
     const activeFilterLabel = document.createElement('label');
     activeFilterLabel.innerHTML = this.querySelector('span.checkbox-label-text').innerHTML;
     activeFilter.appendChild(activeFilterLabel);
+    const activeFilterClose = document.createElement('span');
+    activeFilterClose.title = 'Close';
+    activeFilterClose.addEventListener('click', toggleFilter);
+    activeFilter.appendChild(activeFilterClose);
     activeFilterList.appendChild(activeFilter);
   } else {
     activeFilterList.querySelector('[data-filter="' + filter + '"]').remove();
