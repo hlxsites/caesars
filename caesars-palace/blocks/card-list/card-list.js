@@ -24,7 +24,7 @@ function readConfig(block) {
           config.filters.push({
             name: filterSplit[0].trim(),
             property: filterSplit[1].trim(),
-            icon: cols[1].querySelector('span'), 
+            icon: cols[1].querySelector('span'),
             values: [],
           });
           row.remove();
@@ -48,6 +48,64 @@ function toggleDropdown() {
   } else {
     dropdown.classList.add('open');
   }
+}
+
+function drawPagination(block) {
+  const cardResults = block.querySelector('div.card-results');
+  const pagination = cardResults.querySelector('div.pagination');
+  if (pagination) {
+    pagination.remove();
+  }
+  const pageSize = cardResults.getAttribute('data-page-size');
+  const totalCards = block.querySelectorAll('div.card:not(.filtered)').length;
+  let firstPageButton = null;
+  if (totalCards > pageSize) {
+    pagination = document.createElement('div');
+    pagination.classList.add('pagination');
+    // previous button
+    const previous = document.createElement('button');
+    previous.classList.add('previous');
+    previous.classList.add('chevron');
+    previous.classList.add('chevron-left');
+    previous.classList.add('hidden');
+    previous.addEventListener('click', previousPage);
+    const previousText = document.createElement('span');
+    previousText.classList.add('previous-text');
+    previousText.innerHTML = 'Previous';
+    previous.appendChild(previousText);
+    pagination.appendChild(previous);
+    let pageIndex = 1;
+    while (pageIndex <= Math.ceil(totalCards / pageSize)) {
+      const page = document.createElement('button');
+      page.setAttribute('data-page-number', pageIndex);
+      page.addEventListener('click', handlePagination);
+      page.classList.add('page');
+      if (pageIndex === 1) {
+        page.classList.add('active-page');
+        firstPageButton = page;
+      }
+      const pageNumber = document.createElement('span');
+      pageNumber.classList.add('page-number');
+      pageNumber.innerHTML = pageIndex;
+      pageIndex += 1;
+      page.appendChild(pageNumber);
+      pagination.appendChild(page);
+    }
+    pagination.setAttribute('data-total-pages', pageIndex - 1);
+    // next button
+    const next = document.createElement('button');
+    next.classList.add('next');
+    next.classList.add('chevron');
+    next.classList.add('chevron-right');
+    next.addEventListener('click', nextPage);
+    const nextText = document.createElement('span');
+    nextText.classList.add('next-text');
+    nextText.innerHTML = 'Next';
+    next.appendChild(nextText);
+    pagination.appendChild(next);
+    cardResults.appendChild(pagination);
+  }
+  return firstPageButton;
 }
 
 function performFiltering(block, activeFilterListContainer) {
@@ -448,7 +506,6 @@ function previousPage() {
 }
 
 function handlePagination() {
-  debugger;
   const totalPages = this.closest('div.pagination').getAttribute('data-total-pages');
   const cardResults = this.closest('div.card-results');
   cardResults.querySelector('button.active-page').classList.remove('active-page');
@@ -478,66 +535,8 @@ function handlePagination() {
   window.scroll({
     top: this.closest('.card-list.block').scrollTop,
     left: 0,
-    behavior: 'smooth'
+    behavior: 'smooth',
   });
-}
-
-function drawPagination(block) {
-  const cardResults = block.querySelector('div.card-results');
-  const pagination = cardResults.querySelector('div.pagination');
-  if (pagination) {
-    pagination.remove();
-  }
-  const pageSize = cardResults.getAttribute('data-page-size');
-  const totalCards = block.querySelectorAll('div.card:not(.filtered)').length;
-  let firstPageButton = null;
-  if (totalCards > pageSize) {
-    const pagination = document.createElement('div');
-    pagination.classList.add('pagination');
-    // previous button
-    const previous = document.createElement('button');
-    previous.classList.add('previous');
-    previous.classList.add('chevron');
-    previous.classList.add('chevron-left');
-    previous.classList.add('hidden');
-    previous.addEventListener('click', previousPage);
-    const previousText = document.createElement('span');
-    previousText.classList.add('previous-text');
-    previousText.innerHTML = 'Previous';
-    previous.appendChild(previousText);
-    pagination.appendChild(previous);
-    let pageIndex = 1;
-    while (pageIndex <= Math.ceil(totalCards / pageSize)) {
-      const page = document.createElement('button');
-      page.setAttribute('data-page-number', pageIndex);
-      page.addEventListener('click', handlePagination);
-      page.classList.add('page');
-      if (pageIndex == 1) {
-        page.classList.add('active-page');
-        firstPageButton = page;
-      }
-      const pageNumber = document.createElement('span');
-      pageNumber.classList.add('page-number');
-      pageNumber.innerHTML = pageIndex;
-      pageIndex += 1;
-      page.appendChild(pageNumber);
-      pagination.appendChild(page);
-    }
-    pagination.setAttribute('data-total-pages', pageIndex - 1);
-    // next button
-    const next = document.createElement('button');
-    next.classList.add('next');
-    next.classList.add('chevron');
-    next.classList.add('chevron-right');
-    next.addEventListener('click', nextPage);
-    const nextText = document.createElement('span');
-    nextText.classList.add('next-text');
-    nextText.innerHTML = 'Next';
-    next.appendChild(nextText);
-    pagination.appendChild(next);
-    cardResults.appendChild(pagination);
-  }
-  return firstPageButton;
 }
 
 /**
@@ -549,7 +548,7 @@ function closeDropdown(event) {
     const dropdownRect = dropdown.getBoundingClientRect();
     if (event.clientX < dropdownRect.left || event.clientX > dropdownRect.right
       || event.clientY < dropdownRect.top || event.clientY > dropdownRect.bottom) {
-        // outside dropdown category
+      // outside dropdown category
       const optionsRect = dropdown.querySelector('.dropdown-content').getBoundingClientRect();
       if (event.clientX < optionsRect.left || event.clientX > optionsRect.right
         || event.clientY < optionsRect.top || event.clientY > optionsRect.bottom) {
