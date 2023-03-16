@@ -57,15 +57,6 @@
 
 /* Responsive Breakpoints */
 @media only screen and (min-width: 768px) {
-  .section.featured-card-container {
-  }
-
-  .featured-card-wrapper {
-  }
-
-  .featured-card.block {
-  }
-
   .featured-card-content {
     display: flex;
     margin-top: 64px;
@@ -75,12 +66,12 @@
 
   .featured-card-image {
     flex: 1 0 50%;
+    max-width: 688px;
   }
 
   .featured-card-image > picture {
-  }
-
-  .featured-card-image > picture > img {
+    position: relative;
+    bottom: -120px;
   }
 
   .featured-card-text {
@@ -100,5 +91,19 @@
   .featured-card-text h4 {
     font-weight: 600;
     font-size: 36px;
+  }
+}
+
+@media only screen and (min-width: 960px) {
+  .featured-card-image > picture {
+    position: relative;
+    bottom: -64px;
+  }
+}
+
+@media only screen and (min-width: 1170px) {
+  .featured-card-image > picture {
+    position: relative;
+    bottom: -24px;
   }
 }
