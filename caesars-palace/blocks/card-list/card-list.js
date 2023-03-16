@@ -23,11 +23,11 @@ function readConfig(block) {
           const filterSplit = cols[1].textContent.trim().split(',');
           const icon = cols[1].querySelector('span');
           config.filters.push({
-              name: filterSplit[0].trim(),
-              property: filterSplit[1].trim(),
-              icon: icon ? icon : null,
-              values: []
-            });
+            name: filterSplit[0].trim(),
+            property: filterSplit[1].trim(),
+            icon: icon,
+            values: [],
+          });
           row.remove();
         } else if (configName === 'page-size') {
           config.pageSize = Number(cols[1].textContent);
@@ -55,47 +55,47 @@ function performFiltering(block, activeFilterListContainer) {
   const cards = block.querySelectorAll('div.card');
   const activeFilterListItems = activeFilterListContainer.querySelectorAll('li.active-filter');
   const activeFilters = [];
-  activeFilterListItems.forEach(activeFilter => {
+  activeFilterListItems.forEach((activeFilter) => {
     activeFilters.push(activeFilter.getAttribute('data-filter'));
   });
   let count = 0;
-  cards.forEach(card => {
+  cards.forEach((card) => {
     if (!card.getAttribute('data-filters')) {
       // no data filters.  always hide with filters.
-      if (activeFilters.length == 0) {
+      if (activeFilters.length === 0) {
         card.classList.remove('filtered');
-        count++;
+        count += 1;
       } else {
         card.classList.add('filtered');
       }
     } else {
       const cardFilters = card.getAttribute('data-filters').split(',');
-      const show = activeFilters.every(filter => cardFilters.includes(filter));
+      const show = activeFilters.every((filter) => cardFilters.includes(filter));
       if (show) {
         card.classList.remove('filtered');
-        count++;
+        count += 1;
       } else {
         card.classList.add('filtered');
       }
     }
   });
-  block.querySelector('span.card-count').innerHTML = count + ' Results';
+  block.querySelector('span.card-count').innerHTML = `${count} Results`;
   const firstPageButton = drawPagination(block);
   if (firstPageButton) {
     firstPageButton.click();
   } else {
-    cards.forEach(card => { card.classList.remove('hidden'); });
+    cards.forEach((card) => { card.classList.remove('hidden'); });
   }
 }
 
 function clearFilters() {
   const block = this.closest('.card-list.block');
-  block.querySelectorAll('div.filter-group input[type="checkbox"]').forEach(checkbox => {
+  block.querySelectorAll('div.filter-group input[type="checkbox"]').forEach((checkbox) => {
     checkbox.checked = false;
   });
   // remove active filters.
   const activeFilterList = block.querySelector('ul.active-filter-list');
-  activeFilterList.querySelectorAll('li').forEach(activeFilter => {
+  activeFilterList.querySelectorAll('li').forEach((activeFilter) => {
     activeFilter.remove();
   });
   performFiltering(block, activeFilterList);
@@ -148,7 +148,7 @@ function addFilterPanel(block, fullWidth, filters) {
   filterGroup.classList.add('filter-group');
   const mobileFilterGroup = document.createElement('div');
   mobileFilterGroup.classList.add('filter-group');
-  filters.forEach(filter => {
+  filters.forEach((filter) => {
     const filterDropdown = document.createElement('div');
     filterDropdown.classList.add('dropdown');
     // category
@@ -253,8 +253,8 @@ function toggleFilter() {
     toggleOn = checkbox.checked;
   }
   // toggle both checkboxes
-  block.querySelector('.mobile-filter-panel div[data-filter="' + filter + '"] input[type="checkbox"]').checked = toggleOn;
-  block.querySelector('.filter-panel div[data-filter="' + filter + '"] input[type="checkbox"]').checked = toggleOn;
+  block.querySelector(`.mobile-filter-panel div[data-filter="${filter}"] input[type="checkbox"]`).checked = toggleOn;
+  block.querySelector(`.filter-panel div[data-filter="${filter}"] input[type="checkbox"]`).checked = toggleOn;
   if (toggleOn) {
     const activeFilter = document.createElement('li');
     activeFilter.classList.add('active-filter');
@@ -268,7 +268,7 @@ function toggleFilter() {
     activeFilter.appendChild(activeFilterClose);
     activeFilterList.appendChild(activeFilter);
   } else {
-    activeFilterList.querySelector('[data-filter="' + filter + '"]').remove();
+    activeFilterList.querySelector(`[data-filter="${filter}"]`).remove();
   }
   performFiltering(block, activeFilterList)
 }
@@ -276,7 +276,7 @@ function toggleFilter() {
 function createFilterOption(filter, filterValue) {
   const checkbox = document.createElement('div');
   checkbox.classList.add('checkbox');
-  checkbox.setAttribute('data-filter', filter.property + ':' + filterValue);
+  checkbox.setAttribute('data-filter', `${filter.property}:${filterValue}`);
   checkbox.addEventListener('change', toggleFilter);
   const label = document.createElement('label');
   label.classList.add('checkbox-label');
@@ -299,14 +299,14 @@ function createFilterOption(filter, filterValue) {
 
 function processFiltersWithCard(cardData, card, filters) {
   const cardFilters = [];
-  filters.forEach(filter => {
+  filters.forEach((filter) => {
     let filterValues = cardData[filter.property];
     if (filterValues) {
       // some values may be arrays.  convert single values.
       if (!Array.isArray(filterValues)) {
         filterValues = [filterValues];
       }
-      filterValues.forEach(filterValue => {
+      filterValues.forEach((filterValue) => {
         if (!filter.values.includes(filterValue)) {
           // new filter option found. add.
           const filterOption = createFilterOption(filter, filterValue);
@@ -498,7 +498,7 @@ function drawPagination(block) {
     pagination.classList.add('pagination');
     // previous button
     const previous = document.createElement('button');
-    previous.classList.add('previous')
+    previous.classList.add('previous');
     previous.classList.add('chevron');
     previous.classList.add('chevron-left');
     previous.classList.add('hidden');
@@ -520,7 +520,8 @@ function drawPagination(block) {
       }
       const pageNumber = document.createElement('span');
       pageNumber.classList.add('page-number');
-      pageNumber.innerHTML = pageIndex++;
+      pageNumber.innerHTML = pageIndex;
+      pageIndex += 1
       page.appendChild(pageNumber);
       pagination.appendChild(page);
     }
@@ -546,16 +547,16 @@ function drawPagination(block) {
  * @param {Event} Click event
  */
 function closeDropdown(event) {
-  document.querySelectorAll('.card-list.block .dropdown.open').forEach(dropdown => {
+  document.querySelectorAll('.card-list.block .dropdown.open').forEach((dropdown) => {
     const dropdownRect = dropdown.getBoundingClientRect();
-    if (event.clientX < dropdownRect.left || event.clientX > dropdownRect.right 
+    if (event.clientX < dropdownRect.left || event.clientX > dropdownRect.right
       || event.clientY < dropdownRect.top || event.clientY > dropdownRect.bottom) {
         // outside dropdown category
       const optionsRect = dropdown.querySelector('.dropdown-content').getBoundingClientRect();
-      if (event.clientX < optionsRect.left || event.clientX > optionsRect.right 
+      if (event.clientX < optionsRect.left || event.clientX > optionsRect.right
         || event.clientY < optionsRect.top || event.clientY > optionsRect.bottom) {
-          // outside options list
-          dropdown.classList.remove('open');
+        // outside options list
+        dropdown.classList.remove('open');
       }
     }
   });
@@ -576,7 +577,7 @@ export default async function decorate(block) {
     activeFilters.classList.add('active-filters');
     const cardCount = document.createElement('span');
     cardCount.classList.add('card-count');
-    cardCount.innerHTML = cardIndex.data.length + ' Results';
+    cardCount.innerHTML = `${cardIndex.data.length} Results`;
     activeFilters.appendChild(cardCount);
     // active filters
     const activeFilterList = document.createElement('ul');
