@@ -1,9 +1,8 @@
 export default function decorate(block) {
   const blockElements = [...block.children];
-  const backgroundImageElement = blockElements[0];
-  backgroundImageElement.classList.add('featured-card-background');
+  const [backgroundImageElement, blockContent] = blockElements;
 
-  const blockContent = blockElements[1];
+  backgroundImageElement.classList.add('featured-card-background');
   blockContent.classList.add('featured-card-content');
 
   blockContent.querySelectorAll('img').forEach((image) => {
@@ -11,7 +10,7 @@ export default function decorate(block) {
   });
 
   [...blockContent.children].forEach((item) => {
-    if (![...item.classList].includes('featured-card-image')) {
+    if (!item.classList.contains('featured-card-image')) {
       item.classList.add('featured-card-text');
     }
   });
