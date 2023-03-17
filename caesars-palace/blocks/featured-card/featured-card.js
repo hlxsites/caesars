@@ -2,7 +2,13 @@ export default function decorate(block) {
   const blockElements = [...block.children];
   const [backgroundImageElement, blockContent] = blockElements;
 
-  backgroundImageElement.classList.add('featured-card-background');
+  const hasBackgroundImage = backgroundImageElement.querySelectorAll('img');
+  if (hasBackgroundImage.length === 0) {
+    block.parentElement.classList.add('featured-card-wrapper-no-background');
+  } else {
+    backgroundImageElement.classList.add('featured-card-background');
+  }
+
   blockContent.classList.add('featured-card-content');
 
   blockContent.querySelectorAll('img').forEach((image) => {
