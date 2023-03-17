@@ -107,7 +107,7 @@ async function loadPage() {
 
 export async function lookupCardsByType(type) {
   if (!window.cardIndex || !window.cardIndex[type]) {
-    const resp = await fetch(`${type}.json`);
+    const resp = await fetch(`${window.hlx.codeBasePath}/${type}.json`);
     const json = await resp.json();
     if (!window.cardIndex) {
       window.cardIndex = {};
