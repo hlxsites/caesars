@@ -184,7 +184,7 @@ function buildSlide(slide, index) {
   slideMainImage.classList.add('carousel-main-image');
 
   const slideAltImage = slide.children[1];
-  if (![...slideAltImage.classList].includes('carousel-alt-video')) {
+  if (!slideAltImage.classList.contains('carousel-alt-video')) {
     slideAltImage.classList.add('carousel-alt-image');
   }
 
@@ -403,8 +403,6 @@ export default async function decorate(block) {
       }
     });
   };
-  const carouselObserver = new IntersectionObserver(handleAutoScroll, intersectionOptions);
-  carouselObserver.observe(block);
 
   const observer = new IntersectionObserver((entries) => {
     if (entries.some((e) => e.isIntersecting)) {

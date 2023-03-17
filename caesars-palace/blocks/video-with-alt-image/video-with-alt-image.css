@@ -21,7 +21,7 @@
     display: none;
   }
 
-  .video-with-alt-image.block .video-link {
+  .video-with-alt-image.block[data-block-status="loaded"] .video-link {
     display: flex;
     position: absolute;
     overflow: hidden;

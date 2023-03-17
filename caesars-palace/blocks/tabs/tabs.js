@@ -207,7 +207,7 @@ export default function decorate(block) {
       }
       const tabTitleToHide = block.getElementsByClassName('tab-title');
       [...tabTitleToHide].forEach((tab) => {
-        if (!tab.classList.toString().includes(classes.activeTabTitle)) {
+        if (!tab.classList.contains(classes.activeTabTitle)) {
           tab.classList.add(classes.hiddenTabTitle);
         }
       });
