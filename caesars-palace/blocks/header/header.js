@@ -6,7 +6,7 @@ const isDesktop = window.matchMedia('(min-width: 1170px)');
 const CAESARS_DOT_COM = 'https://www.caesars.com';
 const GLOBAL_HEADER_JSON = '/content/empire/en/jcr:content/root/header.model.json';
 const GLOBAL_HEADER_JSON_LOCAL = '/caesars-palace/scripts/resources/header.model.json';
-const GLOBAL_HEADER_LOGO_LOCAL = '../../icons/caesars-global-logo.svg';
+const GLOBAL_HEADER_LOGO_LOCAL = '/caesars-palace/icons/caesars-global-logo.svg';
 
 async function createGlobalNavLogo(logoFileReference) {
   // Add logo
