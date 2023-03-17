@@ -152,36 +152,30 @@
 .card-list.block .dropdown {
   position: relative;
   display: inline-flex;
-  height: 70px;
-  margin-right: 8px;
-}
-
-.card-list.block .mobile-filter-panel .dropdown {
-  width: 100%;
-  height: auto;
   margin: 8px auto;
-  position: relative;
-  display: inline-flex;
+  height: auto;
+  width: 100%;
 }
 
-.card-list.block .filter-panel .filter-group .dropdown {
-  margin-right: 16px;
+.card-list.block .filter-panel .dropdown {
+  height: 70px;
+  margin: 0 16px 0 0;
 }
 
 @media only screen and (min-width: 1170px) {
-  .card-list.block .filter-panel .filter-group .dropdown {
+  .card-list.block .filter-panel .dropdown {
     margin-right: 48px;
   }
 }
 
-.card-list.block .dropdown-target {
+.card-list.block .dropdown .dropdown-target {
   display: flex;
   height: 70px;
   align-items: center;
   color: #fff;
 }
 
-.card-list.block .dropdown-target svg {
+.card-list.block .dropdown .dropdown-target svg {
   fill: #141414;
   width: 24px;
   margin-right: 4px;
@@ -189,31 +183,31 @@
 }
 
 @media only screen and (min-width: 960px) {
-  .card-list.block .dropdown-target svg {
+  .card-list.block .dropdown .dropdown-target svg {
     width: 24px;
     margin-right: 16px;
   }
 }
 
 @media only screen and (min-width: 1170px) {
-  .card-list.block .dropdown-target svg {
+  .card-list.block .dropdown .dropdown-target svg {
     width: 32px;
   }
 }
 
-.card-list.block .filter-panel .dropdown-target svg {
+.card-list.block .filter-panel .dropdown .dropdown-target svg {
   fill: #fff;
 }
 
-.card-list.block .dropdown-target-icon {
+.card-list.block .dropdown .dropdown-target-icon {
   display: flex;
 }
 
-.card-list.block .dropdown-target-button {
+.card-list.block .dropdown .dropdown-target-button {
   height: 100%;
 }
 
-.card-list.block .dropdown-target-button a {
+.card-list.block .dropdown .dropdown-target-button a {
   min-width: fit-content;
   letter-spacing: 0;
   height: 100%;
