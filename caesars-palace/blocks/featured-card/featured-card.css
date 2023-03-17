@@ -12,7 +12,7 @@
   margin-top: -42px;
 }
 
-.featured-card-background {
+.featured-card[data-block-status="loaded"] .featured-card-background {
   box-sizing: border-box;
   overflow: hidden;
   width: 100%;
@@ -20,44 +20,44 @@
   padding: 0;
 }
 
-.featured-card-background > div > picture {
+.featured-card[data-block-status="loaded"] .featured-card-background > div > picture {
   position: absolute;
-  z-index: -5;
+  z-index: -4;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
 }
 
-.featured-card-background > div > picture img {
+.featured-card[data-block-status="loaded"] .featured-card-background > div > picture img {
   object-fit: cover;
   width: 100%;
   height: 100%;
 }
 
-.featured-card-content {
+.featured-card[data-block-status="loaded"] .featured-card-content {
   display: flex;
   flex-flow: column-reverse;
   text-align: center;
   color: var(--static-color-white);
 }
 
-.featured-card-content h4 {
+.featured-card.block .featured-card-content h4 {
   padding-top: var(--layout-size-m);
   padding-bottom: var(--layout-size-m);
 }
 
-.featured-card-image {
+.featured-card.block .featured-card-image {
   object-fit: cover;
 }
 
-.featured-card-text .button-container {
+.featured-card.block .featured-card-text .button-container {
   padding-top: var(--layout-size-xs);
 }
 
 /* Responsive Breakpoints */
 @media only screen and (min-width: 768px) {
-  .featured-card-content {
+  .featured-card.block .featured-card-content {
     display: flex;
     flex-flow: unset;
     margin-top: 64px;
@@ -65,17 +65,17 @@
     color: var(--static-color-white);
   }
 
-  .featured-card-image {
+  .featured-card.block .featured-card-image {
     flex: 1 0 50%;
     max-width: 688px;
   }
 
-  .featured-card-image > picture {
+  .featured-card.block .featured-card-image > picture {
     position: relative;
     bottom: -120px;
   }
 
-  .featured-card-text {
+  .featured-card.block .featured-card-text {
     flex: 1 0 50%;
   }
 
@@ -85,21 +85,21 @@
     padding-right: var(--layout-size-xl);
   }
 
-  .featured-card-text h4 {
+  .featured-card.block .featured-card-text h4 {
     font-weight: 600;
-    font-size: 36px;
+    font-size: var(--heading-font-size-l);
   }
 }
 
 @media only screen and (min-width: 960px) {
-  .featured-card-image > picture {
+  .featured-card.block .featured-card-image > picture {
     position: relative;
     bottom: -64px;
   }
 }
 
 @media only screen and (min-width: 1170px) {
-  .featured-card-image > picture {
+  .featured-card.block .featured-card-image > picture {
     position: relative;
     bottom: -24px;
   }
