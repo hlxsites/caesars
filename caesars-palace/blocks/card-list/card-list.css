@@ -361,10 +361,6 @@
   cursor: auto;
 }
 
-.card-list.block .modal a {
-  width: 100%;
-}
-
 .card-list.block .modal.open {
   transition: opacity 75ms cubic-bezier(0.4,0,0.2,1);
   visibility: visible;
@@ -432,8 +428,6 @@
   width: 100%;
   align-items: center;
 }
-
-
 
 .card-list.block .mobile-filter-panel .clear {
   margin: 8px auto;
@@ -514,16 +508,6 @@
   visibility: visible;
   opacity: 1;
 }
-
-
-
-
-
-
-
-
-
-
 
 
 /** CARD RESULTS **/
@@ -969,4 +953,3 @@
   margin-left: 12px;
   margin-right: 12px;
 }
-
