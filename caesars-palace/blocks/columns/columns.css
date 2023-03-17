@@ -11,6 +11,10 @@
     text-align: center;
 }
 
+.columns.intro > div > div {
+    text-align: justify;
+}
+
 .columns img {
     width: 100%;
 }
@@ -38,6 +42,10 @@
     width: 100%;
     flex-flow: row nowrap;
     justify-content: space-between;
+}
+
+.columns.columns-2-cols.intro > div:last-child {
+    max-width: 460px;
 }
 
 .columns.columns-2-cols.intro > div:first-child > div {
