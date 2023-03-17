@@ -224,7 +224,7 @@ function addClones(element) {
   const cloneForBeginning = createClone(initialChildren[initialChildren.length - 1], 0);
   element.firstChild.before(cloneForBeginning);
   element.firstChild.querySelectorAll('img').forEach((image) => {
-    image.loading="eager";
+    image.loading = 'eager';
   });
 }
 
