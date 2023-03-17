@@ -1,5 +1,10 @@
 /* stylelint-disable no-descending-specificity */
 
+header {
+  --nav-title-color: #707784;
+  --nav-item-color: #565d6a;
+}
+
 /* header and nav layout */
 header .nav-wrapper {
   background-color: var(--static-color-black);
@@ -17,13 +22,13 @@ header nav {
   box-sizing: border-box;
   display: grid;
   grid-template:
-    'hamburger brand tools' var(--mobile-nav-height)
+    'hamburger brand tools' var(--nav-height)
     'sections sections sections' 1fr / auto 1fr auto;
   align-items: center;
   gap: 0 2em;
   margin: auto;
   max-width: 1264px;
-  height: var(--mobile-nav-height);
+  height: var(--nav-height);
 
   /* padding-left: 1rem; */
   font-family: var(--body-font-family);
@@ -54,7 +59,7 @@ header .nav-brand {
 header .nav-brand p {
   /* margin: unset; */
   line-height: unset;
-  height: var(--mobile-nav-height);
+  height: var(--nav-height);
   width: 100%;
 }
 
@@ -63,7 +68,7 @@ header .nav-brand a {
   display: flex;
   align-items: center;
   position: relative;
-  height: var(--mobile-nav-height);
+  height: var(--nav-height);
   width: 100%;
   padding: 5px 0;
 }
@@ -128,7 +133,6 @@ header nav .nav-sections {
   flex: 1 1 auto;
   display: none;
   visibility: hidden;
-  background-color: var(--overlay-color);
 }
 
 header nav[aria-expanded=true] .nav-sections {
@@ -181,7 +185,7 @@ header nav[aria-expanded=true] .nav-sections .global-nav-title {
   font-weight: bold;
   letter-spacing: 1px;
   line-height: 25px;
-  color: var(--static-color-slate-gray);
+  color: var(--nav-title-color);
   cursor: pointer;
   align-items: center;
   height: 44px;
@@ -250,7 +254,7 @@ header nav[aria-expanded=true] .nav-sections .global-nav[aria-expanded="true"] u
 header nav[aria-expanded=true] .nav-sections .local-nav[aria-expanded="true"] ul li a,
 header nav[aria-expanded=true] .nav-sections .global-nav[aria-expanded="true"] ul li a {
   text-decoration: none;
-  color: var(--button-hover-color-gray);
+  color: var(--nav-item-color);
   font-size: var(--body-font-size-s);
   font-weight: var(--clickable-font-weight);
   letter-spacing: 1.17px;
@@ -373,7 +377,6 @@ header nav .nav-tools p:first-of-type a:hover {
     display: flex;
     justify-content: space-between;
     max-width: 1170px;
-    height: var(--nav-height);
     overflow: visible;
 
     /* max-width: unset; */
@@ -401,14 +404,6 @@ header nav .nav-tools p:first-of-type a:hover {
     box-shadow: 0 20px 25px -5px rgb(0 0 0 / 10%), 0 10px 10px -5px rgb(0 0 0 / 6%);
     align-items: unset;
     align-self: flex-start;
-  }
-
-  header.is-sticky nav .nav-brand {
-    height: var(--nav-height);
-  }
-  
-  header nav .nav-brand p {
-    height: var(--nav-height);
   }
 
   header nav .nav-brand p a {
