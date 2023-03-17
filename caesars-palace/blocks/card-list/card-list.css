@@ -573,16 +573,16 @@
   background: #fff;
 }
 
-.card-list.block .card-image {
+.card-list.block .card .card-image {
   border-radius: 8px 8px 0 0;
   display: flex;
 }
 
-.card-list.block .card-image a {
+.card-list.block .card .card-image a {
   flex-direction: column;
 }
 
-.card-list.block .card-mobile {
+.card-list.block .card .card-mobile {
   flex-direction: column;
   width: 100%;
   border-radius: 0 8px 0 0;
@@ -591,30 +591,30 @@
 }
 
 @media only screen and (min-width: 480px) {
-  .card-list.block .card-mobile {
+  .card-list.block .card .card-mobile {
     display: none;
   }
 
-  .card-list.block .card-image {
+  .card-list.block .card .card-image {
     display: block;
     border-radius: 8px 8px 0;
     box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%);
   }
 
-  .card-list.block .card-image a {
+  .card-list.block .card .card-image a {
     flex-direction: unset;
   }
 }
 
 @media only screen and (min-width: 768px) {
-  .card-list.block .card-image {
+  .card-list.block .card .card-image {
     display: block;
     border-radius: 8px 8px 0 0;
     box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%);
   }
 }
 
-.card-list.block .card-image a picture img {
+.card-list.block .card .card-image a picture img {
   display: block;
   height: 100px;
   width: 120px;
@@ -625,7 +625,7 @@
 }
 
 @media only screen and (min-width: 480px) {
-  .card-list.block .card-image a picture img {
+  .card-list.block .card .card-image a picture img {
     width: 180px;
     min-width: 180px;
     border-radius: 8px 0 0 8px;
@@ -635,7 +635,7 @@
 }
 
 @media only screen and (min-width: 768px) {
-  .card-list.block .card-image a picture img {
+  .card-list.block .card .card-image a picture img {
     height: inherit;
     object-fit: cover;
     width: 100%;
@@ -644,20 +644,20 @@
   }
 }
 
-.card-list.block .card-mobile-title {
+.card-list.block .card .card-mobile-title {
   font-size: 10px;
   font-family: var(--text-font-family);
   font-weight: 700;
   text-transform: uppercase;
 }
 
-.card-list.block .card-mobile-location {
+.card-list.block .card .card-mobile-location {
   font-size: 10px;
   font-weight: var(--clickable-font-weight);
   color: gray;
 }
 
-.card-list.block .card-content {
+.card-list.block .card .card-content {
   position: relative;
   display: flex;
   flex-direction: column;
@@ -670,7 +670,7 @@
 }
 
 @media only screen and (min-width: 480px) {
-  .card-list.block .card-content {
+  .card-list.block .card .card-content {
     border-radius: 0 8px 8px 0;
     width: 100%;
     border-top: none;
@@ -678,19 +678,19 @@
 }
 
 @media only screen and (min-width: 768px) {
-  .card-list.block .card-content {
+  .card-list.block .card .card-content {
     border-radius: 0 0 8px 8px;
     width: 100%;
     border-top: none;
   }
 }
 
-.card-list.block .card-top {
+.card-list.block .card .card-top {
   display: none;
 }
 
 @media only screen and (min-width: 480px) {
-  .card-list.block .card-top {
+  .card-list.block .card .card-top {
     display: block;
     border-bottom: 1px solid lightgray;
     padding: 12px;
@@ -699,7 +699,7 @@
 }
 
 @media only screen and (min-width: 768px) {
-  .card-list.block .card-top {
+  .card-list.block .card .card-top {
     margin-top: 24px;
     margin-left: 24px;
     margin-right: 24px;
@@ -709,17 +709,17 @@
   }
 }
 
-.card-list.block .card-description {
+.card-list.block .card .card-description {
   display: none;
 }
 
 @media only screen and (min-width: 768px) {
-  .card-list.block .card-description {
+  .card-list.block .card .card-description {
     display: block;
   }
 }
 
-.card-list.block .card-description > p {
+.card-list.block .card .card-description > p {
   -webkit-box-orient: vertical;
   display: -webkit-box;
   -webkit-line-clamp: 3;
@@ -732,12 +732,12 @@
 }
 
 @media only screen and (min-width: 768px) {
-  .card-list.block .card-description > p {
+  .card-list.block .card .card-description > p {
     margin-bottom: 24px;
   }
 }
 
-.card-list.block .card-subtitle {
+.card-list.block .card .card-subtitle {
   font-size: 11px;
   color: #707784;
   font-weight: bold;
@@ -746,20 +746,20 @@
 }
 
 @media only screen and (min-width: 480px) {
-  .card-list.block .card-subtitle {
+  .card-list.block .card .card-subtitle {
     font-size: 10px;
     text-transform: none;
   }
 }
 
 @media only screen and (min-width: 768px) {
-  .card-list.block .card-subtitle {
+  .card-list.block .card .card-subtitle {
     text-transform: uppercase;
     font-size: 11px;
   }
 }
 
-.card-list.block .card-bottom {
+.card-list.block .card .card-bottom {
   margin: 8px 16px;
   display: flex;
   align-items: flex-end;
@@ -767,18 +767,18 @@
 }
 
 @media only screen and (min-width: 480px) {
-  .card-list.block .card-bottom {
+  .card-list.block .card .card-bottom {
     margin: 16px;
   }
 }
 
 @media only screen and (min-width: 768px) {
-  .card-list.block .card-bottom {
+  .card-list.block .card .card-bottom {
     margin: 16px 24px 24px;
   }
 }
 
-.card-list.block .card-bottom-left {
+.card-list.block .card .card-bottom-left {
   font-weight: 800;
   display: flex;
   flex-direction: column;
@@ -788,33 +788,33 @@
   font-size: 11px;
 }
 
-.card-list.block .card-bottom-left span {
+.card-list.block .card .card-bottom-left span {
   display: none;
   color: #707784;
   font-size: 12px;
 }
 
 @media only screen and (min-width: 768px) {
-  .card-list.block .card-bottom-left span {
+  .card-list.block .card .card-bottom-left span {
     display: flex;
   }
 }
 
-.card-list.block .card-price {
+.card-list.block .card .card-price {
   color: #707784;
   letter-spacing: 1px;
   font-size: 13px;
   font-weight: var(--clickable-font-weight);
 }
 
-.card-list.block .card-price-unused {
+.card-list.block .card .card-price-unused {
   color: #d1d3d4;
   letter-spacing: 1px;
   font-size: 13px;
   font-weight: var(--clickable-font-weight);
 }
 
-.card-list.block .card-title > a > h4 {
+.card-list.block .card .card-title > a > h4 {
   font-family: var(--text-font-family);
   font-weight: 700;
   margin-bottom: 4px;
@@ -823,23 +823,23 @@
 }
 
 @media only screen and (min-width: 768px) {
-  .card-list.block .card-title > a > h4 {
+  .card-list.block .card .card-title > a > h4 {
     font-size: 18px;
     min-height: 50px;
   }
 }
 
-.card-list.block .card-bottom-right {
+.card-list.block .card .card-bottom-right {
   display: none;
 }
 
 @media only screen and (min-width: 768px) {
-  .card-list.block .card-bottom-right {
+  .card-list.block .card .card-bottom-right {
     display: block;
   }
 }
 
-.card-list.block .card-bottom-right a {
+.card-list.block .card .card-bottom-right a {
   display: flex;
   background: transparent;
   border: 1px solid rgba(112 119 132 / 30%);
@@ -850,7 +850,7 @@
   width: 36px;
 }
 
-.card-list.block .card-bottom-right a::after {
+.card-list.block .card .card-bottom-right a::after {
   background: url('../../icons/arrow-right.svg') no-repeat;
   width: 20px;
   height: 20px;
