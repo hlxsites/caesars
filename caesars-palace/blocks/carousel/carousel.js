@@ -175,8 +175,13 @@ function buildSlide(slide, index) {
   slide.style.transform = `translateX(${index * 100}%)`;
 
   slide.setAttribute('role', 'tabpanel');
-  if (index !== 1) {
+  if (index !== firstVisibleSlide) {
     slide.setAttribute('tabindex', '-1');
+  } else {
+    slide.querySelectorAll('img').forEach((image) => {
+      image.loading = 'eager';
+    });
+  }
   }
 
   // build image slider content
