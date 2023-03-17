@@ -5,7 +5,7 @@ const isDesktop = window.matchMedia('(min-width: 1170px)');
 // const MAX_NAV_ITEMS_DESKTOP = 6;
 const CAESARS_DOT_COM = 'https://www.caesars.com';
 const GLOBAL_HEADER_JSON = '/content/empire/en/jcr:content/root/header.model.json';
-const GLOBAL_HEADER_JSON_LOCAL = '../../resources/header.model.json';
+const GLOBAL_HEADER_JSON_LOCAL = '/caesars-palace/scripts/resources/header.model.json';
 const GLOBAL_HEADER_LOGO_LOCAL = '../../icons/caesars-global-logo.svg';
 
 async function createGlobalNavLogo(logoFileReference) {
@@ -104,7 +104,7 @@ function toggleMenu(nav, navSections, forceExpanded = null) {
   // enable nav dropdown keyboard accessibility
   const navDrops = navSections.querySelectorAll('.nav-drop');
   if (isDesktop.matches) {
-    globalNavSections.setAttribute('aria-hidden', true);
+    if (globalNavSections) globalNavSections.setAttribute('aria-hidden', true);
     navDrops.forEach((drop) => {
       if (!drop.hasAttribute('tabindex')) {
         drop.setAttribute('role', 'button');
@@ -113,7 +113,7 @@ function toggleMenu(nav, navSections, forceExpanded = null) {
       }
     });
   } else {
-    globalNavSections.removeAttribute('aria-hidden', true);
+    if (globalNavSections) globalNavSections.removeAttribute('aria-hidden', true);
     navDrops.forEach((drop) => {
       drop.removeAttribute('role');
       drop.removeAttribute('tabindex');
