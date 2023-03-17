@@ -801,10 +801,16 @@
   letter-spacing: 1px;
 }
 
-.card-list.block .card-bottom-left > span {
+.card-list.block .card-bottom-left span {
   display: none;
   color: #707784;
   font-size: 12px;
+}
+
+@media only screen and (min-width: 768px) {
+  .card-list.block .card-bottom-left span {
+    display: flex;
+  }
 }
 
 .card-list.block .card-price {
