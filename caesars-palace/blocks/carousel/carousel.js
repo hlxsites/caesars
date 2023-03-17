@@ -182,7 +182,6 @@ function buildSlide(slide, index) {
       image.loading = 'eager';
     });
   }
-  }
 
   // build image slider content
   const slideMainImage = slide.children[0];
