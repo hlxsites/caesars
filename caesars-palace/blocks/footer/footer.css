@@ -161,7 +161,7 @@ footer .footer .footer-property-links ul.open {
 }
 
 footer .footer .rewards-wrapper {
-  --text-color: var(--static-color-black);
+  --text-color: var(--static-color-midnight);
 
   margin: 145px 0 calc((100vw - 100%) / -2);
   background-color: var(--static-color-light-gray);
