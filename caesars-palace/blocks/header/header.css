@@ -1,5 +1,10 @@
 /* stylelint-disable no-descending-specificity */
 
+header {
+  --nav-title-color: #707784;
+  --nav-item-color: #565d6a;
+}
+
 /* header and nav layout */
 header .nav-wrapper {
   background-color: var(--static-color-black);
@@ -180,7 +185,7 @@ header nav[aria-expanded=true] .nav-sections .global-nav-title {
   font-weight: bold;
   letter-spacing: 1px;
   line-height: 25px;
-  color: var(--static-color-slate-gray);
+  color: var(--nav-title-color);
   cursor: pointer;
   align-items: center;
   height: 44px;
@@ -249,7 +254,7 @@ header nav[aria-expanded=true] .nav-sections .global-nav[aria-expanded="true"] u
 header nav[aria-expanded=true] .nav-sections .local-nav[aria-expanded="true"] ul li a,
 header nav[aria-expanded=true] .nav-sections .global-nav[aria-expanded="true"] ul li a {
   text-decoration: none;
-  color: var(--button-hover-color-gray);
+  color: var(--nav-item-color);
   font-size: var(--body-font-size-s);
   font-weight: var(--clickable-font-weight);
   letter-spacing: 1.17px;

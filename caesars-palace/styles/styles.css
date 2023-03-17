@@ -28,15 +28,14 @@
   /* colors */
   --static-color-white: #fff;
   --static-color-black: #141414;
+  --static-color-midnight: #343840;
   --static-color-light-gray: #f1f1f6;
   --static-color-gray: #bec0c4;
   --static-color-gray-medium: #7c7c7c;
   --static-color-gray-dark: #4a4a4a;
-  --static-color-slate-gray: #707784;
+  --text-color: var(--static-color-midnight);
   --link-color: var(--static-color-black);
   --background-color: var(--static-color-white);
-  --text-color: #343840;
-  --button-hover-color-gray: #565d6a;
 
   /* fonts */
   --body-font-family: 'Open Sans', sans-serif;
@@ -44,12 +43,12 @@
   --fixed-font-family: "Roboto Mono", menlo, consolas, "Liberation Mono", monospace;
   --text-font-famly: "Montserrat", sans-serif;
 
-  /* body sizes */
+  /* body font sizes */
   --body-font-size-m: 18px;
   --body-font-size-s: 14px;
   --body-font-size-xs: 12px;
 
-  /* heading sizes */
+  /* heading font sizes */
   --heading-font-size-hero: 64px;
   --heading-font-size-xxl: 54px;
   --heading-font-size-xl: 36px;
@@ -99,10 +98,6 @@ body {
 
 body.appear {
   display: unset;
-}
-
-header {
-  height: var(--full-nav-height);
 }
 
 h1,
