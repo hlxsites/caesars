@@ -139,7 +139,29 @@ export default function decorate(block) {
   }
 
   const slider = document.querySelector('.slider-card');
+  const sliderWrapper = document.querySelector('.slider-card-wrapper');
   const slides = Array.from(document.querySelectorAll('.card'));
+
+  if (slides.length > 3) {
+    const chevronLeft = document.createElement('div');
+    chevronLeft.classList.add('chevron-left');
+
+    sliderWrapper.insertBefore(chevronLeft, slider);
+
+    const chevronLeftDiv = document.querySelector('.chevron-left');
+    const chevronLeftSvg = document.createElement('span');
+    chevronLeftSvg.classList.add('chevron-left-svg');
+    chevronLeftDiv.appendChild(chevronLeftSvg);
+
+    const chevronRight = document.createElement('div');
+    chevronRight.classList.add('chevron-right');
+
+    sliderWrapper.appendChild(chevronRight);
+    const chevronRightDiv = document.querySelector('.chevron-right');
+    const chevronRightSvg = document.createElement('span');
+    chevronRightSvg.classList.add('chevron-right-svg');
+    chevronRightDiv.appendChild(chevronRightSvg);
+  }
 
   function isADesktop() {
     const mediaDesktop = window.matchMedia('only screen and (min-width: 769px)');
@@ -198,14 +220,28 @@ export default function decorate(block) {
       currentIndex -= 1;
       indexFactor = -1;
     }
-
     setPositionByIndex();
     cancelAnimationFrame(animationID);
   }
 
+  document.querySelector('.chevron-left')?.addEventListener('click', () => {
+    if (currentIndex > 0) {
+      currentIndex -= 1;
+      indexFactor = -1;
+      setPositionByIndex();
+    }
+  });
+
+  document.querySelector('.chevron-right')?.addEventListener('click', () => {
+    if (slides.length - currentIndex > 3) {
+      currentIndex += 1;
+      indexFactor = 1;
+      setPositionByIndex();
+    }
+  });
+
   function moveEnd() {
     isDragging = false;
-    setPositionByIndex();
     cancelAnimationFrame(animationID);
   }
 
