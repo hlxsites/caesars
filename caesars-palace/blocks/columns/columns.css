@@ -56,6 +56,10 @@
     margin: 0 0 var(--layout-size-l);
 }
 
+.columns.columns-2-cols.intro > div:first-child p.button-container {
+    margin: 0;
+}
+
 .columns.columns-2-cols.intro > div:first-child p:not(.button-container) {
     display: none;
 }

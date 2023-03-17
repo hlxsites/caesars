@@ -185,10 +185,6 @@ button {
   text-transform: capitalize;
 }
 
-p.button-container {
-  margin: 0;
-}
-
 /* Link button */
 .button-container > a.primary {
   padding: var(--layout-size-xs) 0 0;
