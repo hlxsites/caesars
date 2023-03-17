@@ -1,0 +1,106 @@
+.section.featured-card-container {
+  padding-top: var(--layout-size-xl);
+  padding-bottom: var(--layout-size-xl);
+}
+
+.featured-card-wrapper {
+  padding-bottom: var(--layout-size-xs) !important;
+  background-color: rgba(0 0 0 / 80%);
+}
+
+.featured-card.block {
+  margin-top: -42px;
+}
+
+.featured-card[data-block-status="loaded"] .featured-card-background {
+  box-sizing: border-box;
+  overflow: hidden;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.featured-card[data-block-status="loaded"] .featured-card-background > div > picture {
+  position: absolute;
+  z-index: -4;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.featured-card[data-block-status="loaded"] .featured-card-background > div > picture img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.featured-card[data-block-status="loaded"] .featured-card-content {
+  display: flex;
+  flex-flow: column-reverse;
+  text-align: center;
+  color: var(--static-color-white);
+}
+
+.featured-card.block .featured-card-content h4 {
+  padding-top: var(--layout-size-m);
+  padding-bottom: var(--layout-size-m);
+}
+
+.featured-card.block .featured-card-image {
+  object-fit: cover;
+}
+
+.featured-card.block .featured-card-text .button-container {
+  padding-top: var(--layout-size-xs);
+}
+
+/* Responsive Breakpoints */
+@media only screen and (min-width: 768px) {
+  .featured-card.block .featured-card-content {
+    display: flex;
+    flex-flow: unset;
+    margin-top: 64px;
+    text-align: left;
+    color: var(--static-color-white);
+  }
+
+  .featured-card.block .featured-card-image {
+    flex: 1 0 50%;
+    max-width: 688px;
+  }
+
+  .featured-card.block .featured-card-image > picture {
+    position: relative;
+    bottom: -120px;
+  }
+
+  .featured-card.block .featured-card-text {
+    flex: 1 0 50%;
+  }
+
+  .featured-card-text > p,
+  .featured-card-text > h4 {
+    padding-left: var(--layout-size-xl);
+    padding-right: var(--layout-size-xl);
+  }
+
+  .featured-card.block .featured-card-text h4 {
+    font-weight: 600;
+    font-size: var(--heading-font-size-l);
+  }
+}
+
+@media only screen and (min-width: 960px) {
+  .featured-card.block .featured-card-image > picture {
+    position: relative;
+    bottom: -64px;
+  }
+}
+
+@media only screen and (min-width: 1170px) {
+  .featured-card.block .featured-card-image > picture {
+    position: relative;
+    bottom: -24px;
+  }
+}
