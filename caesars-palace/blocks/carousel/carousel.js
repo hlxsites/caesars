@@ -403,8 +403,6 @@ export default async function decorate(block) {
       }
     });
   };
-  const carouselObserver = new IntersectionObserver(handleAutoScroll, intersectionOptions);
-  carouselObserver.observe(block);
 
   const observer = new IntersectionObserver((entries) => {
     if (entries.some((e) => e.isIntersecting)) {
