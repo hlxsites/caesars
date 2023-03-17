@@ -81,6 +81,7 @@ export default function decorate(block) {
   let prevTranslate = 0;
   let animationID = 0;
   let currentIndex = 0;
+  let indexFactor = 0;
 
   mediaWidthChangeHandler(mediaQuery);
   mediaQuery.addEventListener('change', (event) => {
@@ -171,20 +172,13 @@ export default function decorate(block) {
   }
 
   function setPositionByIndex() {
-    const scalingFactor = isATablet() ? 0.96 : 0.85;
-    if (isADesktop()) {
-      /* Number of cards x card-width */
-      if (slides.length <= 3 && window.innerWidth < 3 * 320 && prevTranslate === 0) {
-        currentTranslate = currentIndex * -window.innerWidth * 0.4;
-      } else if (slides.length > 3) {
-        currentTranslate = currentIndex * -window.innerWidth * 0.13;
-      } else {
-        currentTranslate = 0;
-      }
+    if (currentIndex === 0) {
+      currentTranslate = 0;
+    } else if (currentIndex === slides.length) {
+      currentTranslate = prevTranslate;
+    } else {
+      currentTranslate = prevTranslate - indexFactor * slides[0].offsetWidth;
     }
-    currentTranslate = isADesktop()
-      ? currentTranslate
-      : currentIndex * -window.innerWidth * scalingFactor;
     prevTranslate = currentTranslate;
     setSliderPosition();
   }
@@ -195,12 +189,14 @@ export default function decorate(block) {
     const movedBy = currentTranslate - prevTranslate;
 
     if ((!isADesktop() || slides.length > 3)
-    && movedBy < -100 && currentIndex < slides.length - 1) {
+    && movedBy < -100 && currentIndex < slides.length) {
       currentIndex += 1;
+      indexFactor = 1;
     }
     if ((!isADesktop() || slides.length > 3)
      && movedBy > 100 && currentIndex > 0) {
       currentIndex -= 1;
+      indexFactor = -1;
     }
 
     setPositionByIndex();
