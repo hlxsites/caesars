@@ -321,20 +321,20 @@
   margin-right: 10px;
 }
 
-.card-list.block .active-filter-list > li > label {
+.card-list.block .active-filter-list li label {
   margin: 0;
   font-size: 12px;
   align-items: center;
   display: flex;
 }
 
-.card-list.block .active-filter-list > li > span {
+.card-list.block .active-filter-list li span {
   height: 18px;
   width: 18px;
   margin-left: 5px;
 }
 
-.card-list.block .active-filter-list > li > span:hover {
+.card-list.block .active-filter-list li span:hover {
   background: url('../../icons/times.svg') no-repeat;
   cursor: pointer;
 }
@@ -483,20 +483,29 @@
   margin-left: 8px;
 }
 
-.card-list.block .dropdown.open .dropdown-content {
-  transition: opacity 250ms cubic-bezier(0.4,0,0.2,1);
-  visibility: visible;
-  opacity: 1;
-}
-
-.card-list.block .dropdown .dropdown-content {
+.card-list.block .dropdown-content {
+  font-size: 14px;
   top: 48px;
+  position: absolute;
+  background-color: #fff;
+  min-width: 200px;
   width: 100%;
-  min-width: 200px
+  z-index: 1;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -1px rgb(0 0 0 / 6%);
+  padding: 4px 0;
+  visibility: collapse;
+  opacity: 0;
+  transition: visibility 0 300ms,opacity 300ms cubic-bezier(0.4,0,0.2,1);
 }
 
 .card-list.block .filter-panel .dropdown-content {
   top: 70px;
+}
+
+.card-list.block .dropdown.open .dropdown-content {
+  transition: opacity 250ms cubic-bezier(0.4,0,0.2,1);
+  visibility: visible;
+  opacity: 1;
 }
 
 .card-list.block .dropdown .dropdown-target-icon {
@@ -518,20 +527,6 @@
 
 .card-list.block .filter-panel .dropdown-target-button a {
   color: #fff;
-}
-
-.card-list.block .dropdown-content {
-  font-size: 14px;
-  top: 70px;
-  position: absolute;
-  background-color: #fff;
-  min-width: 160px;
-  z-index: 1;
-  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -1px rgb(0 0 0 / 6%);
-  padding: 4px 0;
-  visibility: collapse;
-  opacity: 0;
-  transition: visibility 0 300ms,opacity 300ms cubic-bezier(0.4,0,0.2,1);
 }
 
 
@@ -595,7 +590,7 @@
   display: flex;
 }
 
-.card-list.block .card-image > a {
+.card-list.block .card-image a {
   flex-direction: column;
 }
 
@@ -618,7 +613,7 @@
     box-shadow: 0 2px 4px 0 rgba(0,0,0,10%);
   }
 
-  .card-list.block .card-image > a {
+  .card-list.block .card-image a {
     flex-direction: unset;
   }
 }
@@ -631,7 +626,7 @@
   }
 }
 
-.card-list.block .card-image > a > picture > img {
+.card-list.block .card-image a picture img {
   display: block;
   height: 100px;
   width: 120px;
@@ -642,7 +637,7 @@
 }
 
 @media only screen and (min-width: 480px) {
-  .card-list.block .card-image > a > picture > img {
+  .card-list.block .card-image a picture img {
     width: 180px;
     min-width: 180px;
     border-radius: 8px 0 0 8px;
@@ -652,7 +647,7 @@
 }
 
 @media only screen and (min-width: 768px) {
-  .card-list.block .card-image > a > picture > img {
+  .card-list.block .card-image a picture img {
     height: inherit;
     object-fit: cover;
     width: 100%;
@@ -851,7 +846,7 @@
   }
 }
 
-.card-list.block .card-bottom-right > a {
+.card-list.block .card-bottom-right a {
   display: flex;
   background: transparent;
   border: 1px solid rgba(112,119,132,30%);
@@ -862,7 +857,7 @@
   width: 36px;
 }
 
-.card-list.block .card-bottom-right > a::after {
+.card-list.block .card-bottom-right a::after {
   background: url('../../icons/arrow-right.svg') no-repeat;
   width: 20px;
   height: 20px;
