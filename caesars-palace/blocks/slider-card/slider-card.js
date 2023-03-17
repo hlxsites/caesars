@@ -3,23 +3,34 @@ export default function decorate(block) {
   cardWrapper.classList.add('card-wrapper');
   block.querySelectorAll('div.slider-card > div').forEach((div) => {
     div.classList.add('card');
-    const imageDiv = div.children[0];
-    imageDiv.children[0].children[3].classList.add('card-image');
-    div.children[1].classList.add('short-description');
-    div.children[2].classList.add('long-description');
+    let index = 0;
+    if (div.getElementsByTagName('picture').length > 0) {
+      const imageDiv = div.children[index];
+      imageDiv.children[index].children[3].classList.add('card-image');
+      index += 1;
+    }
+    div.children[index].classList.add('short-description');
+    div.children[index + 1].classList.add('long-description');
     const closeButton = document.createElement('div');
     closeButton.classList.add('close-button');
     closeButton.classList.add('hide');
-    div.insertBefore(closeButton, div.children[2]);
+    div.insertBefore(closeButton, div.children[index + 1]);
   });
 
   const shortDescriptionDivs = document.querySelectorAll('.short-description');
   shortDescriptionDivs.forEach((div) => {
+    let showMore;
     const title = div.children[0].children[0];
     title.classList.add('title');
-    const showMore = div.children[1].children[0];
-    if (showMore) {
-      showMore.classList.add('show-more');
+    if (div.children.length >= 3) {
+      [, , showMore] = div.children;
+      const discount = div.children[1].children[0];
+      discount.classList.add('discount');
+    } else {
+      [, showMore] = div.children;
+    }
+    if (showMore && showMore.children.length > 0) {
+      showMore.children[0].classList.add('show-more');
     }
   });
 
@@ -86,9 +97,13 @@ export default function decorate(block) {
   document.querySelectorAll('.close-button').forEach((item) => {
     item.addEventListener('click', (event) => {
       const { parentNode } = event.target;
-      parentNode.children[1].classList.remove('hide');
-      parentNode.children[2].classList.add('hide');
-      parentNode.children[3].classList.remove('show');
+      let index = 0;
+      if (parentNode.getElementsByTagName('picture').length > 0) {
+        index += 1;
+      }
+      parentNode.children[index].classList.remove('hide');
+      parentNode.children[index + 1].classList.add('hide');
+      parentNode.children[index + 2].classList.remove('show');
     });
   });
 
@@ -97,9 +112,14 @@ export default function decorate(block) {
   document.querySelectorAll('.show-more').forEach((item) => {
     item.addEventListener('click', (event) => {
       const { parentNode } = event.target;
+      let index = 0;
+      // To account for cards that have an image
+      if (parentNode.parentNode.parentNode.getElementsByTagName('picture').length > 0) {
+        index += 1;
+      }
       parentNode.parentNode.classList.add('hide');
-      parentNode.parentNode.parentNode.children[2].classList.remove('hide');
-      parentNode.parentNode.parentNode.children[3].classList.add('show');
+      parentNode.parentNode.parentNode.children[index + 1].classList.remove('hide');
+      parentNode.parentNode.parentNode.children[index + 2].classList.add('show');
     });
   });
 
@@ -154,8 +174,10 @@ export default function decorate(block) {
     const scalingFactor = isATablet() ? 0.96 : 0.85;
     if (isADesktop()) {
       /* Number of cards x card-width */
-      if (window.innerWidth < 3 * 320 && prevTranslate === 0) {
+      if (slides.length <= 3 && window.innerWidth < 3 * 320 && prevTranslate === 0) {
         currentTranslate = currentIndex * -window.innerWidth * 0.4;
+      } else if (slides.length > 3) {
+        currentTranslate = currentIndex * -window.innerWidth * 0.13;
       } else {
         currentTranslate = 0;
       }
@@ -172,11 +194,12 @@ export default function decorate(block) {
 
     const movedBy = currentTranslate - prevTranslate;
 
-    if (!isADesktop() && movedBy < -100 && currentIndex < slides.length - 1) {
+    if ((!isADesktop() || slides.length > 3)
+    && movedBy < -100 && currentIndex < slides.length - 1) {
       currentIndex += 1;
     }
-
-    if (!isADesktop() && movedBy > 100 && currentIndex > 0) {
+    if ((!isADesktop() || slides.length > 3)
+     && movedBy > 100 && currentIndex > 0) {
       currentIndex -= 1;
     }
 

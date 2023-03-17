@@ -29,7 +29,6 @@
   border: 1px solid var(--highlight-background-color);
   background: #fff;
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%);
-  height: 180px;
 }
 
 .slider-card .card .short-description.hide {
@@ -57,6 +56,10 @@
   text-transform: uppercase;
 }
 
+.slider-card .card .button-container {
+  text-align: right;
+}
+
 .slider-card .card .show-more {
   text-transform: lowercase;
   cursor: pointer;
@@ -72,7 +75,6 @@
   background: #fff;
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%);
   display: block;
-  height: 180px;
 }
 
 .slider-card .card .long-description.show > p:first-of-type {
@@ -97,10 +99,10 @@
 
 @media (min-width: 769px) {
   .slider-card-wrapper .slider-card {
-    display: grid;
-    grid-template-columns: repeat(3, minmax(320px, 1fr));
-    grid-auto-rows: 1fr;
-    grid-gap: 16px;
+    display: flex;
+    flex-direction: row;
+    width: calc(100%/3);
+    gap: 16px;
     font-size: 16px;
   }
 
@@ -111,7 +113,6 @@
     position: relative;
     padding: 16px;
     font-size: 16px;
-    height: 190px;
   }
 
   .slider-card .card .long-description.show {
@@ -120,7 +121,6 @@
     position: relative;
     padding: 16px;
     display: block;
-    height: 190px;
   }
 
   .slider-card .card .close-button {
