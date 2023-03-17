@@ -96,7 +96,7 @@
     visibility: visible;
   }
 
-  .carousel.block .carousel-alt-video {
+  .carousel.block[data-block-status="loaded"] .carousel-alt-video {
     position: unset;
     visibility: visible;
   }
@@ -136,7 +136,7 @@
     padding: 10px;
   }
   
-  .carousel.block .carousel-nav:hover {
+  .carousel.block[data-block-status="loaded"] .carousel-nav:hover {
     border: 0;
     border-radius: 50%;
     background-color: rgba(190 192 197 / 20%);
