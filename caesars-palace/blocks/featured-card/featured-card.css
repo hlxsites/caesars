@@ -45,8 +45,6 @@
 .featured-card-content h4 {
   padding-top: var(--layout-size-m);
   padding-bottom: var(--layout-size-m);
-  font-weight: 600;
-  font-size: 36px;
 }
 
 .featured-card-image {
