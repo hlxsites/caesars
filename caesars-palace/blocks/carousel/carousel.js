@@ -223,6 +223,9 @@ function addClones(element) {
 
   const cloneForBeginning = createClone(initialChildren[initialChildren.length - 1], 0);
   element.firstChild.before(cloneForBeginning);
+  element.firstChild.querySelectorAll('img').forEach((image) => {
+    image.loading="eager";
+  });
 }
 
 /**
@@ -357,15 +360,8 @@ export default async function decorate(block) {
   addClones(carousel);
   block.append(carousel);
 
-  // add nav buttons
-  if (slides.length > 1) {
-    const prevBtn = await buildNav('prev');
-    const nextBtn = await buildNav('next');
-    block.append(prevBtn, nextBtn);
-  }
-
   const mediaWidthQueryMatcher = window.matchMedia('only screen and (min-width: 1170px)');
-  const mediaWidthChangeHandler = (event) => {
+  const mediaWidthChangeHandler = async (event) => {
     if (event.matches === false) {
       block.querySelectorAll('video').forEach((videoElement) => {
         videoElement.autoplay = false;
@@ -380,6 +376,11 @@ export default async function decorate(block) {
         videoElement.muted = true;
         videoElement.play();
       });
+      if (slides.length > 1) {
+        const prevBtn = await buildNav('prev');
+        const nextBtn = await buildNav('next');
+        block.append(prevBtn, nextBtn);
+      }
     }
   };
 
