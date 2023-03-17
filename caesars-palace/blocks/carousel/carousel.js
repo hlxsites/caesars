@@ -377,6 +377,7 @@ export default async function decorate(block) {
         videoElement.autoplay = true;
         videoElement.loop = true;
         videoElement.playsinline = true;
+        videoElement.muted = true;
         videoElement.play();
       });
     }
