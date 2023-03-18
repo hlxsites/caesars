@@ -32,8 +32,8 @@
   top: 30%;
   left: -.5%;
   background-color: white;
-  width: 50px;
-  height: 50px;
+  width: 30px;
+  height: 30px;
   border-radius: 80%;
 }
 
@@ -41,9 +41,9 @@
   background: url("../../icons/chevron-left.svg") no-repeat;
   min-width: 20px;
   min-height: 20px;
-  transform: scale(1.5);
-  left: 25px;
-  top: 15px;
+  transform: scale(1.0);
+  left: 10px;
+  top: 7px;
   z-index: 90;
   position: absolute;
 }
@@ -54,10 +54,10 @@
   position: absolute;
   z-index: 100;
   top: 30%;
-  right: -1%;
+  right: 0.5%;
   background-color: white;
-  width: 50px;
-  height: 50px;
+  width: 30px;
+  height: 30px;
   border-radius: 80%;
 }
 
@@ -65,9 +65,9 @@
   background: url("../../icons/chevron-right.svg") no-repeat;
   min-width: 20px;
   min-height: 20px;
-  transform: scale(1.5);
-  left: 25px;
-  top: 15px;
+  transform: scale(1.0);
+  left: 10px;
+  top: 7px;
   z-index: 90;
   position: absolute;
 }
@@ -149,7 +149,7 @@
   .slider-card-wrapper .slider-card {
     display: flex;
     flex-direction: row;
-    width: calc(100%/3);
+    width: calc((100%/3) - 10px);
     gap: 10px;
     font-size: 16px;
   }
