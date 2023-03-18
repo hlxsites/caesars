@@ -199,7 +199,7 @@ export default function decorate(block) {
     } else if (currentIndex === slides.length) {
       currentTranslate = prevTranslate;
     } else {
-      currentTranslate = prevTranslate - indexFactor * slides[0].offsetWidth;
+      currentTranslate = prevTranslate - (indexFactor) * slides[0].offsetWidth;
     }
     prevTranslate = currentTranslate;
     setSliderPosition();
@@ -211,16 +211,18 @@ export default function decorate(block) {
     const movedBy = currentTranslate - prevTranslate;
 
     if ((!isADesktop() || slides.length > 3)
-    && movedBy < -100 && currentIndex < slides.length) {
+    && movedBy !== 0 && movedBy < -100 && currentIndex < slides.length) {
       currentIndex += 1;
       indexFactor = 1;
     }
     if ((!isADesktop() || slides.length > 3)
-     && movedBy > 100 && currentIndex > 0) {
+     && movedBy !== 0 && movedBy > 100 && currentIndex > 0) {
       currentIndex -= 1;
       indexFactor = -1;
     }
-    setPositionByIndex();
+    if (movedBy !== 0) {
+      setPositionByIndex();
+    }
     cancelAnimationFrame(animationID);
   }
 
