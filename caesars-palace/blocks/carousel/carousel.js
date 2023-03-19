@@ -188,9 +188,7 @@ function buildSlide(slide, index) {
     slideAltImage.classList.add('carousel-alt-image');
   }
   slide.children[2].classList.add('carousel-text');
-
   slide.style.transform = `translateX(${index * 100}%)`;
-
   return slide;
 }
 
@@ -201,7 +199,6 @@ function buildSlide(slide, index) {
  */
 function createClone(item, targetIndex) {
   const clone = item.cloneNode(true);
-  clone.classList.add('clone');
   clone.id = `data-slide-index${targetIndex}`;
   clone.setAttribute('data-slide-index', targetIndex);
   clone.style.transform = `translateX(${targetIndex * 100}%)`;
@@ -218,14 +215,14 @@ function addClones(element) {
 
   const initialChildren = [...element.children];
 
-  const cloneForEnd = createClone(initialChildren[0], initialChildren.length + 1);
-  element.lastChild.after(cloneForEnd);
-
   const cloneForBeginning = createClone(initialChildren[initialChildren.length - 1], 0);
   element.firstChild.before(cloneForBeginning);
   element.firstChild.querySelectorAll('img').forEach((image) => {
     image.loading = 'eager';
   });
+
+  const cloneForEnd = createClone(initialChildren[0], initialChildren.length + 1);
+  element.lastChild.after(cloneForEnd);
 }
 
 /**
@@ -263,17 +260,17 @@ export default async function decorate(block) {
   block.querySelectorAll('a').forEach((videoLink) => {
     const foundLink = videoLink.href;
     if (foundLink && foundLink.endsWith('.mp4')) {
-      const divToReplace = videoLink.closest('div');
-      divToReplace.classList.add('carousel-alt-video');
-
       const videoDiv = document.createElement('div');
       videoDiv.classList.add('carousel-video');
 
       const videoElement = document.createElement('video');
-      videoElement.innerHTML = `<source src="${videoLink.href}" type="video/mp4">`;
+      videoElement.innerHTML = `<source src="${foundLink}" type="video/mp4">`;
       videoElement.muted = true;
-      videoDiv.appendChild(videoElement);
 
+      const divToReplace = videoLink.closest('div');
+      divToReplace.classList.add('carousel-alt-video');
+
+      videoDiv.appendChild(videoElement);
       divToReplace.appendChild(videoElement);
       videoLink.remove();
     }
