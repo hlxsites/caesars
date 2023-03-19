@@ -232,11 +232,11 @@ function addClones(element) {
  * Defaults to DEFAULT_SCROLL_INTERVAL_MS
  */
 function startAutoScroll(block, interval) {
-  const intervalToUse = interval || DEFAULT_SCROLL_INTERVAL_MS;
   if (!scrollInterval) {
     scrollInterval = setInterval(() => {
-      scrollToSlide(block, curSlide < maxVisibleSlides ? curSlide + 1 : firstVisibleSlide);
-    }, intervalToUse);
+      const targetSlide = curSlide <= maxVisibleSlides ? curSlide + 1 : 0;
+      scrollToSlide(block, targetSlide);
+    }, interval || DEFAULT_SCROLL_INTERVAL_MS);
   }
 }
 
