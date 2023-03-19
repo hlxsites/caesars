@@ -131,26 +131,26 @@ function snapScroll(el, dir = 1) {
  * @param dir A string of either 'prev or 'next'
  * @return {HTMLDivElement} The resulting nav element
  */
-async function buildNav(navigrationDirection) {
+async function buildNav(navigationDirection) {
   const btn = document.createElement('div');
 
   let chevron;
-  if (navigrationDirection === NAVIGATION_DIRECTION_PREV) {
+  if (navigationDirection === NAVIGATION_DIRECTION_PREV) {
     chevron = await getChevronSvg('icons/chevron-left.svg');
-  } else if (navigrationDirection === NAVIGATION_DIRECTION_NEXT) {
+  } else if (navigationDirection === NAVIGATION_DIRECTION_NEXT) {
     chevron = await getChevronSvg('icons/chevron-right.svg');
   }
   const chevronButton = document.createElement('span');
   chevronButton.innerHTML = chevron;
   btn.appendChild(chevronButton);
 
-  btn.classList.add('carousel-nav', `carousel-nav-${navigrationDirection}`);
+  btn.classList.add('carousel-nav', `carousel-nav-${navigationDirection}`);
   btn.addEventListener('click', (e) => {
     let nextSlide = firstVisibleSlide;
 
-    if (navigrationDirection === NAVIGATION_DIRECTION_PREV) {
+    if (navigationDirection === NAVIGATION_DIRECTION_PREV) {
       nextSlide = curSlide === firstVisibleSlide ? 0 : curSlide - 1;
-    } else if (navigrationDirection === NAVIGATION_DIRECTION_NEXT) {
+    } else if (navigationDirection === NAVIGATION_DIRECTION_NEXT) {
       nextSlide = curSlide === maxVisibleSlides ? maxVisibleSlides + 1 : curSlide + 1;
     }
 
@@ -171,9 +171,6 @@ async function buildNav(navigrationDirection) {
 function buildSlide(slide, index) {
   slide.setAttribute('id', `${SLIDE_ID_PREFIX}${index}`);
   slide.setAttribute('data-slide-index', index);
-  slide.classList.add('carousel-slide');
-  slide.style.transform = `translateX(${index * 100}%)`;
-
   slide.setAttribute('role', 'tabpanel');
   if (index !== firstVisibleSlide) {
     slide.setAttribute('tabindex', '-1');
@@ -182,18 +179,17 @@ function buildSlide(slide, index) {
       image.loading = 'eager';
     });
   }
+  slide.classList.add('carousel-slide');
 
   // build image slider content
-  const slideMainImage = slide.children[0];
-  slideMainImage.classList.add('carousel-main-image');
-
+  slide.children[0].classList.add('carousel-main-image');
   const slideAltImage = slide.children[1];
   if (!slideAltImage.classList.contains('carousel-alt-video')) {
     slideAltImage.classList.add('carousel-alt-image');
   }
+  slide.children[2].classList.add('carousel-text');
 
-  const slideTextImage = slide.children[2];
-  slideTextImage.classList.add('carousel-text');
+  slide.style.transform = `translateX(${index * 100}%)`;
 
   return slide;
 }
@@ -287,6 +283,18 @@ export default async function decorate(block) {
   const carousel = document.createElement('div');
   carousel.classList.add('carousel-slide-container');
 
+  // add carousel to page
+  const slides = [...block.children];
+  maxVisibleSlides = slides.length;
+  slides.forEach((slide, index) => {
+    carousel.appendChild(buildSlide(slide, index + 1));
+  });
+  addClones(carousel);
+  block.append(carousel);
+  setTimeout(() => {
+    scrollToSlide(block, firstVisibleSlide, 'instant');
+  }, 0);
+
   // make carousel draggable and swipeable
   let isDown = false;
   let startX = 0;
@@ -354,18 +362,6 @@ export default async function decorate(block) {
     const walk = (x - startX);
     carousel.scrollLeft = prevScroll - walk;
   }, { passive: true });
-
-  // add carousel to page
-  const slides = [...block.children];
-  maxVisibleSlides = slides.length;
-  slides.forEach((slide, index) => {
-    carousel.appendChild(buildSlide(slide, index + 1));
-  });
-  addClones(carousel);
-  block.append(carousel);
-  setTimeout(() => {
-    scrollToSlide(block, firstVisibleSlide, 'instant');
-  }, 0);
 
   const mediaWidthQueryMatcher = window.matchMedia('only screen and (min-width: 1170px)');
   const mediaWidthChangeHandler = async (event) => {
