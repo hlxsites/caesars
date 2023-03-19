@@ -363,6 +363,9 @@ export default async function decorate(block) {
   });
   addClones(carousel);
   block.append(carousel);
+  setTimeout(() => {
+    scrollToSlide(block, firstVisibleSlide, 'instant');
+  }, 0);
 
   const mediaWidthQueryMatcher = window.matchMedia('only screen and (min-width: 1170px)');
   const mediaWidthChangeHandler = async (event) => {
@@ -387,7 +390,6 @@ export default async function decorate(block) {
       }
     }
   };
-
   mediaWidthChangeHandler(mediaWidthQueryMatcher);
   mediaWidthQueryMatcher.addEventListener('change', (event) => {
     mediaWidthChangeHandler(event);
@@ -408,11 +410,10 @@ export default async function decorate(block) {
       }
     });
   };
-
   const observer = new IntersectionObserver((entries) => {
     if (entries.some((e) => e.isIntersecting)) {
       handleAutoScroll(entries);
-      scrollToSlide(block, firstVisibleSlide, 'instant');
+      // scrollToSlide(block, firstVisibleSlide, 'instant');
     }
   }, intersectionOptions);
   observer.observe(block);
