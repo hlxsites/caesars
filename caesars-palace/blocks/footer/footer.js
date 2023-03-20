@@ -113,6 +113,7 @@ export default async function decorate(block) {
           link.target = '_blank';
           const textNode = [...link.childNodes].find((node) => node.nodeType === 3);
           const span = document.createElement('span');
+          link.setAttribute('aria-label', `${textNode.textContent.toLowerCase()} link`);
           span.appendChild(textNode);
           link.appendChild(span);
         });
