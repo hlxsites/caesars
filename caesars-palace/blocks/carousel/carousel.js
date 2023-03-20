@@ -367,6 +367,7 @@ export default async function decorate(block) {
   const mediaWidthChangeHandler = async (event) => {
     if (event.matches === false) {
       block.querySelectorAll('video').forEach((videoElement) => {
+        videoElement.muted = true;
         videoElement.autoplay = false;
         videoElement.loop = false;
         videoElement.playsinline = false;
