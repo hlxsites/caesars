@@ -14,7 +14,6 @@ export default async function decorate(block) {
   const cfg = readBlockConfig(block);
   block.textContent = '';
 
-  const rewardsPath = cfg.rewards || '/caesars-palace/rewards';
   const footerPath = cfg.footer || '/caesars-palace/footer';
 
   const contentPaths = {
@@ -24,8 +23,8 @@ export default async function decorate(block) {
     },
   };
 
-  const includeRewards = getMetadata('rewards') || true;
-  if (includeRewards || includeRewards === 'true') {
+  const rewardsPath = getMetadata('rewards') || '/caesars-palace/rewards';
+  if (rewardsPath && rewardsPath !== 'none') {
     contentPaths.rewards = {
       path: `${rewardsPath}.plain.html`,
       isFragment: true,
@@ -68,13 +67,19 @@ export default async function decorate(block) {
   }));
 
   // add rewards
-  const { content: rewards } = contentBlocks.find((cb) => cb.name === 'rewards');
+  const { content: rewards } = contentBlocks.find(
+    (cb) => cb.name === 'rewards',
+  ) || {};
+
   if (rewards) {
     block.append(rewards);
   }
 
   // add footer
-  const { content: footer } = contentBlocks.find((cb) => cb.name === 'footer');
+  const { content: footer } = contentBlocks.find(
+    (cb) => cb.name === 'footer',
+  ) || {};
+
   if (footer) {
     block.append(footer);
   }
