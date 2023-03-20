@@ -503,6 +503,10 @@ main .section.is-hero.has-video-background h1 {
   margin-top: 145px;
 }
 
+main .section.is-hero.has-centered-hero-text h1 {
+  margin-top: 360px;
+}
+
 main .section.is-hero.has-video-background picture {
   position: absolute;
   z-index: -5;
