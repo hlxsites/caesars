@@ -9,7 +9,7 @@
  * - next and previous navigation button
  */
 
-// TMN-TODO Use createOptimizedImage
+import { createOptimizedPicture } from '../../scripts/lib-franklin.js';
 
 const DEFAULT_SCROLL_INTERVAL_MS = 5000;
 const SLIDE_ID_PREFIX = 'carousel-slide';
@@ -285,10 +285,11 @@ export default async function decorate(block) {
   // add carousel to page
   const slides = [...block.children];
   maxVisibleSlides = slides.length;
+  const slidesToAdd = new Array(maxVisibleSlides);
   slides.forEach((slide, index) => {
-    // TMN-TODO Optimize DOM access
-    carousel.appendChild(buildSlide(slide, index + 1));
+    slidesToAdd[index] = buildSlide(slide, index + 1);
   });
+  carousel.append(...slidesToAdd);
   addClones(carousel);
   block.append(carousel);
   setTimeout(() => {
@@ -365,15 +366,21 @@ export default async function decorate(block) {
 
   const mediaWidthQueryMatcher = window.matchMedia('only screen and (min-width: 1170px)');
   const mediaWidthChangeHandler = async (event) => {
-    if (event.matches === false) {
+    if (event.matches === false) { 
+      // mobile
       block.querySelectorAll('video').forEach((videoElement) => {
         videoElement.muted = true;
         videoElement.autoplay = false;
         videoElement.loop = false;
         videoElement.playsinline = false;
       });
+
+      block.querySelectorAll('img').forEach((image) => {
+        image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '1170' }]))
+      });
     } else {
       block.querySelectorAll('video').forEach((videoElement) => {
+        // desktop
         videoElement.autoplay = true;
         videoElement.loop = true;
         videoElement.playsinline = true;
