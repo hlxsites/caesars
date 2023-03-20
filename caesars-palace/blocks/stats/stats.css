@@ -40,6 +40,8 @@ div.stats-container .stats svg {
 
 div.stats-container .stats p {
   text-align: center;
+  margin-top: 24px;
+  padding-bottom: 0;
 }
 
 /* Responsive breakpoints */
