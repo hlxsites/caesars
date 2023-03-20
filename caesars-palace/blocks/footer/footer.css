@@ -1,4 +1,4 @@
-footer {
+footer{
   --text-color: var(--static-color-white);
   --link-color: var(--static-color-white);
   --heading-font-family: var(--body-font-family);
@@ -7,6 +7,14 @@ footer {
   background-color: var(--static-color-black);
   font-size: 14px;
   color: var(--text-color);
+}
+
+footer .footer {
+  display: none;
+}
+
+footer .footer[data-block-status="loaded"] {
+  display: block;
 }
 
 footer .footer .footer-wrapper {
