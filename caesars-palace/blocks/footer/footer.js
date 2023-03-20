@@ -6,33 +6,7 @@ import {
   decorateMain,
 } from '../../scripts/scripts.js';
 
-/**
- * loads and decorates the footer
- * @param {Element} block The header block element
- */
-
-export default async function decorate(block) {
-  const cfg = readBlockConfig(block);
-  block.textContent = '';
-
-  const rewardsPath = cfg.rewards || '/caesars-palace/rewards';
-  const footerPath = cfg.footer || '/caesars-palace/footer';
-
-  const contentPaths = {
-    footer: {
-      path: `${footerPath}.plain.html`,
-      isFragment: false,
-    },
-  };
-
-  const includeRewards = getMetadata('rewards') || true;
-  if (includeRewards || includeRewards === 'true') {
-    contentPaths.rewards = {
-      path: `${rewardsPath}.plain.html`,
-      isFragment: true,
-    };
-  }
-
+async function loadFooterContent(block, contentPaths) {
   const contentEntries = Object.entries(contentPaths);
   const resp = await Promise.allSettled(contentEntries.map(
     ([name, content]) => (
@@ -142,4 +116,35 @@ export default async function decorate(block) {
       }
     }));
   }
+}
+
+/**
+ * loads and decorates the footer
+ * @param {Element} block The header block element
+ */
+export default async function decorate(block) {
+  const cfg = readBlockConfig(block);
+  block.textContent = '';
+
+  const rewardsPath = cfg.rewards || '/caesars-palace/rewards';
+  const footerPath = cfg.footer || '/caesars-palace/footer';
+
+  const contentPaths = {
+    footer: {
+      path: `${footerPath}.plain.html`,
+      isFragment: false,
+    },
+  };
+
+  const includeRewards = getMetadata('rewards') || true;
+  if (includeRewards || includeRewards === 'true') {
+    contentPaths.rewards = {
+      path: `${rewardsPath}.plain.html`,
+      isFragment: true,
+    };
+  }
+
+  setTimeout(() => {
+    loadFooterContent(block, contentPaths);
+  }, 300);
 }
