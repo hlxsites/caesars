@@ -9,6 +9,8 @@
  * - next and previous navigation button
  */
 
+import { createOptimizedPicture } from '../../scripts/lib-franklin.js';
+
 const DEFAULT_SCROLL_INTERVAL_MS = 5000;
 const SLIDE_ID_PREFIX = 'carousel-slide';
 const NAVIGATION_DIRECTION_PREV = 'prev';
@@ -174,11 +176,15 @@ function buildSlide(slide, index) {
   slide.setAttribute('role', 'tabpanel');
   if (index !== firstVisibleSlide) {
     slide.setAttribute('tabindex', '-1');
-  } else {
+  }
+
+  if (index === firstVisibleSlide
+    || index === firstVisibleSlide + 1) {
     slide.querySelectorAll('img').forEach((image) => {
       image.loading = 'eager';
     });
   }
+
   slide.classList.add('carousel-slide');
 
   // build image slider content
@@ -283,9 +289,11 @@ export default async function decorate(block) {
   // add carousel to page
   const slides = [...block.children];
   maxVisibleSlides = slides.length;
+  const slidesToAdd = new Array(maxVisibleSlides);
   slides.forEach((slide, index) => {
-    carousel.appendChild(buildSlide(slide, index + 1));
+    slidesToAdd[index] = buildSlide(slide, index + 1);
   });
+  carousel.append(...slidesToAdd);
   addClones(carousel);
   block.append(carousel);
   setTimeout(() => {
@@ -364,9 +372,14 @@ export default async function decorate(block) {
   const mediaWidthChangeHandler = async (event) => {
     if (event.matches === false) {
       block.querySelectorAll('video').forEach((videoElement) => {
+        videoElement.muted = true;
         videoElement.autoplay = false;
         videoElement.loop = false;
         videoElement.playsinline = false;
+      });
+
+      block.querySelectorAll('img').forEach((image) => {
+        image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '1170' }]));
       });
     } else {
       block.querySelectorAll('video').forEach((videoElement) => {
@@ -406,7 +419,6 @@ export default async function decorate(block) {
   const observer = new IntersectionObserver((entries) => {
     if (entries.some((e) => e.isIntersecting)) {
       handleAutoScroll(entries);
-      // scrollToSlide(block, firstVisibleSlide, 'instant');
     }
   }, intersectionOptions);
   observer.observe(block);
