@@ -366,7 +366,7 @@ export default async function decorate(block) {
 
   const mediaWidthQueryMatcher = window.matchMedia('only screen and (min-width: 1170px)');
   const mediaWidthChangeHandler = async (event) => {
-    if (event.matches === false) { 
+    if (event.matches === false) {
       // mobile
       block.querySelectorAll('video').forEach((videoElement) => {
         videoElement.muted = true;
@@ -376,7 +376,7 @@ export default async function decorate(block) {
       });
 
       block.querySelectorAll('img').forEach((image) => {
-        image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '1170' }]))
+        image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '1170' }]));
       });
     } else {
       block.querySelectorAll('video').forEach((videoElement) => {
