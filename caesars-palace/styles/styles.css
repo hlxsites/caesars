@@ -345,11 +345,11 @@ main .section.has-background > picture img {
 }
 
 main .section.margin-top {
-  margin: var(--layout-size-xxl) 0 0;
+  margin: var(--layout-size-xl) 0 0;
 }
 
 main .section.margin-bottom {
-  margin: 0 0 var(--layout-size-xxl);
+  margin: 0 0 var(--layout-size-xl);
 }
 
 main .section.has-overlay {
@@ -374,6 +374,14 @@ main .section > div {
   padding: 0 var(--layout-size-m);
 }
 
+main .section > div:first-of-type {
+  padding-top: var(--layout-size-xl);
+}
+
+main .section > div:last-of-type {
+  padding-bottom: var(--layout-size-xl);
+}
+
 /* progressive section appearance */
 main .section[data-section-status='loading'],
 main .section[data-section-status='initialized'] {
@@ -388,12 +396,12 @@ main .section.is-hero > div {
   padding: unset;
 }
 
-main .section.has-padding > div:first-of-type {
-  padding-top: var(--layout-size-xxl);
+main .section.compact > div:first-of-type {
+  padding-top: 0;
 }
 
-main .section.has-padding > div:last-of-type {
-  padding-bottom: var(--layout-size-xxl);
+main .section.compact > div:last-of-type {
+  padding-bottom: 0;
 }
 
 main .section.is-hero > div:last-of-type {
@@ -530,6 +538,14 @@ main .section.is-hero.has-background-block > div:nth-child(2) {
 @media only screen and (min-width: 768px) {
   main .section > div {
     width: var(--screen-width-s);
+  }
+
+  main .section > div:first-of-type {
+    padding-top: var(--layout-size-xxl);
+  }
+
+  main .section > div:last-of-type {
+    padding-bottom: var(--layout-size-xxl);
   }
 }
 

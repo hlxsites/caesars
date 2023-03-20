@@ -1,5 +1,5 @@
 .intro-section.block .intro-section-inner {
-    margin-bottom: 64px;
+    margin-bottom: 8px;
     margin-top: 64px;
     display: flex;
     position: relative;
@@ -49,17 +49,13 @@
 
 @media only screen and (min-width: 960px) {
     .intro-section.block .intro-section-inner {
-        margin-bottom: 120px;
         margin-top: 120px;
+        margin-bottom: 184px;
         align-items: flex-start;
     }
 }
 
 @media only screen and (min-width: 1170px) {
-    .intro-section.block .intro-section-inner {
-        margin-bottom: 20px;
-    }
-
     .intro-section.block .intro-section-content {
         width: 40%;
         margin-right: 64px;
