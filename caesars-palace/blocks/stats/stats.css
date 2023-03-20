@@ -6,7 +6,8 @@ div.stats-container {
   padding: 0;
 }
 
-div.stats-container .stats>div {
+div.stats-container .long-stats,
+div.stats-container .short-stats {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   row-gap: 16px;
@@ -19,7 +20,7 @@ div.stats-container .stats>div>div {
 
 div.stats-container .stats h1 {
   --heading-font-family: 'Montserrat', sans-serif;
-  
+
   font-weight: 800;
   font-size: 70px;
   line-height: 1;
@@ -45,14 +46,19 @@ div.stats-container .stats p {
 
 /* Responsive breakpoints */
 @media (min-width: 768px) {
-  div.stats-container .stats>div {
+  div.stats-container .long-stats,
+  div.stats-container .short-stats {
     grid-template-columns: repeat(3, 1fr);
   }
 }
 
 @media (min-width: 960px) {
-  div.stats-container .stats>div {
+  div.stats-container .short-stats {
     grid-template-columns: repeat(5, 1fr);
+  }
+
+  div.stats-container .long-stats {
+    grid-template-columns: repeat(3, 1fr);
   }
 
   div.stats-container .stats h3 {

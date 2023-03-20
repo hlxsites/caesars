@@ -2,6 +2,8 @@ export default function decorate(block) {
   const statsRows = [...block.children];
 
   if (statsRows.length === 1) {
+    // row of stats can be short, so adjusting styling depending on columns count
+    statsRows[0].classList.add('short-stats');
     const columnsInRow = [...statsRows[0].children].length;
 
     const mediaSmallWidthQueryMatcher = window.matchMedia('only screen and (max-width: 767px)');
@@ -41,6 +43,21 @@ export default function decorate(block) {
     mediaLargeWidthChangeHandler(mediaLargeWidthQueryMatcher);
     mediaLargeWidthQueryMatcher.addEventListener('change', (event) => {
       mediaLargeWidthChangeHandler(event);
+    });
+  } else {
+    // put all stats in a single first row 
+    const singleRow = statsRows[0];
+    singleRow.classList.add('long-stats');
+
+    statsRows.forEach((row, index) => {
+      if(index === 0){
+        return;
+      }
+      
+      [...row.children].forEach((statValue) => {
+        singleRow.append(statValue);
+      });
+      row.remove();
     });
   }
 }
