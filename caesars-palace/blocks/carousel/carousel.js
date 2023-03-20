@@ -178,13 +178,13 @@ function buildSlide(slide, index) {
     slide.setAttribute('tabindex', '-1');
   }
 
-  if(index === firstVisibleSlide 
-    || index === firstVisibleSlide+1){
+  if (index === firstVisibleSlide
+    || index === firstVisibleSlide + 1) {
     slide.querySelectorAll('img').forEach((image) => {
       image.loading = 'eager';
     });
   }
-  
+
   slide.classList.add('carousel-slide');
 
   // build image slider content
@@ -371,7 +371,6 @@ export default async function decorate(block) {
   const mediaWidthQueryMatcher = window.matchMedia('only screen and (min-width: 1170px)');
   const mediaWidthChangeHandler = async (event) => {
     if (event.matches === false) {
-      // mobile
       block.querySelectorAll('video').forEach((videoElement) => {
         videoElement.muted = true;
         videoElement.autoplay = false;
@@ -384,7 +383,6 @@ export default async function decorate(block) {
       });
     } else {
       block.querySelectorAll('video').forEach((videoElement) => {
-        // desktop
         videoElement.autoplay = true;
         videoElement.loop = true;
         videoElement.playsinline = true;
@@ -421,7 +419,6 @@ export default async function decorate(block) {
   const observer = new IntersectionObserver((entries) => {
     if (entries.some((e) => e.isIntersecting)) {
       handleAutoScroll(entries);
-      // scrollToSlide(block, firstVisibleSlide, 'instant');
     }
   }, intersectionOptions);
   observer.observe(block);

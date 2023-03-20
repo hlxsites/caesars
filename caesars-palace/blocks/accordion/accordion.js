@@ -1,6 +1,3 @@
-// TMN-TODO Use createOptimizedPicture
-// import { createOptimizedPicture } from '../../scripts/scripts.js';
-
 const DEFAULT_SELECTED_PANEL = 1;
 
 export default function decorate(block) {
