@@ -49,7 +49,7 @@ footer .footer .footer-content > p {
 
 footer .footer .footer-links > div {
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: column;
 }
 
 footer .footer .footer-property-links > div {
@@ -167,6 +167,13 @@ footer .footer .rewards-wrapper {
   background-color: var(--static-color-light-gray);
   padding-bottom: var(--layout-size-xxl);
   color: var(--text-color);
+}
+
+/* Special screen size for footer only */
+@media only screen and (min-width: 600px) {
+  footer .footer .footer-links > div {
+    flex-flow: row nowrap;
+  }
 }
 
 /* Tablet (portrait) */
