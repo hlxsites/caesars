@@ -121,6 +121,7 @@
     position: relative;
     padding: 16px;
     font-size: 16px;
+    
   }
 
   .slider-card.no-image .card .short-description {
@@ -136,7 +137,7 @@
   }
 
   .slider-card .card .close-button {
-    margin: -27px 20px 20px;
+    margin: 0 20px 20px;
     position: relative;
     z-index: 2;
   }
