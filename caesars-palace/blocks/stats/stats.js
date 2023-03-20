@@ -45,15 +45,15 @@ export default function decorate(block) {
       mediaLargeWidthChangeHandler(event);
     });
   } else {
-    // put all stats in a single first row 
+    // put all stats in a single first row
     const singleRow = statsRows[0];
     singleRow.classList.add('long-stats');
 
     statsRows.forEach((row, index) => {
-      if(index === 0){
+      if (index === 0) {
         return;
       }
-      
+
       [...row.children].forEach((statValue) => {
         singleRow.append(statValue);
       });
