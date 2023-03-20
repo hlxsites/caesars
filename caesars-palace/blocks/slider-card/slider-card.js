@@ -16,7 +16,7 @@ export default function decorate(block) {
       numberOfCardsDisplayed = div.children[0].innerHTML;
       div.style.display = 'none';
       if (isADesktop()) {
-        const sliderCard = document.querySelector('.slider-card');
+        const sliderCard = block;
         sliderCard.style = `width: calc((100%/${numberOfCardsDisplayed} - 10px)); gap: 10px;`;
       }
       return;
@@ -37,7 +37,7 @@ export default function decorate(block) {
     div.insertBefore(closeButton, div.children[index + 1]);
   });
 
-  const shortDescriptionDivs = document.querySelectorAll('.short-description');
+  const shortDescriptionDivs = block.querySelectorAll('.short-description');
   shortDescriptionDivs.forEach((div) => {
     let showMore;
     const title = div.children[0].children[0];
@@ -57,13 +57,13 @@ export default function decorate(block) {
   const mobileMediaQuery = window.matchMedia('only screen and (max-width:480px)');
   const mobileMediaWidthChangeHandler = (event) => {
     if (event.matches) {
-      const shortDesriptionTabletDivs = document.querySelectorAll('.short-description');
+      const shortDesriptionTabletDivs = block.querySelectorAll('.short-description');
       shortDesriptionTabletDivs.forEach((div) => {
         div.classList.add('show');
         div.classList.remove('hide');
       });
 
-      const longDescriptionDivs = document.querySelectorAll('.long-description');
+      const longDescriptionDivs = block.querySelectorAll('.long-description');
       longDescriptionDivs.forEach((div) => {
         div.classList.add('hide');
         div.classList.remove('show');
@@ -82,19 +82,19 @@ export default function decorate(block) {
 
   const mediaWidthChangeHandler = (event) => {
     if (event.matches) {
-      const shortDesriptionTabletDivs = document.querySelectorAll('.short-description');
+      const shortDesriptionTabletDivs = block.querySelectorAll('.short-description');
       shortDesriptionTabletDivs.forEach((div) => {
         div.classList.add('hide');
         div.classList.remove('show');
       });
 
-      const longDescriptionDivs = document.querySelectorAll('.long-description');
+      const longDescriptionDivs = block.querySelectorAll('.long-description');
       longDescriptionDivs.forEach((div) => {
         div.classList.add('show');
         div.classList.remove('hide');
       });
 
-      const sliderCard = document.querySelector('.slider-card');
+      const sliderCard = block.querySelector('.slider-card');
       sliderCard.style = 'width: 100%;';
     }
   };
@@ -118,60 +118,56 @@ export default function decorate(block) {
     return mediaQueryTablet.matches;
   }
 
-  document.querySelectorAll('.close-button').forEach((item) => {
-    item.addEventListener('click', (event) => {
-      const { parentNode } = event.target;
-      let index = 0;
-      if (parentNode.getElementsByTagName('picture').length > 0) {
-        index += 1;
-      }
-      parentNode.children[index].classList.remove('hide');
-      parentNode.children[index + 1].classList.add('hide');
-      parentNode.children[index + 2].classList.remove('show');
+  block.querySelectorAll('.close-button').forEach((item) => {
+    item.addEventListener('click', () => {
+      const parent = item.closest('.card');
+      const shortDescription = parent.querySelector('.short-description');
+      const longDescription = parent.querySelector('.long-description');
+      shortDescription.classList.remove('hide');
+      item.classList.add('hide');
+      longDescription.classList.remove('show');
     });
   });
 
   // On click, we wish to show the long description
   // instead of the short description
-  document.querySelectorAll('.show-more').forEach((item) => {
-    item.addEventListener('click', (event) => {
-      const { parentNode } = event.target;
-      let index = 0;
-      // To account for cards that have an image
-      if (parentNode.parentNode.parentNode.getElementsByTagName('picture').length > 0) {
-        index += 1;
-      }
-      parentNode.parentNode.classList.add('hide');
-      parentNode.parentNode.parentNode.children[index + 1].classList.remove('hide');
-      parentNode.parentNode.parentNode.children[index + 2].classList.add('show');
+  block.querySelectorAll('.show-more').forEach((item) => {
+    item.addEventListener('click', () => {
+      const parent = item.closest('.card');
+      const shortDescription = parent.querySelector('.short-description');
+      const longDescription = parent.querySelector('.long-description');
+      const closeButton = parent.querySelector('.close-button');
+
+      shortDescription.classList.add('hide');
+      closeButton.classList.remove('hide');
+      longDescription.classList.add('show');
     });
   });
 
   if (isATablet()) {
-    const shortDesriptionTabletDivs = document.querySelectorAll('.short-description');
+    const shortDesriptionTabletDivs = block.querySelectorAll('.short-description');
     shortDesriptionTabletDivs.forEach((div) => {
       div.classList.add('hide');
       div.classList.remove('show');
     });
 
-    const longDescriptionDivs = document.querySelectorAll('.long-description');
+    const longDescriptionDivs = block.querySelectorAll('.long-description');
     longDescriptionDivs.forEach((div) => {
       div.classList.add('show');
       div.classList.remove('hide');
     });
   }
 
-  const slider = document.querySelector('.slider-card');
-  const sliderWrapper = document.querySelector('.slider-card-wrapper');
-  const slides = Array.from(document.querySelectorAll('.card'));
-
+  const slider = block.closest('.slider-card');
+  const sliderWrapper = block.closest('.slider-card-wrapper');
+  const slides = Array.from(block.querySelectorAll('.card'));
   if (slides.length > numberOfCardsDisplayed) {
     const chevronLeft = document.createElement('div');
     chevronLeft.classList.add('chevron-left');
 
     sliderWrapper.insertBefore(chevronLeft, slider);
 
-    const chevronLeftDiv = document.querySelector('.chevron-left');
+    const chevronLeftDiv = sliderWrapper.querySelector('.chevron-left');
     const chevronLeftSvg = document.createElement('span');
     chevronLeftSvg.classList.add('chevron-left-svg');
     chevronLeftDiv.appendChild(chevronLeftSvg);
@@ -180,7 +176,7 @@ export default function decorate(block) {
     chevronRight.classList.add('chevron-right');
 
     sliderWrapper.appendChild(chevronRight);
-    const chevronRightDiv = document.querySelector('.chevron-right');
+    const chevronRightDiv = sliderWrapper.querySelector('.chevron-right');
     const chevronRightSvg = document.createElement('span');
     chevronRightSvg.classList.add('chevron-right-svg');
     chevronRightDiv.appendChild(chevronRightSvg);
@@ -245,7 +241,7 @@ export default function decorate(block) {
     cancelAnimationFrame(animationID);
   }
 
-  document.querySelector('.chevron-left')?.addEventListener('click', () => {
+  sliderWrapper.querySelector('.chevron-left')?.addEventListener('click', () => {
     if (currentIndex > 0) {
       currentIndex -= 1;
       indexFactor = -1;
@@ -253,7 +249,7 @@ export default function decorate(block) {
     }
   });
 
-  document.querySelector('.chevron-right')?.addEventListener('click', () => {
+  sliderWrapper.querySelector('.chevron-right')?.addEventListener('click', () => {
     if (slides.length - currentIndex > numberOfCardsDisplayed) {
       currentIndex += 1;
       indexFactor = 1;
@@ -292,16 +288,16 @@ export default function decorate(block) {
 
   const mediaWidthDesktopChangeHandler = (event) => {
     if (event.matches) {
-      const shortDesriptionTabletDivs = document.querySelectorAll('.short-description');
+      const shortDesriptionTabletDivs = block.querySelectorAll('.short-description');
       shortDesriptionTabletDivs.forEach((div) => {
         div.classList.add('show');
         div.classList.remove('hide');
       });
 
-      const sliderCard = document.querySelector('.slider-card');
+      const sliderCard = block.closest('.slider-card');
       sliderCard.style = `width: calc((100%/${numberOfCardsDisplayed}) - 10px)`;
 
-      const longDescriptionDivs = document.querySelectorAll('.long-description');
+      const longDescriptionDivs = block.querySelectorAll('.long-description');
       longDescriptionDivs.forEach((div) => {
         div.classList.add('hide');
         div.classList.remove('show');
