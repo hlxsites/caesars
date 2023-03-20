@@ -10,12 +10,12 @@ div.stats-container .long-stats,
 div.stats-container .short-stats {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  row-gap: 16px;
-  column-gap: 16px;
+  row-gap: var(--layout-size-m);
+  column-gap: var(--layout-size-m);
 }
 
 div.stats-container .stats>div>div {
-  margin: 16px 0;
+  margin: var(--layout-size-m) 0;
 }
 
 div.stats-container .stats h1 {
@@ -25,11 +25,11 @@ div.stats-container .stats h1 {
   font-size: 70px;
   line-height: 1;
   text-align: center;
-  padding-bottom: 32px;
+  padding-bottom: var(--layout-size-xl);
 }
 
 div.stats-container .stats h3 {
-  font-size: 22px;
+  font-size: var(--heading-font-size-l);
   text-align: center;
   text-transform: uppercase;
 }
@@ -40,7 +40,7 @@ div.stats-container .stats svg {
 
 div.stats-container .stats p {
   text-align: center;
-  margin-top: 24px;
+  margin-top: var(--layout-size-l);
   padding-bottom: 0;
 }
 
@@ -62,6 +62,6 @@ div.stats-container .stats p {
   }
 
   div.stats-container .stats h3 {
-    font-size: 26px;
+    font-size: var(--heading-font-size-teaser);
   }
 }
