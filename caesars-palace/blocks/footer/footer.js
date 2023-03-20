@@ -15,39 +15,68 @@ export default async function decorate(block) {
   const cfg = readBlockConfig(block);
   block.textContent = '';
 
-  let resp;
+  const rewardsPath = cfg.rewards || '/caesars-palace/rewards';
+  const footerPath = cfg.footer || '/caesars-palace/footer';
 
-  // add rewards
-  let rewards = null;
+  const contentPaths = {
+    footer: {
+      path: `${footerPath}.plain.html`,
+      isFragment: false,
+    },
+  };
+
   const includeRewards = getMetadata('rewards') || true;
   if (includeRewards || includeRewards === 'true') {
-    const rewardsPath = cfg.rewards || '/caesars-palace/rewards';
-    resp = await fetch(`${rewardsPath}.plain.html`, window.location.pathname.endsWith('/rewards') ? { cache: 'reload' } : {});
-    if (resp.ok) {
-      rewards = document.createElement('div');
-      rewards.classList.add('rewards-wrapper');
-      const fragment = document.createElement('main');
-      fragment.innerHTML = await resp.text();
-      decorateMain(fragment);
-      await loadBlocks(fragment);
-      const fragmentSection = fragment.querySelector(':scope .section');
-      if (fragmentSection) {
-        rewards.append(...fragmentSection.childNodes);
+    contentPaths.rewards = {
+      path: `${rewardsPath}.plain.html`,
+      isFragment: true,
+    };
+  }
+
+  const contentEntries = Object.entries(contentPaths);
+  const resp = await Promise.allSettled(contentEntries.map(
+    ([name, content]) => (
+      fetch(content.path, window.location.pathname.endsWith(
+        `/${name}`,
+      ) ? { cache: 'reload' } : {})),
+  ));
+
+  const contentBlocks = await Promise.all(resp.map(async ({ status, value }, index) => {
+    // determine block type
+    const [blockName, blockConfig] = contentEntries[index];
+    const blockEntry = { name: blockName };
+
+    if (status === 'fulfilled') {
+      const blockWrapper = document.createElement('div');
+      blockWrapper.classList.add(`${blockName}-wrapper`);
+      const html = await value.text();
+      if (blockConfig.isFragment) {
+        const fragment = document.createElement('main');
+        fragment.innerHTML = html;
+        decorateMain(fragment);
+        await loadBlocks(fragment);
+        const fragmentSection = fragment.querySelector(':scope .section');
+        if (fragmentSection) {
+          blockWrapper.append(...fragmentSection.childNodes);
+        }
+      } else {
+        blockWrapper.innerHTML = html;
+        await decorateIcons(blockWrapper);
       }
-      block.append(rewards);
+      blockEntry.content = blockWrapper;
     }
+    return blockEntry;
+  }));
+
+  // add rewards
+  const { content: rewards } = contentBlocks.find((cb) => cb.name === 'rewards');
+  if (rewards) {
+    block.append(rewards);
   }
 
   // add footer
-  let footer = null;
-  const footerPath = cfg.footer || '/caesars-palace/footer';
-  resp = await fetch(`${footerPath}.plain.html`, window.location.pathname.endsWith('/footer') ? { cache: 'reload' } : {});
-  if (resp.ok) {
-    const html = await resp.text();
-    footer = document.createElement('div');
-    footer.classList.add('footer-wrapper');
-    footer.innerHTML = html;
-    await decorateIcons(footer);
+  const { content: footer } = contentBlocks.find((cb) => cb.name === 'footer');
+  if (footer) {
     block.append(footer);
   }
 
