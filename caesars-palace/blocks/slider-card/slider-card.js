@@ -1,7 +1,26 @@
 export default function decorate(block) {
   const cardWrapper = document.createElement('div');
   cardWrapper.classList.add('card-wrapper');
-  block.querySelectorAll('div.slider-card > div').forEach((div) => {
+
+  function isADesktop() {
+    const mediaDesktop = window.matchMedia('only screen and (min-width: 769px)');
+    return mediaDesktop.matches;
+  }
+
+  // default value is 3
+  let numberOfCardsDisplayed = 3;
+  block.querySelectorAll('div.slider-card > div').forEach((div, idx) => {
+    // We do not need to add a class to the first div as it includes the number of
+    // cards we wish to display
+    if (idx === 0) {
+      numberOfCardsDisplayed = div.children[0].innerHTML;
+      div.style.display = 'none';
+      if (isADesktop()) {
+        const sliderCard = document.querySelector('.slider-card');
+        sliderCard.style = `width: calc((100%/${numberOfCardsDisplayed} - 10px)); gap: 10px;`;
+      }
+      return;
+    }
     div.classList.add('card');
     let index = 0;
     if (div.getElementsByTagName('picture').length > 0) {
@@ -11,6 +30,7 @@ export default function decorate(block) {
     }
     div.children[index].classList.add('short-description');
     div.children[index + 1].classList.add('long-description');
+
     const closeButton = document.createElement('div');
     closeButton.classList.add('close-button');
     closeButton.classList.add('hide');
@@ -21,10 +41,10 @@ export default function decorate(block) {
   shortDescriptionDivs.forEach((div) => {
     let showMore;
     const title = div.children[0].children[0];
-    title.classList.add('title');
+    title?.classList.add('title');
     if (div.children.length >= 3) {
       [, , showMore] = div.children;
-      const discount = div.children[1].children[0];
+      const discount = div.children[1];
       discount.classList.add('discount');
     } else {
       [, showMore] = div.children;
@@ -73,6 +93,9 @@ export default function decorate(block) {
         div.classList.add('show');
         div.classList.remove('hide');
       });
+
+      const sliderCard = document.querySelector('.slider-card');
+      sliderCard.style = 'width: 100%;';
     }
   };
   let isDragging = false;
@@ -142,7 +165,7 @@ export default function decorate(block) {
   const sliderWrapper = document.querySelector('.slider-card-wrapper');
   const slides = Array.from(document.querySelectorAll('.card'));
 
-  if (slides.length > 3) {
+  if (slides.length > numberOfCardsDisplayed) {
     const chevronLeft = document.createElement('div');
     chevronLeft.classList.add('chevron-left');
 
@@ -161,11 +184,6 @@ export default function decorate(block) {
     const chevronRightSvg = document.createElement('span');
     chevronRightSvg.classList.add('chevron-right-svg');
     chevronRightDiv.appendChild(chevronRightSvg);
-  }
-
-  function isADesktop() {
-    const mediaDesktop = window.matchMedia('only screen and (min-width: 769px)');
-    return mediaDesktop.matches;
   }
 
   function getPositionX(event) {
@@ -210,12 +228,12 @@ export default function decorate(block) {
 
     const movedBy = currentTranslate - prevTranslate;
 
-    if ((!isADesktop() || slides.length > 3)
+    if ((!isADesktop() || slides.length > numberOfCardsDisplayed)
     && movedBy < 0 && currentIndex < slides.length) {
       currentIndex += 1;
       indexFactor = 1;
     }
-    if ((!isADesktop() || slides.length > 3)
+    if ((!isADesktop() || slides.length > numberOfCardsDisplayed)
       && movedBy > 0 && currentIndex > 0) {
       currentIndex -= 1;
       indexFactor = -1;
@@ -236,7 +254,7 @@ export default function decorate(block) {
   });
 
   document.querySelector('.chevron-right')?.addEventListener('click', () => {
-    if (slides.length - currentIndex > 3) {
+    if (slides.length - currentIndex > numberOfCardsDisplayed) {
       currentIndex += 1;
       indexFactor = 1;
       setPositionByIndex();
@@ -254,7 +272,7 @@ export default function decorate(block) {
   // Card slider animation
   slides.forEach((slide, index) => {
     const slideImage = slide.querySelector('img');
-    slideImage.addEventListener('dragstart', (e) => e.preventDefault());
+    slideImage?.addEventListener('dragstart', (e) => e.preventDefault());
     slide.addEventListener('touchstart', touchStart(index), {
       passive: true,
     });
@@ -280,6 +298,9 @@ export default function decorate(block) {
         div.classList.remove('hide');
       });
 
+      const sliderCard = document.querySelector('.slider-card');
+      sliderCard.style = `width: calc((100%/${numberOfCardsDisplayed}) - 10px)`;
+
       const longDescriptionDivs = document.querySelectorAll('.long-description');
       longDescriptionDivs.forEach((div) => {
         div.classList.add('hide');
@@ -287,7 +308,7 @@ export default function decorate(block) {
       });
       slides.forEach((slide, index) => {
         const slideImage = slide.querySelector('img');
-        slideImage.addEventListener('dragstart', (e) => e.preventDefault());
+        slideImage?.addEventListener('dragstart', (e) => e.preventDefault());
         slide.addEventListener('mousedown', touchStart(index), {
           passive: true,
         });

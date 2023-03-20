@@ -24,59 +24,19 @@
   width: 100%;
 }
 
-.slider-card-wrapper .chevron-left {
-  display: flex;
-  align-items: center;
-  position: absolute;
-  z-index: 100;
-  top: 30%;
-  left: -.5%;
-  background-color: white;
-  width: 30px;
-  height: 30px;
-  border-radius: 80%;
-}
-
-.slider-card-wrapper .chevron-left-svg {
-  background: url("../../icons/chevron-left.svg") no-repeat;
-  min-width: 20px;
-  min-height: 20px;
-  transform: scale(1.0);
-  left: 10px;
-  top: 7px;
-  z-index: 90;
-  position: absolute;
-}
-
-.slider-card-wrapper .chevron-right {
-  display: flex;
-  align-items: center;
-  position: absolute;
-  z-index: 100;
-  top: 30%;
-  right: 0.5%;
-  background-color: white;
-  width: 30px;
-  height: 30px;
-  border-radius: 80%;
-}
-
-.slider-card-wrapper .chevron-right-svg {
-  background: url("../../icons/chevron-right.svg") no-repeat;
-  min-width: 20px;
-  min-height: 20px;
-  transform: scale(1.0);
-  left: 10px;
-  top: 7px;
-  z-index: 90;
-  position: absolute;
-}
-
 .slider-card .card .short-description {
   padding: 16px;
   border: 1px solid var(--highlight-background-color);
   background: #fff;
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%);
+}
+
+.slider-card .card .short-description .discount
+{
+  opacity: .7;
+  font-size: 12px;
+  font-weight: var(--emphasized-font-weight);
+  margin-top: -10px;
 }
 
 .slider-card .card .short-description.hide {
@@ -163,6 +123,10 @@
     font-size: 16px;
   }
 
+  .slider-card.no-image .card .short-description {
+    margin: 0;
+  }
+
   .slider-card .card .long-description.show {
     margin: -35px 15px 15px;
     box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%);
@@ -175,5 +139,54 @@
     margin: -27px 20px 20px;
     position: relative;
     z-index: 2;
+  }
+
+
+  .slider-card-wrapper .chevron-left {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    z-index: 100;
+    top: 30%;
+    left: -.5%;
+    background-color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 80%;
+  }
+
+  .slider-card-wrapper .chevron-left-svg {
+    background: url("../../icons/chevron-left.svg") no-repeat;
+    min-width: 20px;
+    min-height: 20px;
+    transform: scale(1.0);
+    left: 10px;
+    top: 7px;
+    z-index: 90;
+    position: absolute;
+  }
+
+  .slider-card-wrapper .chevron-right {
+    display: flex;
+    align-items: center;
+    position: absolute;
+    z-index: 100;
+    top: 30%;
+    right: 0.5%;
+    background-color: white;
+    width: 30px;
+    height: 30px;
+    border-radius: 80%;
+  }
+
+  .slider-card-wrapper .chevron-right-svg {
+    background: url("../../icons/chevron-right.svg") no-repeat;
+    min-width: 20px;
+    min-height: 20px;
+    transform: scale(1.0);
+    left: 10px;
+    top: 7px;
+    z-index: 90;
+    position: absolute;
   }
 }
