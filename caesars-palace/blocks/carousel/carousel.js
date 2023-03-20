@@ -176,11 +176,15 @@ function buildSlide(slide, index) {
   slide.setAttribute('role', 'tabpanel');
   if (index !== firstVisibleSlide) {
     slide.setAttribute('tabindex', '-1');
-  } else {
+  }
+
+  if(index === firstVisibleSlide 
+    || index === firstVisibleSlide+1){
     slide.querySelectorAll('img').forEach((image) => {
       image.loading = 'eager';
     });
   }
+  
   slide.classList.add('carousel-slide');
 
   // build image slider content
