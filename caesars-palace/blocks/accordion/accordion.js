@@ -1,3 +1,5 @@
+// TMN-TODO Use createOptimizedImage
+
 const DEFAULT_SELECTED_PANEL = 1;
 
 export default function decorate(block) {

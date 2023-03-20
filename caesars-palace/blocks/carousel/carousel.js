@@ -9,6 +9,8 @@
  * - next and previous navigation button
  */
 
+// TMN-TODO Use createOptimizedImage
+
 const DEFAULT_SCROLL_INTERVAL_MS = 5000;
 const SLIDE_ID_PREFIX = 'carousel-slide';
 const NAVIGATION_DIRECTION_PREV = 'prev';
@@ -284,6 +286,7 @@ export default async function decorate(block) {
   const slides = [...block.children];
   maxVisibleSlides = slides.length;
   slides.forEach((slide, index) => {
+    // TMN-TODO Optimize DOM access
     carousel.appendChild(buildSlide(slide, index + 1));
   });
   addClones(carousel);

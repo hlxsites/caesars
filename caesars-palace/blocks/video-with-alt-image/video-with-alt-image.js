@@ -22,6 +22,7 @@ export default function decorate(block) {
   const mediaWidthChangeHandler = (event) => {
     if (event.matches === false) {
       block.querySelectorAll('video').forEach((videoElement) => {
+        videoElement.muted = true
         videoElement.autoplay = false;
         videoElement.loop = false;
         videoElement.playsinline = false;
@@ -29,6 +30,7 @@ export default function decorate(block) {
       });
     } else {
       block.querySelectorAll('video').forEach((videoElement) => {
+        videoElement.muted = true
         videoElement.autoplay = true;
         videoElement.loop = true;
         videoElement.playsinline = true;
