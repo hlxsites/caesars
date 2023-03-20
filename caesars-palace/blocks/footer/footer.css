@@ -9,14 +9,6 @@ footer{
   color: var(--text-color);
 }
 
-footer .footer {
-  display: none;
-}
-
-footer .footer[data-block-status="loaded"] {
-  display: block;
-}
-
 footer .footer .footer-wrapper {
   margin-right: auto;
   margin-left: auto;
