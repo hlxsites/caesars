@@ -9,6 +9,8 @@
  * - next and previous navigation button
  */
 
+import { createOptimizedPicture } from '../../scripts/lib-franklin.js';
+
 const DEFAULT_SCROLL_INTERVAL_MS = 5000;
 const SLIDE_ID_PREFIX = 'carousel-slide';
 const NAVIGATION_DIRECTION_PREV = 'prev';
@@ -131,26 +133,26 @@ function snapScroll(el, dir = 1) {
  * @param dir A string of either 'prev or 'next'
  * @return {HTMLDivElement} The resulting nav element
  */
-async function buildNav(navigrationDirection) {
+async function buildNav(navigationDirection) {
   const btn = document.createElement('div');
 
   let chevron;
-  if (navigrationDirection === NAVIGATION_DIRECTION_PREV) {
+  if (navigationDirection === NAVIGATION_DIRECTION_PREV) {
     chevron = await getChevronSvg('icons/chevron-left.svg');
-  } else if (navigrationDirection === NAVIGATION_DIRECTION_NEXT) {
+  } else if (navigationDirection === NAVIGATION_DIRECTION_NEXT) {
     chevron = await getChevronSvg('icons/chevron-right.svg');
   }
   const chevronButton = document.createElement('span');
   chevronButton.innerHTML = chevron;
   btn.appendChild(chevronButton);
 
-  btn.classList.add('carousel-nav', `carousel-nav-${navigrationDirection}`);
+  btn.classList.add('carousel-nav', `carousel-nav-${navigationDirection}`);
   btn.addEventListener('click', (e) => {
     let nextSlide = firstVisibleSlide;
 
-    if (navigrationDirection === NAVIGATION_DIRECTION_PREV) {
+    if (navigationDirection === NAVIGATION_DIRECTION_PREV) {
       nextSlide = curSlide === firstVisibleSlide ? 0 : curSlide - 1;
-    } else if (navigrationDirection === NAVIGATION_DIRECTION_NEXT) {
+    } else if (navigationDirection === NAVIGATION_DIRECTION_NEXT) {
       nextSlide = curSlide === maxVisibleSlides ? maxVisibleSlides + 1 : curSlide + 1;
     }
 
@@ -171,26 +173,28 @@ async function buildNav(navigrationDirection) {
 function buildSlide(slide, index) {
   slide.setAttribute('id', `${SLIDE_ID_PREFIX}${index}`);
   slide.setAttribute('data-slide-index', index);
-  slide.classList.add('carousel-slide');
-  slide.style.transform = `translateX(${index * 100}%)`;
-
   slide.setAttribute('role', 'tabpanel');
-  if (index !== 1) {
+  if (index !== firstVisibleSlide) {
     slide.setAttribute('tabindex', '-1');
   }
 
-  // build image slider content
-  const slideMainImage = slide.children[0];
-  slideMainImage.classList.add('carousel-main-image');
+  if (index === firstVisibleSlide
+    || index === firstVisibleSlide + 1) {
+    slide.querySelectorAll('img').forEach((image) => {
+      image.loading = 'eager';
+    });
+  }
 
+  slide.classList.add('carousel-slide');
+
+  // build image slider content
+  slide.children[0].classList.add('carousel-main-image');
   const slideAltImage = slide.children[1];
   if (!slideAltImage.classList.contains('carousel-alt-video')) {
     slideAltImage.classList.add('carousel-alt-image');
   }
-
-  const slideTextImage = slide.children[2];
-  slideTextImage.classList.add('carousel-text');
-
+  slide.children[2].classList.add('carousel-text');
+  slide.style.transform = `translateX(${index * 100}%)`;
   return slide;
 }
 
@@ -201,7 +205,6 @@ function buildSlide(slide, index) {
  */
 function createClone(item, targetIndex) {
   const clone = item.cloneNode(true);
-  clone.classList.add('clone');
   clone.id = `data-slide-index${targetIndex}`;
   clone.setAttribute('data-slide-index', targetIndex);
   clone.style.transform = `translateX(${targetIndex * 100}%)`;
@@ -218,11 +221,14 @@ function addClones(element) {
 
   const initialChildren = [...element.children];
 
-  const cloneForEnd = createClone(initialChildren[0], initialChildren.length + 1);
-  element.lastChild.after(cloneForEnd);
-
   const cloneForBeginning = createClone(initialChildren[initialChildren.length - 1], 0);
   element.firstChild.before(cloneForBeginning);
+  element.firstChild.querySelectorAll('img').forEach((image) => {
+    image.loading = 'eager';
+  });
+
+  const cloneForEnd = createClone(initialChildren[0], initialChildren.length + 1);
+  element.lastChild.after(cloneForEnd);
 }
 
 /**
@@ -232,11 +238,11 @@ function addClones(element) {
  * Defaults to DEFAULT_SCROLL_INTERVAL_MS
  */
 function startAutoScroll(block, interval) {
-  const intervalToUse = interval || DEFAULT_SCROLL_INTERVAL_MS;
   if (!scrollInterval) {
     scrollInterval = setInterval(() => {
-      scrollToSlide(block, curSlide < maxVisibleSlides ? curSlide + 1 : firstVisibleSlide);
-    }, intervalToUse);
+      const targetSlide = curSlide <= maxVisibleSlides ? curSlide + 1 : 0;
+      scrollToSlide(block, targetSlide);
+    }, interval || DEFAULT_SCROLL_INTERVAL_MS);
   }
 }
 
@@ -260,17 +266,17 @@ export default async function decorate(block) {
   block.querySelectorAll('a').forEach((videoLink) => {
     const foundLink = videoLink.href;
     if (foundLink && foundLink.endsWith('.mp4')) {
-      const divToReplace = videoLink.closest('div');
-      divToReplace.classList.add('carousel-alt-video');
-
       const videoDiv = document.createElement('div');
       videoDiv.classList.add('carousel-video');
 
       const videoElement = document.createElement('video');
-      videoElement.innerHTML = `<source src="${videoLink.href}" type="video/mp4">`;
+      videoElement.innerHTML = `<source src="${foundLink}" type="video/mp4">`;
       videoElement.muted = true;
-      videoDiv.appendChild(videoElement);
 
+      const divToReplace = videoLink.closest('div');
+      divToReplace.classList.add('carousel-alt-video');
+
+      videoDiv.appendChild(videoElement);
       divToReplace.appendChild(videoElement);
       videoLink.remove();
     }
@@ -279,6 +285,20 @@ export default async function decorate(block) {
   // now, let's build the carousel
   const carousel = document.createElement('div');
   carousel.classList.add('carousel-slide-container');
+
+  // add carousel to page
+  const slides = [...block.children];
+  maxVisibleSlides = slides.length;
+  const slidesToAdd = new Array(maxVisibleSlides);
+  slides.forEach((slide, index) => {
+    slidesToAdd[index] = buildSlide(slide, index + 1);
+  });
+  carousel.append(...slidesToAdd);
+  addClones(carousel);
+  block.append(carousel);
+  setTimeout(() => {
+    scrollToSlide(block, firstVisibleSlide, 'instant');
+  }, 0);
 
   // make carousel draggable and swipeable
   let isDown = false;
@@ -348,29 +368,18 @@ export default async function decorate(block) {
     carousel.scrollLeft = prevScroll - walk;
   }, { passive: true });
 
-  // add carousel to page
-  const slides = [...block.children];
-  maxVisibleSlides = slides.length;
-  slides.forEach((slide, index) => {
-    carousel.appendChild(buildSlide(slide, index + 1));
-  });
-  addClones(carousel);
-  block.append(carousel);
-
-  // add nav buttons
-  if (slides.length > 1) {
-    const prevBtn = await buildNav('prev');
-    const nextBtn = await buildNav('next');
-    block.append(prevBtn, nextBtn);
-  }
-
   const mediaWidthQueryMatcher = window.matchMedia('only screen and (min-width: 1170px)');
-  const mediaWidthChangeHandler = (event) => {
+  const mediaWidthChangeHandler = async (event) => {
     if (event.matches === false) {
       block.querySelectorAll('video').forEach((videoElement) => {
+        videoElement.muted = true;
         videoElement.autoplay = false;
         videoElement.loop = false;
         videoElement.playsinline = false;
+      });
+
+      block.querySelectorAll('img').forEach((image) => {
+        image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '1170' }]));
       });
     } else {
       block.querySelectorAll('video').forEach((videoElement) => {
@@ -380,9 +389,13 @@ export default async function decorate(block) {
         videoElement.muted = true;
         videoElement.play();
       });
+      if (slides.length > 1) {
+        const prevBtn = await buildNav('prev');
+        const nextBtn = await buildNav('next');
+        block.append(prevBtn, nextBtn);
+      }
     }
   };
-
   mediaWidthChangeHandler(mediaWidthQueryMatcher);
   mediaWidthQueryMatcher.addEventListener('change', (event) => {
     mediaWidthChangeHandler(event);
@@ -403,11 +416,9 @@ export default async function decorate(block) {
       }
     });
   };
-
   const observer = new IntersectionObserver((entries) => {
     if (entries.some((e) => e.isIntersecting)) {
       handleAutoScroll(entries);
-      scrollToSlide(block, firstVisibleSlide, 'instant');
     }
   }, intersectionOptions);
   observer.observe(block);
