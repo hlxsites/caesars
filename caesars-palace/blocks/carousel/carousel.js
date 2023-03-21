@@ -371,7 +371,6 @@ export default async function decorate(block) {
   const mediaSmallWidthQueryMatcher = window.matchMedia('(max-width: 768px)');
   const mediaSmallWidthChangeHandler = async (event) => {
     if (event.matches === true) {
-      console.log('(max-width: 768px)')
       block.querySelectorAll('img').forEach((image) => {
         image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '768' }]));
       });
@@ -385,7 +384,6 @@ export default async function decorate(block) {
   const mediaMediumWidthQueryMatcher = window.matchMedia('(min-width: 769px) and (max-width: 960px)');
   const mediaMediumWidthChangeHandler = async (event) => {
     if (event.matches === true) {
-      console.log('(min-width: 768px) and (max-width: 960px)')
       block.querySelectorAll('img').forEach((image) => {
         image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '960' }]));
       });
@@ -399,7 +397,6 @@ export default async function decorate(block) {
   const mediaLargeWidthQueryMatcher = window.matchMedia('(min-width: 961px) and (max-width: 1170px)');
   const mediaLargeWidthChangeHandler = async (event) => {
     if (event.matches === true) {
-      console.log('(min-width: 961px) and (max-width: 1170px)')
       block.querySelectorAll('img').forEach((image) => {
         image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '1170' }]));
       });
@@ -413,7 +410,6 @@ export default async function decorate(block) {
   const mediaExtraLargeWidthQueryMatcher = window.matchMedia('(min-width: 1171px) and (max-width: 1440px)');
   const mediaExtraLargeWidthChangeHandler = async (event) => {
     if (event.matches === true) {
-      console.log('(min-width: 1171px) and (max-width: 1440px)')
       block.querySelectorAll('img').forEach((image) => {
         image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '1440px' }]));
       });
