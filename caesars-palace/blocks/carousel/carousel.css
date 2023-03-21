@@ -89,6 +89,19 @@
 
 /* Responsive breakpoints */
 @media screen and (min-width: 1170px) {
+  .showcase.block .carousel-text {
+    position: absolute;
+    z-index: 3;
+    bottom: 0;
+    top: unset;
+    width: 60%;
+    text-align: left;
+    border: 3px solid red;
+    background-color: white;
+    color: unset;
+    text-shadow: unset;
+  }
+
   .carousel.block .carousel-alt-image {
     position: unset;
     visibility: visible;
