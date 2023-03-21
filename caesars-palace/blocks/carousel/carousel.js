@@ -471,9 +471,7 @@ export default async function decorate(block) {
   const handleAutoScroll = (entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        setTimeout(() => {
-          startAutoScroll(block, scrollDisplayTime);
-        }, 320);
+        startAutoScroll(block, scrollDisplayTime);
       } else {
         stopAutoScroll();
       }
