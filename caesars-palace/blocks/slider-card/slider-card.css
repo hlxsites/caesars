@@ -153,6 +153,7 @@
     width: 30px;
     height: 30px;
     border-radius: 80%;
+    box-shadow: 0 10px 15px -3px rgba(0 0 0 / 10%), 0 4px 6px -2px rgba(0 0 0 / 6%);
   }
 
   .slider-card-wrapper .chevron-left-svg {
@@ -177,6 +178,7 @@
     width: 30px;
     height: 30px;
     border-radius: 80%;
+    box-shadow: 0 10px 15px -3px rgba(0 0 0 / 10%), 0 4px 6px -2px rgba(0 0 0 / 6%);
   }
 
   .slider-card-wrapper .chevron-right-svg {
