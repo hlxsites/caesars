@@ -10,6 +10,7 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
   scroll-snap-type: x mandatory;
+  height: 300px;
 }
 
 .accordion.block .accordion-slider::-webkit-scrollbar {
