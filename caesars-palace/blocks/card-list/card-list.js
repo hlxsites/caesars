@@ -91,7 +91,7 @@ function handlePagination() {
     }
   });
   // scroll to top of block
-  this.closest('.card-list.block').scrollIntoView({ behavior: 'smooth'});
+  this.closest('.card-list.block').scrollIntoView({ behavior: 'smooth' });
 }
 
 function drawPagination(block) {
