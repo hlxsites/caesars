@@ -368,18 +368,70 @@ export default async function decorate(block) {
     carousel.scrollLeft = prevScroll - walk;
   }, { passive: true });
 
-  const mediaWidthQueryMatcher = window.matchMedia('only screen and (min-width: 1170px)');
-  const mediaWidthChangeHandler = async (event) => {
+  const mediaSmallWidthQueryMatcher = window.matchMedia('(max-width: 768px)');
+  const mediaSmallWidthChangeHandler = async (event) => {
+    if (event.matches === true) {
+      console.log('(max-width: 768px)')
+      block.querySelectorAll('img').forEach((image) => {
+        image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '768' }]));
+      });
+    }
+  };
+  mediaSmallWidthChangeHandler(mediaSmallWidthQueryMatcher);
+  mediaSmallWidthQueryMatcher.addEventListener('change', (event) => {
+    mediaSmallWidthChangeHandler(event);
+  });
+
+  const mediaMediumWidthQueryMatcher = window.matchMedia('(min-width: 769px) and (max-width: 960px)');
+  const mediaMediumWidthChangeHandler = async (event) => {
+    if (event.matches === true) {
+      console.log('(min-width: 768px) and (max-width: 960px)')
+      block.querySelectorAll('img').forEach((image) => {
+        image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '960' }]));
+      });
+    }
+  };
+  mediaMediumWidthChangeHandler(mediaMediumWidthQueryMatcher);
+  mediaMediumWidthQueryMatcher.addEventListener('change', (event) => {
+    mediaMediumWidthChangeHandler(event);
+  });
+
+  const mediaLargeWidthQueryMatcher = window.matchMedia('(min-width: 961px) and (max-width: 1170px)');
+  const mediaLargeWidthChangeHandler = async (event) => {
+    if (event.matches === true) {
+      console.log('(min-width: 961px) and (max-width: 1170px)')
+      block.querySelectorAll('img').forEach((image) => {
+        image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '1170' }]));
+      });
+    }
+  };
+  mediaLargeWidthChangeHandler(mediaLargeWidthQueryMatcher);
+  mediaLargeWidthQueryMatcher.addEventListener('change', (event) => {
+    mediaLargeWidthChangeHandler(event);
+  });
+
+  const mediaExtraLargeWidthQueryMatcher = window.matchMedia('(min-width: 1171px) and (max-width: 1440px)');
+  const mediaExtraLargeWidthChangeHandler = async (event) => {
+    if (event.matches === true) {
+      console.log('(min-width: 1171px) and (max-width: 1440px)')
+      block.querySelectorAll('img').forEach((image) => {
+        image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '1440px' }]));
+      });
+    }
+  };
+  mediaExtraLargeWidthChangeHandler(mediaExtraLargeWidthQueryMatcher);
+  mediaExtraLargeWidthQueryMatcher.addEventListener('change', (event) => {
+    mediaExtraLargeWidthChangeHandler(event);
+  });
+
+  const mediaVideoWidthQueryMatcher = window.matchMedia('only screen and (max-width: 1170px)');
+  const mediaVideoWidthChangeHandler = async (event) => {
     if (event.matches === false) {
       block.querySelectorAll('video').forEach((videoElement) => {
         videoElement.muted = true;
         videoElement.autoplay = false;
         videoElement.loop = false;
         videoElement.playsinline = false;
-      });
-
-      block.querySelectorAll('img').forEach((image) => {
-        image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '1170' }]));
       });
     } else {
       block.querySelectorAll('video').forEach((videoElement) => {
@@ -396,9 +448,9 @@ export default async function decorate(block) {
       }
     }
   };
-  mediaWidthChangeHandler(mediaWidthQueryMatcher);
-  mediaWidthQueryMatcher.addEventListener('change', (event) => {
-    mediaWidthChangeHandler(event);
+  mediaVideoWidthChangeHandler(mediaVideoWidthQueryMatcher);
+  mediaVideoWidthQueryMatcher.addEventListener('change', (event) => {
+    mediaLargeWidthChangeHandler(event);
   });
 
   // auto scroll when visible only
