@@ -75,6 +75,16 @@
   line-height: 0;
 }
 
+.card-list.block {
+  scroll-margin-top: 38px;
+}
+
+@media only screen and (min-width: 1170px) {
+  .card-list.block {
+    scroll-margin-top: 118px;
+  }
+}
+
 .card-list.block .full-width {
   margin: 0 calc((100vw - 100%) / -2);
   width: 100vw !important;
