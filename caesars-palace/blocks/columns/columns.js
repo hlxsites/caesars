@@ -28,7 +28,7 @@ export default function decorate(block) {
           // non-mobile
           section.appendChild(picture);
         } else {
-          //mobile
+          // mobile
           let pictureCol = -1;
           if (block.classList.contains('image-start')) {
             pictureCol = 0;
