@@ -50,6 +50,9 @@ function toggleDropdown() {
   }
 }
 
+/**
+ * Show the previous page of results.
+ */
 function previousPage() {
   const pagination = this.closest('div.pagination');
   let pageNumber = Number(pagination.querySelector('button.active-page').getAttribute('data-page-number'));
@@ -57,6 +60,9 @@ function previousPage() {
   pagination.querySelector(`button[data-page-number="${pageNumber}"]`).click();
 }
 
+/**
+ * Show the next page of results.
+ */
 function nextPage() {
   const pagination = this.closest('div.pagination');
   let pageNumber = Number(pagination.querySelector('button.active-page').getAttribute('data-page-number'));
@@ -152,17 +158,24 @@ function drawPagination(block) {
   return firstPageButton;
 }
 
+/**
+ * Filters and unfilters cards based on current active filter list.
+ * @param block to search for cards
+ * @param activeFilterListContainer to get active filters from 
+ */
 function performFiltering(block, activeFilterListContainer) {
   const cards = block.querySelectorAll('div.card');
+  // get list of active filters
   const activeFilterListItems = activeFilterListContainer.querySelectorAll('li.active-filter');
   const activeFilters = [];
   activeFilterListItems.forEach((activeFilter) => {
     activeFilters.push(activeFilter.getAttribute('data-filter'));
   });
   let count = 0;
+  // filter or unfilter cards
   cards.forEach((card) => {
     if (!card.getAttribute('data-filters')) {
-      // no data filters.  always hide with filters.
+      // no data filters, always hide when active filters
       if (activeFilters.length === 0) {
         card.classList.remove('filtered');
         count += 1;
@@ -180,6 +193,7 @@ function performFiltering(block, activeFilterListContainer) {
       }
     }
   });
+  // update the results
   block.querySelector('span.card-count').innerHTML = `${count} Results`;
   const firstPageButton = drawPagination(block);
   if (firstPageButton) {
@@ -189,16 +203,21 @@ function performFiltering(block, activeFilterListContainer) {
   }
 }
 
+/**
+ * Clears all of the active filters.
+ */
 function clearFilters() {
   const block = this.closest('.card-list.block');
+  // uncheck all filter checkboxes
   block.querySelectorAll('div.filter-group input[type="checkbox"]').forEach((checkbox) => {
     checkbox.checked = false;
   });
-  // remove active filters.
+  // remove active filters
   const activeFilterList = block.querySelector('ul.active-filter-list');
   activeFilterList.querySelectorAll('li').forEach((activeFilter) => {
     activeFilter.remove();
   });
+  // show or hide cards appropriately
   performFiltering(block, activeFilterList);
 }
 
@@ -215,10 +234,10 @@ function toggleMobileFilterModal() {
 }
 
 /**
- * Creates a button
- * @param  {String} title of the button
- * @param  {Event} event to fire when button is clicked
- * @param  {String} style of button
+ * Creates a button.
+ * @param  title of the button
+ * @param  clickEvent to fire for button click
+ * @param  style of button
  * @returns button
  */
 function createButton(title, clickEvent, style) {
@@ -237,6 +256,13 @@ function createButton(title, clickEvent, style) {
   return button;
 }
 
+/**
+ * Creates both desktop and modal filter panels.  Populates filter with
+ * elements for adding filter options.
+ * @param block to add filter panel to
+ * @param fullWidth to add modal filter panel to
+ * @param filters to add to panels
+ */
 function addFilterPanel(block, fullWidth, filters) {
   // filter panel
   const filterPanel = document.createElement('div');
@@ -328,6 +354,12 @@ function addFilterPanel(block, fullWidth, filters) {
   block.appendChild(modal);
 }
 
+/**
+ * Pre-processes card data for any synthetic filters, which cannot be derived
+ * directly from a single property or requires special handling.
+ * @param cardData being processed
+ * @param type of card data being processed
+ */
 function preprocessCardData(cardData, type) {
   if (type === 'restaurants') {
     cardData.diningOptions = [];
@@ -343,6 +375,9 @@ function preprocessCardData(cardData, type) {
   }
 }
 
+/**
+ * Toggles filter status for associated element.
+ */
 function toggleFilter() {
   const filter = this.hasAttribute('data-filter') ? this.getAttribute('data-filter') : this.closest('.active-filter').getAttribute('data-filter');
   const block = this.closest('.card-list.block');
@@ -356,6 +391,7 @@ function toggleFilter() {
   block.querySelector(`.mobile-filter-panel div[data-filter="${filter}"] input[type="checkbox"]`).checked = toggleOn;
   block.querySelector(`.filter-panel div[data-filter="${filter}"] input[type="checkbox"]`).checked = toggleOn;
   if (toggleOn) {
+    // add active filter
     const activeFilter = document.createElement('li');
     activeFilter.classList.add('active-filter');
     activeFilter.setAttribute('data-filter', filter);
@@ -368,11 +404,18 @@ function toggleFilter() {
     activeFilter.appendChild(activeFilterClose);
     activeFilterList.appendChild(activeFilter);
   } else {
+    // remove active filter
     activeFilterList.querySelector(`[data-filter="${filter}"]`).remove();
   }
   performFiltering(block, activeFilterList);
 }
 
+/**
+ * Creates a filter option for desktop filter panel.
+ * @param filter to create option for.
+ * @param filterValue to use for option.
+ * @returns Filter option element for desktop.
+ */
 function createFilterOption(filter, filterValue) {
   const checkbox = document.createElement('div');
   checkbox.classList.add('checkbox');
@@ -397,6 +440,14 @@ function createFilterOption(filter, filterValue) {
   return checkbox;
 }
 
+/**
+ * Collects filter values from cards based on propertie values,
+ * stores them in the filter configuration and writes the filter
+ * attributes to the card.
+ * @param cardData currently being rendered.
+ * @param card to write filter attributes to.
+ * @param filters to process.
+ */
 function processFiltersWithCard(cardData, card, filters) {
   const cardFilters = [];
   filters.forEach((filter) => {
@@ -408,13 +459,6 @@ function processFiltersWithCard(cardData, card, filters) {
       }
       filterValues.forEach((filterValue) => {
         if (!filter.values.includes(filterValue)) {
-          // new filter option found. add.
-          const filterOption = createFilterOption(filter, filterValue);
-          filter.element.appendChild(filterOption);
-          // mobile filter option.
-          const mobileFilterOption = filterOption.cloneNode(true);
-          mobileFilterOption.addEventListener('change', toggleFilter);
-          filter.mobileElement.appendChild(mobileFilterOption);
           filter.values.push(filterValue);
         }
         cardFilters.push(`${filter.property}:${filterValue}`);
@@ -427,6 +471,31 @@ function processFiltersWithCard(cardData, card, filters) {
   }
 }
 
+/**
+ * Sorts the filter options, then draws them for mobile and desktop.
+ * @param filters to create options for.
+ */
+function populateFilterOptions(filters) {
+  filters.forEach((filter) => {
+    filter.values.sort().forEach((filterValue) => {
+      // new filter option found. add.
+      const filterOption = createFilterOption(filter, filterValue);
+      filter.element.appendChild(filterOption);
+      // mobile filter option.
+      const mobileFilterOption = filterOption.cloneNode(true);
+      mobileFilterOption.addEventListener('change', toggleFilter);
+      filter.mobileElement.appendChild(mobileFilterOption);
+    });
+  });
+}
+
+/**
+ * Creates a card element based on the card data passed in.
+ * @param cardData to create card for
+ * @param index of the card being processed
+ * @param cfg for the block
+ * @returns Card element
+ */
 function createCard(cardData, index, cfg) {
   const card = document.createElement('div');
   card.classList.add('card');
@@ -588,6 +657,7 @@ export default async function decorate(block) {
   });
   block.appendChild(cardResults);
   drawPagination(block);
+  populateFilterOptions(cfg.filters);
   // close dropdowns when they lose focus.
   document.addEventListener('click', closeDropdown);
 }
