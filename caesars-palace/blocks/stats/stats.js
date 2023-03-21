@@ -26,9 +26,7 @@ export default function decorate(block) {
       }
     };
     mediaWidthChangeHandler(mediaWidthQueryMatcher);
-    mediaWidthQueryMatcher.addEventListener('change', (event) => {
-      mediaWidthChangeHandler(event);
-    });
+    mediaWidthQueryMatcher.addEventListener('change', mediaWidthChangeHandler);
 
     const mediaLargeWidthQueryMatcher = window.matchMedia('only screen and (min-width: 960px)');
     const mediaLargeWidthChangeHandler = async (event) => {
@@ -39,9 +37,7 @@ export default function decorate(block) {
       }
     };
     mediaLargeWidthChangeHandler(mediaLargeWidthQueryMatcher);
-    mediaLargeWidthQueryMatcher.addEventListener('change', (event) => {
-      mediaLargeWidthChangeHandler(event);
-    });
+    mediaLargeWidthQueryMatcher.addEventListener('change', mediaLargeWidthChangeHandler);
   } else {
     // put all stats in a single first row
     const singleRow = statsRows[0];
