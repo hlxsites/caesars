@@ -45,11 +45,11 @@ export default function decorate(block) {
     }
   }
 
-  const mediaQueryMatcher = window.matchMedia('(max-width: 960px)');
+  const mediaQueryMatcher = window.matchMedia('(max-width: 768px)');
   const handleScreenChange = (query) => {
     if (query.matches) {
       block.querySelectorAll('img').forEach((image) => {
-        image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '960' }]));
+        image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '768' }]));
       });
     }
   };
