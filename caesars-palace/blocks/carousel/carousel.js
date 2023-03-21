@@ -379,7 +379,6 @@ export default async function decorate(block) {
       firstSlide.querySelectorAll('img').forEach((image) => {
         image.loading = 'eager';
       });
-
       const secondSlide = document.getElementById('carousel-slide2');
       secondSlide.querySelectorAll('img').forEach((image) => {
         image.loading = 'eager';
@@ -400,7 +399,6 @@ export default async function decorate(block) {
       firstSlide.querySelectorAll('img').forEach((image) => {
         image.loading = 'eager';
       });
-
       const secondSlide = document.getElementById('carousel-slide2');
       secondSlide.querySelectorAll('img').forEach((image) => {
         image.loading = 'eager';
@@ -421,7 +419,6 @@ export default async function decorate(block) {
       firstSlide.querySelectorAll('img').forEach((image) => {
         image.loading = 'eager';
       });
-
       const secondSlide = document.getElementById('carousel-slide2');
       secondSlide.querySelectorAll('img').forEach((image) => {
         image.loading = 'eager';
@@ -444,7 +441,6 @@ export default async function decorate(block) {
       firstSlide.querySelectorAll('img').forEach((image) => {
         image.loading = 'eager';
       });
-
       const secondSlide = document.getElementById('carousel-slide2');
       secondSlide.querySelectorAll('img').forEach((image) => {
         image.loading = 'eager';
@@ -490,7 +486,9 @@ export default async function decorate(block) {
   const handleAutoScroll = (entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        startAutoScroll(block, scrollDisplayTime);
+        setTimeout(() => {
+          startAutoScroll(block, scrollDisplayTime);
+        }, 250);
       } else {
         stopAutoScroll();
       }
