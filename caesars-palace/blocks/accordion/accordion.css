@@ -82,6 +82,7 @@
   .accordion.block .accordion-slider {
     align-items: center;
     height: 792px;
+    width: 100%;
     scroll-snap-type: unset;
   }
 
