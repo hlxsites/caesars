@@ -15,9 +15,7 @@ export default function decorate(block) {
       }
     };
     mediaSmallWidthChangeHandler(mediaSmallWidthQueryMatcher);
-    mediaSmallWidthQueryMatcher.addEventListener('change', (event) => {
-      mediaSmallWidthChangeHandler(event);
-    });
+    mediaSmallWidthQueryMatcher.addEventListener('change', mediaSmallWidthChangeHandler);
 
     const mediaWidthQueryMatcher = window.matchMedia('only screen and (min-width: 768px)');
     const mediaWidthChangeHandler = async (event) => {
