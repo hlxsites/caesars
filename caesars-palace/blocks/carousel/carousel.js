@@ -387,6 +387,7 @@ export default async function decorate(block) {
       block.querySelectorAll('img').forEach((image) => {
         image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '768' }]));
       });
+      setImageEagerLoading(block, 'carousel-slide0');
       setImageEagerLoading(block, 'carousel-slide1');
       setImageEagerLoading(block, 'carousel-slide2');
     }
@@ -400,6 +401,7 @@ export default async function decorate(block) {
       block.querySelectorAll('img').forEach((image) => {
         image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '960' }]));
       });
+      setImageEagerLoading(block, 'carousel-slide0');
       setImageEagerLoading(block, 'carousel-slide1');
       setImageEagerLoading(block, 'carousel-slide2');
     }
@@ -413,6 +415,7 @@ export default async function decorate(block) {
       block.querySelectorAll('img').forEach((image) => {
         image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '1170' }]));
       });
+      setImageEagerLoading(block, 'carousel-slide0');
       setImageEagerLoading(block, 'carousel-slide1');
       setImageEagerLoading(block, 'carousel-slide2');
     }
@@ -428,6 +431,7 @@ export default async function decorate(block) {
       block.querySelectorAll('img').forEach((image) => {
         image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '1440px' }]));
       });
+      setImageEagerLoading(block, 'carousel-slide0');
       setImageEagerLoading(block, 'carousel-slide1');
       setImageEagerLoading(block, 'carousel-slide2');
     }
