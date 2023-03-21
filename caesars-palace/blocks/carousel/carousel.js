@@ -377,7 +377,6 @@ export default async function decorate(block) {
 
       const firstSlide = document.getElementById('carousel-slide1');
       firstSlide.querySelectorAll('img').forEach((image) => {
-        console.log(image);
         image.loading = 'eager';
       });
 
