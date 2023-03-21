@@ -199,6 +199,19 @@ function buildSlide(slide, index) {
 }
 
 /**
+ * Updates load setting for images in a slide
+ * @param {*} slideId Id of the slide to update
+ */
+function setImageEagerLoading(block, slideId) {
+  const slide = block.querySelector(`#${slideId}`);
+  if (!slide) return;
+
+  slide.querySelectorAll('img').forEach((image) => {
+    image.loading = 'eager';
+  });
+}
+
+/**
  * Clone an existing carousel item
  * @param {Element} item carousel item to be cloned
  * @returns the clone of the carousel item
@@ -374,15 +387,8 @@ export default async function decorate(block) {
       block.querySelectorAll('img').forEach((image) => {
         image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '768' }]));
       });
-
-      const firstSlide = document.getElementById('carousel-slide1');
-      firstSlide.querySelectorAll('img').forEach((image) => {
-        image.loading = 'eager';
-      });
-      const secondSlide = document.getElementById('carousel-slide2');
-      secondSlide.querySelectorAll('img').forEach((image) => {
-        image.loading = 'eager';
-      });
+      setImageEagerLoading(block, 'carousel-slide1');
+      setImageEagerLoading(block, 'carousel-slide2');
     }
   };
   mediaSmallWidthChangeHandler(mediaSmallWidthQueryMatcher);
@@ -394,15 +400,8 @@ export default async function decorate(block) {
       block.querySelectorAll('img').forEach((image) => {
         image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '960' }]));
       });
-
-      const firstSlide = document.getElementById('carousel-slide1');
-      firstSlide.querySelectorAll('img').forEach((image) => {
-        image.loading = 'eager';
-      });
-      const secondSlide = document.getElementById('carousel-slide2');
-      secondSlide.querySelectorAll('img').forEach((image) => {
-        image.loading = 'eager';
-      });
+      setImageEagerLoading(block, 'carousel-slide1');
+      setImageEagerLoading(block, 'carousel-slide2');
     }
   };
   mediaMediumWidthChangeHandler(mediaMediumWidthQueryMatcher);
@@ -414,15 +413,8 @@ export default async function decorate(block) {
       block.querySelectorAll('img').forEach((image) => {
         image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '1170' }]));
       });
-
-      const firstSlide = document.getElementById('carousel-slide1');
-      firstSlide.querySelectorAll('img').forEach((image) => {
-        image.loading = 'eager';
-      });
-      const secondSlide = document.getElementById('carousel-slide2');
-      secondSlide.querySelectorAll('img').forEach((image) => {
-        image.loading = 'eager';
-      });
+      setImageEagerLoading(block, 'carousel-slide1');
+      setImageEagerLoading(block, 'carousel-slide2');
     }
   };
   mediaLargeWidthChangeHandler(mediaLargeWidthQueryMatcher);
@@ -436,15 +428,8 @@ export default async function decorate(block) {
       block.querySelectorAll('img').forEach((image) => {
         image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '1440px' }]));
       });
-
-      const firstSlide = document.getElementById('carousel-slide1');
-      firstSlide.querySelectorAll('img').forEach((image) => {
-        image.loading = 'eager';
-      });
-      const secondSlide = document.getElementById('carousel-slide2');
-      secondSlide.querySelectorAll('img').forEach((image) => {
-        image.loading = 'eager';
-      });
+      setImageEagerLoading(block, 'carousel-slide1');
+      setImageEagerLoading(block, 'carousel-slide2');
     }
   };
   mediaExtraLargeWidthChangeHandler(mediaExtraLargeWidthQueryMatcher);
@@ -488,7 +473,7 @@ export default async function decorate(block) {
       if (entry.isIntersecting) {
         setTimeout(() => {
           startAutoScroll(block, scrollDisplayTime);
-        }, 250);
+        }, 320);
       } else {
         stopAutoScroll();
       }
