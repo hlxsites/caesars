@@ -161,7 +161,7 @@ function drawPagination(block) {
 /**
  * Filters and unfilters cards based on current active filter list.
  * @param block to search for cards
- * @param activeFilterListContainer to get active filters from 
+ * @param activeFilterListContainer to get active filters from
  */
 function performFiltering(block, activeFilterListContainer) {
   const cards = block.querySelectorAll('div.card');
