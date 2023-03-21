@@ -101,6 +101,13 @@
     position: relative;
     bottom: -64px;
   }
+
+  .featured-card[data-block-status="loaded"] .featured-card-content {
+    display: flex;
+    color: var(--static-color-white);
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 @media only screen and (min-width: 1170px) {
