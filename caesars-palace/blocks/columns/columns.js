@@ -1,3 +1,5 @@
+import { createOptimizedPicture } from '../../scripts/lib-franklin.js';
+
 export default function decorate(block) {
   const cols = [...block.firstElementChild.children];
   block.classList.add(`columns-${cols.length}-cols`);
@@ -26,7 +28,7 @@ export default function decorate(block) {
           // non-mobile
           section.appendChild(picture);
         } else {
-          // mobile
+          //mobile
           let pictureCol = -1;
           if (block.classList.contains('image-start')) {
             pictureCol = 0;
@@ -42,4 +44,15 @@ export default function decorate(block) {
       mqList.addEventListener('change', handleScreenChange);
     }
   }
+
+  const mediaQueryMatcher = window.matchMedia('(max-width: 768px)');
+  const handleScreenChange = (query) => {
+    if (query.matches) {
+      block.querySelectorAll('img').forEach((image) => {
+        image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '768' }]));
+      });
+    }
+  };
+  handleScreenChange(mediaQueryMatcher);
+  mediaQueryMatcher.addEventListener('change', handleScreenChange);
 }
