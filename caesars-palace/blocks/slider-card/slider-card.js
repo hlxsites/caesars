@@ -1,56 +1,53 @@
+const isADesktop = () => {
+  const mediaDesktop = window.matchMedia('only screen and (min-width: 769px)');
+  return mediaDesktop.matches;
+};
+
 export default function decorate(block) {
   const cardWrapper = document.createElement('div');
   cardWrapper.classList.add('card-wrapper');
 
-  function isADesktop() {
-    const mediaDesktop = window.matchMedia('only screen and (min-width: 769px)');
-    return mediaDesktop.matches;
-  }
-
   // default value is 3
   let numberOfCardsDisplayed = 3;
-  block.querySelectorAll('div.slider-card > div').forEach((div, idx) => {
+  block.querySelectorAll('div.slider-card > div').forEach((div) => {
     // We do not need to add a class to the first div as it includes the number of
     // cards we wish to display
-    if (idx === 0) {
-      numberOfCardsDisplayed = div.children[0].innerHTML;
-      div.style.display = 'none';
-      if (isADesktop()) {
-        const sliderCard = block;
-        sliderCard.style = `width: calc((100%/${numberOfCardsDisplayed} - 10px)); gap: 10px;`;
+    block.classList.forEach((className) => {
+      if (className.startsWith('max-visible-')) {
+        // If the classname is 'max-visible-4', numberOfCardsDisplayed = 4
+        numberOfCardsDisplayed = className.substring(12);
       }
-      return;
-    }
+    });
+    block.style = `width: calc((100%/${numberOfCardsDisplayed} - 10px)); gap: 10px;`;
     div.classList.add('card');
-    let index = 0;
-    if (div.getElementsByTagName('picture').length > 0) {
-      const imageDiv = div.children[index];
-      imageDiv.children[index].children[3].classList.add('card-image');
-      index += 1;
+
+    const picture = div.querySelector('picture');
+    if (picture) {
+      picture.classList.add('card-image');
+      const imageParent = picture.closest('div');
+      imageParent.classList.add('card-image-parent');
     }
-    div.children[index].classList.add('short-description');
-    div.children[index + 1].classList.add('long-description');
+
+    const contentDivs = div.querySelectorAll(':scope > div:not(.card-image-parent)');
+    contentDivs[0].classList.add('short-description');
+    contentDivs[0].classList.add('active');
+    contentDivs[1].classList.add('long-description');
 
     const closeButton = document.createElement('div');
     closeButton.classList.add('close-button');
     closeButton.classList.add('hide');
-    div.insertBefore(closeButton, div.children[index + 1]);
+    div.insertBefore(closeButton, contentDivs[1]);
   });
 
   const shortDescriptionDivs = block.querySelectorAll('.short-description');
   shortDescriptionDivs.forEach((div) => {
-    let showMore;
-    const title = div.children[0].children[0];
+    const title = div.querySelector('h4');
     title?.classList.add('title');
-    if (div.children.length >= 3) {
-      [, , showMore] = div.children;
-      const discount = div.children[1];
-      discount.classList.add('discount');
-    } else {
-      [, showMore] = div.children;
-    }
-    if (showMore && showMore.children.length > 0) {
-      showMore.children[0].classList.add('show-more');
+    const subtitle = div.querySelector('h5');
+    subtitle?.classList.add('subtitle');
+    const showMore = div.querySelector('p > strong');
+    if (showMore) {
+      showMore.classList.add('show-more');
     }
   });
 
@@ -59,14 +56,16 @@ export default function decorate(block) {
     if (event.matches) {
       const shortDesriptionTabletDivs = block.querySelectorAll('.short-description');
       shortDesriptionTabletDivs.forEach((div) => {
-        div.classList.add('show');
-        div.classList.remove('hide');
+        if (!div.classList.contains('active')) {
+          div.classList.toggle('active');
+        }
       });
 
       const longDescriptionDivs = block.querySelectorAll('.long-description');
       longDescriptionDivs.forEach((div) => {
-        div.classList.add('hide');
-        div.classList.remove('show');
+        if (div.classList.contains('active')) {
+          div.classList.toggle('active');
+        }
       });
       const sliderCard = block.closest('.slider-card');
       sliderCard.style = 'width: 100%;';
@@ -74,9 +73,7 @@ export default function decorate(block) {
   };
 
   mobileMediaWidthChangeHandler(mobileMediaQuery);
-  mobileMediaQuery.addEventListener('change', (event) => {
-    mobileMediaWidthChangeHandler(event);
-  });
+  mobileMediaQuery.addEventListener('change', mobileMediaWidthChangeHandler);
 
   const mediaQuery = window.matchMedia(
     'only screen and (min-width: 481px) and (max-width:768px)',
@@ -86,14 +83,16 @@ export default function decorate(block) {
     if (event.matches) {
       const shortDesriptionTabletDivs = block.querySelectorAll('.short-description');
       shortDesriptionTabletDivs.forEach((div) => {
-        div.classList.add('hide');
-        div.classList.remove('show');
+        if (div.classList.contains('active')) {
+          div.classList.toggle('active');
+        }
       });
 
       const longDescriptionDivs = block.querySelectorAll('.long-description');
       longDescriptionDivs.forEach((div) => {
-        div.classList.add('show');
-        div.classList.remove('hide');
+        if (!div.classList.contains('active')) {
+          div.classList.toggle('active');
+        }
       });
 
       const sliderCard = block.closest('.slider-card');
@@ -109,9 +108,7 @@ export default function decorate(block) {
   let indexFactor = 0;
 
   mediaWidthChangeHandler(mediaQuery);
-  mediaQuery.addEventListener('change', (event) => {
-    mediaWidthChangeHandler(event);
-  });
+  mediaQuery.addEventListener('change', mediaWidthChangeHandler);
 
   function isATablet() {
     const mediaQueryTablet = window.matchMedia(
@@ -120,14 +117,18 @@ export default function decorate(block) {
     return mediaQueryTablet.matches;
   }
 
-  block.querySelectorAll('.close-button').forEach((item) => {
-    item.addEventListener('click', () => {
-      const parent = item.closest('.card');
+  block.querySelectorAll('.close-button').forEach((button) => {
+    button.addEventListener('click', () => {
+      const parent = button.closest('.card');
       const shortDescription = parent.querySelector('.short-description');
       const longDescription = parent.querySelector('.long-description');
-      shortDescription.classList.remove('hide');
-      item.classList.add('hide');
-      longDescription.classList.remove('show');
+      if (!shortDescription.classList.contains('active')) {
+        shortDescription.classList.toggle('active');
+      }
+      button.classList.add('hide');
+      if (longDescription.classList.contains('active')) {
+        longDescription.classList.toggle('active');
+      }
     });
   });
 
@@ -139,24 +140,29 @@ export default function decorate(block) {
       const shortDescription = parent.querySelector('.short-description');
       const longDescription = parent.querySelector('.long-description');
       const closeButton = parent.querySelector('.close-button');
-
-      shortDescription.classList.add('hide');
+      if (shortDescription.classList.contains('active')) {
+        shortDescription.classList.toggle('active');
+      }
       closeButton.classList.remove('hide');
-      longDescription.classList.add('show');
+      if (!longDescription.classList.contains('active')) {
+        longDescription.classList.toggle('active');
+      }
     });
   });
 
   if (isATablet()) {
     const shortDesriptionTabletDivs = block.querySelectorAll('.short-description');
     shortDesriptionTabletDivs.forEach((div) => {
-      div.classList.add('hide');
-      div.classList.remove('show');
+      if (div.classList.contains('active')) {
+        div.classList.toggle('active');
+      }
     });
 
     const longDescriptionDivs = block.querySelectorAll('.long-description');
     longDescriptionDivs.forEach((div) => {
-      div.classList.add('show');
-      div.classList.remove('hide');
+      if (!div.classList.contains('active')) {
+        div.classList.toggle('active');
+      }
     });
   }
 
@@ -165,23 +171,16 @@ export default function decorate(block) {
   const slides = Array.from(block.querySelectorAll('.card'));
   if (slides.length > numberOfCardsDisplayed) {
     const chevronLeft = document.createElement('div');
-    chevronLeft.classList.add('chevron-left');
+    chevronLeft.classList.add('slider-button');
+    chevronLeft.classList.add('left');
 
     sliderWrapper.insertBefore(chevronLeft, slider);
 
-    const chevronLeftDiv = sliderWrapper.querySelector('.chevron-left');
-    const chevronLeftSvg = document.createElement('span');
-    chevronLeftSvg.classList.add('chevron-left-svg');
-    chevronLeftDiv.appendChild(chevronLeftSvg);
-
     const chevronRight = document.createElement('div');
-    chevronRight.classList.add('chevron-right');
+    chevronRight.classList.add('slider-button');
+    chevronRight.classList.add('right');
 
     sliderWrapper.appendChild(chevronRight);
-    const chevronRightDiv = sliderWrapper.querySelector('.chevron-right');
-    const chevronRightSvg = document.createElement('span');
-    chevronRightSvg.classList.add('chevron-right-svg');
-    chevronRightDiv.appendChild(chevronRightSvg);
   }
 
   function getPositionX(event) {
@@ -243,7 +242,7 @@ export default function decorate(block) {
     cancelAnimationFrame(animationID);
   }
 
-  sliderWrapper.querySelector('.chevron-left')?.addEventListener('click', () => {
+  sliderWrapper.querySelector('.slider-button.left')?.addEventListener('click', () => {
     if (currentIndex > 0) {
       currentIndex -= 1;
       indexFactor = -1;
@@ -251,7 +250,7 @@ export default function decorate(block) {
     }
   });
 
-  sliderWrapper.querySelector('.chevron-right')?.addEventListener('click', () => {
+  sliderWrapper.querySelector('.slider-button.right')?.addEventListener('click', () => {
     if (slides.length - currentIndex > numberOfCardsDisplayed) {
       currentIndex += 1;
       indexFactor = 1;
@@ -292,8 +291,9 @@ export default function decorate(block) {
     if (event.matches) {
       const shortDesriptionTabletDivs = block.querySelectorAll('.short-description');
       shortDesriptionTabletDivs.forEach((div) => {
-        div.classList.add('show');
-        div.classList.remove('hide');
+        if (!div.classList.contains('active')) {
+          div.classList.toggle('active');
+        }
       });
 
       const sliderCard = block.closest('.slider-card');
@@ -301,8 +301,9 @@ export default function decorate(block) {
 
       const longDescriptionDivs = block.querySelectorAll('.long-description');
       longDescriptionDivs.forEach((div) => {
-        div.classList.add('hide');
-        div.classList.remove('show');
+        if (div.classList.contains('active')) {
+          div.classList.toggle('active');
+        }
       });
       slides.forEach((slide, index) => {
         const slideImage = slide.querySelector('img');
