@@ -72,7 +72,9 @@
 @media screen and (min-width: 960px) {
   .accordion.block {
     height: 760px;
+    display: flex;
     align-items: center;
+    justify-content: center;
   }
 
   .accordion.block .accordion-slider {

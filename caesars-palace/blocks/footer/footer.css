@@ -1,26 +1,26 @@
-footer {
+footer{
   --text-color: var(--static-color-white);
   --link-color: var(--static-color-white);
   --heading-font-family: var(--body-font-family);
 
   position: relative;
   background-color: var(--static-color-black);
-  font-size: var(--body-font-size-s);
+  font-size: 14px;
   color: var(--text-color);
 }
 
-footer .footer {
+footer .footer .footer-wrapper {
   margin-right: auto;
   margin-left: auto;
   padding: 48px 0;
 }
 
-footer .footer a.primary {
+footer .footer .footer-content a.primary {
   background-color: var(--static-color-white);
   color: var(--static-color-black);
 }
 
-footer .footer h2 {
+footer .footer .footer-content h2 {
   font-size: 20px;
   font-weight: bold;
   line-height: 18px;
@@ -29,23 +29,27 @@ footer .footer h2 {
   color: var(--text-color);
 }
 
-footer .footer ul {
+footer .footer .footer-content ul {
   list-style-type: none;
   padding-left: 0;
   margin: 0 0 11px;
 }
 
-footer .footer a {
+footer .footer .footer-content a {
   color: var(--static-color-white);
   font-weight: 400;
-  line-height: 30px;
+  line-height: 36px;
   text-align: left;
 }
 
+footer .footer .footer-content > p {
+  font-size: var(--body-font-size-xs);
+  text-align: center;
+}
 
 footer .footer .footer-links > div {
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: column;
 }
 
 footer .footer .footer-property-links > div {
@@ -156,9 +160,25 @@ footer .footer .footer-property-links ul.open {
   display: block;
 }
 
+footer .footer .rewards-wrapper {
+  --text-color: var(--static-color-midnight);
+
+  margin: 145px 0 calc((100vw - 100%) / -2);
+  background-color: var(--static-color-light-gray);
+  padding-bottom: var(--layout-size-xxl);
+  color: var(--text-color);
+}
+
+/* Special screen size for footer only */
+@media only screen and (min-width: 600px) {
+  footer .footer .footer-links > div {
+    flex-flow: row nowrap;
+  }
+}
+
 /* Tablet (portrait) */
 @media only screen and (min-width: 768px) {
-  footer .footer {
+  footer .footer .footer-wrapper {
     width: var(--screen-width-s);
   }
 
@@ -174,14 +194,14 @@ footer .footer .footer-property-links ul.open {
 
 /* Tablet (landscape) */
 @media only screen and  (min-width: 960px) {
-  footer .footer {
+  footer .footer .footer-wrapper {
     width: var(--screen-width-m);
   }
 }
 
 /* Desktop (small) */
 @media only screen and  (min-width: 1170px) {
-  footer .footer {
+  footer .footer .footer-wrapper {
     width: var(--screen-width-l);
   }
 
@@ -233,7 +253,7 @@ footer .footer .footer-property-links ul.open {
 
 /* Desktop (large) */
 @media only screen and  (min-width: 1440px) {
-  footer .footer {
+  footer .footer .footer-wrapper {
     width: var(--screen-width-xl);
   }
 }

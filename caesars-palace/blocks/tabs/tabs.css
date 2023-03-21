@@ -1,3 +1,7 @@
+.tabs.block {
+  margin-top: 24px;
+}
+
 .tabs.block .tab-navbar {
   display: flex;
   flex-direction: row;
