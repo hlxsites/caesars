@@ -199,6 +199,19 @@ function buildSlide(slide, index) {
 }
 
 /**
+ * Updates load setting for images in a slide
+ * @param {*} slideId Id of the slide to update
+ */
+function setImageEagerLoading(block, slideId) {
+  const slide = block.querySelector(`#${slideId}`);
+  if (!slide) return;
+
+  slide.querySelectorAll('img').forEach((image) => {
+    image.loading = 'eager';
+  });
+}
+
+/**
  * Clone an existing carousel item
  * @param {Element} item carousel item to be cloned
  * @returns the clone of the carousel item
@@ -374,6 +387,8 @@ export default async function decorate(block) {
       block.querySelectorAll('img').forEach((image) => {
         image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '768' }]));
       });
+      setImageEagerLoading(block, 'carousel-slide0');
+      setImageEagerLoading(block, 'carousel-slide1');
     }
   };
   mediaSmallWidthChangeHandler(mediaSmallWidthQueryMatcher);
@@ -385,6 +400,8 @@ export default async function decorate(block) {
       block.querySelectorAll('img').forEach((image) => {
         image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '960' }]));
       });
+      setImageEagerLoading(block, 'carousel-slide0');
+      setImageEagerLoading(block, 'carousel-slide1');
     }
   };
   mediaMediumWidthChangeHandler(mediaMediumWidthQueryMatcher);
@@ -396,6 +413,8 @@ export default async function decorate(block) {
       block.querySelectorAll('img').forEach((image) => {
         image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '1170' }]));
       });
+      setImageEagerLoading(block, 'carousel-slide0');
+      setImageEagerLoading(block, 'carousel-slide1');
     }
   };
   mediaLargeWidthChangeHandler(mediaLargeWidthQueryMatcher);
@@ -407,8 +426,10 @@ export default async function decorate(block) {
   const mediaExtraLargeWidthChangeHandler = (event) => {
     if (event.matches === true) {
       block.querySelectorAll('img').forEach((image) => {
-        image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '1440px' }]));
+        image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '1440' }]));
       });
+      setImageEagerLoading(block, 'carousel-slide0');
+      setImageEagerLoading(block, 'carousel-slide1');
     }
   };
   mediaExtraLargeWidthChangeHandler(mediaExtraLargeWidthQueryMatcher);
