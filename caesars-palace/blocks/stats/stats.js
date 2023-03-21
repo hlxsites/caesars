@@ -7,7 +7,7 @@ export default function decorate(block) {
     const columnsInRow = [...statsRows[0].children].length;
 
     const mediaSmallWidthQueryMatcher = window.matchMedia('only screen and (max-width: 767px)');
-    const mediaSmallWidthChangeHandler = async (event) => {
+    const mediaSmallWidthChangeHandler = (event) => {
       if (event.matches === false) {
         statsRows[0].style = '';
       } else if (columnsInRow < 2) {
@@ -18,7 +18,7 @@ export default function decorate(block) {
     mediaSmallWidthQueryMatcher.addEventListener('change', mediaSmallWidthChangeHandler);
 
     const mediaWidthQueryMatcher = window.matchMedia('only screen and (min-width: 768px)');
-    const mediaWidthChangeHandler = async (event) => {
+    const mediaWidthChangeHandler = (event) => {
       if (event.matches === false) {
         statsRows[0].style = '';
       } else if (columnsInRow < 3) {
@@ -29,7 +29,7 @@ export default function decorate(block) {
     mediaWidthQueryMatcher.addEventListener('change', mediaWidthChangeHandler);
 
     const mediaLargeWidthQueryMatcher = window.matchMedia('only screen and (min-width: 960px)');
-    const mediaLargeWidthChangeHandler = async (event) => {
+    const mediaLargeWidthChangeHandler = (event) => {
       if (event.matches === false) {
         statsRows[0].style = '';
       } else if (columnsInRow < 5) {
