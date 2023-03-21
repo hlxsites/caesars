@@ -34,7 +34,7 @@
 .slider-card .card .short-description .discount
 {
   opacity: .7;
-  font-size: 12px;
+  font-size: 10px;
   font-weight: var(--emphasized-font-weight);
   margin-top: -10px;
 }
@@ -100,7 +100,7 @@
     display: block;
     font-family: var(--text-font-family);
     font-weight: var(--emphasized-font-weight);
-    font-size: 18px;
+    font-size: 16px;
     text-transform: uppercase;
   }
 }
@@ -111,7 +111,7 @@
     flex-direction: row;
     width: calc((100%/3) - 10px);
     gap: 10px;
-    font-size: 16px;
+    font-size: 12px;
   }
 
   .slider-card .card .short-description {
@@ -120,7 +120,7 @@
     background: #fff;
     position: relative;
     padding: 16px;
-    font-size: 16px;
+    font-size: 12px;
     
   }
 

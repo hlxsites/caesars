@@ -68,6 +68,8 @@ export default function decorate(block) {
         div.classList.add('hide');
         div.classList.remove('show');
       });
+      const sliderCard = block.closest('.slider-card');
+      sliderCard.style = 'width: 100%;';
     }
   };
 
@@ -94,7 +96,7 @@ export default function decorate(block) {
         div.classList.remove('hide');
       });
 
-      const sliderCard = block.querySelector('.slider-card');
+      const sliderCard = block.closest('.slider-card');
       sliderCard.style = 'width: 100%;';
     }
   };
