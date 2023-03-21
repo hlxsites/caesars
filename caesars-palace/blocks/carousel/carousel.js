@@ -247,10 +247,12 @@ function addClones(element) {
 /**
  * Start auto-scrolling
  * @param {*} block Block
- * @param {*} interval Optionel, configured time in ms to show a slide
+ * @param {*} interval Optional, configured time in ms to show a slide
  * Defaults to DEFAULT_SCROLL_INTERVAL_MS
  */
 function startAutoScroll(block, interval) {
+  if(interval === 0) return;
+
   if (!scrollInterval) {
     scrollInterval = setInterval(() => {
       const targetSlide = curSlide <= maxVisibleSlides ? curSlide + 1 : 0;
