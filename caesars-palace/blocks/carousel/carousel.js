@@ -426,7 +426,7 @@ export default async function decorate(block) {
   const mediaExtraLargeWidthChangeHandler = (event) => {
     if (event.matches === true) {
       block.querySelectorAll('img').forEach((image) => {
-        image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '1440px' }]));
+        image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '1440' }]));
       });
       setImageEagerLoading(block, 'carousel-slide0');
       setImageEagerLoading(block, 'carousel-slide1');
