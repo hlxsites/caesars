@@ -385,6 +385,16 @@ export default async function decorate(block) {
       block.querySelectorAll('img').forEach((image) => {
         image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '960' }]));
       });
+
+      const firstSlide = document.getElementById('carousel-slide1');
+      firstSlide.querySelectorAll('img').forEach((image) => {
+        image.loading = 'eager';
+      });
+
+      const secondSlide = document.getElementById('carousel-slide2');
+      secondSlide.querySelectorAll('img').forEach((image) => {
+        image.loading = 'eager';
+      });
     }
   };
   mediaMediumWidthChangeHandler(mediaMediumWidthQueryMatcher);
@@ -395,6 +405,16 @@ export default async function decorate(block) {
     if (event.matches === true) {
       block.querySelectorAll('img').forEach((image) => {
         image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '1170' }]));
+      });
+
+      const firstSlide = document.getElementById('carousel-slide1');
+      firstSlide.querySelectorAll('img').forEach((image) => {
+        image.loading = 'eager';
+      });
+
+      const secondSlide = document.getElementById('carousel-slide2');
+      secondSlide.querySelectorAll('img').forEach((image) => {
+        image.loading = 'eager';
       });
     }
   };
@@ -408,6 +428,16 @@ export default async function decorate(block) {
     if (event.matches === true) {
       block.querySelectorAll('img').forEach((image) => {
         image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '1440px' }]));
+      });
+
+      const firstSlide = document.getElementById('carousel-slide1');
+      firstSlide.querySelectorAll('img').forEach((image) => {
+        image.loading = 'eager';
+      });
+
+      const secondSlide = document.getElementById('carousel-slide2');
+      secondSlide.querySelectorAll('img').forEach((image) => {
+        image.loading = 'eager';
       });
     }
   };
