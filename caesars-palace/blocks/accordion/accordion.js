@@ -1,3 +1,5 @@
+import { createOptimizedPicture } from '../../scripts/lib-franklin.js';
+
 const DEFAULT_SELECTED_PANEL = 1;
 
 export default function decorate(block) {
@@ -46,6 +48,10 @@ export default function decorate(block) {
     if (event.matches === false) {
       const accordionPanels = block.getElementsByClassName('accordion-panel');
       [...accordionPanels].forEach((panel) => {
+        panel.querySelectorAll('img').forEach((image) => {
+          image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '960' }]));      
+        });
+
         let targetLink;
         let targetTitle;
         panel.querySelectorAll('a').forEach((link) => {
