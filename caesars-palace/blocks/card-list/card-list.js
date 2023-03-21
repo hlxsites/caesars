@@ -441,7 +441,7 @@ function createFilterOption(filter, filterValue) {
 }
 
 /**
- * Collects filter values from cards based on propertie values,
+ * Collects filter values from cards based on property values,
  * stores them in the filter configuration and writes the filter
  * attributes to the card.
  * @param cardData currently being rendered.
