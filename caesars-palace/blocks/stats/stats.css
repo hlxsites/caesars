@@ -1,7 +1,3 @@
-/*
-Stats Block (2->3->5 columns per row across key media breakpoints)
-*/
-
 div.stats-container {
   padding: 0;
 }
@@ -14,7 +10,7 @@ div.stats-container .short-stats {
   column-gap: var(--layout-size-m);
 }
 
-div.stats-container .stats>div>div {
+div.stats-container .stats > div > div {
   margin: var(--layout-size-m) 0;
 }
 
