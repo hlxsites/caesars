@@ -1,3 +1,5 @@
+import { createOptimizedPicture } from '../../scripts/lib-franklin.js';
+
 const DEFAULT_SELECTED_PANEL = 1;
 
 export default function decorate(block) {
@@ -40,6 +42,20 @@ export default function decorate(block) {
     });
   });
   block.appendChild(accordionSlider);
+
+  const mediaSmallWidthQueryMatcher = window.matchMedia('(max-width: 768px)');
+  const mediaSmallWidthChangeHandler = (event) => {
+    if (event.matches === true) {
+      const accordionPanels = block.getElementsByClassName('accordion-panel');
+      [...accordionPanels].forEach((panel) => {
+        panel.querySelectorAll('img').forEach((image) => {
+          image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '768' }]));
+        });
+      });
+    }
+  };
+  mediaSmallWidthChangeHandler(mediaSmallWidthQueryMatcher);
+  mediaSmallWidthQueryMatcher.addEventListener('change', mediaSmallWidthChangeHandler);
 
   const mediaWidthQueryMatcher = window.matchMedia('only screen and (min-width: 960px)');
   const mediaWidthChangeHandler = (event) => {
