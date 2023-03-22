@@ -96,8 +96,8 @@
   flex-direction: column;
   text-align: left;
   text-shadow: unset;
-  background-color: white;
-  color: black;
+  background-color: var(--static-color-white);
+  color: var(--static-color-black);
   height: 64px;
   margin-top: -32px;
   padding-left: 16px;
@@ -123,7 +123,7 @@
 
 .showcase.block .carousel-text h2 {
   text-transform: uppercase;
-  font-family: 'Montserrat',sans-serif;
+  font-family: var(--text-font-famly);
   font-weight: 700;
   line-height: 22px;
   margin-bottom: 8px;
