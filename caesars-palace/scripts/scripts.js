@@ -10,12 +10,28 @@ import {
   waitForLCP,
   loadBlocks,
   loadCSS,
+  createOptimizedPicture,
 } from './lib-franklin.js';
 
 const LCP_BLOCKS = []; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'caesars-palace'; // add your RUM generation information here
 
 function buildSectionBackground(main) {
+  const mediaMobileWidthQueryMatcher = window.matchMedia('only screen and (min-width: 1170px)');
+  const mediaMobileWidthChangeHandler = (event) => {
+    if (event.matches === false) {
+      main.querySelectorAll('.section.has-background').forEach((section) => {
+        section.querySelectorAll('img').forEach((image) => {
+          image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '1170' }]));
+        });
+      });
+    }
+  };
+  mediaMobileWidthChangeHandler(mediaMobileWidthQueryMatcher);
+  mediaMobileWidthQueryMatcher.addEventListener('change', (event) => {
+    mediaMobileWidthChangeHandler(event);
+  });
+
   main.querySelectorAll('.section.has-background').forEach((section) => {
     const picture = section.querySelector('picture');
     if (picture) {
