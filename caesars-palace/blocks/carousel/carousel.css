@@ -102,6 +102,9 @@
   padding-top: 16px;
   padding-bottom: 16px;
   padding-right: 10px;
+  margin-bottom: 48px;
+    margin-top: auto;
+    width: calc(100% - 58px);
 }
 
 .showcase.block .carousel-slide-container {
@@ -111,6 +114,10 @@
   margin: 0 auto;
   height: 528px;
 }
+
+.showcase.block .carousel-slide img {
+  height: 400px;
+} 
 
 .showcase.block .carousel-slide {
   width: 90%;
@@ -156,7 +163,12 @@
     height: 686px;
   }
 
+  .showcase.block .carousel-slide img {
+    height: unset;
+  } 
+
   .showcase.block .carousel-text {
+    margin-top: unset;
     top: unset;
     width: 60%;
     padding: 16px;
