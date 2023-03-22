@@ -46,9 +46,11 @@ async function getChevronSvg(iconPath) {
 /**
  * Returns true if the block is a product showcase,
  * false otherwise
+ * 
+ * @param carousel The carousel block
  */
-function isProductShowcase(){
-  return false;
+function isProductShowcase(block) {
+  return block.classList.contains('showcase');
 }
 
 /**
@@ -67,26 +69,35 @@ function stopAutoScroll() {
  */
 function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
   const carouselSlider = carousel.querySelector('.carousel-slide-container');
+  const isShowcase = isProductShowcase(carousel);
+  console.log("Carousel is product showcase: ", isShowcase);
 
-  let leftSlideOffset;
-  const realSlideWidth = carouselSlider.offsetWidth * 0.9;
-  const slidePadding = 32;
-  const realSlideWidthWithPadding = realSlideWidth + slidePadding;
-  const paddingFix = 16;
-  let translationCorrection = carouselSlider.offsetWidth - realSlideWidthWithPadding;
+  let widthUsage, realSlideWidth, slidePadding, realSlideWidthWithPadding, paddingFix;
+  if (isShowcase) {
+    widthUsage = 0.9;
+    realSlideWidth = carouselSlider.offsetWidth * widthUsage;
+    slidePadding = 32;
+    realSlideWidthWithPadding = realSlideWidth + slidePadding;
+    paddingFix = 16;
+  }
 
   if (slideIndex >= firstVisibleSlide && slideIndex <= maxVisibleSlides) {
-    console.log("1")
-
-    // normal sliding
+    // normal sliding in-between slides
     console.log("normal sliding: carouselSlider.offsetWidth: ", carouselSlider.offsetWidth);
     console.log("normal sliding: realSlideWidth", realSlideWidth);
     console.log("normal sliding: slidePadding", slidePadding);
     console.log("normal sliding: realSlideWidthWithPadding", realSlideWidthWithPadding);
-    console.log("normal sliding: translationCorrection", translationCorrection);
+
     console.log("-----");
 
-    leftSlideOffset = carouselSlider.offsetWidth * slideIndex - translationCorrection * slideIndex - paddingFix;
+    let leftSlideOffset;
+    if (isShowcase) {
+      let translationCorrection = carouselSlider.offsetWidth - realSlideWidthWithPadding;
+      console.log("normal sliding: translationCorrection", translationCorrection);
+      leftSlideOffset = carouselSlider.offsetWidth * slideIndex - translationCorrection * slideIndex - paddingFix;
+    } else {
+      leftSlideOffset = carouselSlider.offsetWidth * slideIndex * slideIndex;
+    }
     carouselSlider.scrollTo({
       left: leftSlideOffset,
       behavior: scrollBehavior,
@@ -104,33 +115,23 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
     });
     curSlide = slideIndex;
   } else if (slideIndex === 0) {
-    console.log("Sliding from first to last (backwards)")
-
     // sliding from first to last
-    console.log("backwards first->last sliding step 1: carouselSlider.offsetWidth: ", carouselSlider.offsetWidth);
-    console.log("backwards first->last sliding step 1: realSlideWidth", realSlideWidth);
-    console.log("backwards first->last sliding step 1: slidePadding", slidePadding);
-    console.log("backwards first->last sliding step 1: realSlideWidthWithPadding", realSlideWidthWithPadding);
-    console.log("backwards first->last sliding step 1: translationCorrection", translationCorrection);
-    console.log("-----");
-
-    leftSlideOffset = carouselSlider.offsetWidth * slideIndex - translationCorrection * slideIndex - paddingFix;
+    let leftSlideOffset;
+    if (isShowcase) {
+      let translationCorrection = carouselSlider.offsetWidth - realSlideWidthWithPadding;
+      console.log("backwards first->last sliding step 1: translationCorrection", translationCorrection);
+      leftSlideOffset = carouselSlider.offsetWidth * slideIndex - translationCorrection * slideIndex - paddingFix;
+    } else {
+      leftSlideOffset = carouselSlider.offsetWidth * slideIndex * slideIndex;
+    }
     carouselSlider.scrollTo({ left: leftSlideOffset, behavior: 'smooth' });
-    console.log("backwards first->last sliding step 1: Left slided offset for smooth slide: ", leftSlideOffset);
-    console.log("-----");
-    console.log("-----");
-
-    console.log("backwards first->last sliding step 2: carouselSlider.offsetWidth: ", carouselSlider.offsetWidth);
-    console.log("backwards first->last sliding step 2: realSlideWidth", realSlideWidth);
-    console.log("backwards first->last sliding step 2: slidePadding", slidePadding);
-    console.log("backwards first->last sliding step 2: realSlideWidthWithPadding", realSlideWidthWithPadding);
-    console.log("backwards first->last sliding step 2: translationCorrection", translationCorrection);
-    console.log("-----");
-
-    leftSlideOffset = carouselSlider.offsetWidth * maxVisibleSlides - translationCorrection * maxVisibleSlides - paddingFix;
+    if (isShowcase) {
+      let translationCorrection = carouselSlider.offsetWidth - realSlideWidthWithPadding;
+      leftSlideOffset = carouselSlider.offsetWidth * maxVisibleSlides - translationCorrection * maxVisibleSlides - paddingFix;
+    } else {
+      leftSlideOffset = carouselSlider.offsetWidth * maxVisibleSlides * maxVisibleSlides;
+    }
     setTimeout(() => carouselSlider.scrollTo({ left: leftSlideOffset, behavior: 'instant' }), SLIDE_ANIMATION_DURATION_MS);
-    console.log("backwards first->last sliding step 2: Left slided offset for instant slide: ", leftSlideOffset);
-    console.log("------------------------------");
 
     // sync slide state
     [...carouselSlider.children].forEach((slide, index) => {
@@ -143,32 +144,22 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
     curSlide = maxVisibleSlides;
   } else if (slideIndex === maxVisibleSlides + 1) {
     // sliding from last to first
-    console.log("Sliding from last to first (looping)")
-
-    console.log("looping last->first sliding step 1: carouselSlider.offsetWidth: ", carouselSlider.offsetWidth);
-    console.log("looping last->first sliding step 1: realSlideWidth", realSlideWidth);
-    console.log("looping last->first sliding step 1: slidePadding", slidePadding);
-    console.log("looping last->first sliding step 1: realSlideWidthWithPadding", realSlideWidthWithPadding);
-    console.log("looping last->first sliding step 1: translationCorrection", translationCorrection);
-    console.log("-----");
-
-    leftSlideOffset = carouselSlider.offsetWidth * slideIndex - translationCorrection * slideIndex - paddingFix;
+    let leftSlideOffset;
+    if (isShowcase) {
+      let translationCorrection = carouselSlider.offsetWidth - realSlideWidthWithPadding;
+      leftSlideOffset = carouselSlider.offsetWidth * slideIndex - translationCorrection * slideIndex - paddingFix;
+    } else {
+      leftSlideOffset = carouselSlider.offsetWidth * slideIndex * slideIndex;
+    }
     carouselSlider.scrollTo({ left: leftSlideOffset, behavior: 'smooth' });
-    console.log("looping last->first sliding step 1: Left slided offset for smooth slide: ", leftSlideOffset);
-    console.log("-----");
-    console.log("-----");
 
-    console.log("looping last->first sliding step 2: carouselSlider.offsetWidth: ", carouselSlider.offsetWidth);
-    console.log("looping last->first sliding step 2: realSlideWidth", realSlideWidth);
-    console.log("looping last->first sliding step 2: slidePadding", slidePadding);
-    console.log("looping last->first sliding step 2: realSlideWidthWithPadding", realSlideWidthWithPadding);
-    console.log("looping last->first sliding step 2: translationCorrection", translationCorrection);
-    console.log("-----");
-
-    leftSlideOffset = carouselSlider.offsetWidth * firstVisibleSlide - translationCorrection * firstVisibleSlide - paddingFix;
+    if (isShowcase) {
+      let translationCorrection = carouselSlider.offsetWidth - realSlideWidthWithPadding;
+      leftSlideOffset = carouselSlider.offsetWidth * firstVisibleSlide - translationCorrection * firstVisibleSlide - paddingFix;
+    } else {
+      leftSlideOffset = carouselSlider.offsetWidth * firstVisibleSlide * firstVisibleSlide;
+    }
     setTimeout(() => carouselSlider.scrollTo({ left: leftSlideOffset, behavior: 'instant' }), SLIDE_ANIMATION_DURATION_MS);
-    console.log("looping last->first sliding step 2: Left slided offset for instant slide: ", leftSlideOffset);
-    console.log("------------------------------");
 
     // sync slide state
     [...carouselSlider.children].forEach((slide, index) => {
@@ -386,8 +377,15 @@ export default async function decorate(block) {
   carousel.append(...slidesToAdd);
   addClones(carousel);
   block.append(carousel);
+
+  if (slides.length > 1) {
+    const prevBtn = await buildNav('prev');
+    const nextBtn = await buildNav('next');
+    block.append(prevBtn, nextBtn);
+  }
+
   setTimeout(() => {
-    console.log("Initial scroll: ON");
+    // scroll to first slide once all DOM has been built
     scrollToSlide(block, firstVisibleSlide, 'instant');
   }, 0);
 
@@ -522,12 +520,6 @@ export default async function decorate(block) {
         videoElement.loop = false;
         videoElement.playsinline = false;
       });
-      if (slides.length > 1) {
-        console.log("## Building nav buttons");
-        const prevBtn = await buildNav('prev');
-        const nextBtn = await buildNav('next');
-        block.append(prevBtn, nextBtn);
-      }
     } else {
       block.querySelectorAll('video').forEach((videoElement) => {
         videoElement.autoplay = true;
@@ -536,11 +528,6 @@ export default async function decorate(block) {
         videoElement.muted = true;
         videoElement.play();
       });
-      if (slides.length > 1) {
-        const prevBtn = await buildNav('prev');
-        const nextBtn = await buildNav('next');
-        block.append(prevBtn, nextBtn);
-      }
     }
   };
   mediaVideoWidthChangeHandler(mediaVideoWidthQueryMatcher);
