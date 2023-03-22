@@ -26,6 +26,7 @@ const firstVisibleSlide = 1;
 let scrollInterval;
 let curSlide = 1;
 let maxVisibleSlides = 0;
+let isShowcase = false;
 
 async function getChevronSvg(iconPath) {
   let svg = null;
@@ -69,8 +70,6 @@ function stopAutoScroll() {
  */
 function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
   const carouselSlider = carousel.querySelector('.carousel-slide-container');
-  const isShowcase = isProductShowcase(carousel);
-  console.log("Carousel is product showcase: ", isShowcase);
 
   let widthUsage, realSlideWidth, slidePadding, realSlideWidthWithPadding, paddingFix;
   if (isShowcase) {
@@ -83,17 +82,9 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
 
   if (slideIndex >= firstVisibleSlide && slideIndex <= maxVisibleSlides) {
     // normal sliding in-between slides
-    console.log("normal sliding: carouselSlider.offsetWidth: ", carouselSlider.offsetWidth);
-    console.log("normal sliding: realSlideWidth", realSlideWidth);
-    console.log("normal sliding: slidePadding", slidePadding);
-    console.log("normal sliding: realSlideWidthWithPadding", realSlideWidthWithPadding);
-
-    console.log("-----");
-
     let leftSlideOffset;
     if (isShowcase) {
       let translationCorrection = carouselSlider.offsetWidth - realSlideWidthWithPadding;
-      console.log("normal sliding: translationCorrection", translationCorrection);
       leftSlideOffset = carouselSlider.offsetWidth * slideIndex - translationCorrection * slideIndex - paddingFix;
     } else {
       leftSlideOffset = carouselSlider.offsetWidth * slideIndex;
@@ -102,8 +93,6 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
       left: leftSlideOffset,
       behavior: scrollBehavior,
     });
-    console.log("normal sliding: Left slided offset: ", leftSlideOffset);
-    console.log("------------------------------");
 
     // sync slide state
     [...carouselSlider.children].forEach((slide, index) => {
@@ -186,7 +175,6 @@ function snapScroll(el, dir = 1) {
     return;
   }
 
-  const isShowcase = isProductShowcase(el.parentNode);
   let snapLimit = 0.5;
   if(isShowcase){
     snapLimit = 0.05;
@@ -349,6 +337,7 @@ function startAutoScroll(block, interval) {
  */
 export default async function decorate(block) {
   const blockConfig = { ...DEFAULT_CONFIG, ...readBlockConfigWithContent(block) };
+  isShowcase = isProductShowcase(block);
 
   // turn video links into displayable videos
   block.querySelectorAll('a').forEach((videoLink) => {
