@@ -54,15 +54,15 @@ function stopAutoScroll() {
  */
 function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
   const carouselSlider = carousel.querySelector('.carousel-slide-container');
-  
+
 
   let slidingOffset = 1;
 
   let leftSlideOffset;
-    const realSlideWidth = carouselSlider.offsetWidth*0.9;
-    const slidePadding = 32;
-    const realSlideWidthWithPadding = realSlideWidth + slidePadding;
-    const translationCorrection = carouselSlider.offsetWidth - realSlideWidthWithPadding;
+  const realSlideWidth = carouselSlider.offsetWidth * 0.9;
+  const slidePadding = 32;
+  const realSlideWidthWithPadding = realSlideWidth + slidePadding;
+  const translationCorrection = carouselSlider.offsetWidth - realSlideWidthWithPadding;
 
   if (slideIndex >= firstVisibleSlide && slideIndex <= maxVisibleSlides) {
     console.log("1")
@@ -322,7 +322,7 @@ function addClones(element) {
  * Defaults to DEFAULT_SCROLL_INTERVAL_MS
  */
 function startAutoScroll(block, interval) {
-  if(interval === 0) return;
+  if (interval === 0) return;
 
   if (!scrollInterval) {
     scrollInterval = setInterval(() => {
