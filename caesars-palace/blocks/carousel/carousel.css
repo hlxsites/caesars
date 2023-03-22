@@ -157,6 +157,13 @@
     height: 686px;
   }
 
+  .showcase.block .carousel-slide > div {
+    font-family: unset;
+    line-height: unset;
+    letter-spacing: unset;
+    font-size: 16px;
+  }
+
   .showcase.block .carousel-slide img {
     height: unset;
   } 
@@ -176,7 +183,11 @@
   }
 
   .showcase.block .carousel-text p {
-    display: unset;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
   }
 
   .carousel.block .carousel-alt-image {
