@@ -573,4 +573,11 @@ export default async function decorate(block) {
       startAutoScroll(block, blockConfig.interval);
     }
   });
+
+  window.addEventListener('resize', () => {
+    setTimeout(() => {
+      // scroll to first slide once all DOM has been rebuilt
+      scrollToSlide(block, firstVisibleSlide, 'instant');
+    }, 0);
+  });
 }
