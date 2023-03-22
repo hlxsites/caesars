@@ -74,11 +74,11 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
   let widthUsage; let realSlideWidth; let slidePadding; let realSlideWidthWithPadding; let
     paddingFix;
   if (isShowcase) {
-    widthUsage = 0.9;
+    widthUsage = 0.9; /* carousel-slide width */
     realSlideWidth = carouselSlider.offsetWidth * widthUsage;
-    slidePadding = 32;
+    slidePadding = 32; /* carousel-slide padding-right */
     realSlideWidthWithPadding = realSlideWidth + slidePadding;
-    paddingFix = 16;
+    paddingFix = 16; /* carousel-text abs(margin-left) */
   }
 
   if (slideIndex >= firstVisibleSlide && slideIndex <= maxVisibleSlides) {
