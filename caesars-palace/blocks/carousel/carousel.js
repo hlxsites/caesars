@@ -185,11 +185,18 @@ function snapScroll(el, dir = 1) {
   if (!el) {
     return;
   }
-  let threshold = el.offsetWidth * 0.5;
+
+  const isShowcase = isProductShowcase(el.parentNode);
+  let snapLimit = 0.5;
+  if(isShowcase){
+    snapLimit = 0.05;
+  }
+
+  let threshold = el.offsetWidth * snapLimit;
   if (dir >= 0) {
-    threshold -= (threshold * 0.5);
+    threshold -= (threshold * snapLimit);
   } else {
-    threshold += (threshold * 0.5);
+    threshold += (threshold * snapLimit);
   }
   const block = Math.floor(el.scrollLeft / el.offsetWidth);
   const pos = el.scrollLeft - (el.offsetWidth * block);
@@ -367,7 +374,6 @@ export default async function decorate(block) {
   const carousel = document.createElement('div');
   carousel.classList.add('carousel-slide-container');
 
-  // add carousel to page
   const slides = [...block.children];
   maxVisibleSlides = slides.length;
   const slidesToAdd = new Array(maxVisibleSlides);
