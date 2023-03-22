@@ -199,6 +199,19 @@ function buildSlide(slide, index) {
 }
 
 /**
+ * Updates load setting for images in a slide
+ * @param {*} slideId Id of the slide to update
+ */
+function setImageEagerLoading(block, slideId) {
+  const slide = block.querySelector(`#${slideId}`);
+  if (!slide) return;
+
+  slide.querySelectorAll('img').forEach((image) => {
+    image.loading = 'eager';
+  });
+}
+
+/**
  * Clone an existing carousel item
  * @param {Element} item carousel item to be cloned
  * @returns the clone of the carousel item
@@ -368,18 +381,68 @@ export default async function decorate(block) {
     carousel.scrollLeft = prevScroll - walk;
   }, { passive: true });
 
-  const mediaWidthQueryMatcher = window.matchMedia('only screen and (min-width: 1170px)');
-  const mediaWidthChangeHandler = async (event) => {
+  const mediaSmallWidthQueryMatcher = window.matchMedia('(max-width: 768px)');
+  const mediaSmallWidthChangeHandler = (event) => {
+    if (event.matches === true) {
+      block.querySelectorAll('img').forEach((image) => {
+        image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '768' }]));
+      });
+      setImageEagerLoading(block, 'carousel-slide0');
+      setImageEagerLoading(block, 'carousel-slide1');
+    }
+  };
+  mediaSmallWidthChangeHandler(mediaSmallWidthQueryMatcher);
+  mediaSmallWidthQueryMatcher.addEventListener('change', mediaSmallWidthChangeHandler);
+
+  const mediaMediumWidthQueryMatcher = window.matchMedia('(min-width: 769px) and (max-width: 960px)');
+  const mediaMediumWidthChangeHandler = (event) => {
+    if (event.matches === true) {
+      block.querySelectorAll('img').forEach((image) => {
+        image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '960' }]));
+      });
+      setImageEagerLoading(block, 'carousel-slide0');
+      setImageEagerLoading(block, 'carousel-slide1');
+    }
+  };
+  mediaMediumWidthChangeHandler(mediaMediumWidthQueryMatcher);
+  mediaMediumWidthQueryMatcher.addEventListener('change', mediaMediumWidthChangeHandler);
+
+  const mediaLargeWidthQueryMatcher = window.matchMedia('(min-width: 961px) and (max-width: 1170px)');
+  const mediaLargeWidthChangeHandler = (event) => {
+    if (event.matches === true) {
+      block.querySelectorAll('img').forEach((image) => {
+        image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '1170' }]));
+      });
+      setImageEagerLoading(block, 'carousel-slide0');
+      setImageEagerLoading(block, 'carousel-slide1');
+    }
+  };
+  mediaLargeWidthChangeHandler(mediaLargeWidthQueryMatcher);
+  mediaLargeWidthQueryMatcher.addEventListener('change', (event) => {
+    mediaLargeWidthChangeHandler(event);
+  });
+
+  const mediaExtraLargeWidthQueryMatcher = window.matchMedia('(min-width: 1171px) and (max-width: 1440px)');
+  const mediaExtraLargeWidthChangeHandler = (event) => {
+    if (event.matches === true) {
+      block.querySelectorAll('img').forEach((image) => {
+        image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '1440' }]));
+      });
+      setImageEagerLoading(block, 'carousel-slide0');
+      setImageEagerLoading(block, 'carousel-slide1');
+    }
+  };
+  mediaExtraLargeWidthChangeHandler(mediaExtraLargeWidthQueryMatcher);
+  mediaExtraLargeWidthQueryMatcher.addEventListener('change', mediaExtraLargeWidthChangeHandler);
+
+  const mediaVideoWidthQueryMatcher = window.matchMedia('only screen and (max-width: 1170px)');
+  const mediaVideoWidthChangeHandler = async (event) => {
     if (event.matches === false) {
       block.querySelectorAll('video').forEach((videoElement) => {
         videoElement.muted = true;
         videoElement.autoplay = false;
         videoElement.loop = false;
         videoElement.playsinline = false;
-      });
-
-      block.querySelectorAll('img').forEach((image) => {
-        image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '1170' }]));
       });
     } else {
       block.querySelectorAll('video').forEach((videoElement) => {
@@ -396,10 +459,8 @@ export default async function decorate(block) {
       }
     }
   };
-  mediaWidthChangeHandler(mediaWidthQueryMatcher);
-  mediaWidthQueryMatcher.addEventListener('change', (event) => {
-    mediaWidthChangeHandler(event);
-  });
+  mediaVideoWidthChangeHandler(mediaVideoWidthQueryMatcher);
+  mediaVideoWidthQueryMatcher.addEventListener('change', mediaLargeWidthChangeHandler);
 
   // auto scroll when visible only
   const intersectionOptions = {
