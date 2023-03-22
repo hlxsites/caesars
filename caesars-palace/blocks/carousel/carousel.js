@@ -9,6 +9,12 @@
  * - next and previous navigation button
  */
 
+/* TMN-TODO:
+- text ellipsis
+- make whole card clickable on mobile (using last link - link from action button)
+- add navigation bubbles on desktop
+*/
+
 import { createOptimizedPicture } from '../../scripts/lib-franklin.js';
 import { readBlockConfigWithContent } from '../../scripts/scripts.js';
 

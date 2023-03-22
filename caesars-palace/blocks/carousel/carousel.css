@@ -183,11 +183,12 @@
   }
 
   .showcase.block .carousel-text p {
-    overflow: hidden;
+    display: unset;
+    /* overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
     -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+    -webkit-box-orient: vertical; */
   }
 
   .carousel.block .carousel-alt-image {
