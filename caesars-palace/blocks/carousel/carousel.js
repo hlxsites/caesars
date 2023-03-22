@@ -55,14 +55,12 @@ function stopAutoScroll() {
 function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
   const carouselSlider = carousel.querySelector('.carousel-slide-container');
 
-
-  let slidingOffset = 1;
-
   let leftSlideOffset;
   const realSlideWidth = carouselSlider.offsetWidth * 0.9;
   const slidePadding = 32;
   const realSlideWidthWithPadding = realSlideWidth + slidePadding;
   const translationCorrection = carouselSlider.offsetWidth - realSlideWidthWithPadding;
+  const paddingFix = 16;
 
   if (slideIndex >= firstVisibleSlide && slideIndex <= maxVisibleSlides) {
     console.log("1")
@@ -75,7 +73,7 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
     console.log("normal sliding: translationCorrection", translationCorrection);
     console.log("-----");
 
-    leftSlideOffset = carouselSlider.offsetWidth * slideIndex - translationCorrection * slideIndex;
+    leftSlideOffset = carouselSlider.offsetWidth * slideIndex - translationCorrection * slideIndex - paddingFix;
     carouselSlider.scrollTo({
       left: leftSlideOffset,
       behavior: scrollBehavior,
@@ -103,7 +101,7 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
     console.log("backwards first->last sliding step 1: translationCorrection", translationCorrection);
     console.log("-----");
 
-    leftSlideOffset = carouselSlider.offsetWidth * slideIndex - translationCorrection * slideIndex;
+    leftSlideOffset = carouselSlider.offsetWidth * slideIndex - translationCorrection * slideIndex - paddingFix;
     carouselSlider.scrollTo({ left: leftSlideOffset, behavior: 'smooth' });
     console.log("backwards first->last sliding step 1: Left slided offset for smooth slide: ", leftSlideOffset);
     console.log("-----");
@@ -116,7 +114,7 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
     console.log("backwards first->last sliding step 2: translationCorrection", translationCorrection);
     console.log("-----");
 
-    leftSlideOffset = carouselSlider.offsetWidth * maxVisibleSlides - translationCorrection * maxVisibleSlides;
+    leftSlideOffset = carouselSlider.offsetWidth * maxVisibleSlides - translationCorrection * maxVisibleSlides - paddingFix;
     setTimeout(() => carouselSlider.scrollTo({ left: leftSlideOffset, behavior: 'instant' }), SLIDE_ANIMATION_DURATION_MS);
     console.log("backwards first->last sliding step 2: Left slided offset for instant slide: ", leftSlideOffset);
     console.log("------------------------------");
@@ -141,7 +139,7 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
     console.log("looping last->first sliding step 1: translationCorrection", translationCorrection);
     console.log("-----");
 
-    leftSlideOffset = carouselSlider.offsetWidth * slideIndex - translationCorrection * slideIndex;
+    leftSlideOffset = carouselSlider.offsetWidth * slideIndex - translationCorrection * slideIndex - paddingFix;
     carouselSlider.scrollTo({ left: leftSlideOffset, behavior: 'smooth' });
     console.log("looping last->first sliding step 1: Left slided offset for smooth slide: ", leftSlideOffset);
     console.log("-----");
@@ -154,7 +152,7 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
     console.log("looping last->first sliding step 2: translationCorrection", translationCorrection);
     console.log("-----");
 
-    leftSlideOffset = carouselSlider.offsetWidth * firstVisibleSlide - translationCorrection * firstVisibleSlide;
+    leftSlideOffset = carouselSlider.offsetWidth * firstVisibleSlide - translationCorrection * firstVisibleSlide - paddingFix;
     setTimeout(() => carouselSlider.scrollTo({ left: leftSlideOffset, behavior: 'instant' }), SLIDE_ANIMATION_DURATION_MS);
     console.log("looping last->first sliding step 2: Left slided offset for instant slide: ", leftSlideOffset);
     console.log("------------------------------");
@@ -518,6 +516,12 @@ export default async function decorate(block) {
         videoElement.loop = false;
         videoElement.playsinline = false;
       });
+      if (slides.length > 1) {
+        console.log("## Building nav buttons");
+        const prevBtn = await buildNav('prev');
+        const nextBtn = await buildNav('next');
+        block.append(prevBtn, nextBtn);
+      }
     } else {
       block.querySelectorAll('video').forEach((videoElement) => {
         videoElement.autoplay = true;
