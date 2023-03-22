@@ -11,10 +11,48 @@ import {
   loadBlocks,
   loadCSS,
   createOptimizedPicture,
+  readBlockConfig,
 } from './lib-franklin.js';
 
 const LCP_BLOCKS = []; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'caesars-palace'; // add your RUM generation information here
+
+/**
+ * Read and return a configuration object for a block that contains both config
+ * values and content. Config values can be in the first row or multiple
+ * rows. When using multiple rows there must be a blank row between config and content.
+ * Config rows will also be remove from the block to allow further decoration of the
+ * content only.
+ *
+ * @param block A block to extract config from
+ */
+export function readBlockConfigWithContent(block) {
+  const configBlock = document.createElement('div');
+  const allRows = [...block.querySelectorAll(':scope>div')];
+  allRows.every((row) => {
+    if (row.children) {
+      const cols = [...row.children];
+      const isConfigRow = !!cols[1]
+        && cols[0].firstChild.nodeType === Node.TEXT_NODE
+        && cols[0].children.length === 0;
+      if (isConfigRow) {
+        configBlock.append(row);
+        return true;
+      }
+    }
+    if (row.children.length === 1 && row.firstElementChild.textContent.trim().length === 0) {
+      block.removeChild(row);
+    }
+    return false;
+  });
+  const configObj = readBlockConfig(configBlock);
+  Object.entries(configObj).forEach(([key, value]) => {
+    if (!Number.isNaN(value)) {
+      configObj[key] = Number(value);
+    }
+  });
+  return configObj;
+}
 
 function buildSectionBackground(main) {
   const mediaMobileWidthQueryMatcher = window.matchMedia('only screen and (min-width: 1170px)');
