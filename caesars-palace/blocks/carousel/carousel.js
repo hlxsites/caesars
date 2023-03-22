@@ -39,6 +39,14 @@ async function getChevronSvg(iconPath) {
 }
 
 /**
+ * Returns true if the block is a product showcase,
+ * false otherwise
+ */
+function isProductShowcase(){
+  return false;
+}
+
+/**
  * Clear any active scroll intervals
  */
 function stopAutoScroll() {

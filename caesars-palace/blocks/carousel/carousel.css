@@ -87,6 +87,67 @@
   font-size: 20px;
 }
 
+.showcase.block .carousel-text {
+  position: absolute;
+  z-index: 3;
+  bottom: 0;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  text-shadow: unset;
+  background-color: white;
+  color: black;
+  height: 64px;
+  margin-top: -32px;
+  padding-left: 16px;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  padding-right: 10px;
+}
+
+.showcase.block .carousel-slide-container {
+  width: 100%;
+  position: relative;
+  overflow: hidden;
+  margin: 0 auto;
+  height: 686px;
+}
+
+.showcase.block .carousel-slide {
+  width: 90%;
+  height: 100%;
+  position: absolute;
+  padding-right: 32px;
+}
+
+.showcase.block .carousel-text h2 {
+  text-transform: uppercase;
+  font-family: 'Montserrat',sans-serif;
+  font-weight: 700;
+  line-height: 22px;
+  margin-bottom: 8px;
+}
+
+.showcase.block .carousel-text h4 {
+  height: 15px;
+  opacity: .7;
+  font-size: 12px;
+  font-weight: 700;
+  margin-top: 8px;
+}
+
+.showcase.block .carousel-text p {
+  display: none;
+}
+
+.showcase.block .carousel-text .button-container {
+  margin-right: 0;
+  margin-left: auto;
+  margin-bottom: 16px;
+  margin-top: auto;
+}
+
 /* Responsive breakpoints */
 @media screen and (min-width: 1170px) {
   .showcase.block .carousel-text {
@@ -135,9 +196,11 @@
     opacity: .7;
     font-size: 12px;
     font-weight: 700;
+    margin-top: unset;
   }
 
   .showcase.block .carousel-text p {
+    display: unset;
     overflow-wrap: break-word;
   }
 
