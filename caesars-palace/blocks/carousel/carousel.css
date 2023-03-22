@@ -108,7 +108,15 @@
     overflow: hidden;
     margin: 0 auto;
     height: 670px;
-    border: 3px solid purple;
+    /* border: 3px solid purple; */
+  }
+
+  .showcase.block .carousel-slide {
+    width: 90%;
+    height: 100%;
+    position: absolute;
+    /* border: 3px solid red; */
+    padding-right: 32px;
   }
 
   .carousel.block .carousel-alt-image {

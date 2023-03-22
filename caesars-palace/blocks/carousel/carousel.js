@@ -54,13 +54,37 @@ function stopAutoScroll() {
  */
 function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
   const carouselSlider = carousel.querySelector('.carousel-slide-container');
+  
+
+  let slidingOffset = 1;
 
   if (slideIndex >= firstVisibleSlide && slideIndex <= maxVisibleSlides) {
+    console.log("1")
+
     // normal sliding
+
+    // TMN: Where does this 85 come from?
+    let leftSlideOffset;
+    const realSlideWidth = carouselSlider.offsetWidth*0.9;
+    const slidePadding = 32;
+    const realSlideWidthWithPadding = realSlideWidth + slidePadding;
+    const translationCorrection = carouselSlider.offsetWidth - realSlideWidthWithPadding;
+
+    console.log("carouselSlider.offsetWidth: ", carouselSlider.offsetWidth);
+    console.log("realSlideWidth", realSlideWidth);
+    console.log("slidePadding", slidePadding);
+    console.log("realSlideWidthWithPadding", realSlideWidthWithPadding);
+    console.log("translationCorrection", translationCorrection);
+    console.log("-----");
+
+    leftSlideOffset = carouselSlider.offsetWidth * slidingOffset * slideIndex - translationCorrection * slideIndex;
+
     carouselSlider.scrollTo({
-      left: carouselSlider.offsetWidth * slideIndex,
+      left: leftSlideOffset,
       behavior: scrollBehavior,
     });
+    console.log("Left slided offset: ", leftSlideOffset);
+    console.log("------------------------------");
 
     // sync slide state
     [...carouselSlider.children].forEach((slide, index) => {
@@ -72,8 +96,9 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
     });
     curSlide = slideIndex;
   } else if (slideIndex === 0) {
+    console.log("2")
     // sliding from first to last
-    carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * slideIndex, behavior: 'smooth' });
+    carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * slideIndex * slidingOffset, behavior: 'smooth' });
     setTimeout(() => carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * maxVisibleSlides, behavior: 'auto' }), SLIDE_ANIMATION_DURATION_MS);
 
     // sync slide state
@@ -87,7 +112,8 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
     curSlide = maxVisibleSlides;
   } else if (slideIndex === maxVisibleSlides + 1) {
     // sliding from last to first
-    carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * slideIndex, behavior: 'smooth' });
+    console.log("3")
+    carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * slidingOffset * slideIndex, behavior: 'smooth' });
     setTimeout(() => carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * firstVisibleSlide, behavior: 'auto' }), SLIDE_ANIMATION_DURATION_MS);
 
     // sync slide state
@@ -194,7 +220,9 @@ function buildSlide(slide, index) {
     slideAltImage.classList.add('carousel-alt-image');
   }
   slide.children[2].classList.add('carousel-text');
-  slide.style.transform = `translateX(${index * 100}%)`;
+
+  // slide positioning
+  slide.style.transform = `translateX(calc(${index * 100}%))`;
   return slide;
 }
 
@@ -312,6 +340,7 @@ export default async function decorate(block) {
   addClones(carousel);
   block.append(carousel);
   setTimeout(() => {
+    console.log("Initial scroll: ON");
     scrollToSlide(block, firstVisibleSlide, 'instant');
   }, 0);
 
