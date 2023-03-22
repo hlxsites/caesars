@@ -99,7 +99,7 @@
   background-color: var(--static-color-white);
   color: var(--static-color-black);
   height: 64px;
-  margin-top: -32px;
+  margin-top: 48px;
   padding-left: 16px;
   padding-top: 16px;
   padding-bottom: 16px;
@@ -111,7 +111,7 @@
   position: relative;
   overflow: hidden;
   margin: 0 auto;
-  height: 686px;
+  height: 528px;
 }
 
 .showcase.block .carousel-slide {
@@ -150,11 +150,19 @@
 
 /* Responsive breakpoints */
 @media screen and (min-width: 1170px) {
+  .showcase.block .carousel-slide-container {
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    margin: 0 auto;
+    height: 686px;
+  }
+
   .showcase.block .carousel-text {
     top: unset;
     width: 60%;
     padding: 16px;
-    margin-bottom: -16px;
+    margin-bottom: -16px; 
     margin-left: -16px;
     height: 176px;
   }
