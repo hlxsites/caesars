@@ -95,13 +95,16 @@
     bottom: 0;
     top: unset;
     width: 60%;
+    display: flex;
+    flex-direction: column;
     text-align: left;
+    text-shadow: unset;
     background-color: white;
     color: black;
-    text-shadow: unset;
     padding: 16px;
     margin-bottom: -16px;
     margin-left: -16px;
+    height: 176px;
   }
 
   .showcase.block .carousel-slide-container {
@@ -124,6 +127,7 @@
     font-family: 'Montserrat',sans-serif;
     font-weight: 700;
     line-height: 22px;
+    margin-bottom: 8px;
   }
 
   .showcase.block .carousel-text h4 {
@@ -135,6 +139,13 @@
 
   .showcase.block .carousel-text p {
     overflow-wrap: break-word;
+  }
+
+  .showcase.block .carousel-text .button-container {
+    margin-right: 0;
+    margin-left: auto;
+    margin-bottom: 16px;
+    margin-top: auto;
   }
 
   .carousel.block .carousel-alt-image {
