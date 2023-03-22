@@ -96,7 +96,7 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
       console.log("normal sliding: translationCorrection", translationCorrection);
       leftSlideOffset = carouselSlider.offsetWidth * slideIndex - translationCorrection * slideIndex - paddingFix;
     } else {
-      leftSlideOffset = carouselSlider.offsetWidth * slideIndex * slideIndex;
+      leftSlideOffset = carouselSlider.offsetWidth * slideIndex;
     }
     carouselSlider.scrollTo({
       left: leftSlideOffset,
@@ -122,7 +122,7 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
       console.log("backwards first->last sliding step 1: translationCorrection", translationCorrection);
       leftSlideOffset = carouselSlider.offsetWidth * slideIndex - translationCorrection * slideIndex - paddingFix;
     } else {
-      leftSlideOffset = carouselSlider.offsetWidth * slideIndex * slideIndex;
+      leftSlideOffset = carouselSlider.offsetWidth * slideIndex;
     }
     carouselSlider.scrollTo({ left: leftSlideOffset, behavior: 'smooth' });
     if (isShowcase) {
@@ -149,7 +149,7 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
       let translationCorrection = carouselSlider.offsetWidth - realSlideWidthWithPadding;
       leftSlideOffset = carouselSlider.offsetWidth * slideIndex - translationCorrection * slideIndex - paddingFix;
     } else {
-      leftSlideOffset = carouselSlider.offsetWidth * slideIndex * slideIndex;
+      leftSlideOffset = carouselSlider.offsetWidth * slideIndex;
     }
     carouselSlider.scrollTo({ left: leftSlideOffset, behavior: 'smooth' });
 
