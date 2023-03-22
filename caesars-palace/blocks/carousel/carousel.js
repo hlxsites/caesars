@@ -19,7 +19,7 @@ const NAVIGATION_DIRECTION_NEXT = 'next';
 const SLIDE_ANIMATION_DURATION_MS = 640;
 
 const DEFAULT_CONFIG = Object.freeze({
-  duration: DEFAULT_SCROLL_INTERVAL_MS,
+  interval: DEFAULT_SCROLL_INTERVAL_MS,
 });
 
 const firstVisibleSlide = 1;
@@ -344,7 +344,7 @@ export default async function decorate(block) {
     if (isDown) {
       snapScroll(carousel, carousel.scrollLeft > startScroll ? 1 : -1);
     }
-    startAutoScroll(block, blockConfig.duration);
+    startAutoScroll(block, blockConfig.interval);
     isDown = false;
   });
 
@@ -469,7 +469,7 @@ export default async function decorate(block) {
   const handleAutoScroll = (entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        startAutoScroll(block, blockConfig.duration);
+        startAutoScroll(block, blockConfig.interval);
       } else {
         stopAutoScroll();
       }
@@ -486,7 +486,7 @@ export default async function decorate(block) {
     if (document.hidden) {
       stopAutoScroll();
     } else {
-      startAutoScroll(block, blockConfig.duration);
+      startAutoScroll(block, blockConfig.interval);
     }
   });
 }
