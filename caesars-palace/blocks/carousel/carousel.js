@@ -47,7 +47,7 @@ async function getChevronSvg(iconPath) {
 /**
  * Returns true if the block is a product showcase,
  * false otherwise
- * 
+ *
  * @param carousel The carousel block
  */
 function isProductShowcase(block) {
@@ -71,7 +71,8 @@ function stopAutoScroll() {
 function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
   const carouselSlider = carousel.querySelector('.carousel-slide-container');
 
-  let widthUsage, realSlideWidth, slidePadding, realSlideWidthWithPadding, paddingFix;
+  let widthUsage; let realSlideWidth; let slidePadding; let realSlideWidthWithPadding; let
+    paddingFix;
   if (isShowcase) {
     widthUsage = 0.9;
     realSlideWidth = carouselSlider.offsetWidth * widthUsage;
@@ -84,8 +85,10 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
     // normal sliding in-between slides
     let leftSlideOffset;
     if (isShowcase) {
-      let translationCorrection = carouselSlider.offsetWidth - realSlideWidthWithPadding;
-      leftSlideOffset = carouselSlider.offsetWidth * slideIndex - translationCorrection * slideIndex - paddingFix;
+      const translationCorrection = carouselSlider.offsetWidth - realSlideWidthWithPadding;
+      leftSlideOffset = carouselSlider.offsetWidth * slideIndex
+        - translationCorrection * slideIndex
+        - paddingFix;
     } else {
       leftSlideOffset = carouselSlider.offsetWidth * slideIndex;
     }
@@ -107,16 +110,19 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
     // sliding from first to last
     let leftSlideOffset;
     if (isShowcase) {
-      let translationCorrection = carouselSlider.offsetWidth - realSlideWidthWithPadding;
-      console.log("backwards first->last sliding step 1: translationCorrection", translationCorrection);
-      leftSlideOffset = carouselSlider.offsetWidth * slideIndex - translationCorrection * slideIndex - paddingFix;
+      const translationCorrection = carouselSlider.offsetWidth - realSlideWidthWithPadding;
+      leftSlideOffset = carouselSlider.offsetWidth * slideIndex
+        - translationCorrection * slideIndex
+        - paddingFix;
     } else {
       leftSlideOffset = carouselSlider.offsetWidth * slideIndex;
     }
     carouselSlider.scrollTo({ left: leftSlideOffset, behavior: 'smooth' });
     if (isShowcase) {
-      let translationCorrection = carouselSlider.offsetWidth - realSlideWidthWithPadding;
-      leftSlideOffset = carouselSlider.offsetWidth * maxVisibleSlides - translationCorrection * maxVisibleSlides - paddingFix;
+      const translationCorrection = carouselSlider.offsetWidth - realSlideWidthWithPadding;
+      leftSlideOffset = carouselSlider.offsetWidth * maxVisibleSlides
+        - translationCorrection * maxVisibleSlides
+        - paddingFix;
     } else {
       leftSlideOffset = carouselSlider.offsetWidth * maxVisibleSlides * maxVisibleSlides;
     }
@@ -135,16 +141,20 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
     // sliding from last to first
     let leftSlideOffset;
     if (isShowcase) {
-      let translationCorrection = carouselSlider.offsetWidth - realSlideWidthWithPadding;
-      leftSlideOffset = carouselSlider.offsetWidth * slideIndex - translationCorrection * slideIndex - paddingFix;
+      const translationCorrection = carouselSlider.offsetWidth - realSlideWidthWithPadding;
+      leftSlideOffset = carouselSlider.offsetWidth * slideIndex
+        - translationCorrection * slideIndex
+        - paddingFix;
     } else {
       leftSlideOffset = carouselSlider.offsetWidth * slideIndex;
     }
     carouselSlider.scrollTo({ left: leftSlideOffset, behavior: 'smooth' });
 
     if (isShowcase) {
-      let translationCorrection = carouselSlider.offsetWidth - realSlideWidthWithPadding;
-      leftSlideOffset = carouselSlider.offsetWidth * firstVisibleSlide - translationCorrection * firstVisibleSlide - paddingFix;
+      const translationCorrection = carouselSlider.offsetWidth - realSlideWidthWithPadding;
+      leftSlideOffset = carouselSlider.offsetWidth * firstVisibleSlide
+        - translationCorrection * firstVisibleSlide
+        - paddingFix;
     } else {
       leftSlideOffset = carouselSlider.offsetWidth * firstVisibleSlide * firstVisibleSlide;
     }
@@ -176,7 +186,7 @@ function snapScroll(el, dir = 1) {
   }
 
   let snapLimit = 0.5;
-  if(isShowcase){
+  if (isShowcase) {
     snapLimit = 0.05;
   }
 
