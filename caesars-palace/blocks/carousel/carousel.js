@@ -59,8 +59,8 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
   const realSlideWidth = carouselSlider.offsetWidth * 0.9;
   const slidePadding = 32;
   const realSlideWidthWithPadding = realSlideWidth + slidePadding;
-  const translationCorrection = carouselSlider.offsetWidth - realSlideWidthWithPadding;
   const paddingFix = 16;
+  let translationCorrection = carouselSlider.offsetWidth - realSlideWidthWithPadding;
 
   if (slideIndex >= firstVisibleSlide && slideIndex <= maxVisibleSlides) {
     console.log("1")
