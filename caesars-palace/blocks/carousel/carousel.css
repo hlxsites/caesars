@@ -177,7 +177,6 @@
 
   .showcase.block .carousel-text p {
     display: unset;
-    overflow-wrap: break-word;
   }
 
   .carousel.block .carousel-alt-image {
