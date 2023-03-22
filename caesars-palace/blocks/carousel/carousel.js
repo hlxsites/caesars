@@ -58,32 +58,29 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
 
   let slidingOffset = 1;
 
-  if (slideIndex >= firstVisibleSlide && slideIndex <= maxVisibleSlides) {
-    console.log("1")
-
-    // normal sliding
-
-    // TMN: Where does this 85 come from?
-    let leftSlideOffset;
+  let leftSlideOffset;
     const realSlideWidth = carouselSlider.offsetWidth*0.9;
     const slidePadding = 32;
     const realSlideWidthWithPadding = realSlideWidth + slidePadding;
     const translationCorrection = carouselSlider.offsetWidth - realSlideWidthWithPadding;
 
-    console.log("carouselSlider.offsetWidth: ", carouselSlider.offsetWidth);
-    console.log("realSlideWidth", realSlideWidth);
-    console.log("slidePadding", slidePadding);
-    console.log("realSlideWidthWithPadding", realSlideWidthWithPadding);
-    console.log("translationCorrection", translationCorrection);
+  if (slideIndex >= firstVisibleSlide && slideIndex <= maxVisibleSlides) {
+    console.log("1")
+
+    // normal sliding
+    console.log("normal sliding: carouselSlider.offsetWidth: ", carouselSlider.offsetWidth);
+    console.log("normal sliding: realSlideWidth", realSlideWidth);
+    console.log("normal sliding: slidePadding", slidePadding);
+    console.log("normal sliding: realSlideWidthWithPadding", realSlideWidthWithPadding);
+    console.log("normal sliding: translationCorrection", translationCorrection);
     console.log("-----");
 
-    leftSlideOffset = carouselSlider.offsetWidth * slidingOffset * slideIndex - translationCorrection * slideIndex;
-
+    leftSlideOffset = carouselSlider.offsetWidth * slideIndex - translationCorrection * slideIndex;
     carouselSlider.scrollTo({
       left: leftSlideOffset,
       behavior: scrollBehavior,
     });
-    console.log("Left slided offset: ", leftSlideOffset);
+    console.log("normal sliding: Left slided offset: ", leftSlideOffset);
     console.log("------------------------------");
 
     // sync slide state
@@ -96,10 +93,33 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
     });
     curSlide = slideIndex;
   } else if (slideIndex === 0) {
-    console.log("2")
+    console.log("Sliding from first to last (backwards)")
+
     // sliding from first to last
-    carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * slideIndex * slidingOffset, behavior: 'smooth' });
-    setTimeout(() => carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * maxVisibleSlides, behavior: 'auto' }), SLIDE_ANIMATION_DURATION_MS);
+    console.log("backwards first->last sliding step 1: carouselSlider.offsetWidth: ", carouselSlider.offsetWidth);
+    console.log("backwards first->last sliding step 1: realSlideWidth", realSlideWidth);
+    console.log("backwards first->last sliding step 1: slidePadding", slidePadding);
+    console.log("backwards first->last sliding step 1: realSlideWidthWithPadding", realSlideWidthWithPadding);
+    console.log("backwards first->last sliding step 1: translationCorrection", translationCorrection);
+    console.log("-----");
+
+    leftSlideOffset = carouselSlider.offsetWidth * slideIndex - translationCorrection * slideIndex;
+    carouselSlider.scrollTo({ left: leftSlideOffset, behavior: 'smooth' });
+    console.log("backwards first->last sliding step 1: Left slided offset for smooth slide: ", leftSlideOffset);
+    console.log("-----");
+    console.log("-----");
+
+    console.log("backwards first->last sliding step 2: carouselSlider.offsetWidth: ", carouselSlider.offsetWidth);
+    console.log("backwards first->last sliding step 2: realSlideWidth", realSlideWidth);
+    console.log("backwards first->last sliding step 2: slidePadding", slidePadding);
+    console.log("backwards first->last sliding step 2: realSlideWidthWithPadding", realSlideWidthWithPadding);
+    console.log("backwards first->last sliding step 2: translationCorrection", translationCorrection);
+    console.log("-----");
+
+    leftSlideOffset = carouselSlider.offsetWidth * maxVisibleSlides - translationCorrection * maxVisibleSlides;
+    setTimeout(() => carouselSlider.scrollTo({ left: leftSlideOffset, behavior: 'instant' }), SLIDE_ANIMATION_DURATION_MS);
+    console.log("backwards first->last sliding step 2: Left slided offset for instant slide: ", leftSlideOffset);
+    console.log("------------------------------");
 
     // sync slide state
     [...carouselSlider.children].forEach((slide, index) => {
@@ -112,9 +132,32 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
     curSlide = maxVisibleSlides;
   } else if (slideIndex === maxVisibleSlides + 1) {
     // sliding from last to first
-    console.log("3")
-    carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * slidingOffset * slideIndex, behavior: 'smooth' });
-    setTimeout(() => carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * firstVisibleSlide, behavior: 'auto' }), SLIDE_ANIMATION_DURATION_MS);
+    console.log("Sliding from last to first (looping)")
+
+    console.log("looping last->first sliding step 1: carouselSlider.offsetWidth: ", carouselSlider.offsetWidth);
+    console.log("looping last->first sliding step 1: realSlideWidth", realSlideWidth);
+    console.log("looping last->first sliding step 1: slidePadding", slidePadding);
+    console.log("looping last->first sliding step 1: realSlideWidthWithPadding", realSlideWidthWithPadding);
+    console.log("looping last->first sliding step 1: translationCorrection", translationCorrection);
+    console.log("-----");
+
+    leftSlideOffset = carouselSlider.offsetWidth * slideIndex - translationCorrection * slideIndex;
+    carouselSlider.scrollTo({ left: leftSlideOffset, behavior: 'smooth' });
+    console.log("looping last->first sliding step 1: Left slided offset for smooth slide: ", leftSlideOffset);
+    console.log("-----");
+    console.log("-----");
+
+    console.log("looping last->first sliding step 2: carouselSlider.offsetWidth: ", carouselSlider.offsetWidth);
+    console.log("looping last->first sliding step 2: realSlideWidth", realSlideWidth);
+    console.log("looping last->first sliding step 2: slidePadding", slidePadding);
+    console.log("looping last->first sliding step 2: realSlideWidthWithPadding", realSlideWidthWithPadding);
+    console.log("looping last->first sliding step 2: translationCorrection", translationCorrection);
+    console.log("-----");
+
+    leftSlideOffset = carouselSlider.offsetWidth * firstVisibleSlide - translationCorrection * firstVisibleSlide;
+    setTimeout(() => carouselSlider.scrollTo({ left: leftSlideOffset, behavior: 'instant' }), SLIDE_ANIMATION_DURATION_MS);
+    console.log("looping last->first sliding step 2: Left slided offset for instant slide: ", leftSlideOffset);
+    console.log("------------------------------");
 
     // sync slide state
     [...carouselSlider.children].forEach((slide, index) => {
