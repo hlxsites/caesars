@@ -124,7 +124,7 @@
 .showcase.block .carousel-text h2 {
   text-transform: uppercase;
   font-family: var(--text-font-famly);
-  font-weight: 700;
+  font-weight: var(--emphasized-font-weight);
   line-height: 22px;
   margin-bottom: 8px;
 }
@@ -132,8 +132,8 @@
 .showcase.block .carousel-text h4 {
   height: 15px;
   opacity: .7;
-  font-size: 12px;
-  font-weight: 700;
+  font-size: var(--body-font-size-xs);
+  font-weight: var(--emphasized-font-weight);
   margin-top: 8px;
 }
 
