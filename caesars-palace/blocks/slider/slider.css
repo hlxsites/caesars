@@ -35,7 +35,7 @@
 .slider .card .short-description.active {
   padding: 16px;
   border: 1px solid var(--highlight-background-color);
-  background: #fff;
+  background: var(--static-color-white);
   height: 180px;
   display: block;
 }
@@ -85,7 +85,7 @@
 .slider .card .long-description.active {
   padding: 16px;
   border: 1px solid var(--highlight-background-color);
-  background: #fff;
+  background: var(--static-color-white);
   display: block;
   height: 180px;
 }
@@ -128,7 +128,7 @@
 
   .slider .card .short-description.active {
     margin: -35px 15px 15px;
-    background: #fff;
+    background: var(--static-color-white);
     position: relative;
     padding: 16px;
     font-size: var(--body-font-size-xs);
@@ -163,7 +163,7 @@
     position: absolute;
     z-index: 100;
     top: 30%;
-    background-color: white;
+    background-color: var(--static-color-white);
     width: 30px;
     height: 30px;
     border-radius: 80%;

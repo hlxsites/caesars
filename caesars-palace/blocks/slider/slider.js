@@ -3,6 +3,13 @@ const isADesktop = () => {
   return mediaDesktop.matches;
 };
 
+function isATablet() {
+  const mediaQueryTablet = window.matchMedia(
+    'only screen and (min-width: 481px) and (max-width:768px)',
+  );
+  return mediaQueryTablet.matches;
+}
+
 const getPositionX = (event) => (event.type.includes('mouse')
   ? event.pageX
   : event.touches[0].clientX);
@@ -18,8 +25,6 @@ export default function decorate(block) {
   // default value is 3
   let numberOfCardsDisplayed = 3;
   block.querySelectorAll('div.slider > div').forEach((div) => {
-    // We do not need to add a class to the first div as it includes the number of
-    // cards we wish to display
     block.classList.forEach((className) => {
       if (className.startsWith('max-visible-')) {
         // If the classname is 'max-visible-4', numberOfCardsDisplayed = 4
@@ -107,23 +112,9 @@ export default function decorate(block) {
       sliderCard.style = 'width: 100%;';
     }
   };
-  let isDragging = false;
-  let startPos = 0;
-  let currentTranslate = 0;
-  let prevTranslate = 0;
-  let animationID = 0;
-  let currentIndex = 0;
-  let indexFactor = 0;
 
   mediaWidthChangeHandler(mediaQuery);
   mediaQuery.addEventListener('change', mediaWidthChangeHandler);
-
-  function isATablet() {
-    const mediaQueryTablet = window.matchMedia(
-      'only screen and (min-width: 481px) and (max-width:768px)',
-    );
-    return mediaQueryTablet.matches;
-  }
 
   block.querySelectorAll('.close-button').forEach((button) => {
     button.addEventListener('click', () => {
@@ -190,6 +181,14 @@ export default function decorate(block) {
 
     sliderWrapper.appendChild(arrowRight);
   }
+
+  let isDragging = false;
+  let startPos = 0;
+  let currentTranslate = 0;
+  let prevTranslate = 0;
+  let animationID = 0;
+  let currentIndex = 0;
+  let indexFactor = 0;
 
   function animation() {
     setSliderPosition(currentTranslate, slider);
