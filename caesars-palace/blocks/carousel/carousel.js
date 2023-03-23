@@ -60,7 +60,7 @@ async function getIconSvg(iconPath) {
  * @param activeSlide {number} The active slide
  */
 function syncActiveDot(carousel, activeSlide) {
-  
+
 }
 
 /**
@@ -69,7 +69,7 @@ function syncActiveDot(carousel, activeSlide) {
  * @return {HTMLUListElement} The carousel dots element
  */
 function buildDots(slides = []) {
-  
+
 }
 
 /**
@@ -625,7 +625,7 @@ export default async function decorate(block) {
             const displayBufferPixels = 16;
             const textContentWidth = textContent.offsetWidth - displayBufferPixels;
             const ellipsedSuffix = blockConfig.ellipsis;
-              const allowedMaxLines = blockConfig.maxlines;
+            const allowedMaxLines = blockConfig.maxlines;
 
             const fullTextContent = textContent.innerHTML;
             const ellipsisBuilder = buildEllipsis(
