@@ -32,14 +32,21 @@
   text-align: center;
 }
 
-.slider:not(.flat) .card {
+.slider.no-image .card {
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%);
 }
 
 .slider .card .short-description {
   display: none;
   position: relative;
+  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%);
 }
+
+.slider.no-image .card .short-description,
+.slider.flat .card .short-description {
+  box-shadow: unset;
+}
+
 
 .slider .card .short-description.active {
   padding: 16px;

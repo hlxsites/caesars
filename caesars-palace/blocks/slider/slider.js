@@ -38,12 +38,11 @@ export default function decorate(block) {
 
     const picture = div.querySelector('picture');
     if (picture) {
-      picture.classList.add('card-image');
       const imageParent = picture.closest('div');
-      imageParent.classList.add('card-image-parent');
+      imageParent.classList.add('card-image');
     }
 
-    const contentDivs = div.querySelectorAll(':scope > div:not(.card-image-parent)');
+    const contentDivs = div.querySelectorAll(':scope > div:not(.card-image)');
     contentDivs[0].classList.add('short-description', 'active');
     contentDivs[1].classList.add('long-description');
   });
