@@ -55,13 +55,21 @@ async function getIconSvg(iconPath) {
 }
 
 /**
- * Returns true if the block is a product showcase,
- * false otherwise
- *
- * @param carousel The carousel block
+ * Keep active dot in sync with current slide
+ * @param carousel The carousel
+ * @param activeSlide {number} The active slide
  */
-function isProductShowcase(block) {
-  return block.classList.contains('showcase');
+function syncActiveDot(carousel, activeSlide) {
+  
+}
+
+/**
+ *
+ * @param slides An array of slide elements within the carousel
+ * @return {HTMLUListElement} The carousel dots element
+ */
+function buildDots(slides = []) {
+  
 }
 
 /**
@@ -402,7 +410,7 @@ function startAutoScroll(block, interval) {
  */
 export default async function decorate(block) {
   const blockConfig = { ...DEFAULT_CONFIG, ...readBlockConfigWithContent(block) };
-  isShowcase = isProductShowcase(block);
+  isShowcase = block.classList.contains('showcase');
 
   // turn video links into displayable videos
   block.querySelectorAll('a').forEach((videoLink) => {
