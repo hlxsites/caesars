@@ -7,6 +7,9 @@
  * - swipe between slides
  * - allow endless sliding
  * - next and previous navigation button
+ *
+ * Showcase variant only:
+ * - clickable short/long text for showcase variant with close button
  */
 
 /* TMN-TODO:
@@ -284,7 +287,7 @@ function getLineCount(text, width, options = {}) {
  * @param {String} text Text that will be shortened
  * @param {Integer} width Width of container
  * @param {Integer} maxVisibleLines Max visible lines allowed
- * @param {*} suffix Suffix to use for ellipsis 
+ * @param {*} suffix Suffix to use for ellipsis
  *  (will make sure text+ellipsis fit in `maxVisibleLines`)
  * @param {*} options Text styling option
  *
@@ -648,7 +651,13 @@ export default async function decorate(block) {
               const allowedMaxLines = 2;
 
               const fullTextContent = textContent.innerHTML;
-              const ellipsedTextSegment = buildEllipsis(fullTextContent, textContentWidth, allowedMaxLines, ellipsedSuffix, textOptions);
+              const ellipsedTextSegment = buildEllipsis(
+                fullTextContent,
+                textContentWidth,
+                allowedMaxLines,
+                ellipsedSuffix,
+                textOptions,
+              );
 
               const clickableCloseButton = document.createElement('span');
               const clickableEllipsis = document.createElement('span');
@@ -659,7 +668,7 @@ export default async function decorate(block) {
               clickableCloseButton.innerHTML = closeButtonSvg;
               clickableEllipsis.innerHTML = ellipsedSuffix;
               textContent.innerHTML = `${ellipsedTextSegment}`;
-              
+
               textContent.append(clickableEllipsis);
               carouselText.append(clickableCloseButton);
 
@@ -678,7 +687,7 @@ export default async function decorate(block) {
               });
             }
           }
-        })
+        });
       });
     } else {
       console.log("Make slide clickable using button-container link");
