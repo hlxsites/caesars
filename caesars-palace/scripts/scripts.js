@@ -41,7 +41,7 @@ export function readBlockConfigWithContent(block) {
         return true;
       }
     }
-    if (row.children.length > 0 && row.firstElementChild.textContent.trim().length === 0) {
+    if (row.children.length === 1 && row.firstElementChild.textContent.trim().length === 0) {
       block.removeChild(row);
     }
     return false;
