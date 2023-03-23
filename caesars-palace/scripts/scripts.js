@@ -33,6 +33,7 @@ export function readBlockConfigWithContent(block) {
     if (row.children) {
       const cols = [...row.children];
       const isConfigRow = !!cols[1]
+        && cols[0].hasChildNodes()
         && cols[0].firstChild.nodeType === Node.TEXT_NODE
         && cols[0].children.length === 0;
       if (isConfigRow) {
@@ -40,7 +41,7 @@ export function readBlockConfigWithContent(block) {
         return true;
       }
     }
-    if (row.children.length === 1 && row.firstElementChild.textContent.trim().length === 0) {
+    if (row.children.length > 0 && row.firstElementChild.textContent.trim().length === 0) {
       block.removeChild(row);
     }
     return false;
