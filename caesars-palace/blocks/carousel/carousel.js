@@ -60,6 +60,8 @@ async function getIconSvg(iconPath) {
  * @param activeSlide {number} The active slide
  */
 function syncActiveDot(block, slideIndex) {
+  console.log('Syncing slide index: ', slideIndex);
+
   const carouselNavDots = block.getElementsByClassName('carousel-nav-dot');
   const targetId = `carousel-nav-dot-${slideIndex}`;
   [...carouselNavDots].forEach((navDot) => {
@@ -144,10 +146,10 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
     } else {
       leftSlideOffset = carouselSlider.offsetWidth * maxVisibleSlides;
     }
-    setTimeout(() => {
-      carouselSlider.scrollTo({ left: leftSlideOffset, behavior: 'instant' }, SLIDE_ANIMATION_DURATION_MS);
+    setTimeout(() => { 
+      carouselSlider.scrollTo({ left: leftSlideOffset, behavior: 'instant' })
       syncActiveDot(carousel, maxVisibleSlides);
-    });
+    }, SLIDE_ANIMATION_DURATION_MS);
 
     // sync slide state
     [...carouselSlider.children].forEach((slide, index) => {
@@ -177,12 +179,13 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
         - translationCorrection * firstVisibleSlide
         - paddingFix;
     } else {
-      leftSlideOffset = carouselSlider.offsetWidth * firstVisibleSlide * firstVisibleSlide;
+      leftSlideOffset = carouselSlider.offsetWidth * firstVisibleSlide;
     }
-    setTimeout(() => {
-      carouselSlider.scrollTo({ left: leftSlideOffset, behavior: 'instant' }, SLIDE_ANIMATION_DURATION_MS);
+    setTimeout(() => 
+    {
+      carouselSlider.scrollTo({ left: leftSlideOffset, behavior: 'instant' });
       syncActiveDot(carousel, firstVisibleSlide);
-    });
+    }, SLIDE_ANIMATION_DURATION_MS);
 
     // sync slide state
     [...carouselSlider.children].forEach((slide, index) => {
