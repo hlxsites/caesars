@@ -64,7 +64,7 @@ function syncActiveDot(carousel, activeSlide) {
 }
 
 /**
- *
+ * Build navigation dots
  * @param slides An array of slide elements within the carousel
  * @return {HTMLUListElement} The carousel dots element
  */
