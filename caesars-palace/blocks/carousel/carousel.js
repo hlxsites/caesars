@@ -69,7 +69,32 @@ function syncActiveDot(carousel, activeSlide) {
  * @return {HTMLUListElement} The carousel dots element
  */
 function buildDots(slides = []) {
-
+  const dots = document.createElement('ul');
+  dots.classList.add('carousel-dots');
+  dots.setAttribute('role', 'tablist');
+  slides.forEach((slide, index) => {
+    const dotItem = document.createElement('li');
+    dotItem.setAttribute('role', 'presentation');
+    if (index === 0) {
+      dotItem.classList.add('carousel-dots-active');
+    }
+    const dotBtn = document.createElement('button');
+    dotBtn.setAttribute('id', `carousel-nav-dot-${index+1}`);
+    dotBtn.setAttribute('type', 'button');
+    dotBtn.setAttribute('role', 'tab');
+    if (index === 0) {
+      dotBtn.setAttribute('tabindex', '0');
+    } else {
+      dotBtn.setAttribute('tabindex', '-1');
+    }
+    dotBtn.innerText = `${index + 1}`;
+    dotItem.append(dotBtn);
+    dotItem.addEventListener('click', (e) => {
+      console.log("Navigate to slide");
+    });
+    dots.append(dotItem);
+  });
+  return dots;
 }
 
 /**
@@ -442,6 +467,11 @@ export default async function decorate(block) {
   slides.forEach((slide, index) => {
     slidesToAdd[index] = buildSlide(slide, index + 1);
   });
+
+  if(slides.length > 1 && isShowcase){
+    const navigationDots = buildDots(slides);
+    console.log(navigationDots);
+  }
   carousel.append(...slidesToAdd);
   addClones(carousel);
   block.append(carousel);
