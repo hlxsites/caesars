@@ -186,6 +186,14 @@
     display: none;
   }
 
+  .showcase.block .active-close-button {
+    position: absolute;
+    width: 16px;
+    color: black;
+    right: 16px;
+    top: 16px;
+  }
+
   .showcase.block .extended-text .button-container {
     display: none;
   }

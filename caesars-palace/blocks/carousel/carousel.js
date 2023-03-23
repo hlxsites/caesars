@@ -37,7 +37,7 @@ let isShowcase = false;
  * @param {*} iconPath Icon to get
  * @returns The SVG of the icon
  */
-async function getChevronSvg(iconPath) {
+async function getIconSvg(iconPath) {
   let svg = null;
   try {
     const response = await fetch(`${window.hlx.codeBasePath}/${iconPath}`);
@@ -223,9 +223,9 @@ async function buildNav(navigationDirection) {
 
   let chevron;
   if (navigationDirection === NAVIGATION_DIRECTION_PREV) {
-    chevron = await getChevronSvg('icons/chevron-left.svg');
+    chevron = await getIconSvg('icons/chevron-left.svg');
   } else if (navigationDirection === NAVIGATION_DIRECTION_NEXT) {
-    chevron = await getChevronSvg('icons/chevron-right.svg');
+    chevron = await getIconSvg('icons/chevron-right.svg');
   }
   const chevronButton = document.createElement('span');
   chevronButton.innerHTML = chevron;
@@ -279,6 +279,17 @@ function getLineCount(text, width, options = {}) {
   return lineCount;
 }
 
+/**
+ * Build the preview of an ellipsed text
+ * @param {String} text Text that will be shortened
+ * @param {Integer} width Width of container
+ * @param {Integer} maxVisibleLines Max visible lines allowed
+ * @param {*} suffix Suffix to use for ellipsis 
+ *  (will make sure text+ellipsis fit in `maxVisibleLines`)
+ * @param {*} options Text styling option
+ *
+ * @return The ellipsed text (without ellipsis suffix)
+ */
 function buildEllipsis(text, width, maxVisibleLines, suffix, options = {}) {
   const canvas = getLineCount.canvas || (getLineCount.canvas = document.createElement('canvas'));
   const context = canvas.getContext('2d');
@@ -586,7 +597,7 @@ export default async function decorate(block) {
   mediaExtraLargeWidthQueryMatcher.addEventListener('change', mediaExtraLargeWidthChangeHandler);
 
   const mediaVideoWidthQueryMatcher = window.matchMedia('only screen and (max-width: 1170px)');
-  const mediaVideoWidthChangeHandler = async (event) => {
+  const mediaVideoWidthChangeHandler = (event) => {
     if (event.matches === false) {
       block.querySelectorAll('video').forEach((videoElement) => {
         videoElement.muted = true;
@@ -613,8 +624,19 @@ export default async function decorate(block) {
 
     if (event.matches === true) {
       const carouselTextElements = block.getElementsByClassName('carousel-text');
+
+      const closeButtonSvg = await getIconSvg('icons/close-bold.svg');
       [...carouselTextElements].forEach((carouselText) => {
-        // ellipsis in text-carousel
+        
+      const clickableCloseButton = document.createElement('span');
+      clickableCloseButton.classList.add('active-close-button');
+      clickableCloseButton.innerHTML = closeButtonSvg;
+      carouselText.append(clickableCloseButton);
+      clickableCloseButton.addEventListener('click', () => {
+        console.log("Clicked close button");
+      });
+
+        // build "ellipsable" text content
         const textContents = carouselText.querySelectorAll('p');
 
         [...textContents].forEach((textContent) => {
