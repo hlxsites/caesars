@@ -46,11 +46,6 @@ export default function decorate(block) {
     const contentDivs = div.querySelectorAll(':scope > div:not(.card-image-parent)');
     contentDivs[0].classList.add('short-description', 'active');
     contentDivs[1].classList.add('long-description');
-
-    const closeButton = document.createElement('div');
-    closeButton.classList.add('close-button');
-    closeButton.classList.add('hide');
-    div.insertBefore(closeButton, contentDivs[1]);
   });
 
   block.appendChild(cardWrapper);
@@ -63,6 +58,12 @@ export default function decorate(block) {
     if (showMore) {
       showMore.classList.add('show-more');
     }
+  });
+
+  longDescriptionDivs.forEach((div) => {
+    const closeButton = document.createElement('div');
+    closeButton.classList.add('close-button', 'hide');
+    div.appendChild(closeButton);
   });
 
   if (isATablet()) {
