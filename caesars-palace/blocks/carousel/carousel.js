@@ -5,16 +5,14 @@
  * - smooth scrolling
  * - mouse drag between slides
  * - swipe between slides
- * - allow endless sliding
- * - next and previous navigation button
+ * - endless sliding
+ * - next and previous navigation buttons
  *
  * Showcase variant only:
  * - clickable short/long text for showcase variant with close button
+ * - direct selection via dots
+ * - active slide indicator
  */
-
-/* TMN-TODO:
-- add navigation bubbles on desktop
-*/
 
 import { createOptimizedPicture } from '../../scripts/lib-franklin.js';
 import { readBlockConfigWithContent } from '../../scripts/scripts.js';
