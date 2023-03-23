@@ -191,6 +191,10 @@
     margin-right: 8px;
   }
 
+  .showcase.block .carousel-nav-dot:hover {
+    background-color: var(--static-color-gray-medium);
+  }
+
   .showcase.block .carousel-slide img {
     height: unset;
   } 
