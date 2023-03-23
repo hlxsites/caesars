@@ -68,31 +68,47 @@ function syncActiveDot(carousel, activeSlide) {
  * @param slides An array of slide elements within the carousel
  * @return {HTMLUListElement} The carousel dots element
  */
-function buildDots(slides = []) {
+function buildDots(block, slides = []) {
   const dots = document.createElement('ul');
   dots.classList.add('carousel-dots');
   dots.setAttribute('role', 'tablist');
   slides.forEach((slide, index) => {
     const dotItem = document.createElement('li');
     dotItem.setAttribute('role', 'presentation');
-    if (index === 0) {
-      dotItem.classList.add('carousel-nav-dot-active');
-    }
     const dotBtn = document.createElement('button');
     dotBtn.classList.add('carousel-nav-dot');
     dotBtn.setAttribute('id', `carousel-nav-dot-${index+1}`);
     dotBtn.setAttribute('type', 'button');
     dotBtn.setAttribute('role', 'tab');
-    if (index === 0) {
+
+    console.log(index)
+    if (index+1 === firstVisibleSlide) {
       dotBtn.setAttribute('tabindex', '0');
+      dotBtn.classList.add('carousel-nav-dot-active');
     } else {
       dotBtn.setAttribute('tabindex', '-1');
     }
     dotBtn.innerText = "";
     dotItem.append(dotBtn);
+
     dotItem.addEventListener('click', (e) => {
-      console.log("Navigate to slide");
+      const slideIndex = index+1;
+      console.log(`Clicked index: ${slideIndex}`);
+      const otherCarouselNavDots = block.getElementsByClassName('carousel-nav-dot');
+
+      const targetId = `carousel-nav-dot-${slideIndex}`;
+      [...otherCarouselNavDots].forEach((navDot) =>{
+        console.log(navDot.id);
+
+        if(navDot.id === targetId){
+          navDot.classList.add('carousel-nav-dot-active');
+        } else {
+          navDot.classList.remove('carousel-nav-dot-active');
+        }
+      })
+
     });
+
     dots.append(dotItem);
   });
   return dots;
@@ -471,7 +487,7 @@ export default async function decorate(block) {
 
   let navigationDots;
   if(isShowcase){
-    navigationDots = buildDots(slides);
+    navigationDots = buildDots(block, slides);
   }
   carousel.append(...slidesToAdd);
   addClones(carousel);

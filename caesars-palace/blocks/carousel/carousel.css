@@ -180,17 +180,17 @@
     list-style-type: none;
   }
 
-  .showcase.block .carousel-nav-dot-active > button {
-    background-color: var(--static-color-gray-medium);
-    border: 1px solid var(--static-color-gray-medium);
-  }
-
   .showcase.block .carousel-nav-dot {
     min-width: unset;
     height: 4px;
     margin-right: 8px;
     background-color: var(--static-color-light-gray);
     border: 1px solid var(--static-color-light-gray);
+  }
+
+  .showcase.block .carousel-nav-dot-active {
+    background-color: var(--static-color-gray-medium);
+    border: 1px solid var(--static-color-gray-medium);
   }
 
   .showcase.block .carousel-nav-dot:hover {
