@@ -47,12 +47,14 @@
   box-shadow: unset;
 }
 
-
 .slider .card .short-description.active {
   padding: 16px;
-  background: var(--static-color-white);
   height: 180px;
   display: block;
+}
+
+.slider:not(.flat) .card .short-description.active {
+  background: var(--static-color-white);
 }
 
 .slider .card .short-description h4 {
