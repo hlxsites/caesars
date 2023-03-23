@@ -186,6 +186,12 @@
     display: unset;
   }
 
+  .showcase.block  span.clickable-ellipsis {
+    cursor: pointer;
+    margin-left: 4px;
+    font-weight: 600;
+  }
+
   .carousel.block .carousel-alt-image {
     position: unset;
     visibility: visible;
