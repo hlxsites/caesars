@@ -93,18 +93,16 @@ function buildDots(block, slides = []) {
 
     dotItem.addEventListener('click', (e) => {
       const slideIndex = index+1;
-      console.log(`Clicked index: ${slideIndex}`);
       const otherCarouselNavDots = block.getElementsByClassName('carousel-nav-dot');
 
       const targetId = `carousel-nav-dot-${slideIndex}`;
       [...otherCarouselNavDots].forEach((navDot) =>{
-        console.log(navDot.id);
-
         if(navDot.id === targetId){
           navDot.classList.add('carousel-nav-dot-active');
         } else {
           navDot.classList.remove('carousel-nav-dot-active');
         }
+        scrollToSlide(block, slideIndex);
       })
 
     });
