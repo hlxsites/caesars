@@ -313,6 +313,7 @@ header nav .nav-tools p:first-of-type a:hover {
     justify-content: flex-start;
     max-width: 1170px;
     height: var(--global-nav-height);
+    transition: height .2s ease-in-out;
     overflow: visible;
     background-color: white;
     gap: 0 2em;
@@ -321,14 +322,13 @@ header nav .nav-tools p:first-of-type a:hover {
   }
   
   header.is-sticky .global-nav-desktop {
-    display: none;
+    height: 0;
   }
+
 
   header .global-nav-desktop .logo {
     display: flex;
     justify-content: center;
-
-    /* transition: height .2s ease-in-out; */
     width: 200px;
   }
 
@@ -399,11 +399,18 @@ header nav .nav-tools p:first-of-type a:hover {
     height: 120px;
     min-width: 200px;
     background-color: var(--static-color-black);
-    transition: height 200ms cubic-bezier(0.4,0,1,1);
-    transition: transform 200ms cubic-bezier(0.4,0,1,1);
+    transform: scale(1.1) translateY(25px);
+    transition: transform 200ms cubic-bezier(0.4, 0, 1, 1) 0ms;
     box-shadow: 0 20px 25px -5px rgb(0 0 0 / 10%), 0 10px 10px -5px rgb(0 0 0 / 6%);
     align-items: unset;
     align-self: flex-start;
+  }
+
+  header.is-sticky nav .nav-brand{
+    transform: translateY(10px);
+    height: 40px;
+    transition: transform 200ms cubic-bezier(0.4, 0, 1, 1) 0ms;
+    transition: height 200ms cubic-bezier(0.4,0,1,1);
   }
 
   header nav .nav-brand p a {
@@ -413,7 +420,7 @@ header nav .nav-tools p:first-of-type a:hover {
   }
 
   header.is-sticky nav .nav-brand p a {
-    height: var(--nav-height);
+    height: 40px;
   }
 
   header nav .nav-brand p a::after {
