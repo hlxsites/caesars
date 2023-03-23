@@ -626,16 +626,8 @@ export default async function decorate(block) {
       const carouselTextElements = block.getElementsByClassName('carousel-text');
 
       const closeButtonSvg = await getIconSvg('icons/close-bold.svg');
-      [...carouselTextElements].forEach((carouselText) => {
-        
-      const clickableCloseButton = document.createElement('span');
-      clickableCloseButton.classList.add('active-close-button');
-      clickableCloseButton.innerHTML = closeButtonSvg;
-      carouselText.append(clickableCloseButton);
-      clickableCloseButton.addEventListener('click', () => {
-        console.log("Clicked close button");
-      });
 
+      [...carouselTextElements].forEach((carouselText) => {
         // build "ellipsable" text content
         const textContents = carouselText.querySelectorAll('p');
 
@@ -654,18 +646,35 @@ export default async function decorate(block) {
             if (lineCount >= 2) { // TODO: make line count configurable using block config
               const ellipsedSuffix = '...more';
               const allowedMaxLines = 2;
+
               const fullTextContent = textContent.innerHTML;
               const ellipsedTextSegment = buildEllipsis(fullTextContent, textContentWidth, allowedMaxLines, ellipsedSuffix, textOptions);
 
+              const clickableCloseButton = document.createElement('span');
               const clickableEllipsis = document.createElement('span');
-              clickableEllipsis.classList.add('clickable-ellipsis');
-              clickableEllipsis.innerHTML = ellipsedSuffix;
 
+              clickableCloseButton.classList.add('hidden-close-button');
+              clickableEllipsis.classList.add('clickable-ellipsis');
+
+              clickableCloseButton.innerHTML = closeButtonSvg;
+              clickableEllipsis.innerHTML = ellipsedSuffix;
               textContent.innerHTML = `${ellipsedTextSegment}`;
+              
               textContent.append(clickableEllipsis);
+              carouselText.append(clickableCloseButton);
+
               clickableEllipsis.addEventListener('click', () => {
                 carouselText.classList.add('extended-text');
                 textContent.innerHTML = `${fullTextContent}`;
+                clickableCloseButton.classList.remove('hidden-close-button');
+                clickableCloseButton.classList.add('active-close-button');
+              });
+              clickableCloseButton.addEventListener('click', () => {
+                carouselText.classList.remove('extended-text');
+                textContent.innerHTML = `${ellipsedTextSegment}`;
+                textContent.append(clickableEllipsis);
+                clickableCloseButton.classList.remove('active-close-button');
+                clickableCloseButton.classList.add('hidden-close-button');
               });
             }
           }

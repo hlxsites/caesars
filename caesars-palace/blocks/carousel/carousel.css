@@ -187,11 +187,16 @@
   }
 
   .showcase.block .active-close-button {
+    display: unset;
     position: absolute;
     width: 16px;
     color: black;
-    right: 16px;
-    top: 16px;
+    right: 12px;
+    top: 8px;
+  }
+
+  .showcase.block .hidden-close-button {
+    display: none;
   }
 
   .showcase.block .extended-text .button-container {
