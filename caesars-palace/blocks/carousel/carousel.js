@@ -252,24 +252,7 @@ async function buildNav(navigationDirection) {
 }
 
 /**
- * Get a canvas context for text length measurements
- * @param {*} options Text styling options
- * @returns a canvas context
- */
-function getCanvasContext(options){
-  const canvas = buildEllipsis.canvas || (buildEllipsis.canvas = document.createElement('canvas'));
-  const context = canvas.getContext('2d');
-  Object.entries(options).forEach(([key, value]) => {
-    if (key in context) {
-      context[key] = value;
-    }
-  });
-
-  return context;
-}
-
-/**
- * Build the preview of an ellipsed text
+ * Build the preview of a text with ellipsis
  * @param {String} text Text that will be shortened
  * @param {Integer} width Width of container
  * @param {Integer} maxVisibleLines Max visible lines allowed
@@ -280,7 +263,13 @@ function getCanvasContext(options){
  * @return The ellipsed text (without ellipsis suffix)
  */
 function buildEllipsis(text, width, maxVisibleLines, suffix, options = {}) {
-  const context = getCanvasContext(options);
+  const canvas = buildEllipsis.canvas || (buildEllipsis.canvas = document.createElement('canvas'));
+  const context = canvas.getContext('2d');
+  Object.entries(options).forEach(([key, value]) => {
+    if (key in context) {
+      context[key] = value;
+    }
+  });
 
   const words = text.split(' ');
   let testLine = '';
