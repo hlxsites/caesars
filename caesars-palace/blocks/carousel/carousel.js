@@ -280,6 +280,7 @@ function buildSlide(slide, index) {
   if (isShowcase) {
     const textContent = slide.children[2].querySelector('p');
     if (!textContent.classList.contains('button-container')) {
+      console.log("Create clickable ellipsis");
       // 1- compute length and decide if ellipsis is needed
       // 2- if ellipsis is needed, add `...more` into a span
       // 3- make it clickable to display whole text on click
@@ -551,7 +552,7 @@ export default async function decorate(block) {
         videoElement.play();
       });
 
-      if(isShowcase){
+      if (isShowcase) {
         console.log("Make slide clickable");
       }
     }
