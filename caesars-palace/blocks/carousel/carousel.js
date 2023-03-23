@@ -279,7 +279,7 @@ function getLineCount(text, width, options = {}) {
   return lineCount;
 }
 
-function buildEllipsis(text, width, maxVisibleLines, suffix, options = {}){
+function buildEllipsis(text, width, maxVisibleLines, suffix, options = {}) {
   const canvas = getLineCount.canvas || (getLineCount.canvas = document.createElement('canvas'));
   const context = canvas.getContext('2d');
   Object.entries(options).forEach(([key, value]) => {
@@ -300,8 +300,8 @@ function buildEllipsis(text, width, maxVisibleLines, suffix, options = {}){
       testLine = `${w} `;
     }
 
-    if(lineCount <= maxVisibleLines){
-      shortText += `${w} `; 
+    if (lineCount <= maxVisibleLines) {
+      shortText += `${w} `;
     }
   });
 
@@ -609,44 +609,46 @@ export default async function decorate(block) {
 
   const mediaTextWidthQueryMatcher = window.matchMedia('only screen and (min-width: 1170px)');
   const mediaTextWidthChangeHandler = async (event) => {
-    if(!isShowcase) return;
+    if (!isShowcase) return;
 
     if (event.matches === true) {
-        const carouselTextElements = block.getElementsByClassName('carousel-text');
-        [...carouselTextElements].forEach((carouselText) => {
-          // ellipsis in text-carousel
-          const textContents = carouselText.querySelectorAll('p');
+      const carouselTextElements = block.getElementsByClassName('carousel-text');
+      [...carouselTextElements].forEach((carouselText) => {
+        // ellipsis in text-carousel
+        const textContents = carouselText.querySelectorAll('p');
 
-          [...textContents].forEach((textContent) => {
-            if (!textContent.classList.contains('button-container')) {
-              const textStyle = window.getComputedStyle(textContent);
-              const textOptions = {
-                font: `${textStyle.fontWeight} ${textStyle.fontSize} ${textStyle.fontFamily}`,
-                letterSpacing: `${textStyle.letterSpacing}`,
-              };
-  
-              const displayBufferPixels = 16;
-              const textContentWidth = textContent.offsetWidth - displayBufferPixels;
-              const lineCount = getLineCount(textContent.innerHTML, textContentWidth, textOptions);
-        
-              if(lineCount >= 2){
-                // needs (clickable) ellipsis
-                console.log("Lines: ", lineCount);
-                console.log("Create clickable ellipsis");
-                console.log("Text analyzed: ", textContent.innerHTML);
-        
-                const ellipsedSuffix = `...more`;
-                const allowedMaxLines = 2;
-                const ellipsedTextSegment = buildEllipsis(textContent.innerHTML, textContentWidth, allowedMaxLines, ellipsedSuffix, textOptions);
-                console.log("ellipsedText: ", ellipsedTextSegment);
+        [...textContents].forEach((textContent) => {
+          if (!textContent.classList.contains('button-container')) {
+            const textStyle = window.getComputedStyle(textContent);
+            const textOptions = {
+              font: `${textStyle.fontWeight} ${textStyle.fontSize} ${textStyle.fontFamily}`,
+              letterSpacing: `${textStyle.letterSpacing}`,
+            };
 
-                textContent.innerHTML = `${ellipsedTextSegment}${ellipsedSuffix}`;
-              }
+            const displayBufferPixels = 16;
+            const textContentWidth = textContent.offsetWidth - displayBufferPixels;
+            const lineCount = getLineCount(textContent.innerHTML, textContentWidth, textOptions);
+
+            if (lineCount >= 2) { // TODO: make line count configurable using block config
+              const ellipsedSuffix = '...more';
+              const allowedMaxLines = 2;
+              const ellipsedTextSegment = buildEllipsis(textContent.innerHTML, textContentWidth, allowedMaxLines, ellipsedSuffix, textOptions);
+
+              const clickableEllipsis = document.createElement('span');
+              clickableEllipsis.classList.add('clickable-ellipsis');
+              clickableEllipsis.innerHTML = ellipsedSuffix;
+              clickableEllipsis.addEventListener('click', () => {
+                console.log("Span got clicked, show full text");
+              });
+
+              textContent.innerHTML = `${ellipsedTextSegment}`;
+              textContent.append(clickableEllipsis);
             }
-          })
-        });
+          }
+        })
+      });
     } else {
-      console.log("Make slide clickable");
+      console.log("Make slide clickable using button-container link");
     }
   };
   // needs DOM to be fully build and CSS applied for measurements
