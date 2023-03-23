@@ -76,7 +76,7 @@ function buildDots(slides = []) {
     const dotItem = document.createElement('li');
     dotItem.setAttribute('role', 'presentation');
     if (index === 0) {
-      dotItem.classList.add('carousel-dots-active');
+      dotItem.classList.add('carousel-nav-dot-active');
     }
     const dotBtn = document.createElement('button');
     dotBtn.classList.add('carousel-nav-dot');
