@@ -624,8 +624,8 @@ export default async function decorate(block) {
 
             const displayBufferPixels = 16;
             const textContentWidth = textContent.offsetWidth - displayBufferPixels;
-            const ellipsedSuffix = '...more';
-              const allowedMaxLines = 2;
+            const ellipsedSuffix = blockConfig.ellipsis;
+              const allowedMaxLines = blockConfig.maxlines;
 
             const fullTextContent = textContent.innerHTML;
             const ellipsisBuilder = buildEllipsis(

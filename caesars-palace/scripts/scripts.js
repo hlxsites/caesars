@@ -48,7 +48,10 @@ export function readBlockConfigWithContent(block) {
   });
   const configObj = readBlockConfig(configBlock);
   Object.entries(configObj).forEach(([key, value]) => {
-    if (!Number.isNaN(value)) {
+    const numericValue = Number(value);
+    if (Number.isNaN(numericValue)) {
+      configObj[key] = value;
+    } else {
       configObj[key] = Number(value);
     }
   });
