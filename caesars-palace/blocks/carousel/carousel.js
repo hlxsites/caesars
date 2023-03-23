@@ -32,6 +32,11 @@ let curSlide = 1;
 let maxVisibleSlides = 0;
 let isShowcase = false;
 
+/**
+ * Get icons of navigation buttons
+ * @param {*} iconPath Icon to get
+ * @returns The SVG of the icon
+ */
 async function getChevronSvg(iconPath) {
   let svg = null;
   try {
@@ -244,6 +249,66 @@ async function buildNav(navigationDirection) {
 }
 
 /**
+ * Count how many lines a block of text will consume when wrapped within a container
+ * that has a maximum width.
+ * @param text The full text
+ * @param width Width of container
+ * @param options Options to be applied to context (eg. font style)
+ *
+ * @return {number} The number of lines
+ */
+function getLineCount(text, width, options = {}) {
+  const canvas = getLineCount.canvas || (getLineCount.canvas = document.createElement('canvas'));
+  const context = canvas.getContext('2d');
+  Object.entries(options).forEach(([key, value]) => {
+    if (key in context) {
+      context[key] = value;
+    }
+  });
+  const words = text.split(' ');
+  let testLine = '';
+  let lineCount = 1;
+  words.forEach((w, index) => {
+    testLine += `${w} `;
+    const { width: testWidth } = context.measureText(testLine);
+    if (testWidth > width && index > 0) {
+      lineCount += 1;
+      testLine = `${w} `;
+    }
+  });
+  return lineCount;
+}
+
+function buildEllipsis(text, width, maxVisibleLines, suffix, options = {}){
+  const canvas = getLineCount.canvas || (getLineCount.canvas = document.createElement('canvas'));
+  const context = canvas.getContext('2d');
+  Object.entries(options).forEach(([key, value]) => {
+    if (key in context) {
+      context[key] = value;
+    }
+  });
+  const words = text.split(' ');
+  let testLine = '';
+  let lineCount = 1;
+  let shortText = '';
+
+  words.forEach((w, index) => {
+    testLine += `${w} `;
+    const { width: testWidth } = context.measureText(`${testLine}${suffix}`);
+    if (testWidth > width && index > 0) {
+      lineCount += 1;
+      testLine = `${w} `;
+    }
+
+    if(lineCount <= maxVisibleLines){
+      shortText += `${w} `; 
+    }
+  });
+
+  return shortText;
+}
+
+/**
  * Decorate a base slide element.
  *
  * @param slide A base block slide element
@@ -278,12 +343,25 @@ function buildSlide(slide, index) {
   if (isShowcase) {
     const textContent = slide.children[2].querySelector('p');
     if (!textContent.classList.contains('button-container')) {
-      console.log("Create clickable ellipsis");
-      // 1- compute length and decide if ellipsis is needed
-      // 2- if ellipsis is needed, add `...more` into a span
-      // 3- make it clickable to display whole text on click
-      // 4- add little cross to close the popup again
-      // 5- add event listener on cross to close popup
+      const textStyle = window.getComputedStyle(textContent);
+      const textOptions = {
+        font: `${textStyle.fontWeight} ${textStyle.fontSize} ${textStyle.fontFamily}`,
+        letterSpacing: `${textStyle.letterSpacing}`,
+      };
+      const textContentWidth = 650 - 16*2; /* text-width - padding */
+      const lineCount = getLineCount(textContent.innerHTML, textContentWidth, textOptions);
+
+      if(lineCount >= 2){
+        // needs (clickable) ellipsis
+        console.log("Lines: ", lineCount);
+        console.log("Create clickable ellipsis");
+        console.log("Text analyzed: ", textContent.innerHTML);
+
+        const ellipsedSuffix = `...more`;
+        const allowedMaxLines = 2;
+        const ellipsedText = buildEllipsis(textContent.innerHTML, textContentWidth, allowedMaxLines, ellipsedSuffix, textOptions);
+        console.log("ellipsedText: ", ellipsedText);
+      }
     }
   }
 
