@@ -1,3 +1,9 @@
+import { readBlockConfigWithContent } from '../../scripts/scripts.js';
+
+const DEFAULT_CONFIG = Object.freeze({
+  'visible-slides': 3,
+});
+
 const isADesktop = () => {
   const mediaDesktop = window.matchMedia('only screen and (min-width: 769px)');
   return mediaDesktop.matches;
@@ -19,19 +25,15 @@ const setSliderPosition = (currentTranslate, slider) => {
 };
 
 export default function decorate(block) {
+  const blockConfig = { ...DEFAULT_CONFIG, ...readBlockConfigWithContent(block) };
+  const isSpacious = block.classList.contains('spacious');
+
   const cardWrapper = document.createElement('div');
   cardWrapper.classList.add('card-wrapper');
 
-  // default value is 3
-  let numberOfCardsDisplayed = 3;
   block.querySelectorAll('div.slider > div').forEach((div) => {
-    block.classList.forEach((className) => {
-      if (className.startsWith('max-visible-')) {
-        // If the classname is 'max-visible-4', numberOfCardsDisplayed = 4
-        numberOfCardsDisplayed = className.substring(12);
-      }
-    });
-    block.style = `width: calc((100%/${numberOfCardsDisplayed} - 10px)); gap: 10px;`;
+    cardWrapper.appendChild(div);
+
     div.classList.add('card');
 
     const picture = div.querySelector('picture');
@@ -42,8 +44,7 @@ export default function decorate(block) {
     }
 
     const contentDivs = div.querySelectorAll(':scope > div:not(.card-image-parent)');
-    contentDivs[0].classList.add('short-description');
-    contentDivs[0].classList.add('active');
+    contentDivs[0].classList.add('short-description', 'active');
     contentDivs[1].classList.add('long-description');
 
     const closeButton = document.createElement('div');
@@ -52,70 +53,76 @@ export default function decorate(block) {
     div.insertBefore(closeButton, contentDivs[1]);
   });
 
+  block.appendChild(cardWrapper);
+
   const shortDescriptionDivs = block.querySelectorAll('.short-description');
+  const longDescriptionDivs = block.querySelectorAll('.long-description');
+
   shortDescriptionDivs.forEach((div) => {
-    const title = div.querySelector('h4');
-    title?.classList.add('title');
-    const subtitle = div.querySelector('h5');
-    subtitle?.classList.add('subtitle');
     const showMore = div.querySelector('p > strong');
     if (showMore) {
       showMore.classList.add('show-more');
     }
   });
 
-  const mobileMediaQuery = window.matchMedia('only screen and (max-width:480px)');
-  const mobileMediaWidthChangeHandler = (event) => {
-    if (event.matches) {
-      const shortDesriptionTabletDivs = block.querySelectorAll('.short-description');
-      shortDesriptionTabletDivs.forEach((div) => {
+  if (isATablet()) {
+    shortDescriptionDivs.forEach((div) => {
+      if (div.classList.contains('active')) {
+        div.classList.toggle('active');
+      }
+    });
+
+    longDescriptionDivs.forEach((div) => {
+      if (!div.classList.contains('active')) {
+        div.classList.toggle('active');
+      }
+    });
+  }
+
+  // add slider arrow buttons
+  const slides = [...block.querySelectorAll('.card')];
+  if (slides.length > blockConfig['visible-slides']) {
+    const arrowLeft = document.createElement('div');
+    arrowLeft.classList.add('slider-button', 'left');
+    block.appendChild(arrowLeft);
+
+    const arrowRight = document.createElement('div');
+    arrowRight.classList.add('slider-button', 'right');
+    block.appendChild(arrowRight);
+  }
+
+  const mobileMediaQuery = window.matchMedia('only screen and (max-width:768px)');
+  const desktopMediaQuery = window.matchMedia('only screen and (min-width:1170px)');
+
+  const mediaChangeHandler = () => {
+    if (mobileMediaQuery.matches) {
+      shortDescriptionDivs.forEach((div) => {
         if (!div.classList.contains('active')) {
           div.classList.toggle('active');
         }
       });
 
-      const longDescriptionDivs = block.querySelectorAll('.long-description');
       longDescriptionDivs.forEach((div) => {
         if (div.classList.contains('active')) {
           div.classList.toggle('active');
         }
       });
-      const sliderCard = block.closest('.slider');
-      sliderCard.style = 'width: 100%;';
+
+      cardWrapper.style.width = '';
+    } else {
+      let totalPadding = (blockConfig['visible-slides'] - 1) * 4;
+      if (desktopMediaQuery.matches) {
+        totalPadding = (blockConfig['visible-slides'] - 1) * (isSpacious ? 20 : 4);
+      }
+      cardWrapper.style.width = `calc((100%/${blockConfig['visible-slides']} - ${totalPadding}px)`;
     }
   };
 
-  mobileMediaWidthChangeHandler(mobileMediaQuery);
-  mobileMediaQuery.addEventListener('change', mobileMediaWidthChangeHandler);
+  mediaChangeHandler();
+  mobileMediaQuery.addEventListener('change', mediaChangeHandler);
+  desktopMediaQuery.addEventListener('change', mediaChangeHandler);
 
-  const mediaQuery = window.matchMedia(
-    'only screen and (min-width: 481px) and (max-width:768px)',
-  );
-
-  const mediaWidthChangeHandler = (event) => {
-    if (event.matches) {
-      const shortDesriptionTabletDivs = block.querySelectorAll('.short-description');
-      shortDesriptionTabletDivs.forEach((div) => {
-        if (div.classList.contains('active')) {
-          div.classList.toggle('active');
-        }
-      });
-
-      const longDescriptionDivs = block.querySelectorAll('.long-description');
-      longDescriptionDivs.forEach((div) => {
-        if (!div.classList.contains('active')) {
-          div.classList.toggle('active');
-        }
-      });
-
-      const sliderCard = block.closest('.slider');
-      sliderCard.style = 'width: 100%;';
-    }
-  };
-
-  mediaWidthChangeHandler(mediaQuery);
-  mediaQuery.addEventListener('change', mediaWidthChangeHandler);
-
+  // toggle from long to short description
   block.querySelectorAll('.close-button').forEach((button) => {
     button.addEventListener('click', () => {
       const parent = button.closest('.card');
@@ -131,8 +138,7 @@ export default function decorate(block) {
     });
   });
 
-  // On click, we wish to show the long description
-  // instead of the short description
+  // toggle from short to long description
   block.querySelectorAll('.show-more').forEach((item) => {
     item.addEventListener('click', () => {
       const parent = item.closest('.card');
@@ -149,39 +155,6 @@ export default function decorate(block) {
     });
   });
 
-  if (isATablet()) {
-    const shortDesriptionTabletDivs = block.querySelectorAll('.short-description');
-    shortDesriptionTabletDivs.forEach((div) => {
-      if (div.classList.contains('active')) {
-        div.classList.toggle('active');
-      }
-    });
-
-    const longDescriptionDivs = block.querySelectorAll('.long-description');
-    longDescriptionDivs.forEach((div) => {
-      if (!div.classList.contains('active')) {
-        div.classList.toggle('active');
-      }
-    });
-  }
-
-  const slider = block.closest('.slider');
-  const sliderWrapper = block.closest('.slider-wrapper');
-  const slides = [...block.querySelectorAll('.card')];
-  if (slides.length > numberOfCardsDisplayed) {
-    const arrowLeft = document.createElement('div');
-    arrowLeft.classList.add('slider-button');
-    arrowLeft.classList.add('left');
-
-    sliderWrapper.insertBefore(arrowLeft, slider);
-
-    const arrowRight = document.createElement('div');
-    arrowRight.classList.add('slider-button');
-    arrowRight.classList.add('right');
-
-    sliderWrapper.appendChild(arrowRight);
-  }
-
   let isDragging = false;
   let startPos = 0;
   let currentTranslate = 0;
@@ -191,7 +164,7 @@ export default function decorate(block) {
   let indexFactor = 0;
 
   function animation() {
-    setSliderPosition(currentTranslate, slider);
+    setSliderPosition(currentTranslate, cardWrapper);
     if (isDragging) {
       requestAnimationFrame(animation);
     }
@@ -214,7 +187,7 @@ export default function decorate(block) {
       currentTranslate = prevTranslate - (indexFactor) * (slides[0].offsetWidth + 10);
     }
     prevTranslate = currentTranslate;
-    setSliderPosition(currentTranslate, slider);
+    setSliderPosition(currentTranslate, cardWrapper);
   }
 
   function touchEnd() {
@@ -222,12 +195,12 @@ export default function decorate(block) {
 
     const movedBy = currentTranslate - prevTranslate;
 
-    if ((!isADesktop() || slides.length > numberOfCardsDisplayed)
-    && movedBy < 0 && currentIndex < slides.length) {
+    if ((!isADesktop() || slides.length > blockConfig['visible-slides'])
+      && movedBy < 0 && currentIndex < slides.length) {
       currentIndex += 1;
       indexFactor = 1;
     }
-    if ((!isADesktop() || slides.length > numberOfCardsDisplayed)
+    if ((!isADesktop() || slides.length > blockConfig['visible-slides'])
       && movedBy > 0 && currentIndex > 0) {
       currentIndex -= 1;
       indexFactor = -1;
@@ -239,7 +212,7 @@ export default function decorate(block) {
     cancelAnimationFrame(animationID);
   }
 
-  sliderWrapper.querySelector('.slider-button.left')?.addEventListener('click', () => {
+  block.querySelector('.slider-button.left')?.addEventListener('click', () => {
     if (currentIndex > 0) {
       currentIndex -= 1;
       indexFactor = -1;
@@ -247,8 +220,8 @@ export default function decorate(block) {
     }
   });
 
-  sliderWrapper.querySelector('.slider-button.right')?.addEventListener('click', () => {
-    if (slides.length - currentIndex > numberOfCardsDisplayed) {
+  block.querySelector('.slider-button.right')?.addEventListener('click', () => {
+    if (slides.length - currentIndex > blockConfig['visible-slides']) {
       currentIndex += 1;
       indexFactor = 1;
       setPositionByIndex();
@@ -278,45 +251,5 @@ export default function decorate(block) {
     slide.addEventListener('mouseup', touchEnd, { passive: true });
     slide.addEventListener('mouseleave', touchEnd, { passive: true });
     slide.addEventListener('mousemove', touchMove, { passive: true });
-  });
-
-  const mediaQueryDesktop = window.matchMedia(
-    'only screen and (min-width: 769px)',
-  );
-
-  const mediaWidthDesktopChangeHandler = (event) => {
-    if (event.matches) {
-      const shortDesriptionTabletDivs = block.querySelectorAll('.short-description');
-      shortDesriptionTabletDivs.forEach((div) => {
-        if (!div.classList.contains('active')) {
-          div.classList.toggle('active');
-        }
-      });
-
-      const sliderCard = block.closest('.slider');
-      sliderCard.style = `width: calc((100%/${numberOfCardsDisplayed}) - 10px)`;
-
-      const longDescriptionDivs = block.querySelectorAll('.long-description');
-      longDescriptionDivs.forEach((div) => {
-        if (div.classList.contains('active')) {
-          div.classList.toggle('active');
-        }
-      });
-      slides.forEach((slide, index) => {
-        const slideImage = slide.querySelector('img');
-        slideImage?.addEventListener('dragstart', (e) => e.preventDefault());
-        slide.addEventListener('mousedown', touchStart(index), {
-          passive: true,
-        });
-        slide.addEventListener('mouseup', touchEnd, { passive: true });
-        slide.addEventListener('mouseleave', touchEnd, { passive: true });
-        slide.addEventListener('mousemove', touchMove, { passive: true });
-      });
-    }
-  };
-
-  mediaWidthDesktopChangeHandler(mediaQueryDesktop);
-  mediaQueryDesktop.addEventListener('change', (event) => {
-    mediaWidthDesktopChangeHandler(event);
   });
 }
