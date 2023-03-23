@@ -59,57 +59,16 @@ async function getIconSvg(iconPath) {
  * @param carousel The carousel
  * @param activeSlide {number} The active slide
  */
-function syncActiveDot(carousel, activeSlide) {
-
-}
-
-/**
- * Build navigation dots
- * @param slides An array of slide elements within the carousel
- * @return {HTMLUListElement} The carousel dots element
- */
-function buildDots(block, slides = []) {
-  const dots = document.createElement('ul');
-  dots.classList.add('carousel-dots');
-  dots.setAttribute('role', 'tablist');
-  slides.forEach((slide, index) => {
-    const dotItem = document.createElement('li');
-    dotItem.setAttribute('role', 'presentation');
-    const dotBtn = document.createElement('button');
-    dotBtn.classList.add('carousel-nav-dot');
-    dotBtn.setAttribute('id', `carousel-nav-dot-${index+1}`);
-    dotBtn.setAttribute('type', 'button');
-    dotBtn.setAttribute('role', 'tab');
-
-    console.log(index)
-    if (index+1 === firstVisibleSlide) {
-      dotBtn.setAttribute('tabindex', '0');
-      dotBtn.classList.add('carousel-nav-dot-active');
+function syncActiveDot(block, slideIndex) {
+  const carouselNavDots = block.getElementsByClassName('carousel-nav-dot');
+  const targetId = `carousel-nav-dot-${slideIndex}`;
+  [...carouselNavDots].forEach((navDot) => {
+    if (navDot.id === targetId) {
+      navDot.classList.add('carousel-nav-dot-active');
     } else {
-      dotBtn.setAttribute('tabindex', '-1');
+      navDot.classList.remove('carousel-nav-dot-active');
     }
-    dotBtn.innerText = "";
-    dotItem.append(dotBtn);
-
-    dotItem.addEventListener('click', (e) => {
-      const slideIndex = index+1;
-      const otherCarouselNavDots = block.getElementsByClassName('carousel-nav-dot');
-
-      const targetId = `carousel-nav-dot-${slideIndex}`;
-      [...otherCarouselNavDots].forEach((navDot) =>{
-        if(navDot.id === targetId){
-          navDot.classList.add('carousel-nav-dot-active');
-        } else {
-          navDot.classList.remove('carousel-nav-dot-active');
-        }
-        scrollToSlide(block, slideIndex);
-      })
-
-    });
-
-    dots.append(dotItem);
   });
-  return dots;
 }
 
 /**
@@ -164,6 +123,7 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
       }
     });
     curSlide = slideIndex;
+    syncActiveDot(carousel, curSlide);
   } else if (slideIndex === 0) {
     // sliding from first to last
     let leftSlideOffset;
@@ -182,9 +142,12 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
         - translationCorrection * maxVisibleSlides
         - paddingFix;
     } else {
-      leftSlideOffset = carouselSlider.offsetWidth * maxVisibleSlides * maxVisibleSlides;
+      leftSlideOffset = carouselSlider.offsetWidth * maxVisibleSlides;
     }
-    setTimeout(() => carouselSlider.scrollTo({ left: leftSlideOffset, behavior: 'instant' }), SLIDE_ANIMATION_DURATION_MS);
+    setTimeout(() => {
+      carouselSlider.scrollTo({ left: leftSlideOffset, behavior: 'instant' }, SLIDE_ANIMATION_DURATION_MS);
+      syncActiveDot(carousel, maxVisibleSlides);
+    });
 
     // sync slide state
     [...carouselSlider.children].forEach((slide, index) => {
@@ -216,7 +179,10 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
     } else {
       leftSlideOffset = carouselSlider.offsetWidth * firstVisibleSlide * firstVisibleSlide;
     }
-    setTimeout(() => carouselSlider.scrollTo({ left: leftSlideOffset, behavior: 'instant' }), SLIDE_ANIMATION_DURATION_MS);
+    setTimeout(() => {
+      carouselSlider.scrollTo({ left: leftSlideOffset, behavior: 'instant' }, SLIDE_ANIMATION_DURATION_MS);
+      syncActiveDot(carousel, firstVisibleSlide);
+    });
 
     // sync slide state
     [...carouselSlider.children].forEach((slide, index) => {
@@ -228,6 +194,43 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
     });
     curSlide = firstVisibleSlide;
   }
+}
+
+/**
+ * Build navigation dots
+ * @param slides An array of slide elements within the carousel
+ * @return {HTMLUListElement} The carousel dots element
+ */
+function buildDots(block, slides = []) {
+  const dots = document.createElement('ul');
+  dots.classList.add('carousel-dots');
+  dots.setAttribute('role', 'tablist');
+  slides.forEach((slide, index) => {
+    const dotItem = document.createElement('li');
+    dotItem.setAttribute('role', 'presentation');
+    const dotBtn = document.createElement('button');
+    dotBtn.classList.add('carousel-nav-dot');
+    dotBtn.setAttribute('id', `carousel-nav-dot-${index + 1}`);
+    dotBtn.setAttribute('type', 'button');
+    dotBtn.setAttribute('role', 'tab');
+
+    if (index + 1 === firstVisibleSlide) {
+      dotBtn.setAttribute('tabindex', '0');
+      dotBtn.classList.add('carousel-nav-dot-active');
+    } else {
+      dotBtn.setAttribute('tabindex', '-1');
+    }
+    dotBtn.innerText = '';
+    dotItem.append(dotBtn);
+
+    dotItem.addEventListener('click', () => {
+      const slideIndex = index + 1;
+      scrollToSlide(block, slideIndex);
+    });
+
+    dots.append(dotItem);
+  });
+  return dots;
 }
 
 /**
@@ -337,8 +340,8 @@ function buildEllipsis(text, width, maxVisibleLines, suffix, options = {}) {
   });
 
   return {
-    lineCount: lineCount,
-    shortText: shortText
+    lineCount,
+    shortText,
   };
 }
 
@@ -484,7 +487,7 @@ export default async function decorate(block) {
   });
 
   let navigationDots;
-  if(isShowcase){
+  if (isShowcase) {
     navigationDots = buildDots(block, slides);
   }
   carousel.append(...slidesToAdd);
@@ -495,7 +498,7 @@ export default async function decorate(block) {
     const prevBtn = await buildNav('prev');
     const nextBtn = await buildNav('next');
     block.append(prevBtn, nextBtn);
-    if(navigationDots){
+    if (navigationDots) {
       block.append(navigationDots);
     }
   }
@@ -684,7 +687,7 @@ export default async function decorate(block) {
               textOptions,
             );
 
-            if (ellipsisBuilder.lineCount >= 2) { // TODO: make line count configurable using block config
+            if (ellipsisBuilder.lineCount >= 2) {
               const clickableCloseButton = document.createElement('span');
               const clickableEllipsis = document.createElement('span');
 
