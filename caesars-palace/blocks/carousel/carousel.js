@@ -10,8 +10,6 @@
  */
 
 /* TMN-TODO:
-- text ellipsis
-- make whole card clickable on mobile (using last link - link from action button)
 - add navigation bubbles on desktop
 */
 
