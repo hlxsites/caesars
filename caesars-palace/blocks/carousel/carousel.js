@@ -276,13 +276,16 @@ function buildSlide(slide, index) {
     slideAltImage.classList.add('carousel-alt-image');
   }
   slide.children[2].classList.add('carousel-text');
-  const textContent = slide.children[2].querySelector('p');
-  if (!textContent.classList.contains('button-container')) {
-    // 1- compute length and decide if ellipsis is needed
-    // 2- if ellipsis is needed, add `...more` into a span
-    // 3- make it clickable to display whole text on click
-    // 4- add little cross to close the popup again
-    // 5- add event listener on cross to close popup
+
+  if (isShowcase) {
+    const textContent = slide.children[2].querySelector('p');
+    if (!textContent.classList.contains('button-container')) {
+      // 1- compute length and decide if ellipsis is needed
+      // 2- if ellipsis is needed, add `...more` into a span
+      // 3- make it clickable to display whole text on click
+      // 4- add little cross to close the popup again
+      // 5- add event listener on cross to close popup
+    }
   }
 
   // slide positioning
@@ -547,6 +550,10 @@ export default async function decorate(block) {
         videoElement.muted = true;
         videoElement.play();
       });
+
+      if(isShowcase){
+        console.log("Make slide clickable");
+      }
     }
   };
   mediaVideoWidthChangeHandler(mediaVideoWidthQueryMatcher);
