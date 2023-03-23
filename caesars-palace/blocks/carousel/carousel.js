@@ -632,17 +632,19 @@ export default async function decorate(block) {
             if (lineCount >= 2) { // TODO: make line count configurable using block config
               const ellipsedSuffix = '...more';
               const allowedMaxLines = 2;
-              const ellipsedTextSegment = buildEllipsis(textContent.innerHTML, textContentWidth, allowedMaxLines, ellipsedSuffix, textOptions);
+              const fullTextContent = textContent.innerHTML;
+              const ellipsedTextSegment = buildEllipsis(fullTextContent, textContentWidth, allowedMaxLines, ellipsedSuffix, textOptions);
 
               const clickableEllipsis = document.createElement('span');
               clickableEllipsis.classList.add('clickable-ellipsis');
               clickableEllipsis.innerHTML = ellipsedSuffix;
-              clickableEllipsis.addEventListener('click', () => {
-                console.log("Span got clicked, show full text");
-              });
 
               textContent.innerHTML = `${ellipsedTextSegment}`;
               textContent.append(clickableEllipsis);
+              clickableEllipsis.addEventListener('click', () => {
+                carouselText.classList.add('extended-text');
+                textContent.innerHTML = `${fullTextContent}`;
+              });
             }
           }
         })

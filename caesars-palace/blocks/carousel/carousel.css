@@ -178,6 +178,18 @@
     height: 176px;
   }
 
+  .showcase.block .extended-text h4 {
+    display: none;
+  }
+
+  .showcase.block .extended-text h2 {
+    display: none;
+  }
+
+  .showcase.block .extended-text .button-container {
+    display: none;
+  }
+
   .showcase.block .carousel-text h4 {
     margin-top: unset;
   }
