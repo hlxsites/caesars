@@ -657,14 +657,21 @@ export default async function decorate(block) {
     if (!isShowcase) return;
 
     if (event.matches === true) {
+      // unwrap clickable slide
+      const slidePanels = block.getElementsByClassName('carousel-slide');
+      [...slidePanels].forEach((panel) => {
+        const wrapper = panel.firstChild;
+        if (panel.firstChild && panel.firstChild.href) {
+          const wrappedContent = wrapper.innerHTML;
+          panel.innerHTML = wrappedContent;
+        }
+      });
+
+      // build "ellipsable" text content
       const carouselTextElements = block.getElementsByClassName('carousel-text');
-
       const closeButtonSvg = await getIconSvg('icons/close-bold.svg');
-
       [...carouselTextElements].forEach((carouselText) => {
-        // build "ellipsable" text content
         const textContents = carouselText.querySelectorAll('p');
-
         [...textContents].forEach((textContent) => {
           if (!textContent.classList.contains('button-container')) {
             const textStyle = window.getComputedStyle(textContent);
@@ -719,7 +726,26 @@ export default async function decorate(block) {
         });
       });
     } else {
-      console.log("Make slide clickable using button-container link");
+      // make slide clickable
+      const slidePanels = block.getElementsByClassName('carousel-slide');
+      [...slidePanels].forEach((panel) => {
+        let targetLink;
+        let targetTitle;
+        panel.querySelectorAll('a').forEach((link) => {
+          // last link will always be the action button
+          targetLink = link.href;
+          targetTitle = link.title;
+        });
+
+        const link = document.createElement('a');
+        link.classList.add('clickable-slide');
+        link.href = targetLink;
+        link.title = targetTitle;
+
+        link.innerHTML = panel.innerHTML;
+        panel.innerHTML = '';
+        panel.append(link);
+      });
     }
   };
   // needs DOM to be fully build and CSS applied for measurements
