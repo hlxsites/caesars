@@ -252,34 +252,20 @@ async function buildNav(navigationDirection) {
 }
 
 /**
- * Count how many lines a block of text will consume when wrapped within a container
- * that has a maximum width.
- * @param text The full text
- * @param width Width of container
- * @param options Options to be applied to context (eg. font style)
- *
- * @return {number} The number of lines
+ * Get a canvas context for text length measurements
+ * @param {*} options Text styling options
+ * @returns a canvas context
  */
-function getLineCount(text, width, options = {}) {
-  const canvas = getLineCount.canvas || (getLineCount.canvas = document.createElement('canvas'));
+function getCanvasContext(options){
+  const canvas = buildEllipsis.canvas || (buildEllipsis.canvas = document.createElement('canvas'));
   const context = canvas.getContext('2d');
   Object.entries(options).forEach(([key, value]) => {
     if (key in context) {
       context[key] = value;
     }
   });
-  const words = text.split(' ');
-  let testLine = '';
-  let lineCount = 1;
-  words.forEach((w, index) => {
-    testLine += `${w} `;
-    const { width: testWidth } = context.measureText(testLine);
-    if (testWidth > width && index > 0) {
-      lineCount += 1;
-      testLine = `${w} `;
-    }
-  });
-  return lineCount;
+
+  return context;
 }
 
 /**
@@ -294,16 +280,12 @@ function getLineCount(text, width, options = {}) {
  * @return The ellipsed text (without ellipsis suffix)
  */
 function buildEllipsis(text, width, maxVisibleLines, suffix, options = {}) {
-  const canvas = getLineCount.canvas || (getLineCount.canvas = document.createElement('canvas'));
-  const context = canvas.getContext('2d');
-  Object.entries(options).forEach(([key, value]) => {
-    if (key in context) {
-      context[key] = value;
-    }
-  });
+  const context = getCanvasContext(options);
+
   const words = text.split(' ');
   let testLine = '';
   let lineCount = 1;
+
   let shortText = '';
 
   words.forEach((w, index) => {
@@ -319,7 +301,10 @@ function buildEllipsis(text, width, maxVisibleLines, suffix, options = {}) {
     }
   });
 
-  return shortText;
+  return {
+    lineCount: lineCount,
+    shortText: shortText
+  };
 }
 
 /**
@@ -644,21 +629,19 @@ export default async function decorate(block) {
 
             const displayBufferPixels = 16;
             const textContentWidth = textContent.offsetWidth - displayBufferPixels;
-            const lineCount = getLineCount(textContent.innerHTML, textContentWidth, textOptions);
-
-            if (lineCount >= 2) { // TODO: make line count configurable using block config
-              const ellipsedSuffix = '...more';
+            const ellipsedSuffix = '...more';
               const allowedMaxLines = 2;
 
-              const fullTextContent = textContent.innerHTML;
-              const ellipsedTextSegment = buildEllipsis(
-                fullTextContent,
-                textContentWidth,
-                allowedMaxLines,
-                ellipsedSuffix,
-                textOptions,
-              );
+            const fullTextContent = textContent.innerHTML;
+            const ellipsisBuilder = buildEllipsis(
+              fullTextContent,
+              textContentWidth,
+              allowedMaxLines,
+              ellipsedSuffix,
+              textOptions,
+            );
 
+            if (ellipsisBuilder.lineCount >= 2) { // TODO: make line count configurable using block config
               const clickableCloseButton = document.createElement('span');
               const clickableEllipsis = document.createElement('span');
 
@@ -667,7 +650,7 @@ export default async function decorate(block) {
 
               clickableCloseButton.innerHTML = closeButtonSvg;
               clickableEllipsis.innerHTML = ellipsedSuffix;
-              textContent.innerHTML = `${ellipsedTextSegment}`;
+              textContent.innerHTML = `${ellipsisBuilder.shortText}`;
 
               textContent.append(clickableEllipsis);
               carouselText.append(clickableCloseButton);
@@ -680,7 +663,7 @@ export default async function decorate(block) {
               });
               clickableCloseButton.addEventListener('click', () => {
                 carouselText.classList.remove('extended-text');
-                textContent.innerHTML = `${ellipsedTextSegment}`;
+                textContent.innerHTML = `${ellipsisBuilder.shortText}`;
                 textContent.append(clickableEllipsis);
                 clickableCloseButton.classList.remove('active-close-button');
                 clickableCloseButton.classList.add('hidden-close-button');
