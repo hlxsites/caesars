@@ -15,6 +15,20 @@ footer .footer .footer-wrapper {
   padding: 48px 0;
 }
 
+footer .footer .rewards-wrapper {
+  --text-color: var(--static-color-midnight);
+
+  margin-top: var(--layout-size-xxl);
+  background-color: var(--static-color-light-gray);
+  padding-top: 145px;
+  padding-bottom: var(--layout-size-xxl);
+  color: var(--text-color);
+}
+
+footer .footer .rewards-wrapper > div {
+  margin-top: -225px;
+}
+
 footer .footer .footer-content a.primary {
   background-color: var(--static-color-white);
   color: var(--static-color-black);
@@ -158,15 +172,6 @@ footer .footer .footer-property-links ul {
 
 footer .footer .footer-property-links ul.open {
   display: block;
-}
-
-footer .footer .rewards-wrapper {
-  --text-color: var(--static-color-midnight);
-
-  margin: 145px 0 calc((100vw - 100%) / -2);
-  background-color: var(--static-color-light-gray);
-  padding-bottom: var(--layout-size-xxl);
-  color: var(--text-color);
 }
 
 /* Special screen size for footer only */
