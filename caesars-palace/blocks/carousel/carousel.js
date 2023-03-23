@@ -79,6 +79,7 @@ function buildDots(slides = []) {
       dotItem.classList.add('carousel-dots-active');
     }
     const dotBtn = document.createElement('button');
+    dotBtn.classList.add('carousel-nav-dot');
     dotBtn.setAttribute('id', `carousel-nav-dot-${index+1}`);
     dotBtn.setAttribute('type', 'button');
     dotBtn.setAttribute('role', 'tab');
@@ -87,7 +88,7 @@ function buildDots(slides = []) {
     } else {
       dotBtn.setAttribute('tabindex', '-1');
     }
-    dotBtn.innerText = `${index + 1}`;
+    dotBtn.innerText = "";
     dotItem.append(dotBtn);
     dotItem.addEventListener('click', (e) => {
       console.log("Navigate to slide");
@@ -468,9 +469,9 @@ export default async function decorate(block) {
     slidesToAdd[index] = buildSlide(slide, index + 1);
   });
 
-  if(slides.length > 1 && isShowcase){
-    const navigationDots = buildDots(slides);
-    console.log(navigationDots);
+  let navigationDots;
+  if(isShowcase){
+    navigationDots = buildDots(slides);
   }
   carousel.append(...slidesToAdd);
   addClones(carousel);
@@ -480,6 +481,9 @@ export default async function decorate(block) {
     const prevBtn = await buildNav('prev');
     const nextBtn = await buildNav('next');
     block.append(prevBtn, nextBtn);
+    if(navigationDots){
+      block.append(navigationDots);
+    }
   }
 
   setTimeout(() => {
