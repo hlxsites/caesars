@@ -129,6 +129,63 @@ function toggleMenu(nav, navSections, forceExpanded = null) {
   }
 }
 
+const showMore = (nav) => {
+  const ul = nav.querySelector('.nav-sections > .local-nav > ul');
+  const li = nav.querySelectorAll('.nav-sections > .local-nav > ul > li');
+  let count = li.length;
+  const more = document.createElement('li');
+  more.classList.add('more');
+  const moreText = document.createElement('div');
+  moreText.classList.add('more-text');
+  const aMore = document.createElement('a');
+  aMore.classList.add('more-link');
+  aMore.text = 'MORE';
+  const downArrow = document.createElement('div');
+  downArrow.classList.add('down-arrow');
+  aMore.appendChild(downArrow);
+  moreText.appendChild(aMore);
+  const dropdownMenu = document.createElement('div');
+  dropdownMenu.classList.add('dropdown-menu');
+  while (count > 9) {
+    const dropdownItem = document.createElement('div');
+    dropdownItem.classList.add('dropdown');
+    ul.children[count - 1].firstChild.classList.add('menu-item');
+    dropdownItem.appendChild(ul.children[count - 1].firstChild);
+    dropdownMenu.prepend(dropdownItem);
+    ul.removeChild(ul.children[count - 1]);
+    count -= 1;
+  }
+
+  more.prepend(moreText);
+  more.appendChild(dropdownMenu);
+  ul.appendChild(more);
+
+  more.addEventListener('click', () => {
+    const dropdown = more.querySelector('.dropdown-menu');
+    dropdown.classList.toggle('active');
+    const arrow = more.querySelector('.down-arrow');
+    arrow.classList.toggle('active');
+  });
+
+  dropdownMenu.addEventListener('blur', () => {
+    const dropdown = more.querySelector('.dropdown-menu');
+    dropdown.classList.toggle('active');
+    const arrow = more.querySelector('.down-arrow');
+    arrow.classList.toggle('active');
+  });
+
+  // Disable dropdown onclick outside the dropdown
+  document.onclick = (e) => {
+    if (!(e.target.classList.contains('more') || e.target.classList.contains('more-link') || e.target.classList.contains('more-text')
+     || e.target.classList.contains('dropdown') || e.target.classList.contains('dropdown-menu') || e.target.classList.contains('down-arrow'))) {
+      const dropdown = more.querySelector('.dropdown-menu');
+      if (dropdown.classList.contains('active')) {
+        dropdown.classList.toggle('active');
+      }
+    }
+  };
+};
+
 /**
  * decorates the header, mainly the nav
  * @param {Element} block The header block element
@@ -284,5 +341,9 @@ export default async function decorate(block) {
     navWrapper.append(nav);
     block.prepend(globalNavDesktop);
     block.append(navWrapper);
+
+    if (isDesktop.matches) {
+      showMore(nav);
+    }
   }
 }
