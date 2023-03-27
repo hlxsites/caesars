@@ -73,13 +73,13 @@ export default function decorate(block) {
 
   block.querySelectorAll('div.slider > div').forEach((div) => {
     cardWrapper.appendChild(div);
-
     div.classList.add('card');
 
     const picture = div.querySelector('picture');
     if (picture) {
       const imageParent = picture.closest('div');
       imageParent.classList.add('card-image');
+      div.classList.add('tall-card');
     }
 
     const contentDivs = div.querySelectorAll(':scope > div:not(.card-image)');

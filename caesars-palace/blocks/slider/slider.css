@@ -91,6 +91,18 @@
   z-index: 2;
 }
 
+.slider .tall-card .active-close-button {
+  position: absolute;
+  top: 8px;
+  right: 4px;
+  background: url('../../icons/close-bold.svg') no-repeat;
+  min-width: 32px;
+  min-height: 32px;
+  transform: scale(0.8);
+  cursor: pointer;
+  z-index: 2;
+}
+
 .slider .card .hidden-close-button {
   display: none;
 }
