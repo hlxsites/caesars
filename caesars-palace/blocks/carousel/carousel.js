@@ -15,7 +15,7 @@
  */
 
 import { createOptimizedPicture } from '../../scripts/lib-franklin.js';
-import { readBlockConfigWithContent } from '../../scripts/scripts.js';
+import { readBlockConfigWithContent, buildEllipsis } from '../../scripts/scripts.js';
 
 const DEFAULT_SCROLL_INTERVAL_MS = 5000;
 const SLIDE_ID_PREFIX = 'carousel-slide';
@@ -302,51 +302,6 @@ async function buildNav(navigationDirection) {
     scrollToSlide(carousel, nextSlide);
   });
   return btn;
-}
-
-/**
- * Build the preview of a text with ellipsis
- * @param {String} text Text that will be shortened
- * @param {Integer} width Width of container
- * @param {Integer} maxVisibleLines Max visible lines allowed
- * @param {*} suffix Suffix to use for ellipsis
- *  (will make sure text+ellipsis fit in `maxVisibleLines`)
- * @param {*} options Text styling option
- *
- * @return The ellipsed text (without ellipsis suffix)
- */
-function buildEllipsis(text, width, maxVisibleLines, suffix, options = {}) {
-  const canvas = buildEllipsis.canvas || (buildEllipsis.canvas = document.createElement('canvas'));
-  const context = canvas.getContext('2d');
-  Object.entries(options).forEach(([key, value]) => {
-    if (key in context) {
-      context[key] = value;
-    }
-  });
-
-  const words = text.split(' ');
-  let testLine = '';
-  let lineCount = 1;
-
-  let shortText = '';
-
-  words.forEach((w, index) => {
-    testLine += `${w} `;
-    const { width: testWidth } = context.measureText(`${testLine}${suffix}`);
-    if (testWidth > width && index > 0) {
-      lineCount += 1;
-      testLine = `${w} `;
-    }
-
-    if (lineCount <= maxVisibleLines) {
-      shortText += `${w} `;
-    }
-  });
-
-  return {
-    lineCount,
-    shortText,
-  };
 }
 
 /**

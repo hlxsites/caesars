@@ -18,6 +18,51 @@ const LCP_BLOCKS = []; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'caesars-palace'; // add your RUM generation information here
 
 /**
+ * Build the preview of a text with ellipsis
+ * @param {String} text Text that will be shortened
+ * @param {Integer} width Width of container
+ * @param {Integer} maxVisibleLines Max visible lines allowed
+ * @param {*} suffix Suffix to use for ellipsis
+ *  (will make sure text+ellipsis fit in `maxVisibleLines`)
+ * @param {*} options Text styling option
+ *
+ * @return The ellipsed text (without ellipsis suffix)
+ */
+export function buildEllipsis(text, width, maxVisibleLines, suffix, options = {}) {
+  const canvas = buildEllipsis.canvas || (buildEllipsis.canvas = document.createElement('canvas'));
+  const context = canvas.getContext('2d');
+  Object.entries(options).forEach(([key, value]) => {
+    if (key in context) {
+      context[key] = value;
+    }
+  });
+
+  const words = text.split(' ');
+  let testLine = '';
+  let lineCount = 1;
+
+  let shortText = '';
+
+  words.forEach((w, index) => {
+    testLine += `${w} `;
+    const { width: testWidth } = context.measureText(`${testLine}${suffix}`);
+    if (testWidth > width && index > 0) {
+      lineCount += 1;
+      testLine = `${w} `;
+    }
+
+    if (lineCount <= maxVisibleLines) {
+      shortText += `${w} `;
+    }
+  });
+
+  return {
+    lineCount,
+    shortText,
+  };
+}
+
+/**
  * Read and return a configuration object for a block that contains both config
  * values and content. Config values can be in the first row or multiple
  * rows. When using multiple rows there must be a blank row between config and content.
