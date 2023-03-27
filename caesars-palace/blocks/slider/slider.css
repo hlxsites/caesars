@@ -74,18 +74,18 @@
 
 .slider .card .short-description h5 {
   opacity: .7;
-  font-size: 10px;
+  font-size: var(--heading-font-size-xxs);
   font-weight: var(--emphasized-font-weight);
   margin-top: 5px;
 }
 
 .slider .card .active-close-button {
   position: fixed;
-  top: 8px;
-  right: 4px;
+  top: var(--layout-size-xs);
+  right: var(--layout-size-xxs);
   background: url('../../icons/close-bold.svg') no-repeat;
-  min-width: 32px;
-  min-height: 32px;
+  min-width: var(--layout-size-xl);
+  min-height: var(--layout-size-xl);
   transform: scale(0.8);
   cursor: pointer;
   z-index: 2;
@@ -93,11 +93,11 @@
 
 .slider .tall-card .active-close-button {
   position: absolute;
-  top: 8px;
-  right: 4px;
+  top: var(--layout-size-xs);
+  right: var(--layout-size-xxs);
   background: url('../../icons/close-bold.svg') no-repeat;
-  min-width: 32px;
-  min-height: 32px;
+  min-width: var(--layout-size-xl);
+  min-height: var(--layout-size-xl);
   transform: scale(0.8);
   cursor: pointer;
   z-index: 2;
@@ -141,8 +141,8 @@
 
 .clickable-ellipsis {
   cursor: pointer;
-  margin-left: 4px;
-  font-weight: 600;
+  margin-left: var(--layout-size-xxs);
+  font-weight: var(--clickable-font-weight);
 }
 
 @media only screen and (min-width: 481px) and (max-width: 768px) {
