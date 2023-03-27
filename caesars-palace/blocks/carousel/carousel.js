@@ -88,12 +88,12 @@ function stopAutoScroll() {
 function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
   const carouselSlider = carousel.querySelector('.carousel-slide-container');
 
-  let widthUsage; 
-  let realSlideWidth; 
-  let slidePadding; 
-  let realSlideWidthWithPadding; 
+  let widthUsage;
+  let realSlideWidth;
+  let slidePadding;
+  let realSlideWidthWithPadding;
   let paddingFix;
-  
+
   if (isShowcase) {
     widthUsage = 0.9; /* carousel-slide width */
     realSlideWidth = carouselSlider.offsetWidth * widthUsage;
