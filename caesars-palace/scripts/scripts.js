@@ -18,7 +18,7 @@ const LCP_BLOCKS = ['carousel']; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'caesars-palace'; // add your RUM generation information here
 
 /**
- * Build the preview of a text with ellipsis
+ * Build the preview of a text with ellipsis.
  * @param {String} text Text that will be shortened
  * @param {Integer} width Width of container
  * @param {Integer} maxVisibleLines Max visible lines allowed
@@ -103,6 +103,10 @@ export function readBlockConfigWithContent(block) {
   return configObj;
 }
 
+/**
+ * Adds a background to a section.
+ * @param {*} main Section to add background to
+ */
 function buildSectionBackground(main) {
   const mediaMobileWidthQueryMatcher = window.matchMedia('only screen and (min-width: 1170px)');
   const mediaMobileWidthChangeHandler = (event) => {
