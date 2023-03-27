@@ -787,8 +787,8 @@ export default async function decorate(block) {
     }
   });
 
-    let resizeTimeout;
-    window.addEventListener('resize', () => {
+  let resizeTimeout;
+  window.addEventListener('resize', () => {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => {
       // scroll to first slide once all DOM has been rebuilt

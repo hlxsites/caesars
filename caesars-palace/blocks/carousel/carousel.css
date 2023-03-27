@@ -198,6 +198,10 @@
     border: 1px solid var(--static-color-gray-medium);
   }
 
+  .carousel.block .carousel-slide img {
+    min-height: 670px;
+  }
+
   .carousel.showcase.block .carousel-slide img {
     height: unset;
   } 
@@ -264,10 +268,6 @@
   .carousel.block .carousel-main-image {
     position: absolute;
     visibility: hidden;
-  }
-
-  .carousel.block .carousel-slide img {
-    min-height: 670px;
   }
 
   .carousel.block .carousel-nav-prev {
