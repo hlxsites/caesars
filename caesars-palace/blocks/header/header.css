@@ -23,16 +23,16 @@ header .global-nav-desktop {
 }
 
 .dropdown-menu.active {
-    display: flex;
-    flex-direction: column;
-    visibility: visible;
-    opacity: 1;
-    transition: opacity 250ms cubic-bezier(0.4,0,0.2,1);
-    position: absolute;
-    top: 70px;
-    min-width: 211px;
-    background: #fff;
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -1px rgb(0 0 0 / 6%);
+  display: flex;
+  flex-direction: column;
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 250ms cubic-bezier(0.4,0,0.2,1);
+  position: absolute;
+  top: 70px;
+  min-width: 211px;
+  background: var(--static-color-white);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -1px rgb(0 0 0 / 6%);
 }
 
 header nav {
@@ -330,7 +330,7 @@ header nav .nav-tools p:first-of-type a:hover {
     display: inline-block;
     text-decoration: none;
     font-size: var(--body-font-size-xs);
-    font-weight: 600;
+    font-weight: var(--clickable-font-weight);
     height: 70px;
     line-height: 6;
   }
@@ -341,7 +341,7 @@ header nav .nav-tools p:first-of-type a:hover {
   }
 
   .dropdown:hover {
-    background-color: #f1f1f6;
+    background-color: var(--static-color-light-gray);
   }
 
   /* Global Nav */
@@ -408,7 +408,7 @@ header nav .nav-tools p:first-of-type a:hover {
     border: 0;
   }
 
-  header .global-nav-desktop ul li a{
+  header .global-nav-desktop ul li a {
     color: #343840;
     font-size: var(--link-font-size-s);
     font-weight: 400;
