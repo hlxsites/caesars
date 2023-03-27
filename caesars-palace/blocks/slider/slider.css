@@ -64,6 +64,10 @@
   background: var(--static-color-white);
 }
 
+.slider .extended-text h4 {
+  display: none;
+}
+
 .slider .card .short-description h4 {
   text-transform: uppercase;
 }
@@ -88,14 +92,6 @@
 }
 
 .slider .card .hidden-close-button {
-  display: none;
-}
-
-.slider .extended-text h4 {
-  display: none;
-}
-
-.slider .extended-text h4 {
   display: none;
 }
 
@@ -129,6 +125,12 @@
   width: 287px;
   height: 160px;
   object-fit: contain;
+}
+
+.clickable-ellipsis {
+  cursor: pointer;
+  margin-left: 4px;
+  font-weight: 600;
 }
 
 @media only screen and (min-width: 481px) and (max-width: 768px) {
