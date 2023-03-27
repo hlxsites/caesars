@@ -101,7 +101,7 @@
   text-shadow: unset;
   background-color: var(--static-color-white);
   color: var(--static-color-black);
-  height: 64px;
+  height: var(--layout-size-xxl);
   padding:  16px 10px 16px 16px;
   margin-bottom: 48px;
   margin-top: auto;
@@ -140,7 +140,7 @@
   opacity: .7;
   font-size: var(--body-font-size-xs);
   font-weight: var(--emphasized-font-weight);
-  margin-top: 8px;
+  margin-top: var(--layout-size-xs);
 }
 
 .carousel.showcase.block .extended-text p {
@@ -174,7 +174,7 @@
     font-family: unset;
     line-height: unset;
     letter-spacing: unset;
-    font-size: 16px;
+    font-size: var(--heading-font-size-s);
   }
 
   .carousel.showcase.block .carousel-dots {
@@ -187,8 +187,8 @@
 
   .carousel.showcase.block .carousel-nav-dot {
     min-width: unset;
-    height: 4px;
-    margin-right: 8px;
+    height: var(--layout-size-xxs);
+    margin-right: var(--layout-size-xs);
     background-color: var(--static-color-light-gray);
     border: 1px solid var(--static-color-light-gray);
   }
@@ -215,7 +215,7 @@
     margin-top: unset;
     top: unset;
     width: 60%;
-    padding: 16px;
+    padding: var(--layout-size-m);
     margin-bottom: -16px; 
     margin-left: -16px;
     height: 176px;
@@ -232,10 +232,10 @@
   .carousel.showcase.block .active-close-button {
     display: unset;
     position: absolute;
-    width: 16px;
+    width: var(--layout-size-m);
     color: black;
-    right: 12px;
-    top: 8px;
+    right: var(--layout-size-s);
+    top: var(--layout-size-xs);
   }
 
   .carousel.showcase.block .hidden-close-button {
@@ -255,7 +255,7 @@
   }
 
   .carousel.showcase.block .extended-text p {
-    padding-right: 32px;
+    padding-right: var(--layout-size-xl);
     overflow: hidden;
     overflow-y: scroll;
   }
@@ -266,8 +266,8 @@
 
   .carousel.showcase.block  span.clickable-ellipsis {
     cursor: pointer;
-    margin-left: 4px;
-    font-weight: 600;
+    margin-left: var(--layout-size-xxs);
+    font-weight: var(--clickable-font-weight);
   }
 
   .carousel.block .carousel-alt-image {
@@ -295,19 +295,19 @@
 
   .carousel.block .carousel-nav svg {
     color: var(--static-color-white);
-    height: 32px;
+    height: var(--layout-size-xl);
   }
 
   .carousel.block .carousel-nav {
     display: unset;
     z-index: 2;
     top: 50%;
-    height: 32px;
-    width: 32px;
+    height: var(--layout-size-xl);
+    width: var(--layout-size-xl);
     position: absolute;
     cursor: pointer;
-    margin-left: 16px;
-    margin-right: 16px;
+    margin-left: var(--layout-size-m);
+    margin-right: var(--layout-size-m);
     padding: 10px;
   }
   
