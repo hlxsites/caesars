@@ -143,9 +143,14 @@
   margin-top: 8px;
 }
 
+.carousel.showcase.block .extended-text p {
+  display: none;
+}
+
 .carousel.showcase.block .carousel-text p {
   display: none;
 }
+
 
 .carousel.showcase.block .carousel-text .button-container {
   margin: auto 0 16px auto;
@@ -247,6 +252,16 @@
 
   .carousel.showcase.block .carousel-text p {
     display: unset;
+  }
+
+  .carousel.showcase.block .extended-text p {
+    padding-right: 32px;
+    overflow: hidden;
+    overflow-y: scroll;
+  }
+
+  .carousel.showcase.block .carousel-text p::-webkit-scrollbar {
+    display: none;
   }
 
   .carousel.showcase.block  span.clickable-ellipsis {
