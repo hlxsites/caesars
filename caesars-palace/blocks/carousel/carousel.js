@@ -586,9 +586,6 @@ export default async function decorate(block) {
       });
       setImageEagerLoading(block, 'carousel-slide0');
       setImageEagerLoading(block, 'carousel-slide1');
-      if (isShowcase) {
-        setImageEagerLoading(block, 'carousel-slide2');
-      }
     }
   };
   mediaSmallWidthChangeHandler(mediaSmallWidthQueryMatcher);
@@ -602,9 +599,6 @@ export default async function decorate(block) {
       });
       setImageEagerLoading(block, 'carousel-slide0');
       setImageEagerLoading(block, 'carousel-slide1');
-      if (isShowcase && maxVisibleSlides >= 2) {
-        setImageEagerLoading(block, 'carousel-slide2');
-      }
     }
   };
   mediaMediumWidthChangeHandler(mediaMediumWidthQueryMatcher);
@@ -618,9 +612,6 @@ export default async function decorate(block) {
       });
       setImageEagerLoading(block, 'carousel-slide0');
       setImageEagerLoading(block, 'carousel-slide1');
-      if (isShowcase && maxVisibleSlides >= 2) {
-        setImageEagerLoading(block, 'carousel-slide2');
-      }
     }
   };
   mediaLargeWidthChangeHandler(mediaLargeWidthQueryMatcher);
@@ -636,9 +627,6 @@ export default async function decorate(block) {
       });
       setImageEagerLoading(block, 'carousel-slide0');
       setImageEagerLoading(block, 'carousel-slide1');
-      if (isShowcase && maxVisibleSlides >= 2) {
-        setImageEagerLoading(block, 'carousel-slide2');
-      }
     }
   };
   mediaExtraLargeWidthChangeHandler(mediaExtraLargeWidthQueryMatcher);
