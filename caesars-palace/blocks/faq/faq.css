@@ -28,7 +28,7 @@ div.faq-container div > h1 {
     margin: 0 auto;
     margin-bottom: var(--layout-size-l);
     color: var(--static-color-white);
-    font-size: 36px
+    font-size: var(--heading-font-size-xl);
 }
 
 /* FAQ Row */
@@ -143,6 +143,6 @@ div.faq-container .questions-content.expanded .questions-content-text > div:nth-
     }
 
     div.faq-container div > h1 {
-        font-size: 60px
+        font-size: 60px;
     }
 }
