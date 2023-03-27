@@ -91,7 +91,7 @@
   display: none;
 }
 
-.showcase.block .carousel-text {
+.carousel.showcase.block .carousel-text {
   position: absolute;
   z-index: 3;
   bottom: 0;
@@ -108,7 +108,7 @@
   width: calc(100% - 58px);
 }
 
-.showcase.block .carousel-slide-container {
+.carousel.showcase.block .carousel-slide-container {
   width: 100%;
   position: relative;
   overflow: hidden;
@@ -116,18 +116,18 @@
   height: 528px;
 }
 
-.showcase.block .carousel-slide img {
+.carousel.showcase.block .carousel-slide img {
   height: 400px;
 } 
 
-.showcase.block .carousel-slide {
+.carousel.showcase.block .carousel-slide {
   width: 90%;
   height: 100%;
   position: absolute;
   padding-right: 32px;
 }
 
-.showcase.block .carousel-text h2 {
+.carousel.showcase.block .carousel-text h2 {
   text-transform: uppercase;
   font-family: var(--text-font-famly);
   font-weight: var(--emphasized-font-weight);
@@ -135,7 +135,7 @@
   margin-bottom: 8px;
 }
 
-.showcase.block .carousel-text h4 {
+.carousel.showcase.block .carousel-text h4 {
   height: 15px;
   opacity: .7;
   font-size: var(--body-font-size-xs);
@@ -143,21 +143,21 @@
   margin-top: 8px;
 }
 
-.showcase.block .carousel-text p {
+.carousel.showcase.block .carousel-text p {
   display: none;
 }
 
-.showcase.block .carousel-text .button-container {
+.carousel.showcase.block .carousel-text .button-container {
   margin: auto 0 16px auto;
 }
 
-.showcase.block .carousel-dots {
+.carousel.showcase.block .carousel-dots {
   display: none;
 }
 
 /* Responsive breakpoints */
 @media screen and (min-width: 1170px) {
-  .showcase.block .carousel-slide-container {
+  .carousel.showcase.block .carousel-slide-container {
     width: 100%;
     position: relative;
     overflow: hidden;
@@ -165,14 +165,14 @@
     height: 686px;
   }
 
-  .showcase.block .carousel-slide > div {
+  .carousel.showcase.block .carousel-slide > div {
     font-family: unset;
     line-height: unset;
     letter-spacing: unset;
     font-size: 16px;
   }
 
-  .showcase.block .carousel-dots {
+  .carousel.showcase.block .carousel-dots {
     display: unset;
     display: flex;
     margin-left: -40px;
@@ -180,7 +180,7 @@
     list-style-type: none;
   }
 
-  .showcase.block .carousel-nav-dot {
+  .carousel.showcase.block .carousel-nav-dot {
     min-width: unset;
     height: 4px;
     margin-right: 8px;
@@ -188,21 +188,21 @@
     border: 1px solid var(--static-color-light-gray);
   }
 
-  .showcase.block .carousel-nav-dot-active {
+  .carousel.showcase.block .carousel-nav-dot-active {
     background-color: var(--static-color-gray-medium);
     border: 1px solid var(--static-color-gray-medium);
   }
 
-  .showcase.block .carousel-nav-dot:hover {
+  .carousel.showcase.block .carousel-nav-dot:hover {
     background-color: var(--static-color-gray-medium);
     border: 1px solid var(--static-color-gray-medium);
   }
 
-  .showcase.block .carousel-slide img {
+  .carousel.showcase.block .carousel-slide img {
     height: unset;
   } 
 
-  .showcase.block .carousel-text {
+  .carousel.showcase.block .carousel-text {
     margin-top: unset;
     top: unset;
     width: 60%;
@@ -212,15 +212,15 @@
     height: 176px;
   }
 
-  .showcase.block .extended-text h4 {
+  .carousel.showcase.block .extended-text h4 {
     display: none;
   }
 
-  .showcase.block .extended-text h2 {
+  .carousel.showcase.block .extended-text h2 {
     display: none;
   }
 
-  .showcase.block .active-close-button {
+  .carousel.showcase.block .active-close-button {
     display: unset;
     position: absolute;
     width: 16px;
@@ -229,23 +229,23 @@
     top: 8px;
   }
 
-  .showcase.block .hidden-close-button {
+  .carousel.showcase.block .hidden-close-button {
     display: none;
   }
 
-  .showcase.block .extended-text .button-container {
+  .carousel.showcase.block .extended-text .button-container {
     display: none;
   }
 
-  .showcase.block .carousel-text h4 {
+  .carousel.showcase.block .carousel-text h4 {
     margin-top: unset;
   }
 
-  .showcase.block .carousel-text p {
+  .carousel.showcase.block .carousel-text p {
     display: unset;
   }
 
-  .showcase.block  span.clickable-ellipsis {
+  .carousel.showcase.block  span.clickable-ellipsis {
     cursor: pointer;
     margin-left: 4px;
     font-weight: 600;
