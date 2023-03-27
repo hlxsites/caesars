@@ -88,8 +88,12 @@ function stopAutoScroll() {
 function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
   const carouselSlider = carousel.querySelector('.carousel-slide-container');
 
-  let widthUsage; let realSlideWidth; let slidePadding; let realSlideWidthWithPadding; let
-    paddingFix;
+  let widthUsage; 
+  let realSlideWidth; 
+  let slidePadding; 
+  let realSlideWidthWithPadding; 
+  let paddingFix;
+  
   if (isShowcase) {
     widthUsage = 0.9; /* carousel-slide width */
     realSlideWidth = carouselSlider.offsetWidth * widthUsage;
@@ -580,7 +584,7 @@ export default async function decorate(block) {
 
   const mediaSmallWidthQueryMatcher = window.matchMedia('(max-width: 768px)');
   const mediaSmallWidthChangeHandler = (event) => {
-    if (event.matches === true) {
+    if (event.matches) {
       block.querySelectorAll('img').forEach((image) => {
         image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '768' }]));
       });
@@ -663,9 +667,8 @@ export default async function decorate(block) {
       const slidePanels = block.getElementsByClassName('carousel-slide');
       [...slidePanels].forEach((panel) => {
         const wrapper = panel.firstChild;
-        if (panel.firstChild && panel.firstChild.href) {
-          const wrappedContent = wrapper.innerHTML;
-          panel.innerHTML = wrappedContent;
+        if (wrapper && wrapper.href) {
+          panel.innerHTML = wrapper.innerHTML;
         }
       });
 
