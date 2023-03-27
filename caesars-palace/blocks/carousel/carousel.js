@@ -375,7 +375,7 @@ function buildSlide(slide, index) {
   if (!slideAltImage.classList.contains('carousel-alt-video')) {
     slideAltImage.classList.add('carousel-alt-image');
   }
-  if(slide.children && slide.children.length >= 2 && !!slide.children[2]){
+  if (slide.children && slide.children.length >= 2 && !!slide.children[2]) {
     slide.children[2].classList.add('carousel-text');
   }
 
