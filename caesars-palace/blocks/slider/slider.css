@@ -17,7 +17,7 @@
   display: flex;
   flex-flow: row nowrap;
   gap: 10px;
-  transform: translateX(0);
+  transform: translate3d(0, 0, 0);
   transition: transform 0.3s ease-out;
 }
 
@@ -54,10 +54,10 @@
   box-shadow: unset;
 }
 
-
-
 .slider .card .extended-text {
-  height: 240px;
+  height: 180px;
+  overflow: hidden;
+  overflow-y: scroll;
 }
 
 .slider:not(.flat) .card .short-description {
@@ -148,8 +148,8 @@
     height: 180px;
   }
 
-  .slider:not(.flat) .card .extended-text {
-    height: 240px;
+  .slider:not(.flat) .card .extended-text::-webkit-scrollbar {
+    display: none;
   }
 
   .slider.no-image .card .short-description {
