@@ -2,6 +2,8 @@ import { readBlockConfigWithContent } from '../../scripts/scripts.js';
 
 const DEFAULT_CONFIG = Object.freeze({
   'visible-slides': 3,
+  'maxlines': 3,
+  'ellipsis': '...more',
 });
 
 const isADesktop = () => {
@@ -24,6 +26,51 @@ const setSliderPosition = (currentTranslate, slider) => {
   slider.style.transform = `translateX(${currentTranslate}px)`;
 };
 
+/**
+ * Build the preview of a text with ellipsis
+ * @param {String} text Text that will be shortened
+ * @param {Integer} width Width of container
+ * @param {Integer} maxVisibleLines Max visible lines allowed
+ * @param {*} suffix Suffix to use for ellipsis
+ *  (will make sure text+ellipsis fit in `maxVisibleLines`)
+ * @param {*} options Text styling option
+ *
+ * @return The ellipsed text (without ellipsis suffix)
+ */
+function buildEllipsis(text, width, maxVisibleLines, suffix, options = {}) {
+  const canvas = buildEllipsis.canvas || (buildEllipsis.canvas = document.createElement('canvas'));
+  const context = canvas.getContext('2d');
+  Object.entries(options).forEach(([key, value]) => {
+    if (key in context) {
+      context[key] = value;
+    }
+  });
+
+  const words = text.split(' ');
+  let testLine = '';
+  let lineCount = 1;
+
+  let shortText = '';
+
+  words.forEach((w, index) => {
+    testLine += `${w} `;
+    const { width: testWidth } = context.measureText(`${testLine}${suffix}`);
+    if (testWidth > width && index > 0) {
+      lineCount += 1;
+      testLine = `${w} `;
+    }
+
+    if (lineCount <= maxVisibleLines) {
+      shortText += `${w} `;
+    }
+  });
+
+  return {
+    lineCount,
+    shortText,
+  };
+}
+
 export default function decorate(block) {
   const blockConfig = { ...DEFAULT_CONFIG, ...readBlockConfigWithContent(block) };
   const isSpacious = block.classList.contains('spacious');
@@ -44,40 +91,73 @@ export default function decorate(block) {
 
     const contentDivs = div.querySelectorAll(':scope > div:not(.card-image)');
     contentDivs[0].classList.add('short-description', 'active');
-    contentDivs[1].classList.add('long-description');
   });
 
   block.appendChild(cardWrapper);
 
-  const shortDescriptionDivs = block.querySelectorAll('.short-description');
-  const longDescriptionDivs = block.querySelectorAll('.long-description');
-
-  shortDescriptionDivs.forEach((div) => {
-    const showMore = div.querySelector('p > strong');
-    if (showMore) {
-      showMore.classList.add('show-more');
-    }
-  });
-
-  longDescriptionDivs.forEach((div) => {
-    const closeButton = document.createElement('div');
-    closeButton.classList.add('close-button', 'hide');
-    div.appendChild(closeButton);
-  });
-
-  if (isATablet()) {
+  setTimeout(() => {
+    const shortDescriptionDivs = block.querySelectorAll('.short-description');
     shortDescriptionDivs.forEach((div) => {
-      if (div.classList.contains('active')) {
-        div.classList.toggle('active');
+      const ellipsableText = div.querySelector('p');
+      const textStyle = window.getComputedStyle(div);
+      const textOptions = {
+        font: `${textStyle.fontWeight} ${textStyle.fontSize} ${textStyle.fontFamily}`,
+        letterSpacing: `${textStyle.letterSpacing}`,
+      };
+
+      const displayBufferPixels = 16;
+      const textContentWidth = div.offsetWidth - displayBufferPixels;
+
+      const fullTextContent = ellipsableText.innerText;
+      const ellipsisBuilder = buildEllipsis(
+        fullTextContent,
+        textContentWidth,
+        blockConfig.maxlines,
+        blockConfig.ellipsis,
+        textOptions,
+      );
+
+      if (ellipsisBuilder.lineCount > blockConfig.maxlines) {
+        const clickableCloseButton = document.createElement('span');
+        const clickableEllipsis = document.createElement('span');
+
+        clickableCloseButton.classList.add('hidden-close-button');
+        clickableEllipsis.classList.add('clickable-ellipsis');
+
+        clickableCloseButton.innerHTML = "";
+        clickableCloseButton.classList.add('close-button');
+        clickableEllipsis.innerHTML = blockConfig.ellipsis;
+        ellipsableText.innerHTML = `${ellipsisBuilder.shortText}`;
+
+        ellipsableText.append(clickableEllipsis);
+        div.append(clickableCloseButton);
+
+        clickableEllipsis.addEventListener('click', () => {
+          console.log("Extend text");
+
+          div.classList.add('extended-text');
+          ellipsableText.innerHTML = `${fullTextContent}`;
+          clickableCloseButton.classList.remove('hidden-close-button');
+          clickableCloseButton.classList.add('active-close-button');
+        });
+        clickableCloseButton.addEventListener('click', () => {
+          div.classList.remove('extended-text');
+          ellipsableText.innerHTML = `${ellipsisBuilder.shortText}`;
+          ellipsableText.append(clickableEllipsis);
+          clickableCloseButton.classList.remove('active-close-button');
+          clickableCloseButton.classList.add('hidden-close-button');
+        });
       }
     });
 
-    longDescriptionDivs.forEach((div) => {
-      if (!div.classList.contains('active')) {
-        div.classList.toggle('active');
-      }
-    });
-  }
+    if (isATablet()) {
+      shortDescriptionDivs.forEach((div) => {
+        if (div.classList.contains('active')) {
+          div.classList.toggle('active');
+        }
+      });
+    }
+  }, 0);
 
   // add slider arrow buttons
   const slides = [...block.querySelectorAll('.card')];
@@ -127,14 +207,10 @@ export default function decorate(block) {
     button.addEventListener('click', () => {
       const parent = button.closest('.card');
       const shortDescription = parent.querySelector('.short-description');
-      const longDescription = parent.querySelector('.long-description');
       if (!shortDescription.classList.contains('active')) {
         shortDescription.classList.toggle('active');
       }
       button.classList.add('hide');
-      if (longDescription.classList.contains('active')) {
-        longDescription.classList.toggle('active');
-      }
     });
   });
 
@@ -143,15 +219,11 @@ export default function decorate(block) {
     item.addEventListener('click', () => {
       const parent = item.closest('.card');
       const shortDescription = parent.querySelector('.short-description');
-      const longDescription = parent.querySelector('.long-description');
       const closeButton = parent.querySelector('.close-button');
       if (shortDescription.classList.contains('active')) {
         shortDescription.classList.toggle('active');
       }
       closeButton.classList.remove('hide');
-      if (!longDescription.classList.contains('active')) {
-        longDescription.classList.toggle('active');
-      }
     });
   });
 
