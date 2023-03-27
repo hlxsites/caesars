@@ -2,7 +2,12 @@
 /* To prevent scrolling on the cards */
 .slider {
   overflow: hidden;
+  overflow-y: scroll;
   padding: 2px;
+}
+
+.slider::-webkit-scrollbar {
+  display: none;
 }
 
 .slider .card-wrapper {
@@ -37,7 +42,9 @@
 }
 
 .slider .card .short-description {
-  display: none;
+  padding: 16px;
+  height: 180px;
+  display: block;
   position: relative;
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%);
 }
@@ -47,13 +54,13 @@
   box-shadow: unset;
 }
 
-.slider .card .short-description.active {
-  padding: 16px;
-  height: 180px;
-  display: block;
+
+
+.slider .card .extended-text {
+  height: 240px;
 }
 
-.slider:not(.flat) .card .short-description.active {
+.slider:not(.flat) .card .short-description {
   background: var(--static-color-white);
 }
 
@@ -68,40 +75,11 @@
   margin-top: 5px;
 }
 
-.slider .card .long-description {
-  position: relative;
-  display: none;
-}
-
-.slider .card .long-description.active {
-  display: block;
-  height: 180px;
-  padding: 16px;
-  background: var(--static-color-white);
-  overflow-y: scroll;
-}
-
-.slider .card .long-description.active::-webkit-scrollbar {
-  display: none;
-}
-
-.slider.no-image .card .long-description.active {
-  margin: 0;
-}
-
-.slider .card .long-description.active h4 {
-  display: none;
-}
-
-.slider .card .long-description.active p {
-  margin: 0;
-}
-
 .slider .card .active-close-button {
   position: absolute;
   top: 8px;
   right: 4px;
-  background: url(../../icons/close-bold.svg) no-repeat;
+  background: url('../../icons/close-bold.svg') no-repeat;
   min-width: 32px;
   min-height: 32px;
   transform: scale(0.8);
@@ -114,6 +92,14 @@
 }
 
 .slider .extended-text h4 {
+  display: none;
+}
+
+.slider .extended-text h4 {
+  display: none;
+}
+
+.slider .extended-text .button-container {
   display: none;
 }
 
@@ -152,7 +138,7 @@
 }
 
 @media only screen and (min-width: 768px) {
-  .slider:not(.flat) .card .short-description.active {
+  .slider:not(.flat) .card .short-description {
     margin: -35px 15px 15px;
     background: var(--static-color-white);
     position: relative;
@@ -160,17 +146,11 @@
     height: 180px;
   }
 
-  .slider.no-image .card .short-description.active {
-    margin: 0;
+  .slider:not(.flat) .card .extended-text {
+    height: 240px;
   }
 
-  .slider .card .long-description.active {
-    margin: -35px 15px 15px;
-    position: relative;
-    height: 180px;
-  }
-
-  .slider.no-image .card .long-description.active {
+  .slider.no-image .card .short-description {
     margin: 0;
   }
 

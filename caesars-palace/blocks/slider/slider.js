@@ -2,21 +2,14 @@ import { readBlockConfigWithContent } from '../../scripts/scripts.js';
 
 const DEFAULT_CONFIG = Object.freeze({
   'visible-slides': 3,
-  'maxlines': 3,
-  'ellipsis': '...more',
+  maxlines: 3,
+  ellipsis: '...more',
 });
 
 const isADesktop = () => {
   const mediaDesktop = window.matchMedia('only screen and (min-width: 769px)');
   return mediaDesktop.matches;
 };
-
-function isATablet() {
-  const mediaQueryTablet = window.matchMedia(
-    'only screen and (min-width: 481px) and (max-width:768px)',
-  );
-  return mediaQueryTablet.matches;
-}
 
 const getPositionX = (event) => (event.type.includes('mouse')
   ? event.pageX
@@ -90,7 +83,7 @@ export default function decorate(block) {
     }
 
     const contentDivs = div.querySelectorAll(':scope > div:not(.card-image)');
-    contentDivs[0].classList.add('short-description', 'active');
+    contentDivs[0].classList.add('short-description');
   });
 
   block.appendChild(cardWrapper);
@@ -124,7 +117,7 @@ export default function decorate(block) {
         clickableCloseButton.classList.add('hidden-close-button');
         clickableEllipsis.classList.add('clickable-ellipsis');
 
-        clickableCloseButton.innerHTML = "";
+        clickableCloseButton.innerHTML = '';
         clickableCloseButton.classList.add('close-button');
         clickableEllipsis.innerHTML = blockConfig.ellipsis;
         ellipsableText.innerHTML = `${ellipsisBuilder.shortText}`;
@@ -133,8 +126,6 @@ export default function decorate(block) {
         div.append(clickableCloseButton);
 
         clickableEllipsis.addEventListener('click', () => {
-          console.log("Extend text");
-
           div.classList.add('extended-text');
           ellipsableText.innerHTML = `${fullTextContent}`;
           clickableCloseButton.classList.remove('hidden-close-button');
@@ -149,14 +140,6 @@ export default function decorate(block) {
         });
       }
     });
-
-    if (isATablet()) {
-      shortDescriptionDivs.forEach((div) => {
-        if (div.classList.contains('active')) {
-          div.classList.toggle('active');
-        }
-      });
-    }
   }, 0);
 
   // add slider arrow buttons
@@ -176,18 +159,6 @@ export default function decorate(block) {
 
   const mediaChangeHandler = () => {
     if (mobileMediaQuery.matches) {
-      shortDescriptionDivs.forEach((div) => {
-        if (!div.classList.contains('active')) {
-          div.classList.toggle('active');
-        }
-      });
-
-      longDescriptionDivs.forEach((div) => {
-        if (div.classList.contains('active')) {
-          div.classList.toggle('active');
-        }
-      });
-
       cardWrapper.style.width = '';
     } else {
       let totalPadding = (blockConfig['visible-slides'] - 1) * 4;
@@ -201,31 +172,6 @@ export default function decorate(block) {
   mediaChangeHandler();
   mobileMediaQuery.addEventListener('change', mediaChangeHandler);
   desktopMediaQuery.addEventListener('change', mediaChangeHandler);
-
-  // toggle from long to short description
-  block.querySelectorAll('.close-button').forEach((button) => {
-    button.addEventListener('click', () => {
-      const parent = button.closest('.card');
-      const shortDescription = parent.querySelector('.short-description');
-      if (!shortDescription.classList.contains('active')) {
-        shortDescription.classList.toggle('active');
-      }
-      button.classList.add('hide');
-    });
-  });
-
-  // toggle from short to long description
-  block.querySelectorAll('.show-more').forEach((item) => {
-    item.addEventListener('click', () => {
-      const parent = item.closest('.card');
-      const shortDescription = parent.querySelector('.short-description');
-      const closeButton = parent.querySelector('.close-button');
-      if (shortDescription.classList.contains('active')) {
-        shortDescription.classList.toggle('active');
-      }
-      closeButton.classList.remove('hide');
-    });
-  });
 
   let isDragging = false;
   let startPos = 0;
