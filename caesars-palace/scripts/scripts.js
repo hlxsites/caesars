@@ -137,6 +137,7 @@ export function readBlockConfigWithContent(block) {
       configObj[key] = Number(value);
     }
   });
+
   return configObj;
 }
 
