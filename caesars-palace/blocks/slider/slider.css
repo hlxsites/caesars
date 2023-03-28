@@ -44,7 +44,8 @@
 .slider .card .short-description {
   padding-right: 16px 32px 16px 16px;
   height: 180px;
-  display: block;
+  display: flex;
+  flex-direction: column;
   position: relative;
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%);
 }
@@ -113,6 +114,9 @@
 
 .slider:not(.flat) .card .button-container {
   text-align: right;
+    position: absolute;
+    margin-top: 120px;
+    margin-left: 260px;
 }
 
 .slider.flat .card .button-container {
