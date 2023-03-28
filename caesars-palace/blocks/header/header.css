@@ -321,7 +321,6 @@ header nav .nav-tools p:first-of-type a:hover {
 }
 
 @media (min-width: 1170px) {
-  /* Refactor this later */
   .more {
     color: var(--static-color-white);
     opacity: unset;
