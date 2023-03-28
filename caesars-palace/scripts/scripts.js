@@ -37,7 +37,6 @@ export function buildEllipsis(text, width, maxVisibleLines, suffix, options = {}
     }
   });
 
-  console.log(options)
   const words = text.split(' ');
   let testLine = '';
   let lineCount = 1;
