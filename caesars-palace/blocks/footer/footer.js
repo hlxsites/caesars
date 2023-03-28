@@ -49,14 +49,13 @@ export default async function decorate(block) {
       blockWrapper.classList.add(`${blockName}-wrapper`);
       const html = await value.text();
       if (blockConfig.isFragment) {
-        const fragment = document.createElement('main');
-        fragment.innerHTML = html;
-        decorateMain(fragment);
-        await loadBlocks(fragment);
+        const fragment = await loadFragment(path);
+
         const fragmentSection = fragment.querySelector(':scope .section');
         if (fragmentSection) {
           blockWrapper.append(...fragmentSection.childNodes);
         }
+
       } else {
         blockWrapper.innerHTML = html;
         await decorateIcons(blockWrapper);
