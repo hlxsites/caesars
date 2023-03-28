@@ -2,6 +2,7 @@ import { getMetadata, decorateIcons } from '../../scripts/lib-franklin.js';
 
 // media query match that indicates mobile/tablet width
 const isDesktop = window.matchMedia('(min-width: 1170px)');
+const isLargeDesktop = window.matchMedia('(min-width: 1440px)');
 // const MAX_NAV_ITEMS_DESKTOP = 6;
 const CAESARS_DOT_COM = 'https://www.caesars.com';
 const GLOBAL_HEADER_JSON = '/content/empire/en/jcr:content/root/header.model.json';
@@ -129,7 +130,7 @@ function toggleMenu(nav, navSections, forceExpanded = null) {
   }
 }
 
-const showMore = (nav) => {
+const showMore = (nav, maxItemsDesktop) => {
   const ul = nav.querySelector('.nav-sections > .local-nav > ul');
   const more = document.createElement('li');
   more.classList.add('more');
@@ -146,7 +147,7 @@ const showMore = (nav) => {
   dropdownMenu.classList.add('dropdown-menu');
 
   // We only allow nine menu items to remain in the header
-  while (ul.children.length > 9) {
+  while (ul.children.length > maxItemsDesktop) {
     const dropdownItem = document.createElement('div');
     dropdownItem.classList.add('dropdown');
     ul.lastElementChild.firstChild.classList.add('menu-item');
@@ -180,6 +181,7 @@ const showMore = (nav) => {
       const dropdown = more.querySelector('.dropdown-menu');
       if (dropdown.classList.contains('active')) {
         dropdown.classList.toggle('active');
+        downArrow.classList.toggle('active');
       }
     }
   };
@@ -341,8 +343,10 @@ export default async function decorate(block) {
     block.prepend(globalNavDesktop);
     block.append(navWrapper);
 
-    if (isDesktop.matches) {
-      showMore(nav);
+    if (isLargeDesktop.matches) {
+      showMore(nav, 9);
+    } else if (isDesktop.matches) {
+      showMore(nav, 7);
     }
   }
 }

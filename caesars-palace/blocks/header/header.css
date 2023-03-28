@@ -341,6 +341,10 @@ header nav .nav-tools p:first-of-type a:hover {
     background-color: var(--static-color-light-gray);
   }
 
+  .menu-item {
+    margin-left: 1em;
+  }
+
   /* Global Nav */
   header .global-nav-desktop {
     display: flex;
@@ -360,11 +364,6 @@ header nav .nav-tools p:first-of-type a:hover {
   
   header.is-sticky .global-nav-desktop {
     height: 0;
-  }
-
-  .menu-item {
-    all: unset;
-    margin-left: 1em;
   }
 
   .down-arrow {
@@ -559,7 +558,7 @@ header nav .nav-tools p:first-of-type a:hover {
     transition: unset;
   }
 
-  header nav[aria-expanded=true] .nav-sections .local-nav[aria-expanded="true"] ul li a:not(.more-link)::after {
+  header nav[aria-expanded=true] .nav-sections .local-nav[aria-expanded="true"] ul li a:not(.more-link, .menu-item)::after {
     content: '';
     display: block;
     height: 3px;
