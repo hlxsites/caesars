@@ -55,7 +55,7 @@
   box-shadow: unset;
 }
 
-.slider .card .extended-text {
+.slider .card .extended-text p {
   height: 180px;
   overflow: hidden;
   overflow-y: scroll;
