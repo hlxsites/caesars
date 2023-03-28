@@ -380,7 +380,6 @@ header nav .nav-tools p:first-of-type a:hover {
     transition: transform 200ms cubic-bezier(0.4, 0, 1, 1) 0ms;
   }
 
-
   header .global-nav-desktop .logo {
     display: flex;
     justify-content: center;
