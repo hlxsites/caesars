@@ -140,9 +140,6 @@ const showMore = (nav, maxItemsDesktop) => {
   const aMore = document.createElement('a');
   aMore.classList.add('more-link');
   aMore.text = 'MORE';
-  const downArrow = document.createElement('div');
-  downArrow.classList.add('down-arrow');
-  aMore.appendChild(downArrow);
   moreText.appendChild(aMore);
   const dropdownMenu = document.createElement('div');
   dropdownMenu.classList.add('dropdown-menu');
@@ -166,25 +163,17 @@ const showMore = (nav, maxItemsDesktop) => {
   more.addEventListener('click', () => {
     const dropdown = more.querySelector('.dropdown-menu');
     dropdown.classList.toggle('active');
-    const arrow = more.querySelector('.down-arrow');
-    arrow.classList.toggle('active');
-  });
-
-  dropdownMenu.addEventListener('blur', () => {
-    const dropdown = more.querySelector('.dropdown-menu');
-    dropdown.classList.toggle('active');
-    const arrow = more.querySelector('.down-arrow');
-    arrow.classList.toggle('active');
+    aMore.classList.toggle('active');
   });
 
   // Disable dropdown onclick outside the dropdown
   document.onclick = (e) => {
     if (!(e.target.classList.contains('more') || e.target.classList.contains('more-link') || e.target.classList.contains('more-text')
-     || e.target.classList.contains('dropdown') || e.target.classList.contains('dropdown-menu') || e.target.classList.contains('down-arrow'))) {
+     || e.target.classList.contains('dropdown') || e.target.classList.contains('dropdown-menu'))) {
       const dropdown = more.querySelector('.dropdown-menu');
       if (dropdown.classList.contains('active')) {
         dropdown.classList.toggle('active');
-        downArrow.classList.toggle('active');
+        aMore.classList.toggle('active');
       }
     }
   };
