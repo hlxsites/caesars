@@ -47,7 +47,7 @@ export default function decorate(block) {
     const shortDescriptionDivs = block.querySelectorAll('.short-description');
     shortDescriptionDivs.forEach((div) => {
       const ellipsableText = div.querySelector('p');
-      if(!ellipsableText) return;
+      if (!ellipsableText) return;
 
       const textStyle = window.getComputedStyle(div);
       const textOptions = {
@@ -59,7 +59,7 @@ export default function decorate(block) {
       const textContentWidth = div.offsetWidth - displayBufferPixels;
 
       const fullTextContent = ellipsableText.innerText;
-      if(!fullTextContent) return;
+      if (!fullTextContent) return;
 
       const ellipsisBuilder = buildEllipsis(
         fullTextContent,
