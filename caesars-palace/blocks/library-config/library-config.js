@@ -1,6 +1,6 @@
 import { createTag } from '../../scripts/scripts.js';
 
-const LIBRARY_PATH = 'caesars-palace/block-library/library.json';
+const LIBRARY_PATH = '/caesars-palace/block-library/library.json';
 
 async function loadBlocks(content, list) {
   const { default: blocks } = await import('./lists/blocks.js');
