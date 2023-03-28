@@ -18,11 +18,11 @@ header .global-nav-desktop {
   display: none;
 }
 
-.dropdown-menu {
+header nav .local-nav .dropdown-menu {
   display: none;
 }
 
-.dropdown-menu.active {
+header nav .local-nav .dropdown-menu.active {
   display: flex;
   flex-direction: column;
   visibility: visible;
@@ -321,7 +321,7 @@ header nav .nav-tools p:first-of-type a:hover {
 }
 
 @media (min-width: 1170px) {
-  header nav .more {
+  header nav .local-nav .more {
     color: var(--static-color-white);
     opacity: unset;
     display: inline-block;
@@ -332,16 +332,16 @@ header nav .nav-tools p:first-of-type a:hover {
     line-height: 6;
   }
 
-  header nav .more-link {
+  header nav .local-nav .more-link {
     display: flex !important;
     align-items: center;
   }
 
-  header nav .dropdown:hover {
+  header nav .local-nav .dropdown:hover {
     background-color: var(--static-color-light-gray);
   }
 
-  header nav .menu-item {
+  header nav .local-nav .menu-item {
     margin-left: 1em;
   }
 
