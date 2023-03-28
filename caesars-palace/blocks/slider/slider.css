@@ -81,7 +81,7 @@
 }
 
 .slider .card .active-close-button {
-  position: fixed;
+  position: absolute;
   top: var(--layout-size-xs);
   right: var(--layout-size-xxs);
   background: url('../../icons/close-bold.svg') no-repeat;
