@@ -11,10 +11,85 @@ import {
   loadBlocks,
   loadCSS,
   createOptimizedPicture,
+  readBlockConfig,
 } from './lib-franklin.js';
 
 const LCP_BLOCKS = []; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'caesars-palace'; // add your RUM generation information here
+
+/**
+ * Determine if we are serving content for the block-library, if so don't load the header or footer
+ * @returns {boolean} True if we are loading block library content
+ */
+export function isBlockLibrary() {
+  return window.location.pathname.includes('block-library');
+}
+
+/**
+ * Convience method for creating tags in one line of code
+ * @param {string} tag Tag to create
+ * @param {object} attributes Key/value object of attributes
+ * @param {HTMLElement | HTMLElement[] | string} children Child element
+ * @returns {HTMLElement} The created tag
+ */
+export function createTag(tag, attributes, children) {
+  const element = document.createElement(tag);
+  if (children) {
+    if (children instanceof HTMLElement
+      || children instanceof SVGElement
+      || children instanceof DocumentFragment) {
+      element.append(children);
+    } else if (Array.isArray(children)) {
+      element.append(...children);
+    } else {
+      element.insertAdjacentHTML('beforeend', children);
+    }
+  }
+  if (attributes) {
+    Object.entries(attributes).forEach(([key, val]) => {
+      element.setAttribute(key, val);
+    });
+  }
+  return element;
+}
+
+/**
+ * Read and return a configuration object for a block that contains both config
+ * values and content. Config values can be in the first row or multiple
+ * rows. When using multiple rows there must be a blank row between config and content.
+ * Config rows will also be remove from the block to allow further decoration of the
+ * content only.
+ *
+ * @param block A block to extract config from
+ */
+export function readBlockConfigWithContent(block) {
+  const configBlock = document.createElement('div');
+  const allRows = [...block.querySelectorAll(':scope>div')];
+  allRows.every((row) => {
+    if (row.children) {
+      const cols = [...row.children];
+      const isConfigRow = !!cols[1]
+        && cols[0].hasChildNodes()
+        && cols[0].firstChild.nodeType === Node.TEXT_NODE
+        && cols[0].children.length === 0;
+      if (isConfigRow) {
+        configBlock.append(row);
+        return true;
+      }
+    }
+    if (row.children.length === 1 && row.firstElementChild.textContent.trim().length === 0) {
+      block.removeChild(row);
+    }
+    return false;
+  });
+  const configObj = readBlockConfig(configBlock);
+  Object.entries(configObj).forEach(([key, value]) => {
+    if (!Number.isNaN(value)) {
+      configObj[key] = Number(value);
+    }
+  });
+  return configObj;
+}
 
 function buildSectionBackground(main) {
   const mediaMobileWidthQueryMatcher = window.matchMedia('only screen and (min-width: 1170px)');
@@ -95,8 +170,10 @@ async function loadLazy(doc) {
   const element = hash ? doc.getElementById(hash.substring(1)) : false;
   if (hash && element) element.scrollIntoView();
 
-  loadHeader(doc.querySelector('header'));
-  loadFooter(doc.querySelector('footer'));
+  if (!isBlockLibrary()) {
+    loadHeader(doc.querySelector('header'));
+    loadFooter(doc.querySelector('footer'));
+  }
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   addFavIcon(`${window.hlx.codeBasePath}/styles/favicon.ico`);

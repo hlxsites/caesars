@@ -10,12 +10,17 @@
  */
 
 import { createOptimizedPicture } from '../../scripts/lib-franklin.js';
+import { readBlockConfigWithContent } from '../../scripts/scripts.js';
 
 const DEFAULT_SCROLL_INTERVAL_MS = 5000;
 const SLIDE_ID_PREFIX = 'carousel-slide';
 const NAVIGATION_DIRECTION_PREV = 'prev';
 const NAVIGATION_DIRECTION_NEXT = 'next';
 const SLIDE_ANIMATION_DURATION_MS = 640;
+
+const DEFAULT_CONFIG = Object.freeze({
+  interval: DEFAULT_SCROLL_INTERVAL_MS,
+});
 
 const firstVisibleSlide = 1;
 let scrollInterval;
@@ -130,7 +135,7 @@ function snapScroll(el, dir = 1) {
 /**
  * Build a navigation button for controlling the direction of carousel slides.
  *
- * @param dir A string of either 'prev or 'next'
+ * @param navigationDirection A string of either 'prev or 'next'
  * @return {HTMLDivElement} The resulting nav element
  */
 async function buildNav(navigationDirection) {
@@ -200,7 +205,8 @@ function buildSlide(slide, index) {
 
 /**
  * Updates load setting for images in a slide
- * @param {*} slideId Id of the slide to update
+ * @param block block containing slides
+ * @param slideId id of the slide to update
  */
 function setImageEagerLoading(block, slideId) {
   const slide = block.querySelector(`#${slideId}`);
@@ -265,15 +271,7 @@ function startAutoScroll(block, interval) {
  * @param block HTML block from Franklin
  */
 export default async function decorate(block) {
-  let scrollDisplayTime = DEFAULT_SCROLL_INTERVAL_MS;
-
-  // first line is configuration of display time per carousel element
-  const configuredScrollDisplayTime = parseInt(block.children[0].innerText, 10);
-  if (!Number.isNaN(configuredScrollDisplayTime)
-    && Number.isInteger(configuredScrollDisplayTime)) {
-    scrollDisplayTime = configuredScrollDisplayTime * 1000;
-  }
-  block.children[0].remove();
+  const blockConfig = { ...DEFAULT_CONFIG, ...readBlockConfigWithContent(block) };
 
   // turn video links into displayable videos
   block.querySelectorAll('a').forEach((videoLink) => {
@@ -346,7 +344,7 @@ export default async function decorate(block) {
     if (isDown) {
       snapScroll(carousel, carousel.scrollLeft > startScroll ? 1 : -1);
     }
-    startAutoScroll(block, scrollDisplayTime);
+    startAutoScroll(block, blockConfig.interval);
     isDown = false;
   });
 
@@ -471,7 +469,7 @@ export default async function decorate(block) {
   const handleAutoScroll = (entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        startAutoScroll(block, scrollDisplayTime);
+        startAutoScroll(block, blockConfig.interval);
       } else {
         stopAutoScroll();
       }
@@ -488,7 +486,7 @@ export default async function decorate(block) {
     if (document.hidden) {
       stopAutoScroll();
     } else {
-      startAutoScroll(block, scrollDisplayTime);
+      startAutoScroll(block, blockConfig.interval);
     }
   });
 }
