@@ -90,8 +90,6 @@ header .nav-brand a {
   padding: 5px 0;
 }
 
-
-
 header .nav-brand a::after {
   content: '';
   position: absolute;

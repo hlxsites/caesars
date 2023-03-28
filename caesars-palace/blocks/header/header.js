@@ -131,8 +131,6 @@ function toggleMenu(nav, navSections, forceExpanded = null) {
 
 const showMore = (nav) => {
   const ul = nav.querySelector('.nav-sections > .local-nav > ul');
-  const li = nav.querySelectorAll('.nav-sections > .local-nav > ul > li');
-  let count = li.length;
   const more = document.createElement('li');
   more.classList.add('more');
   const moreText = document.createElement('div');
@@ -146,14 +144,15 @@ const showMore = (nav) => {
   moreText.appendChild(aMore);
   const dropdownMenu = document.createElement('div');
   dropdownMenu.classList.add('dropdown-menu');
-  while (count > 9) {
+
+  // We only allow nine menu items to remain in the header
+  while (ul.children.length > 9) {
     const dropdownItem = document.createElement('div');
     dropdownItem.classList.add('dropdown');
-    ul.children[count - 1].firstChild.classList.add('menu-item');
-    dropdownItem.appendChild(ul.children[count - 1].firstChild);
+    ul.lastElementChild.firstChild.classList.add('menu-item');
+    dropdownItem.appendChild(ul.lastElementChild.firstChild);
     dropdownMenu.prepend(dropdownItem);
-    ul.removeChild(ul.children[count - 1]);
-    count -= 1;
+    ul.removeChild(ul.lastElementChild);
   }
 
   more.prepend(moreText);
