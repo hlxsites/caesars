@@ -162,6 +162,6 @@ export default async function init(el) {
 
   const link = document.createElement('link');
   link.setAttribute('rel', 'stylesheet');
-  link.setAttribute('href', '/blocks/library-config/library-config.css');
+  link.setAttribute('href', '/caesars-palace/blocks/library-config/library-config.css');
   el.shadowRoot.appendChild(link);
 }
