@@ -1,76 +1,128 @@
-* {
-  box-sizing: border-box;
+
+/* To prevent scrolling on the cards */
+.slider {
+  overflow: hidden;
+  padding: 2px;
 }
 
-.slider-wrapper .slider {
+.slider .card-wrapper {
+  width: 100%;
   margin: 0;
   padding: 0;
   display: flex;
-  flex-direction: row;
-  gap: 16px;
+  flex-flow: row nowrap;
+  gap: 10px;
   transform: translateX(0);
   transition: transform 0.3s ease-out;
 }
 
-
-/* To prevent scrolling on the cards */
-.slider-wrapper {
-  overflow: hidden;
+.slider * {
+  box-sizing: border-box;
 }
 
-.slider-wrapper .slider .card {
+.slider .card {
   flex: 1 0 100%;
   height: auto;
   width: 100%;
   cursor: grab;
   user-select: none;
+}
+
+.slider.flat .card {
+  text-align: center;
+}
+
+.slider.no-image .card {
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%);
-  overflow: scroll;
 }
 
 .slider .card .short-description {
   display: none;
+  position: relative;
+  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%);
+}
+
+.slider.no-image .card .short-description,
+.slider.flat .card .short-description {
+  box-shadow: unset;
 }
 
 .slider .card .short-description.active {
   padding: 16px;
-  border: 1px solid var(--highlight-background-color);
-  background: var(--static-color-white);
   height: 180px;
   display: block;
 }
 
-.slider .card .short-description .subtitle
-{
+.slider:not(.flat) .card .short-description.active {
+  background: var(--static-color-white);
+}
+
+.slider .card .short-description h4 {
+  text-transform: uppercase;
+}
+
+.slider .card .short-description h5 {
   opacity: .7;
   font-size: 10px;
   font-weight: var(--emphasized-font-weight);
-  padding-top: 5px;
+  margin-top: 5px;
+}
+
+.slider .card .long-description {
+  position: relative;
+  display: none;
+}
+
+.slider .card .long-description.active {
+  display: block;
+  height: 180px;
+  padding: 16px;
+  background: var(--static-color-white);
+  overflow-y: scroll;
+}
+
+.slider .card .long-description.active::-webkit-scrollbar {
+  display: none;
+}
+
+.slider.no-image .card .long-description.active {
+  margin: 0;
+}
+
+.slider .card .long-description.active h4 {
+  display: none;
+}
+
+.slider .card .long-description.active p {
+  margin: 0;
 }
 
 .slider .card .close-button {
+  position: absolute;
+  top: 4px;
+  right: 0;
   background: url("../../icons/close-bold.svg") no-repeat;
   min-width: 20px;
   min-height: 20px;
   transform: scale(0.8);
-  float: right;
-  margin-bottom: 10px;
   cursor: pointer;
+  z-index: 2;
 }
 
 .slider .card .close-button.hide {
   display: none;
 }
 
-.slider .card .short-description .title {
-  font-family: var(--text-font-family);
-  font-weight: var(--emphasized-font-weight);
-  font-size: 18px;
-  text-transform: uppercase;
+.slider:not(.flat) .card .button-container {
+  text-align: right;
 }
 
-.slider .card .button-container {
-  text-align: right;
+.slider.flat .card .button-container {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
 }
 
 .slider .card .show-more {
@@ -78,60 +130,38 @@
   cursor: pointer;
 }
 
-.slider .card .long-description {
-  display: none;
-}
-
-.slider .card .long-description.active {
-  padding: 16px;
-  border: 1px solid var(--highlight-background-color);
-  background: var(--static-color-white);
-  display: block;
-  height: 180px;
-}
-
-.slider.no-image .card .long-description.active {
-  margin: 0;
-}
-
-.slider .card .long-description.active > p:first-of-type {
-  display: none;
-}
-
-.slider .card > div > picture > img {
+.slider .card img {
   width: 100%;
-  aspect-ratio: 4 / 3;
   object-fit: cover;
 }
 
+.slider.flat .card img {
+  width: 287px;
+  height: 160px;
+  object-fit: contain;
+}
+
 @media only screen and (min-width: 481px) and (max-width: 768px) {
-  .slider-wrapper .slider .card {
+  .slider .card {
     width: 100%;
   }
 
   .slider .card .long-description.active > p:first-of-type {
     display: block;
+  }
+
+  .slider:not(.flat) .card .long-description.active > p:first-of-type {
     font-weight: var(--emphasized-font-weight);
-    font-size: 16px;
     text-transform: uppercase;
   }
 }
 
-@media (min-width: 769px) {
-  .slider-wrapper .slider {
-    display: flex;
-    flex-direction: row;
-    width: calc((100%/3) - 10px);
-    gap: 10px;
-    font-size: var(--body-font-size-xs);
-  }
-
-  .slider .card .short-description.active {
+@media only screen and (min-width: 768px) {
+  .slider:not(.flat) .card .short-description.active {
     margin: -35px 15px 15px;
     background: var(--static-color-white);
     position: relative;
     padding: 16px;
-    font-size: var(--body-font-size-xs);
     height: 180px;
   }
 
@@ -142,8 +172,6 @@
   .slider .card .long-description.active {
     margin: -35px 15px 15px;
     position: relative;
-    padding: 16px;
-    display: block;
     height: 180px;
   }
 
@@ -151,58 +179,51 @@
     margin: 0;
   }
 
-  .slider .card .close-button {
-    margin: 0 20px 20px;
-    position: relative;
-    z-index: 2;
-  }
-
   .slider-button {
-    display: flex;
-    align-items: center;
     position: absolute;
-    z-index: 100;
-    top: 30%;
+    z-index: 10;
+    top: calc(50% - 25px);
     background-color: var(--static-color-white);
-    width: 30px;
-    height: 30px;
-    border-radius: 80%;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
     box-shadow: 0 10px 15px -3px rgba(0 0 0 / 10%), 0 4px 6px -2px rgba(0 0 0 / 6%);
+    cursor: pointer;
   }
 
-  .slider-button:first-of-type, .slider.no-image + .slider-button {
-    top: 40%;
+  .slider.hide-arrows .slider-button {
+    display: none;
+  }
+
+  .slider-button::after {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 20px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
 
   .slider-button.left {
-    left: -.5%;
+    left: -25px;
   }
 
   .slider-button.left::after {
-    content: '';
     background: url("../../icons/chevron-left.svg") no-repeat;
-    min-width: 20px;
-    min-height: 20px;
-    transform: scale(1.0);
-    left: 10px;
-    top: 7px;
-    z-index: 90;
-    position: absolute;
   }
 
   .slider-button.right {
-    right: 0.5%;
+    right: -25px;
   }
 
   .slider-button.right::after {
-    content: '';
     background: url("../../icons/chevron-right.svg") no-repeat;
-    min-width: 20px;
-    min-height: 20px;
-    transform: scale(1.0);
-    left: 10px;
-    top: 7px;
-    z-index: 90;
-    position: absolute;
+  }
+}
+
+@media only screen and (min-width: 1170px) {
+  .slider.spacious .card-wrapper {
+    gap: 50px;
   }
 }
