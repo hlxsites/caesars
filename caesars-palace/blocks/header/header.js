@@ -3,7 +3,8 @@ import { getMetadata, decorateIcons } from '../../scripts/lib-franklin.js';
 // media query match that indicates mobile/tablet width
 const isDesktop = window.matchMedia('(min-width: 1170px)');
 const isLargeDesktop = window.matchMedia('(min-width: 1440px)');
-// const MAX_NAV_ITEMS_DESKTOP = 6;
+const MAX_NAV_ITEMS_DESKTOP = 7;
+const MAX_NAV_ITEMS_LARGE_DESKTOP = 9;
 const CAESARS_DOT_COM = 'https://www.caesars.com';
 const GLOBAL_HEADER_JSON = '/content/empire/en/jcr:content/root/header.model.json';
 const GLOBAL_HEADER_JSON_LOCAL = '/caesars-palace/scripts/resources/header.model.json';
@@ -146,15 +147,17 @@ const showMore = (nav, maxItemsDesktop) => {
   const dropdownMenu = document.createElement('div');
   dropdownMenu.classList.add('dropdown-menu');
 
-  // We only allow nine menu items to remain in the header
-  while (ul.children.length > maxItemsDesktop) {
+  [...ul.children].forEach((child, index) => {
+    if (index < maxItemsDesktop) {
+      return;
+    }
     const dropdownItem = document.createElement('div');
     dropdownItem.classList.add('dropdown');
-    ul.lastElementChild.firstChild.classList.add('menu-item');
-    dropdownItem.appendChild(ul.lastElementChild.firstChild);
-    dropdownMenu.prepend(dropdownItem);
-    ul.removeChild(ul.lastElementChild);
-  }
+    child.firstChild.classList.add('menu-item');
+    dropdownItem.appendChild(child.firstChild);
+    dropdownMenu.appendChild(dropdownItem);
+    ul.removeChild(child);
+  });
 
   more.prepend(moreText);
   more.appendChild(dropdownMenu);
@@ -344,9 +347,9 @@ export default async function decorate(block) {
     block.append(navWrapper);
 
     if (isLargeDesktop.matches) {
-      showMore(nav, 9);
+      showMore(nav, MAX_NAV_ITEMS_LARGE_DESKTOP);
     } else if (isDesktop.matches) {
-      showMore(nav, 7);
+      showMore(nav, MAX_NAV_ITEMS_DESKTOP);
     }
   }
 }
