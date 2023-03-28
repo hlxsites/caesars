@@ -18,6 +18,52 @@ const LCP_BLOCKS = []; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'caesars-palace'; // add your RUM generation information here
 
 /**
+ * Build the preview of a text with ellipsis
+ * @param {String} text Text that will be shortened
+ * @param {Integer} width Width of container
+ * @param {Integer} maxVisibleLines Max visible lines allowed
+ * @param {*} suffix Suffix to use for ellipsis
+ *  (will make sure text+ellipsis fit in `maxVisibleLines`)
+ * @param {*} options Text styling option
+ *
+ * @return The ellipsed text (without ellipsis suffix)
+ */
+export function buildEllipsis(text, width, maxVisibleLines, suffix, options = {}) {
+  const canvas = buildEllipsis.canvas || (buildEllipsis.canvas = document.createElement('canvas'));
+  const context = canvas.getContext('2d');
+  Object.entries(options).forEach(([key, value]) => {
+    if (key in context) {
+      context[key] = value;
+    }
+  });
+
+  const words = text.split(' ');
+  let testLine = '';
+  let lineCount = 1;
+
+  let shortText = '';
+
+  words.forEach((w, index) => {
+    testLine += `${w} `;
+
+    const { width: testWidth } = context.measureText(`${testLine}${suffix}`);
+    if (testWidth > width && index > 0) {
+      lineCount += 1;
+      testLine = `${w} `;
+    }
+
+    if (lineCount <= maxVisibleLines) {
+      shortText += `${w} `;
+    }
+  });
+
+  return {
+    lineCount,
+    shortText,
+  };
+}
+
+/**
  * Determine if we are serving content for the block-library, if so don't load the header or footer
  * @returns {boolean} True if we are loading block library content
  */
@@ -84,7 +130,10 @@ export function readBlockConfigWithContent(block) {
   });
   const configObj = readBlockConfig(configBlock);
   Object.entries(configObj).forEach(([key, value]) => {
-    if (!Number.isNaN(value)) {
+    const numericValue = Number(value);
+    if (Number.isNaN(numericValue)) {
+      configObj[key] = value;
+    } else {
       configObj[key] = Number(value);
     }
   });
