@@ -61,6 +61,10 @@
   overflow-y: scroll;
 }
 
+.slider .card .extended-text p::-webkit-scrollbar {
+  display: none;
+}
+
 .slider:not(.flat) .card .short-description {
   background: var(--static-color-white);
 }
