@@ -19,14 +19,14 @@
   align-items: center;
   background: var(--static-color-black);
   color: var(--static-color-white);
-  padding-left: 32px;
+  padding-left: var(--layout-size-xl);
   margin-top: -6em;
 }
 
 .highlight-card.block .highlight-card-text h4 {
   text-transform: uppercase;
   margin: 0;
-  padding-top: 16px;
+  padding-top: var(--layout-size-m);
 }
 
 .highlight-card.block .button-container {
@@ -36,16 +36,16 @@
 /* Responsive Breakpoints */
 @media  only screen and (min-width: 960px) {
   .highlight-card.block .highlight-card-text div:last-child {
-    margin-left: auto; 
-    margin-right: 16px;
+    margin-left: auto;
+    margin-right: var(--layout-size-m);
   }
-  
+
   .highlight-card.block .button-container {
-    padding-right: 16px;
-    padding-left: 16px;
+    padding-right: var(--layout-size-m);
+    padding-left: var(--layout-size-m);
     display: block;
   }
-  
+
   .highlight-card.block .highlight-card-image img {
     padding-left: 6em;
   }

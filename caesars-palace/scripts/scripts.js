@@ -14,11 +14,11 @@ import {
   readBlockConfig,
 } from './lib-franklin.js';
 
-const LCP_BLOCKS = ['carousel']; // add your LCP blocks to the list
+const LCP_BLOCKS = []; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'caesars-palace'; // add your RUM generation information here
 
 /**
- * Build the preview of a text with ellipsis.
+ * Build the preview of a text with ellipsis
  * @param {String} text Text that will be shortened
  * @param {Integer} width Width of container
  * @param {Integer} maxVisibleLines Max visible lines allowed
@@ -45,6 +45,7 @@ export function buildEllipsis(text, width, maxVisibleLines, suffix, options = {}
 
   words.forEach((w, index) => {
     testLine += `${w} `;
+
     const { width: testWidth } = context.measureText(`${testLine}${suffix}`);
     if (testWidth > width && index > 0) {
       lineCount += 1;
@@ -60,6 +61,42 @@ export function buildEllipsis(text, width, maxVisibleLines, suffix, options = {}
     lineCount,
     shortText,
   };
+}
+
+/**
+ * Determine if we are serving content for the block-library, if so don't load the header or footer
+ * @returns {boolean} True if we are loading block library content
+ */
+export function isBlockLibrary() {
+  return window.location.pathname.includes('block-library');
+}
+
+/**
+ * Convience method for creating tags in one line of code
+ * @param {string} tag Tag to create
+ * @param {object} attributes Key/value object of attributes
+ * @param {HTMLElement | HTMLElement[] | string} children Child element
+ * @returns {HTMLElement} The created tag
+ */
+export function createTag(tag, attributes, children) {
+  const element = document.createElement(tag);
+  if (children) {
+    if (children instanceof HTMLElement
+      || children instanceof SVGElement
+      || children instanceof DocumentFragment) {
+      element.append(children);
+    } else if (Array.isArray(children)) {
+      element.append(...children);
+    } else {
+      element.insertAdjacentHTML('beforeend', children);
+    }
+  }
+  if (attributes) {
+    Object.entries(attributes).forEach(([key, val]) => {
+      element.setAttribute(key, val);
+    });
+  }
+  return element;
 }
 
 /**
@@ -103,10 +140,6 @@ export function readBlockConfigWithContent(block) {
   return configObj;
 }
 
-/**
- * Adds a background to a section.
- * @param {*} main Section to add background to
- */
 function buildSectionBackground(main) {
   const mediaMobileWidthQueryMatcher = window.matchMedia('only screen and (min-width: 1170px)');
   const mediaMobileWidthChangeHandler = (event) => {
@@ -186,8 +219,10 @@ async function loadLazy(doc) {
   const element = hash ? doc.getElementById(hash.substring(1)) : false;
   if (hash && element) element.scrollIntoView();
 
-  loadHeader(doc.querySelector('header'));
-  loadFooter(doc.querySelector('footer'));
+  if (!isBlockLibrary()) {
+    loadHeader(doc.querySelector('header'));
+    loadFooter(doc.querySelector('footer'));
+  }
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   addFavIcon(`${window.hlx.codeBasePath}/styles/favicon.ico`);

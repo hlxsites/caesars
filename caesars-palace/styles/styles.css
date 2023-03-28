@@ -382,6 +382,11 @@ main .section > div:last-of-type {
   padding-bottom: var(--layout-size-xl);
 }
 
+/* Block Library Style */
+main .section > div.library-config-wrapper {
+  padding: unset;
+}
+
 /* progressive section appearance */
 main .section[data-section-status='loading'],
 main .section[data-section-status='initialized'] {

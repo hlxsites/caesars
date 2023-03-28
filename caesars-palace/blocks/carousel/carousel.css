@@ -124,7 +124,7 @@
   width: 90%;
   height: 100%;
   position: absolute;
-  padding-right: 32px;
+  padding-right: var(--layout-size-xl);
 }
 
 .carousel.showcase.block .carousel-text h2 {
@@ -132,7 +132,7 @@
   font-family: var(--text-font-famly);
   font-weight: var(--emphasized-font-weight);
   line-height: 22px;
-  margin-bottom: 8px;
+  margin-bottom: var(--layout-size-xs);
 }
 
 .carousel.showcase.block .carousel-text h4 {
