@@ -63,7 +63,7 @@ export function buildEllipsis(text, width, maxVisibleLines, suffix, options = {}
   };
 }
 
-/*
+/**
  * Determine if we are serving content for the block-library, if so don't load the header or footer
  * @returns {boolean} True if we are loading block library content
  */
