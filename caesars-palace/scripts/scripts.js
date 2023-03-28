@@ -37,6 +37,7 @@ export function buildEllipsis(text, width, maxVisibleLines, suffix, options = {}
     }
   });
 
+  console.log(options)
   const words = text.split(' ');
   let testLine = '';
   let lineCount = 1;
@@ -45,6 +46,7 @@ export function buildEllipsis(text, width, maxVisibleLines, suffix, options = {}
 
   words.forEach((w, index) => {
     testLine += `${w} `;
+
     const { width: testWidth } = context.measureText(`${testLine}${suffix}`);
     if (testWidth > width && index > 0) {
       lineCount += 1;
@@ -60,6 +62,7 @@ export function buildEllipsis(text, width, maxVisibleLines, suffix, options = {}
     lineCount,
     shortText,
   };
+}
 
 /*
  * Determine if we are serving content for the block-library, if so don't load the header or footer

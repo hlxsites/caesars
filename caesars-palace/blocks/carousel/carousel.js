@@ -640,7 +640,7 @@ export default async function decorate(block) {
               letterSpacing: `${textStyle.letterSpacing}`,
             };
 
-            const displayBufferPixels = 16;
+            const displayBufferPixels = 32;
             const textContentWidth = textContent.offsetWidth - displayBufferPixels;
             const ellipsedSuffix = blockConfig.ellipsis;
             const allowedMaxLines = blockConfig.maxlines;
