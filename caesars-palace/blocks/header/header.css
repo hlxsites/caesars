@@ -329,7 +329,6 @@ header nav .nav-tools p:first-of-type a:hover {
     font-size: var(--body-font-size-xs);
     font-weight: var(--clickable-font-weight);
     height: 70px;
-    line-height: 6;
   }
 
   header nav .local-nav .more-link {
