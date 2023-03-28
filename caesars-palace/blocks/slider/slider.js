@@ -59,6 +59,8 @@ export default function decorate(block) {
       const textContentWidth = div.offsetWidth - displayBufferPixels;
 
       const fullTextContent = ellipsableText.innerText;
+      if(!fullTextContent) return;
+
       const ellipsisBuilder = buildEllipsis(
         fullTextContent,
         textContentWidth,
