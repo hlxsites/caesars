@@ -106,6 +106,7 @@ h3,
 h4,
 h5,
 h6 {
+  font-display: swap;
   font-family: var(--heading-font-family);
   font-weight: var(--emphasized-font-weight);
   line-height: 1.1;
