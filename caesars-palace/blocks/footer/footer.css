@@ -288,6 +288,7 @@ footer .footer .footer-property-links ul.open {
 
   footer .footer .global-footer-content .global-footer-links {
     display: flex;
+    gap: 3%;
   }
 
   footer .footer .global-footer-content .global-footer-links ul {
@@ -309,7 +310,7 @@ footer .footer .footer-property-links ul.open {
 
   footer .footer .global-footer-content .global-footer-links ul li
   {
-    width: 157px;
+    width: 91px;
   }
 
   footer .footer .global-footer-content .global-footer-links ul li a
