@@ -74,12 +74,11 @@ async function getIconSvg(iconPath) {
  */
 function syncActiveDot(block, slideIndex) {
   const targetId = `carousel-nav-dot-${slideIndex}`;
-  const activeNavDotClassName = 'carousel-nav-dot-active';
   [...block.getElementsByClassName('carousel-nav-dot')]?.forEach((navDot) => {
     if (navDot.id === targetId) {
-      navDot.classList.add(activeNavDotClassName);
+      navDot.classList.add('carousel-nav-dot-active');
     } else {
-      navDot.classList.remove(activeNavDotClassName);
+      navDot.classList.remove('carousel-nav-dot-active');
     }
   });
 }
