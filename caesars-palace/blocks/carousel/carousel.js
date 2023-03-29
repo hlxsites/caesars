@@ -237,13 +237,13 @@ function buildDots(block, blockState, slides = []) {
     dotBtn.innerText = '';
 
     dotItem.setAttribute('role', 'presentation');
+
     dotItem.append(dotBtn);
+    dots.append(dotItem);
 
     dotItem.addEventListener('click', () => {
       scrollToSlide(block, blockState, index + 1);
     });
-
-    dots.append(dotItem);
   });
   return dots;
 }
