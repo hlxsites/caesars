@@ -561,10 +561,8 @@ export default async function decorate(block) {
         image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '768' }]));
       });
 
-      if (!blockState.isShowcase) {
-        setImageEagerLoading(block, 'carousel-slide0');
-        setImageEagerLoading(block, 'carousel-slide1');
-      }
+      setImageEagerLoading(block, 'carousel-slide0');
+      setImageEagerLoading(block, 'carousel-slide1');
     }
   };
   mediaSmallWidthChangeHandler(mediaSmallWidthQueryMatcher);
@@ -577,10 +575,8 @@ export default async function decorate(block) {
         image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '960' }]));
       });
 
-      if (!blockState.isShowcase) {
-        setImageEagerLoading(block, 'carousel-slide0');
-        setImageEagerLoading(block, 'carousel-slide1');
-      }
+      setImageEagerLoading(block, 'carousel-slide0');
+      setImageEagerLoading(block, 'carousel-slide1');
     }
   };
   mediaMediumWidthChangeHandler(mediaMediumWidthQueryMatcher);
@@ -593,10 +589,8 @@ export default async function decorate(block) {
         image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '1170' }]));
       });
 
-      if (!blockState.isShowcase) {
-        setImageEagerLoading(block, 'carousel-slide0');
-        setImageEagerLoading(block, 'carousel-slide1');
-      }
+      setImageEagerLoading(block, 'carousel-slide0');
+      setImageEagerLoading(block, 'carousel-slide1');
     }
   };
   mediaLargeWidthChangeHandler(mediaLargeWidthQueryMatcher);
@@ -611,10 +605,8 @@ export default async function decorate(block) {
         image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '1440' }]));
       });
 
-      if (!blockState.isShowcase) {
-        setImageEagerLoading(block, 'carousel-slide0');
-        setImageEagerLoading(block, 'carousel-slide1');
-      }
+      setImageEagerLoading(block, 'carousel-slide0');
+      setImageEagerLoading(block, 'carousel-slide1');
     }
   };
   mediaExtraLargeWidthChangeHandler(mediaExtraLargeWidthQueryMatcher);
