@@ -560,8 +560,11 @@ export default async function decorate(block) {
       block.querySelectorAll('img').forEach((image) => {
         image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '768' }]));
       });
-      setImageEagerLoading(block, 'carousel-slide0');
-      setImageEagerLoading(block, 'carousel-slide1');
+
+      if (!blockState.isShowcase) {
+        setImageEagerLoading(block, 'carousel-slide0');
+        setImageEagerLoading(block, 'carousel-slide1');
+      }
     }
   };
   mediaSmallWidthChangeHandler(mediaSmallWidthQueryMatcher);
@@ -573,8 +576,11 @@ export default async function decorate(block) {
       block.querySelectorAll('img').forEach((image) => {
         image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '960' }]));
       });
-      setImageEagerLoading(block, 'carousel-slide0');
-      setImageEagerLoading(block, 'carousel-slide1');
+
+      if (!blockState.isShowcase) {
+        setImageEagerLoading(block, 'carousel-slide0');
+        setImageEagerLoading(block, 'carousel-slide1');
+      }
     }
   };
   mediaMediumWidthChangeHandler(mediaMediumWidthQueryMatcher);
@@ -586,8 +592,11 @@ export default async function decorate(block) {
       block.querySelectorAll('img').forEach((image) => {
         image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '1170' }]));
       });
-      setImageEagerLoading(block, 'carousel-slide0');
-      setImageEagerLoading(block, 'carousel-slide1');
+
+      if (!blockState.isShowcase) {
+        setImageEagerLoading(block, 'carousel-slide0');
+        setImageEagerLoading(block, 'carousel-slide1');
+      }
     }
   };
   mediaLargeWidthChangeHandler(mediaLargeWidthQueryMatcher);
@@ -601,8 +610,11 @@ export default async function decorate(block) {
       block.querySelectorAll('img').forEach((image) => {
         image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '1440' }]));
       });
-      setImageEagerLoading(block, 'carousel-slide0');
-      setImageEagerLoading(block, 'carousel-slide1');
+
+      if (!blockState.isShowcase) {
+        setImageEagerLoading(block, 'carousel-slide0');
+        setImageEagerLoading(block, 'carousel-slide1');
+      }
     }
   };
   mediaExtraLargeWidthChangeHandler(mediaExtraLargeWidthQueryMatcher);
