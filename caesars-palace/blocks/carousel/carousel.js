@@ -626,7 +626,6 @@ export default async function decorate(block) {
     }
   };
   mediaVideoWidthChangeHandler(mediaVideoWidthQueryMatcher);
-  mediaVideoWidthQueryMatcher.addEventListener('change', mediaVideoWidthChangeHandler);
 
   const mediaTextWidthQueryMatcher = window.matchMedia('only screen and (min-width: 1170px)');
   const mediaTextWidthChangeHandler = async (event) => {
@@ -725,12 +724,15 @@ export default async function decorate(block) {
   };
   // needs DOM to be fully build and CSS applied for measurements
   setTimeout(() => mediaTextWidthChangeHandler(mediaTextWidthQueryMatcher), 0);
-  mediaTextWidthQueryMatcher.addEventListener('change', mediaTextWidthChangeHandler);
 
-  mediaExtraLargeWidthQueryMatcher.addEventListener('change', mediaExtraLargeWidthChangeHandler);
-  mediaLargeWidthQueryMatcher.addEventListener('change', mediaLargeWidthChangeHandler);
-  mediaMediumWidthQueryMatcher.addEventListener('change', mediaMediumWidthChangeHandler);
-  mediaSmallWidthQueryMatcher.addEventListener('change', mediaSmallWidthChangeHandler);
+  setTimeout( () => {
+    mediaVideoWidthQueryMatcher.addEventListener('change', mediaVideoWidthChangeHandler);
+    mediaTextWidthQueryMatcher.addEventListener('change', mediaTextWidthChangeHandler);
+    mediaExtraLargeWidthQueryMatcher.addEventListener('change', mediaExtraLargeWidthChangeHandler);
+    mediaLargeWidthQueryMatcher.addEventListener('change', mediaLargeWidthChangeHandler);
+    mediaMediumWidthQueryMatcher.addEventListener('change', mediaMediumWidthChangeHandler);
+    mediaSmallWidthQueryMatcher.addEventListener('change', mediaSmallWidthChangeHandler);
+  }, 180);
 
   // auto scroll when visible only
   const intersectionOptions = {
