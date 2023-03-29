@@ -287,9 +287,9 @@ async function buildNav(blockState, navigationDirection) {
   }
   const chevronButton = document.createElement('span');
   chevronButton.innerHTML = chevron;
+  btn.classList.add('carousel-nav', `carousel-nav-${navigationDirection}`);
   btn.appendChild(chevronButton);
 
-  btn.classList.add('carousel-nav', `carousel-nav-${navigationDirection}`);
   btn.addEventListener('click', (e) => {
     let nextSlide = blockState.firstVisibleSlide;
 
@@ -333,7 +333,6 @@ function buildSlide(blockState, slide, index) {
 
   slide.classList.add('carousel-slide');
 
-  // build image slider content
   slide.children[0].classList.add('carousel-main-image');
   const slideAltImage = slide.children[1];
   if (!slideAltImage.classList.contains('carousel-alt-video')) {
@@ -343,7 +342,6 @@ function buildSlide(blockState, slide, index) {
     slide.children[2].classList.add('carousel-text');
   }
 
-  // slide positioning
   slide.style.transform = `translateX(calc(${index * 100}%))`;
   return slide;
 }
@@ -356,7 +354,6 @@ function buildSlide(blockState, slide, index) {
 function setImageEagerLoading(block, slideId) {
   const slide = block.querySelector(`#${slideId}`);
   if (!slide) return;
-
   slide.querySelectorAll('img').forEach((image) => {
     image.loading = 'eager';
   });
@@ -533,6 +530,7 @@ export default async function decorate(block) {
       return;
     }
     e.preventDefault();
+
     const x = e.pageX - carousel.offsetLeft;
     const walk = (x - startX);
     carousel.scrollLeft = prevScroll - walk;
