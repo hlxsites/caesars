@@ -463,15 +463,14 @@ export default async function decorate(block) {
   addClones(carousel);
   block.append(carousel);
 
-  let navigationDots;
-  if (blockState.isShowcase) {
-    navigationDots = buildDots(block, blockState, slides);
-  }
   if (slides.length > 1) {
     const prevBtn = await buildNav(blockState, 'prev');
     const nextBtn = await buildNav(blockState, 'next');
     block.append(prevBtn, nextBtn);
-    if (navigationDots) {
+
+    let navigationDots;
+    if (blockState.isShowcase) {
+      navigationDots = buildDots(block, blockState, slides);
       block.append(navigationDots);
     }
   }
@@ -486,7 +485,6 @@ export default async function decorate(block) {
   let startX = 0;
   let startScroll = 0;
   let prevScroll = 0;
-
   const movementStartEventHandler = (e) => {
     let offset = 0;
     if (e.changedTouches && e.changedTouches.length >= 1) {
@@ -762,7 +760,6 @@ export default async function decorate(block) {
   window.addEventListener('resize', () => {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => {
-      // scroll to first slide once all DOM has been rebuilt
       scrollToSlide(block, blockState, blockState.firstVisibleSlide, 'instant');
     }, 500);
   });
