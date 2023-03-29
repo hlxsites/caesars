@@ -98,7 +98,6 @@ function scrollToSlide(carousel, blockState, slideIndex = 1, scrollBehavior = 's
   let slidePadding;
   let realSlideWidthWithPadding;
   let paddingFix;
-
   if (blockState.isShowcase) {
     widthUsage = 0.9; /* carousel-slide width */
     realSlideWidth = carouselSlider.offsetWidth * widthUsage;
@@ -259,7 +258,6 @@ function snapScroll(el, blockState, dir = 1) {
   if (blockState.isShowcase) {
     snapLimit = 0.05;
   }
-
   let threshold = el.offsetWidth * snapLimit;
   if (dir >= 0) {
     threshold -= (threshold * snapLimit);
@@ -269,8 +267,7 @@ function snapScroll(el, blockState, dir = 1) {
   const block = Math.floor(el.scrollLeft / el.offsetWidth);
   const pos = el.scrollLeft - (el.offsetWidth * block);
   const snapToBlock = pos <= threshold ? block : block + 1;
-  const carousel = el.closest('.carousel');
-  scrollToSlide(carousel, blockState, snapToBlock);
+  scrollToSlide(el.closest('.carousel'), blockState, snapToBlock);
 }
 
 /**
@@ -306,9 +303,8 @@ async function buildNav(blockState, navigationDirection) {
         : blockState.curSlide + 1;
     }
 
-    const carousel = e.target.closest('.carousel');
     stopAutoScroll(blockState);
-    scrollToSlide(carousel, blockState, nextSlide);
+    scrollToSlide(e.target.closest('.carousel'), blockState, nextSlide);
   });
   return btn;
 }
@@ -453,7 +449,6 @@ export default async function decorate(block) {
     }
   });
 
-  // now, let's build the carousel
   const carousel = document.createElement('div');
   carousel.classList.add('carousel-slide-container');
 
@@ -464,14 +459,14 @@ export default async function decorate(block) {
     slidesToAdd[index] = buildSlide(blockState, slide, index + 1);
   });
 
-  let navigationDots;
-  if (blockState.isShowcase) {
-    navigationDots = buildDots(block, blockState, slides);
-  }
   carousel.append(...slidesToAdd);
   addClones(carousel);
   block.append(carousel);
 
+  let navigationDots;
+  if (blockState.isShowcase) {
+    navigationDots = buildDots(block, blockState, slides);
+  }
   if (slides.length > 1) {
     const prevBtn = await buildNav(blockState, 'prev');
     const nextBtn = await buildNav(blockState, 'next');
@@ -499,7 +494,6 @@ export default async function decorate(block) {
     } else {
       offset = e.pageX;
     }
-
     isDown = true;
     startX = offset - carousel.offsetLeft;
     startScroll = carousel.scrollLeft;
@@ -545,6 +539,7 @@ export default async function decorate(block) {
     const walk = (x - startX);
     carousel.scrollLeft = prevScroll - walk;
   });
+
   carousel.addEventListener('touchmove', (e) => {
     if (!isDown) {
       return;
