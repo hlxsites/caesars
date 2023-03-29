@@ -31,6 +31,14 @@ export default async function decorate(block) {
     };
   }
 
+  const globalFooterPath = getMetadata('global-footer') || '/caesars-palace/drafts/swbarman/global-footer';
+  if (globalFooterPath && globalFooterPath !== 'none') {
+    contentPaths.globalfooter = {
+      path: `${globalFooterPath}.plain.html`,
+      isFragment: false,
+    };
+  }
+
   const contentEntries = Object.entries(contentPaths);
   const resp = await Promise.allSettled(contentEntries.map(
     ([name, content]) => (
@@ -82,6 +90,15 @@ export default async function decorate(block) {
 
   if (footer) {
     block.append(footer);
+  }
+
+  // add global footer
+  const { content: globalfooter } = contentBlocks.find(
+    (cb) => cb.name === 'globalfooter',
+  ) || {};
+
+  if (globalfooter) {
+    block.append(globalfooter);
   }
 
   if (footer) {
@@ -146,5 +163,11 @@ export default async function decorate(block) {
         console.error(err);
       }
     }));
+  }
+
+  if (globalfooter) {
+    globalfooter.firstElementChild.classList.add('global-footer-content');
+    const globalFooterLinks = globalfooter.querySelector('.global-footer-content > div > div');
+    globalFooterLinks.classList.add('global-footer-links');
   }
 }
