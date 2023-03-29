@@ -291,8 +291,9 @@ async function buildNav(blockState, navigationDirection) {
   btn.appendChild(chevronButton);
 
   btn.addEventListener('click', (e) => {
-    let nextSlide = blockState.firstVisibleSlide;
+    stopAutoScroll(blockState);
 
+    let nextSlide = blockState.firstVisibleSlide;
     if (navigationDirection === NAVIGATION_DIRECTION_PREV) {
       nextSlide = blockState.curSlide === blockState.firstVisibleSlide
         ? 0
@@ -303,7 +304,6 @@ async function buildNav(blockState, navigationDirection) {
         : blockState.curSlide + 1;
     }
 
-    stopAutoScroll(blockState);
     scrollToSlide(e.target.closest('.carousel'), blockState, nextSlide);
   });
   return btn;
