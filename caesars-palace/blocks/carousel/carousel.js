@@ -27,14 +27,14 @@ const DEFAULT_CONFIG = Object.freeze({
   interval: DEFAULT_SCROLL_INTERVAL_MS,
 });
 
-class carouselState {
-  constructor(curSlide=1, interval=5000, isShowcase=false, firstVisibleSlide = 1, maxVisibleSlides=0) {
+class CarouselState {
+  constructor(curSlide, interval, isShowcase, firstVisibleSlide = 1, maxVisibleSlides = 0) {
     this.firstVisibleSlide = firstVisibleSlide;
-    this.interval = interval;
-    this.curSlide = curSlide;
     this.maxVisibleSlides = maxVisibleSlides;
-    this.isShowcase = isShowcase;
-    this.scrollInterval = null;
+    this.curSlide = curSlide;
+    this.interval = interval;
+    this.isShowcase = isShowcase || false;
+    this.scrollInterval = null; /* for auto-scroll interval handling */
   }
 }
 
@@ -297,9 +297,13 @@ async function buildNav(blockState, navigationDirection) {
     let nextSlide = blockState.firstVisibleSlide;
 
     if (navigationDirection === NAVIGATION_DIRECTION_PREV) {
-      nextSlide = blockState.curSlide === blockState.firstVisibleSlide ? 0 : blockState.curSlide - 1;
+      nextSlide = blockState.curSlide === blockState.firstVisibleSlide
+        ? 0
+        : blockState.curSlide - 1;
     } else if (navigationDirection === NAVIGATION_DIRECTION_NEXT) {
-      nextSlide = blockState.curSlide === blockState.maxVisibleSlides ? blockState.maxVisibleSlides + 1 : blockState.curSlide + 1;
+      nextSlide = blockState.curSlide === blockState.maxVisibleSlides
+        ? blockState.maxVisibleSlides + 1
+        : blockState.curSlide + 1;
     }
 
     const carousel = e.target.closest('.carousel');
@@ -406,7 +410,9 @@ function startAutoScroll(block, blockState) {
 
   if (!blockState.scrollInterval) {
     blockState.scrollInterval = setInterval(() => {
-      const targetSlide = blockState.curSlide <= blockState.maxVisibleSlides ? blockState.curSlide + 1 : 0;
+      const targetSlide = blockState.curSlide <= blockState.maxVisibleSlides
+        ? blockState.curSlide + 1
+        : 0;
       scrollToSlide(block, blockState, targetSlide);
     }, blockState.interval);
   }
@@ -419,12 +425,12 @@ function startAutoScroll(block, blockState) {
  */
 export default async function decorate(block) {
   const blockConfig = { ...DEFAULT_CONFIG, ...readBlockConfigWithContent(block) };
-  const blockState = new carouselState(
+  const blockState = new CarouselState(
     1,
     blockConfig.interval,
     block.classList.contains('showcase'),
     1,
-    0
+    0,
   );
 
   // turn video links into displayable videos
