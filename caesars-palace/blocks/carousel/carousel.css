@@ -26,6 +26,14 @@
   position: absolute;
 }
 
+.carousel.block .carousel-nav,
+.carousel.block .carousel-dots,
+.carousel.showcase.block .carousel-dots,
+.carousel.showcase.block .extended-text p,
+.carousel.showcase.block .carousel-text p {
+  display: none;
+}
+
 .carousel.block .carousel-slide img {
   width: 100%;
   height: 670px;
@@ -41,10 +49,6 @@
   line-height: 1.1;
   letter-spacing: 1px;
   font-display: swap;
-}
-
-.carousel.block .carousel-nav {
-  display: none;
 }
 
 .carousel.block .carousel-main-image {
@@ -86,10 +90,6 @@
 
 .carousel.block .carousel-text h2 {
   font-size: 20px;
-}
-
-.carousel.block .carousel-dots {
-  display: none;
 }
 
 .carousel.showcase.block .carousel-text {
@@ -146,21 +146,8 @@
   font-display: swap;
 }
 
-.carousel.showcase.block .extended-text p {
-  display: none;
-}
-
-.carousel.showcase.block .carousel-text p {
-  display: none;
-}
-
-
 .carousel.showcase.block .carousel-text .button-container {
   margin: auto 0 16px auto;
-}
-
-.carousel.showcase.block .carousel-dots {
-  display: none;
 }
 
 /* Responsive breakpoints */
@@ -212,23 +199,22 @@
 
   .carousel.showcase.block .carousel-slide img {
     height: unset;
-  } 
+  }
 
   .carousel.showcase.block .carousel-text {
     margin-top: unset;
     top: unset;
     width: 60%;
     padding: var(--layout-size-m);
-    margin-bottom: -16px; 
+    margin-bottom: -16px;
     margin-left: -16px;
     height: 176px;
   }
 
-  .carousel.showcase.block .extended-text h4 {
-    display: none;
-  }
-
-  .carousel.showcase.block .extended-text h2 {
+  .carousel.showcase.block .extended-text h4,
+  .carousel.showcase.block .extended-text h2,
+  .carousel.showcase.block .hidden-close-button,
+  .carousel.showcase.block .extended-text .button-container  {
     display: none;
   }
 
@@ -239,14 +225,6 @@
     color: black;
     right: var(--layout-size-s);
     top: var(--layout-size-xs);
-  }
-
-  .carousel.showcase.block .hidden-close-button {
-    display: none;
-  }
-
-  .carousel.showcase.block .extended-text .button-container {
-    display: none;
   }
 
   .carousel.showcase.block .carousel-text h4 {
