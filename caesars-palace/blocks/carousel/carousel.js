@@ -625,6 +625,7 @@ export default async function decorate(block) {
       });
     }
   };
+  mediaVideoWidthChangeHandler(mediaVideoWidthQueryMatcher);
 
   const mediaTextWidthQueryMatcher = window.matchMedia('only screen and (min-width: 1170px)');
   const mediaTextWidthChangeHandler = async (event) => {
@@ -721,8 +722,6 @@ export default async function decorate(block) {
       });
     }
   };
-
-  mediaVideoWidthChangeHandler(mediaVideoWidthQueryMatcher);
   // needs DOM to be fully build and CSS applied for measurements
   setTimeout(() => mediaTextWidthChangeHandler(mediaTextWidthQueryMatcher), 0);
 
@@ -744,16 +743,16 @@ export default async function decorate(block) {
   const observer = new IntersectionObserver((entries) => {
     if (entries.some((e) => e.isIntersecting)) {
       handleAutoScroll(entries);
-
-      mediaVideoWidthQueryMatcher.addEventListener('change', mediaVideoWidthChangeHandler);
-      mediaTextWidthQueryMatcher.addEventListener('change', mediaTextWidthChangeHandler);
-      mediaExtraLargeWidthQueryMatcher.addEventListener('change', mediaExtraLargeWidthChangeHandler);
-      mediaLargeWidthQueryMatcher.addEventListener('change', mediaLargeWidthChangeHandler);
-      mediaMediumWidthQueryMatcher.addEventListener('change', mediaMediumWidthChangeHandler);
-      mediaSmallWidthQueryMatcher.addEventListener('change', mediaSmallWidthChangeHandler);
     }
   }, intersectionOptions);
   observer.observe(block);
+
+  mediaVideoWidthQueryMatcher.addEventListener('change', mediaVideoWidthChangeHandler);
+  mediaTextWidthQueryMatcher.addEventListener('change', mediaTextWidthChangeHandler);
+  mediaExtraLargeWidthQueryMatcher.addEventListener('change', mediaExtraLargeWidthChangeHandler);
+  mediaLargeWidthQueryMatcher.addEventListener('change', mediaLargeWidthChangeHandler);
+  mediaMediumWidthQueryMatcher.addEventListener('change', mediaMediumWidthChangeHandler);
+  mediaSmallWidthQueryMatcher.addEventListener('change', mediaSmallWidthChangeHandler);
 
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
