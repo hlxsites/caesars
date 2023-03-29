@@ -722,6 +722,10 @@ export default async function decorate(block) {
     }
   };
 
+  mediaVideoWidthChangeHandler(mediaVideoWidthQueryMatcher);
+  // needs DOM to be fully build and CSS applied for measurements
+  setTimeout(() => mediaTextWidthChangeHandler(mediaTextWidthQueryMatcher), 0);
+
   // auto scroll when visible only
   const intersectionOptions = {
     root: null,
@@ -741,9 +745,6 @@ export default async function decorate(block) {
     if (entries.some((e) => e.isIntersecting)) {
       handleAutoScroll(entries);
 
-      mediaVideoWidthChangeHandler(mediaVideoWidthQueryMatcher);
-      // needs DOM to be fully build and CSS applied for measurements
-      setTimeout(() => mediaTextWidthChangeHandler(mediaTextWidthQueryMatcher), 0);
       mediaVideoWidthQueryMatcher.addEventListener('change', mediaVideoWidthChangeHandler);
       mediaTextWidthQueryMatcher.addEventListener('change', mediaTextWidthChangeHandler);
       mediaExtraLargeWidthQueryMatcher.addEventListener('change', mediaExtraLargeWidthChangeHandler);
