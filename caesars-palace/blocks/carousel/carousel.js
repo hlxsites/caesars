@@ -221,8 +221,8 @@ function buildDots(block, blockState, slides = []) {
   dots.setAttribute('role', 'tablist');
   slides.forEach((slide, index) => {
     const dotItem = document.createElement('li');
-    dotItem.setAttribute('role', 'presentation');
     const dotBtn = document.createElement('button');
+
     dotBtn.classList.add('carousel-nav-dot');
     dotBtn.setAttribute('id', `carousel-nav-dot-${index + 1}`);
     dotBtn.setAttribute('type', 'button');
@@ -235,6 +235,8 @@ function buildDots(block, blockState, slides = []) {
       dotBtn.setAttribute('tabindex', '-1');
     }
     dotBtn.innerText = '';
+
+    dotItem.setAttribute('role', 'presentation');
     dotItem.append(dotBtn);
 
     dotItem.addEventListener('click', () => {
