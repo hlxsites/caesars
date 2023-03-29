@@ -22,6 +22,8 @@ const SLIDE_ID_PREFIX = 'carousel-slide';
 const NAVIGATION_DIRECTION_PREV = 'prev';
 const NAVIGATION_DIRECTION_NEXT = 'next';
 const SLIDE_ANIMATION_DURATION_MS = 640;
+const CHEVRON_LEFT ='<svg focusable="false" data-prefix="fal" data-icon="chevron-left" class="svg-inline--fa fa-chevron-left fa-w-8 cet-hero__chevron" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" aria-label="chevron left"><path fill="currentColor" d="M238.475 475.535l7.071-7.07c4.686-4.686 4.686-12.284 0-16.971L50.053 256 245.546 60.506c4.686-4.686 4.686-12.284 0-16.971l-7.071-7.07c-4.686-4.686-12.284-4.686-16.97 0L10.454 247.515c-4.686 4.686-4.686 12.284 0 16.971l211.051 211.05c4.686 4.686 12.284 4.686 16.97-.001z"></path></svg>';
+const CHEVRON_RIGHT='<svg focusable="false" data-prefix="fal" data-icon="chevron-right" class="svg-inline--fa fa-chevron-right fa-w-8 cet-hero__chevron" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" aria-label="chevron right"><path fill="currentColor" d="M17.525 36.465l-7.071 7.07c-4.686 4.686-4.686 12.284 0 16.971L205.947 256 10.454 451.494c-4.686 4.686-4.686 12.284 0 16.971l7.071 7.07c4.686 4.686 12.284 4.686 16.97 0l211.051-211.05c4.686-4.686 4.686-12.284 0-16.971L34.495 36.465c-4.686-4.687-12.284-4.687-16.97 0z"></path></svg>';
 
 const DEFAULT_CONFIG = Object.freeze({
   interval: DEFAULT_SCROLL_INTERVAL_MS,
@@ -44,19 +46,27 @@ class CarouselState {
  * @returns The SVG of the icon
  */
 async function getIconSvg(iconPath) {
-  let svg = null;
-  try {
-    const response = await fetch(`${window.hlx.codeBasePath}/${iconPath}`);
-    if (!response.ok) {
-      return svg;
+  console.log(iconPath);
+
+  if(iconPath === 'icons/chevron-left.svg'){
+    return CHEVRON_LEFT;
+  } else if (iconPath === 'icons/chevron-right.svg') {
+    return CHEVRON_RIGHT;
+  } else {
+    let svg = null;
+    try {
+      const response = await fetch(`${window.hlx.codeBasePath}/${iconPath}`);
+      if (!response.ok) {
+        return svg;
+      }
+      svg = await response.text();
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error(err);
+      svg = null;
     }
-    svg = await response.text();
-  } catch (err) {
-    // eslint-disable-next-line no-console
-    console.error(err);
-    svg = null;
+    return svg;
   }
-  return svg;
 }
 
 /**
