@@ -566,7 +566,6 @@ export default async function decorate(block) {
     }
   };
   mediaSmallWidthChangeHandler(mediaSmallWidthQueryMatcher);
-  mediaSmallWidthQueryMatcher.addEventListener('change', mediaSmallWidthChangeHandler);
 
   const mediaMediumWidthQueryMatcher = window.matchMedia('(min-width: 769px) and (max-width: 960px)');
   const mediaMediumWidthChangeHandler = (event) => {
@@ -580,7 +579,6 @@ export default async function decorate(block) {
     }
   };
   mediaMediumWidthChangeHandler(mediaMediumWidthQueryMatcher);
-  mediaMediumWidthQueryMatcher.addEventListener('change', mediaMediumWidthChangeHandler);
 
   const mediaLargeWidthQueryMatcher = window.matchMedia('(min-width: 961px) and (max-width: 1170px)');
   const mediaLargeWidthChangeHandler = (event) => {
@@ -594,9 +592,6 @@ export default async function decorate(block) {
     }
   };
   mediaLargeWidthChangeHandler(mediaLargeWidthQueryMatcher);
-  mediaLargeWidthQueryMatcher.addEventListener('change', (event) => {
-    mediaLargeWidthChangeHandler(event);
-  });
 
   const mediaExtraLargeWidthQueryMatcher = window.matchMedia('(min-width: 1171px) and (max-width: 1440px)');
   const mediaExtraLargeWidthChangeHandler = (event) => {
@@ -610,7 +605,6 @@ export default async function decorate(block) {
     }
   };
   mediaExtraLargeWidthChangeHandler(mediaExtraLargeWidthQueryMatcher);
-  mediaExtraLargeWidthQueryMatcher.addEventListener('change', mediaExtraLargeWidthChangeHandler);
 
   const mediaVideoWidthQueryMatcher = window.matchMedia('only screen and (max-width: 1170px)');
   const mediaVideoWidthChangeHandler = (event) => {
@@ -732,6 +726,11 @@ export default async function decorate(block) {
   // needs DOM to be fully build and CSS applied for measurements
   setTimeout(() => mediaTextWidthChangeHandler(mediaTextWidthQueryMatcher), 0);
   mediaTextWidthQueryMatcher.addEventListener('change', mediaTextWidthChangeHandler);
+
+  mediaExtraLargeWidthQueryMatcher.addEventListener('change', mediaExtraLargeWidthChangeHandler);
+  mediaLargeWidthQueryMatcher.addEventListener('change', mediaLargeWidthChangeHandler);
+  mediaMediumWidthQueryMatcher.addEventListener('change', mediaMediumWidthChangeHandler);
+  mediaSmallWidthQueryMatcher.addEventListener('change', mediaSmallWidthChangeHandler);
 
   // auto scroll when visible only
   const intersectionOptions = {
