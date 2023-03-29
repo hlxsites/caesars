@@ -73,7 +73,7 @@ async function getIconSvg(iconPath) {
  * @param activeSlide {number} The active slide
  */
 function syncActiveDot(block, slideIndex) {
-  [...block.getElementsByClassName('carousel-nav-dot')]?.forEach((navDot) => {
+  [...block.getElementsByClassName('carousel-nav-dot')].forEach((navDot) => {
     if (navDot.id === `carousel-nav-dot-${slideIndex}`) {
       navDot.classList.add('carousel-nav-dot-active');
     } else {
