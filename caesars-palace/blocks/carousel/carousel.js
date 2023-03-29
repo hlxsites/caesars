@@ -616,18 +616,18 @@ export default async function decorate(block) {
   const mediaVideoWidthChangeHandler = (event) => {
     if (event.matches === false) {
       block.querySelectorAll('video').forEach((videoElement) => {
-        videoElement.muted = true;
-        videoElement.autoplay = false;
-        videoElement.loop = false;
-        videoElement.playsinline = false;
-      });
-    } else {
-      block.querySelectorAll('video').forEach((videoElement) => {
         videoElement.autoplay = true;
         videoElement.loop = true;
         videoElement.playsinline = true;
         videoElement.muted = true;
         videoElement.play();
+      });
+    } else {
+      block.querySelectorAll('video').forEach((videoElement) => {
+        videoElement.muted = true;
+        videoElement.autoplay = false;
+        videoElement.loop = false;
+        videoElement.playsinline = false;
       });
     }
   };
