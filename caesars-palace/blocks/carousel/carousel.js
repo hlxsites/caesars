@@ -24,6 +24,7 @@ const NAVIGATION_DIRECTION_NEXT = 'next';
 const SLIDE_ANIMATION_DURATION_MS = 640;
 const DEFAULT_CHEVRON_LEFT = '<svg focusable="false" data-prefix="fal" data-icon="chevron-left" class="svg-inline--fa fa-chevron-left fa-w-8 cet-hero__chevron" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" aria-label="chevron left"><path fill="currentColor" d="M238.475 475.535l7.071-7.07c4.686-4.686 4.686-12.284 0-16.971L50.053 256 245.546 60.506c4.686-4.686 4.686-12.284 0-16.971l-7.071-7.07c-4.686-4.686-12.284-4.686-16.97 0L10.454 247.515c-4.686 4.686-4.686 12.284 0 16.971l211.051 211.05c4.686 4.686 12.284 4.686 16.97-.001z"></path></svg>';
 const DEFAULT_CHEVRON_RIGHT = '<svg focusable="false" data-prefix="fal" data-icon="chevron-right" class="svg-inline--fa fa-chevron-right fa-w-8 cet-hero__chevron" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" aria-label="chevron right"><path fill="currentColor" d="M17.525 36.465l-7.071 7.07c-4.686 4.686-4.686 12.284 0 16.971L205.947 256 10.454 451.494c-4.686 4.686-4.686 12.284 0 16.971l7.071 7.07c4.686 4.686 12.284 4.686 16.97 0l211.051-211.05c4.686-4.686 4.686-12.284 0-16.971L34.495 36.465c-4.686-4.687-12.284-4.687-16.97 0z"></path></svg>';
+const DEFAULT_CLOSE = '<svg focusable="false" data-prefix="fal" data-icon="times" class="svg-inline--fa fa-times fa-w-10 nav-toggle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" id="close-button"><path fill="#fff" d="M193.94 256L296.5 153.44l21.15-21.15c3.12-3.12 3.12-8.19 0-11.31l-22.63-22.63c-3.12-3.12-8.19-3.12-11.31 0L160 222.06 36.29 98.34c-3.12-3.12-8.19-3.12-11.31 0L2.34 120.97c-3.12 3.12-3.12 8.19 0 11.31L126.06 256 2.34 379.71c-3.12 3.12-3.12 8.19 0 11.31l22.63 22.63c3.12 3.12 8.19 3.12 11.31 0L160 289.94 262.56 392.5l21.15 21.15c3.12 3.12 8.19 3.12 11.31 0l22.63-22.63c3.12-3.12 3.12-8.19 0-11.31L193.94 256z"></path></svg>';
 
 const DEFAULT_CONFIG = Object.freeze({
   interval: DEFAULT_SCROLL_INTERVAL_MS,
@@ -40,33 +41,33 @@ class CarouselState {
   }
 }
 
-/**
- * Get icons of navigation buttons
- * @param {*} iconPath Icon to get
- * @returns The SVG of the icon
- */
-async function getIconSvg(iconPath) {
-  if (iconPath === 'icons/chevron-left.svg') {
-    return DEFAULT_CHEVRON_LEFT;
-  }
-  if (iconPath === 'icons/chevron-right.svg') {
-    return DEFAULT_CHEVRON_RIGHT;
-  }
+// /**
+//  * Get icons of navigation buttons
+//  * @param {*} iconPath Icon to get
+//  * @returns The SVG of the icon
+//  */
+// async function getIconSvg(iconPath) {
+//   if (iconPath === 'icons/chevron-left.svg') {
+//     return DEFAULT_CHEVRON_LEFT;
+//   }
+//   if (iconPath === 'icons/chevron-right.svg') {
+//     return DEFAULT_CHEVRON_RIGHT;
+//   }
 
-  let svg = null;
-  try {
-    const response = await fetch(`${window.hlx.codeBasePath}/${iconPath}`);
-    if (!response.ok) {
-      return svg;
-    }
-    svg = await response.text();
-  } catch (err) {
-    // eslint-disable-next-line no-console
-    console.error(err);
-    svg = null;
-  }
-  return svg;
-}
+//   let svg = null;
+//   try {
+//     const response = await fetch(`${window.hlx.codeBasePath}/${iconPath}`);
+//     if (!response.ok) {
+//       return svg;
+//     }
+//     svg = await response.text();
+//   } catch (err) {
+//     // eslint-disable-next-line no-console
+//     console.error(err);
+//     svg = null;
+//   }
+//   return svg;
+// }
 
 /**
  * Keep active dot in sync with current slide
@@ -650,7 +651,7 @@ export default async function decorate(block) {
 
       // build "ellipsable" text content
       const carouselTextElements = block.getElementsByClassName('carousel-text');
-      const closeButtonSvg = await getIconSvg('icons/close-bold.svg');
+      const closeButtonSvg = DEFAULT_CLOSE;
       [...carouselTextElements].forEach((carouselText) => {
         const textContents = carouselText.querySelectorAll('p');
         [...textContents].forEach((textContent) => {

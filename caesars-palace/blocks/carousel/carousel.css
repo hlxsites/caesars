@@ -55,7 +55,6 @@
   font-family: var(--heading-font-family);
   line-height: 1.1;
   letter-spacing: 1px;
-  font-display: swap;
 }
 
 .carousel.block .carousel-main-image {
@@ -133,7 +132,7 @@
 
 .carousel.showcase.block .carousel-text h2 {
   text-transform: uppercase;
-  font-family: var(--text-font-famly);
+  font-family: var(--text-font-family);
   font-weight: var(--emphasized-font-weight);
   line-height: 22px;
   margin-bottom: var(--layout-size-xs);
@@ -146,7 +145,6 @@
   font-size: var(--body-font-size-xs);
   font-weight: var(--emphasized-font-weight);
   margin-top: var(--layout-size-xs);
-  font-display: swap;
 }
 
 .carousel.showcase.block .carousel-text .button-container {
