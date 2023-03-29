@@ -86,6 +86,7 @@ body {
   border: 0;
   font-family: var(--body-font-family);
   font-size: var(--body-font-size-s);
+  font-display: swap;
   line-height: 1.4;
   color: var(--text-color);
   background-color: var(--background-color);
@@ -106,6 +107,7 @@ h4,
 h5,
 h6 {
   font-family: var(--heading-font-family);
+  font-display: swap;
   font-weight: var(--emphasized-font-weight);
   line-height: 1.1;
   padding: 0;
@@ -176,6 +178,7 @@ button {
   height: 36px;
   line-height: 36px;
   font-family: var(--body-font-family);
+  font-display: swap;
   vertical-align: middle;
   font-style: normal;
   font-weight: var(--clickable-font-weight);
@@ -436,6 +439,7 @@ main .section.is-hero h1 {
   line-height: 1.1;
   font-family: var(--heading-font-family);
   font-weight: var(--emphasized-font-weight);
+  font-display: swap;
 }
 
 main .section.is-hero.left-aligned h1 {
@@ -451,6 +455,7 @@ main .section.is-hero h4 {
   font-family: var(--heading-font-family);
   font-weight: var(--emphasized-font-weight);
   font-size: var(--heading-font-size-teaser);
+  font-display: swap;
   padding-bottom: 50px;
 }
 
@@ -466,6 +471,7 @@ main .section.is-hero h5 {
   color: var(--static-color-white);
   font-size: var(--heading-font-size-xs);
   font-family: var(--body-font-family);
+  font-display: swap;
 }
 
 main .section.is-hero.left-aligned h5 {
@@ -505,6 +511,7 @@ main .section.is-hero.has-video-background h1 {
   line-height: 1.1;
   font-family: var(--heading-font-family);
   font-weight: var(--emphasized-font-weight);
+  font-display: swap;
   margin-top: 145px;
 }
 
