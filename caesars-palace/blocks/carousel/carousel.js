@@ -219,6 +219,8 @@ function buildDots(block, blockState, slides = []) {
   const dots = document.createElement('ul');
   dots.classList.add('carousel-dots');
   dots.setAttribute('role', 'tablist');
+
+  const navigationDots = new Array(slides.length);
   slides.forEach((slide, index) => {
     const dotItem = document.createElement('li');
     const dotBtn = document.createElement('button');
@@ -237,14 +239,17 @@ function buildDots(block, blockState, slides = []) {
     dotBtn.innerText = '';
 
     dotItem.setAttribute('role', 'presentation');
-
     dotItem.append(dotBtn);
-    dots.append(dotItem);
 
     dotItem.addEventListener('click', () => {
       scrollToSlide(block, blockState, index + 1);
     });
+
+    navigationDots[index] = dotItem;
   });
+
+  dots.append(...navigationDots);
+
   return dots;
 }
 
