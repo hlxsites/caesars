@@ -74,7 +74,7 @@ async function getIconSvg(iconPath) {
  */
 function syncActiveDot(block, slideIndex) {
   const targetId = `carousel-nav-dot-${slideIndex}`;
-  [...block.getElementsByClassName('carousel-nav-dot')]?.forEach((navDot) => {
+  [...block.getElementsByClassName('carousel-nav-dot')].forEach((navDot) => {
     if (navDot.id === targetId) {
       navDot.classList.add('carousel-nav-dot-active');
     } else {
