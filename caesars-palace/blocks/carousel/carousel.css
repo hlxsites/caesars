@@ -40,6 +40,7 @@
   font-family: var(--heading-font-family);
   line-height: 1.1;
   letter-spacing: 1px;
+  font-display: swap;
 }
 
 .carousel.block .carousel-nav {
@@ -118,7 +119,7 @@
 
 .carousel.showcase.block .carousel-slide img {
   height: 400px;
-} 
+}
 
 .carousel.showcase.block .carousel-slide {
   width: 90%;
@@ -133,6 +134,7 @@
   font-weight: var(--emphasized-font-weight);
   line-height: 22px;
   margin-bottom: var(--layout-size-xs);
+  font-display: swap;
 }
 
 .carousel.showcase.block .carousel-text h4 {
@@ -141,6 +143,7 @@
   font-size: var(--body-font-size-xs);
   font-weight: var(--emphasized-font-weight);
   margin-top: var(--layout-size-xs);
+  font-display: swap;
 }
 
 .carousel.showcase.block .extended-text p {
@@ -288,7 +291,7 @@
   .carousel.block .carousel-nav-prev {
     left: 0;
   }
-  
+
   .carousel.block .carousel-nav-next {
     right: 0;
   }
