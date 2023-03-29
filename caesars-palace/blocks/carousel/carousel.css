@@ -28,7 +28,7 @@
 
 .carousel.block .carousel-slide img {
   width: 100%;
-  max-height: 670px;
+  height: 670px;
   object-fit: cover;
   object-position: left top;
 
