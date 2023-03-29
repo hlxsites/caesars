@@ -27,11 +27,16 @@ const DEFAULT_CONFIG = Object.freeze({
   interval: DEFAULT_SCROLL_INTERVAL_MS,
 });
 
-const firstVisibleSlide = 1;
-let scrollInterval;
-let curSlide = 1;
-let maxVisibleSlides = 0;
-let isShowcase = false;
+class carouselState {
+  constructor(curSlide=1, interval=5000, isShowcase=false, firstVisibleSlide = 1, maxVisibleSlides=0) {
+    this.firstVisibleSlide = firstVisibleSlide;
+    this.interval = interval;
+    this.curSlide = curSlide;
+    this.maxVisibleSlides = maxVisibleSlides;
+    this.isShowcase = isShowcase;
+    this.scrollInterval = null;
+  }
+}
 
 /**
  * Get icons of navigation buttons
@@ -74,9 +79,9 @@ function syncActiveDot(block, slideIndex) {
 /**
  * Clear any active scroll intervals
  */
-function stopAutoScroll() {
-  clearInterval(scrollInterval);
-  scrollInterval = undefined;
+function stopAutoScroll(blockState) {
+  clearInterval(blockState.scrollInterval);
+  blockState.scrollInterval = undefined;
 }
 
 /**
@@ -85,7 +90,7 @@ function stopAutoScroll() {
  * @param carousel The carousel
  * @param slideIndex {number} The slide index
  */
-function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
+function scrollToSlide(carousel, blockState, slideIndex = 1, scrollBehavior = 'smooth') {
   const carouselSlider = carousel.querySelector('.carousel-slide-container');
 
   let widthUsage;
@@ -94,7 +99,7 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
   let realSlideWidthWithPadding;
   let paddingFix;
 
-  if (isShowcase) {
+  if (blockState.isShowcase) {
     widthUsage = 0.9; /* carousel-slide width */
     realSlideWidth = carouselSlider.offsetWidth * widthUsage;
     slidePadding = 32; /* carousel-slide padding-right */
@@ -102,10 +107,10 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
     paddingFix = 16; /* carousel-text abs(margin-left) */
   }
 
-  if (slideIndex >= firstVisibleSlide && slideIndex <= maxVisibleSlides) {
+  if (slideIndex >= blockState.firstVisibleSlide && slideIndex <= blockState.maxVisibleSlides) {
     // normal sliding in-between slides
     let leftSlideOffset;
-    if (isShowcase) {
+    if (blockState.isShowcase) {
       const translationCorrection = carouselSlider.offsetWidth - realSlideWidthWithPadding;
       leftSlideOffset = carouselSlider.offsetWidth * slideIndex
         - translationCorrection * slideIndex
@@ -126,12 +131,12 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
         slide.setAttribute('tabindex', '-1');
       }
     });
-    curSlide = slideIndex;
-    syncActiveDot(carousel, curSlide);
+    blockState.curSlide = slideIndex;
+    syncActiveDot(carousel, blockState.curSlide);
   } else if (slideIndex === 0) {
     // sliding from first to last
     let leftSlideOffset;
-    if (isShowcase) {
+    if (blockState.isShowcase) {
       const translationCorrection = carouselSlider.offsetWidth - realSlideWidthWithPadding;
       leftSlideOffset = carouselSlider.offsetWidth * slideIndex
         - translationCorrection * slideIndex
@@ -140,32 +145,32 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
       leftSlideOffset = carouselSlider.offsetWidth * slideIndex;
     }
     carouselSlider.scrollTo({ left: leftSlideOffset, behavior: 'smooth' });
-    if (isShowcase) {
+    if (blockState.isShowcase) {
       const translationCorrection = carouselSlider.offsetWidth - realSlideWidthWithPadding;
-      leftSlideOffset = carouselSlider.offsetWidth * maxVisibleSlides
-        - translationCorrection * maxVisibleSlides
+      leftSlideOffset = carouselSlider.offsetWidth * blockState.maxVisibleSlides
+        - translationCorrection * blockState.maxVisibleSlides
         - paddingFix;
     } else {
-      leftSlideOffset = carouselSlider.offsetWidth * maxVisibleSlides;
+      leftSlideOffset = carouselSlider.offsetWidth * blockState.maxVisibleSlides;
     }
     setTimeout(() => {
       carouselSlider.scrollTo({ left: leftSlideOffset, behavior: 'instant' });
-      syncActiveDot(carousel, maxVisibleSlides);
+      syncActiveDot(carousel, blockState.maxVisibleSlides);
     }, SLIDE_ANIMATION_DURATION_MS);
 
     // sync slide state
     [...carouselSlider.children].forEach((slide, index) => {
-      if (index === maxVisibleSlides) {
+      if (index === blockState.maxVisibleSlides) {
         slide.removeAttribute('tabindex');
       } else {
         slide.setAttribute('tabindex', '-1');
       }
     });
-    curSlide = maxVisibleSlides;
-  } else if (slideIndex === maxVisibleSlides + 1) {
+    blockState.curSlide = blockState.maxVisibleSlides;
+  } else if (slideIndex === blockState.maxVisibleSlides + 1) {
     // sliding from last to first
     let leftSlideOffset;
-    if (isShowcase) {
+    if (blockState.isShowcase) {
       const translationCorrection = carouselSlider.offsetWidth - realSlideWidthWithPadding;
       leftSlideOffset = carouselSlider.offsetWidth * slideIndex
         - translationCorrection * slideIndex
@@ -175,28 +180,28 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
     }
     carouselSlider.scrollTo({ left: leftSlideOffset, behavior: 'smooth' });
 
-    if (isShowcase) {
+    if (blockState.isShowcase) {
       const translationCorrection = carouselSlider.offsetWidth - realSlideWidthWithPadding;
-      leftSlideOffset = carouselSlider.offsetWidth * firstVisibleSlide
-        - translationCorrection * firstVisibleSlide
+      leftSlideOffset = carouselSlider.offsetWidth * blockState.firstVisibleSlide
+        - translationCorrection * blockState.firstVisibleSlide
         - paddingFix;
     } else {
-      leftSlideOffset = carouselSlider.offsetWidth * firstVisibleSlide;
+      leftSlideOffset = carouselSlider.offsetWidth * blockState.firstVisibleSlide;
     }
     setTimeout(() => {
       carouselSlider.scrollTo({ left: leftSlideOffset, behavior: 'instant' });
-      syncActiveDot(carousel, firstVisibleSlide);
+      syncActiveDot(carousel, blockState.firstVisibleSlide);
     }, SLIDE_ANIMATION_DURATION_MS);
 
     // sync slide state
     [...carouselSlider.children].forEach((slide, index) => {
-      if (index === firstVisibleSlide) {
+      if (index === blockState.firstVisibleSlide) {
         slide.removeAttribute('tabindex');
       } else {
         slide.setAttribute('tabindex', '-1');
       }
     });
-    curSlide = firstVisibleSlide;
+    blockState.curSlide = blockState.firstVisibleSlide;
   }
 }
 
@@ -205,7 +210,7 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
  * @param slides An array of slide elements within the carousel
  * @return {HTMLUListElement} The carousel dots element
  */
-function buildDots(block, slides = []) {
+function buildDots(block, blockState, slides = []) {
   const dots = document.createElement('ul');
   dots.classList.add('carousel-dots');
   dots.setAttribute('role', 'tablist');
@@ -218,7 +223,7 @@ function buildDots(block, slides = []) {
     dotBtn.setAttribute('type', 'button');
     dotBtn.setAttribute('role', 'tab');
 
-    if (index + 1 === firstVisibleSlide) {
+    if (index + 1 === blockState.firstVisibleSlide) {
       dotBtn.setAttribute('tabindex', '0');
       dotBtn.classList.add('carousel-nav-dot-active');
     } else {
@@ -229,7 +234,7 @@ function buildDots(block, slides = []) {
 
     dotItem.addEventListener('click', () => {
       const slideIndex = index + 1;
-      scrollToSlide(block, slideIndex);
+      scrollToSlide(block, blockState, slideIndex);
     });
 
     dots.append(dotItem);
@@ -245,13 +250,13 @@ function buildDots(block, slides = []) {
  * @param el the scrollable element
  * @param dir the direction of the scroll
  */
-function snapScroll(el, dir = 1) {
+function snapScroll(el, blockState, dir = 1) {
   if (!el) {
     return;
   }
 
   let snapLimit = 0.5;
-  if (isShowcase) {
+  if (blockState.isShowcase) {
     snapLimit = 0.05;
   }
 
@@ -265,7 +270,7 @@ function snapScroll(el, dir = 1) {
   const pos = el.scrollLeft - (el.offsetWidth * block);
   const snapToBlock = pos <= threshold ? block : block + 1;
   const carousel = el.closest('.carousel');
-  scrollToSlide(carousel, snapToBlock);
+  scrollToSlide(carousel, blockState, snapToBlock);
 }
 
 /**
@@ -274,7 +279,7 @@ function snapScroll(el, dir = 1) {
  * @param navigationDirection A string of either 'prev or 'next'
  * @return {HTMLDivElement} The resulting nav element
  */
-async function buildNav(navigationDirection) {
+async function buildNav(blockState, navigationDirection) {
   const btn = document.createElement('div');
 
   let chevron;
@@ -289,17 +294,17 @@ async function buildNav(navigationDirection) {
 
   btn.classList.add('carousel-nav', `carousel-nav-${navigationDirection}`);
   btn.addEventListener('click', (e) => {
-    let nextSlide = firstVisibleSlide;
+    let nextSlide = blockState.firstVisibleSlide;
 
     if (navigationDirection === NAVIGATION_DIRECTION_PREV) {
-      nextSlide = curSlide === firstVisibleSlide ? 0 : curSlide - 1;
+      nextSlide = blockState.curSlide === blockState.firstVisibleSlide ? 0 : blockState.curSlide - 1;
     } else if (navigationDirection === NAVIGATION_DIRECTION_NEXT) {
-      nextSlide = curSlide === maxVisibleSlides ? maxVisibleSlides + 1 : curSlide + 1;
+      nextSlide = blockState.curSlide === blockState.maxVisibleSlides ? blockState.maxVisibleSlides + 1 : blockState.curSlide + 1;
     }
 
     const carousel = e.target.closest('.carousel');
-    stopAutoScroll();
-    scrollToSlide(carousel, nextSlide);
+    stopAutoScroll(blockState);
+    scrollToSlide(carousel, blockState, nextSlide);
   });
   return btn;
 }
@@ -311,16 +316,16 @@ async function buildNav(navigationDirection) {
  * @param index The slide's position
  * @return {HTMLUListElement} A decorated carousel slide element
  */
-function buildSlide(slide, index) {
+function buildSlide(blockState, slide, index) {
   slide.setAttribute('id', `${SLIDE_ID_PREFIX}${index}`);
   slide.setAttribute('data-slide-index', index);
   slide.setAttribute('role', 'tabpanel');
-  if (index !== firstVisibleSlide) {
+  if (index !== blockState.firstVisibleSlide) {
     slide.setAttribute('tabindex', '-1');
   }
 
-  if (index === firstVisibleSlide
-    || index === firstVisibleSlide + 1) {
+  if (index === blockState.firstVisibleSlide
+    || index === blockState.firstVisibleSlide + 1) {
     slide.querySelectorAll('img').forEach((image) => {
       image.loading = 'eager';
     });
@@ -394,16 +399,16 @@ function addClones(element) {
  * Start auto-scrolling
  * @param {*} block Block
  * @param {*} interval Optional, configured time in ms to show a slide
- * Defaults to DEFAULT_SCROLL_INTERVAL_MS
+ * Defaults to DEFAULT_SCROLL_INTERVAL_MS when block is set up
  */
-function startAutoScroll(block, interval) {
-  if (interval === 0) return;
+function startAutoScroll(block, blockState) {
+  if (blockState.interval === 0) return; /* Means no auto-scrolling */
 
-  if (!scrollInterval) {
-    scrollInterval = setInterval(() => {
-      const targetSlide = curSlide <= maxVisibleSlides ? curSlide + 1 : 0;
-      scrollToSlide(block, targetSlide);
-    }, interval || DEFAULT_SCROLL_INTERVAL_MS);
+  if (!blockState.scrollInterval) {
+    blockState.scrollInterval = setInterval(() => {
+      const targetSlide = blockState.curSlide <= blockState.maxVisibleSlides ? blockState.curSlide + 1 : 0;
+      scrollToSlide(block, blockState, targetSlide);
+    }, blockState.interval);
   }
 }
 
@@ -414,7 +419,13 @@ function startAutoScroll(block, interval) {
  */
 export default async function decorate(block) {
   const blockConfig = { ...DEFAULT_CONFIG, ...readBlockConfigWithContent(block) };
-  isShowcase = block.classList.contains('showcase');
+  const blockState = new carouselState(
+    1,
+    blockConfig.interval,
+    block.classList.contains('showcase'),
+    1,
+    0
+  );
 
   // turn video links into displayable videos
   block.querySelectorAll('a').forEach((videoLink) => {
@@ -441,23 +452,23 @@ export default async function decorate(block) {
   carousel.classList.add('carousel-slide-container');
 
   const slides = [...block.children];
-  maxVisibleSlides = slides.length;
-  const slidesToAdd = new Array(maxVisibleSlides);
+  blockState.maxVisibleSlides = slides.length;
+  const slidesToAdd = new Array(blockState.maxVisibleSlides);
   slides.forEach((slide, index) => {
-    slidesToAdd[index] = buildSlide(slide, index + 1);
+    slidesToAdd[index] = buildSlide(blockState, slide, index + 1);
   });
 
   let navigationDots;
-  if (isShowcase) {
-    navigationDots = buildDots(block, slides);
+  if (blockState.isShowcase) {
+    navigationDots = buildDots(block, blockState, slides);
   }
   carousel.append(...slidesToAdd);
   addClones(carousel);
   block.append(carousel);
 
   if (slides.length > 1) {
-    const prevBtn = await buildNav('prev');
-    const nextBtn = await buildNav('next');
+    const prevBtn = await buildNav(blockState, 'prev');
+    const nextBtn = await buildNav(blockState, 'next');
     block.append(prevBtn, nextBtn);
     if (navigationDots) {
       block.append(navigationDots);
@@ -466,7 +477,7 @@ export default async function decorate(block) {
 
   setTimeout(() => {
     // scroll to first slide once all DOM has been built
-    scrollToSlide(block, firstVisibleSlide, 'instant');
+    scrollToSlide(block, blockState, blockState.firstVisibleSlide, 'instant');
   }, 0);
 
   // make carousel draggable and swipeable
@@ -496,19 +507,19 @@ export default async function decorate(block) {
   }, { passive: true });
 
   carousel.addEventListener('mouseenter', () => {
-    stopAutoScroll();
+    stopAutoScroll(blockState);
   });
   carousel.addEventListener('mouseleave', () => {
     if (isDown) {
-      snapScroll(carousel, carousel.scrollLeft > startScroll ? 1 : -1);
+      snapScroll(carousel, blockState, carousel.scrollLeft > startScroll ? 1 : -1);
     }
-    startAutoScroll(block, blockConfig.interval);
+    startAutoScroll(block, blockState);
     isDown = false;
   });
 
   const movementEndEventHandler = () => {
     if (isDown) {
-      snapScroll(carousel, carousel.scrollLeft > startScroll ? 1 : -1);
+      snapScroll(carousel, blockState, carousel.scrollLeft > startScroll ? 1 : -1);
     }
     isDown = false;
   };
@@ -615,7 +626,7 @@ export default async function decorate(block) {
 
   const mediaTextWidthQueryMatcher = window.matchMedia('only screen and (min-width: 1170px)');
   const mediaTextWidthChangeHandler = async (event) => {
-    if (!isShowcase) return;
+    if (!blockState.isShowcase) return;
 
     if (event.matches === true) {
       // unwrap clickable slide
@@ -721,9 +732,9 @@ export default async function decorate(block) {
   const handleAutoScroll = (entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
-        startAutoScroll(block, blockConfig.interval);
+        startAutoScroll(block, blockState);
       } else {
-        stopAutoScroll();
+        stopAutoScroll(blockState);
       }
     });
   };
@@ -736,9 +747,9 @@ export default async function decorate(block) {
 
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
-      stopAutoScroll();
+      stopAutoScroll(blockState);
     } else {
-      startAutoScroll(block, blockConfig.interval);
+      startAutoScroll(block, blockState);
     }
   });
 
@@ -747,7 +758,7 @@ export default async function decorate(block) {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => {
       // scroll to first slide once all DOM has been rebuilt
-      scrollToSlide(block, firstVisibleSlide, 'instant');
+      scrollToSlide(block, blockState, blockState.firstVisibleSlide, 'instant');
     }, 500);
   });
 }
