@@ -203,6 +203,11 @@
     height: 176px;
   }
 
+  .carousel.block .carousel-text h1 {
+    padding-left: 48px;
+    padding-right: 48px;
+  }
+
   .carousel.showcase.block .extended-text h4,
   .carousel.showcase.block .extended-text h2,
   .carousel.showcase.block .hidden-close-button,
