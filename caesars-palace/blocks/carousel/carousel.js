@@ -70,7 +70,7 @@ function syncActiveDot(block, slideIndex) {
   [...carouselNavDots].forEach((navDot) => {
     if (navDot.id === targetId) {
       navDot.classList.add('carousel-nav-dot-active');
-    } else if (navDot.classList.contains('carousel-nav-dot-active')) {
+    } else {
       navDot.classList.remove('carousel-nav-dot-active');
     }
   });
