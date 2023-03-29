@@ -41,33 +41,33 @@ class CarouselState {
   }
 }
 
-// /**
-//  * Get icons of navigation buttons
-//  * @param {*} iconPath Icon to get
-//  * @returns The SVG of the icon
-//  */
-// async function getIconSvg(iconPath) {
-//   if (iconPath === 'icons/chevron-left.svg') {
-//     return DEFAULT_CHEVRON_LEFT;
-//   }
-//   if (iconPath === 'icons/chevron-right.svg') {
-//     return DEFAULT_CHEVRON_RIGHT;
-//   }
+/**
+ * Get icons of navigation buttons
+ * @param {*} iconPath Icon to get
+ * @returns The SVG of the icon
+ */
+async function getIconSvg(iconPath) {
+  if (iconPath === 'icons/chevron-left.svg') {
+    return DEFAULT_CHEVRON_LEFT;
+  }
+  if (iconPath === 'icons/chevron-right.svg') {
+    return DEFAULT_CHEVRON_RIGHT;
+  }
 
-//   let svg = null;
-//   try {
-//     const response = await fetch(`${window.hlx.codeBasePath}/${iconPath}`);
-//     if (!response.ok) {
-//       return svg;
-//     }
-//     svg = await response.text();
-//   } catch (err) {
-//     // eslint-disable-next-line no-console
-//     console.error(err);
-//     svg = null;
-//   }
-//   return svg;
-// }
+  let svg = null;
+  try {
+    const response = await fetch(`${window.hlx.codeBasePath}/${iconPath}`);
+    if (!response.ok) {
+      return svg;
+    }
+    svg = await response.text();
+  } catch (err) {
+    // eslint-disable-next-line no-console
+    console.error(err);
+    svg = null;
+  }
+  return svg;
+}
 
 /**
  * Keep active dot in sync with current slide
@@ -651,7 +651,7 @@ export default async function decorate(block) {
 
       // build "ellipsable" text content
       const carouselTextElements = block.getElementsByClassName('carousel-text');
-      const closeButtonSvg = DEFAULT_CLOSE;
+      const closeButtonSvg = await getIconSvg('icons/close-bold.svg');
       [...carouselTextElements].forEach((carouselText) => {
         const textContents = carouselText.querySelectorAll('p');
         [...textContents].forEach((textContent) => {
