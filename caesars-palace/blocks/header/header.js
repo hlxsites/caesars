@@ -146,6 +146,8 @@ const showMore = (nav, maxItemsDesktop) => {
   const dropdownMenu = document.createElement('div');
   dropdownMenu.classList.add('dropdown-menu');
 
+  const dropdownItems = [];
+
   [...ul.children].forEach((child, index) => {
     if (index < maxItemsDesktop) {
       return;
@@ -154,9 +156,11 @@ const showMore = (nav, maxItemsDesktop) => {
     dropdownItem.classList.add('dropdown');
     child.firstChild.classList.add('menu-item');
     dropdownItem.appendChild(child.firstChild);
-    dropdownMenu.appendChild(dropdownItem);
+    dropdownItems.push(dropdownItem);
     ul.removeChild(child);
   });
+
+  dropdownItems.forEach((item) => dropdownMenu.appendChild(item));
 
   more.prepend(moreText);
   more.appendChild(dropdownMenu);
@@ -170,8 +174,9 @@ const showMore = (nav, maxItemsDesktop) => {
 
   // Disable dropdown onclick outside the dropdown
   document.onclick = (e) => {
-    if (!(e.target.classList.contains('more') || e.target.classList.contains('more-link') || e.target.classList.contains('more-text')
-     || e.target.classList.contains('dropdown') || e.target.classList.contains('dropdown-menu'))) {
+    const eventTarget = e.target.classList;
+    if (!(eventTarget.contains('more') || eventTarget.contains('more-link') || eventTarget.contains('more-text')
+     || eventTarget.contains('dropdown') || eventTarget.contains('dropdown-menu'))) {
       const dropdown = more.querySelector('.dropdown-menu');
       if (dropdown.classList.contains('active')) {
         dropdown.classList.toggle('active');
