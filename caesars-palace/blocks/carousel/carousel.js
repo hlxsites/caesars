@@ -674,18 +674,15 @@ export default function decorate(block) {
   };
   mediaExtraLargeWidthChangeHandler(mediaExtraLargeWidthQueryMatcher);
 
-  const handleAutoScroll = (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        startAutoScroll(block, blockState);
-      } else {
-        stopAutoScroll(blockState);
-      }
-    });
-  };
   const observer = new IntersectionObserver((entries) => {
     if (entries.some((e) => e.isIntersecting)) {
-      handleAutoScroll(entries);
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          startAutoScroll(block, blockState);
+        } else {
+          stopAutoScroll(blockState);
+        }
+      });
     }
   }, {
     root: null,
