@@ -466,22 +466,20 @@ export default function decorate(block) {
         const textContents = carouselText.querySelectorAll('p');
         [...textContents].forEach((textContent) => {
           if (!textContent.classList.contains('button-container')) {
-            const textStyle = window.getComputedStyle(textContent);
-            const textOptions = {
-              font: `${textStyle.fontWeight} ${textStyle.fontSize} ${textStyle.fontFamily}`,
-              letterSpacing: `${textStyle.letterSpacing}`,
-            };
-
             const displayBufferPixels = 32;
             const textContentWidth = textContent.offsetWidth - displayBufferPixels;
 
+            const textStyle = window.getComputedStyle(textContent);
             const fullTextContent = textContent.innerHTML;
             const ellipsisBuilder = buildEllipsis(
               fullTextContent,
               textContentWidth,
               blockConfig.maxlines,
               blockConfig.ellipsis,
-              textOptions,
+              {
+                font: `${textStyle.fontWeight} ${textStyle.fontSize} ${textStyle.fontFamily}`,
+                letterSpacing: `${textStyle.letterSpacing}`,
+              },
             );
 
             if (ellipsisBuilder.lineCount >= 2) {
