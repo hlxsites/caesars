@@ -485,9 +485,106 @@ export default async function decorate(block) {
     }
   }
 
+  const mediaTextWidthQueryMatcher = window.matchMedia('only screen and (min-width: 1170px)');
+  const mediaTextWidthChangeHandler = async (event) => {
+    if (!blockState.isShowcase) return;
+
+    if (event.matches === true) {
+      // unwrap clickable slide
+      const slidePanels = block.getElementsByClassName('carousel-slide');
+      [...slidePanels].forEach((panel) => {
+        const wrapper = panel.firstChild;
+        if (wrapper && wrapper.href) {
+          panel.innerHTML = wrapper.innerHTML;
+        }
+      });
+
+      // build "ellipsable" text content
+      const carouselTextElements = block.getElementsByClassName('carousel-text');
+      const closeButtonSvg = await getIconSvg('icons/close-bold.svg');
+      [...carouselTextElements].forEach((carouselText) => {
+        const textContents = carouselText.querySelectorAll('p');
+        [...textContents].forEach((textContent) => {
+          if (!textContent.classList.contains('button-container')) {
+            const textStyle = window.getComputedStyle(textContent);
+            const textOptions = {
+              font: `${textStyle.fontWeight} ${textStyle.fontSize} ${textStyle.fontFamily}`,
+              letterSpacing: `${textStyle.letterSpacing}`,
+            };
+
+            const displayBufferPixels = 32;
+            const textContentWidth = textContent.offsetWidth - displayBufferPixels;
+            const ellipsedSuffix = blockConfig.ellipsis;
+            const allowedMaxLines = blockConfig.maxlines;
+
+            const fullTextContent = textContent.innerHTML;
+            const ellipsisBuilder = buildEllipsis(
+              fullTextContent,
+              textContentWidth,
+              allowedMaxLines,
+              ellipsedSuffix,
+              textOptions,
+            );
+
+            if (ellipsisBuilder.lineCount >= 2) {
+              const clickableCloseButton = document.createElement('span');
+              const clickableEllipsis = document.createElement('span');
+
+              clickableCloseButton.classList.add('hidden-close-button');
+              clickableEllipsis.classList.add('clickable-ellipsis');
+
+              clickableCloseButton.innerHTML = closeButtonSvg;
+              clickableEllipsis.innerHTML = ellipsedSuffix;
+              textContent.innerHTML = `${ellipsisBuilder.shortText}`;
+
+              textContent.append(clickableEllipsis);
+              carouselText.append(clickableCloseButton);
+
+              clickableEllipsis.addEventListener('click', () => {
+                carouselText.classList.add('extended-text');
+                textContent.innerHTML = `${fullTextContent}`;
+                clickableCloseButton.classList.remove('hidden-close-button');
+                clickableCloseButton.classList.add('active-close-button');
+              });
+              clickableCloseButton.addEventListener('click', () => {
+                carouselText.classList.remove('extended-text');
+                textContent.innerHTML = `${ellipsisBuilder.shortText}`;
+                textContent.append(clickableEllipsis);
+                clickableCloseButton.classList.remove('active-close-button');
+                clickableCloseButton.classList.add('hidden-close-button');
+              });
+            }
+          }
+        });
+      });
+    } else {
+      // make slide clickable
+      const slidePanels = block.getElementsByClassName('carousel-slide');
+      [...slidePanels].forEach((panel) => {
+        let targetLink;
+        let targetTitle;
+        panel.querySelectorAll('a').forEach((link) => {
+          // last link will always be the action button
+          targetLink = link.href;
+          targetTitle = link.title;
+        });
+
+        const link = document.createElement('a');
+        link.classList.add('clickable-slide');
+        link.href = targetLink;
+        link.title = targetTitle;
+
+        link.innerHTML = panel.innerHTML;
+        panel.innerHTML = '';
+        panel.append(link);
+      });
+    }
+  };
+
   setTimeout(() => {
     // scroll to first slide once all DOM has been built
     scrollToSlide(block, blockState, blockState.firstVisibleSlide, 'instant');
+    mediaTextWidthChangeHandler(mediaTextWidthQueryMatcher)
   }, 0);
 
   // make carousel draggable and swipeable
@@ -630,104 +727,6 @@ export default async function decorate(block) {
     }
   };
   mediaVideoWidthChangeHandler(mediaVideoWidthQueryMatcher);
-
-  const mediaTextWidthQueryMatcher = window.matchMedia('only screen and (min-width: 1170px)');
-  const mediaTextWidthChangeHandler = async (event) => {
-    if (!blockState.isShowcase) return;
-
-    if (event.matches === true) {
-      // unwrap clickable slide
-      const slidePanels = block.getElementsByClassName('carousel-slide');
-      [...slidePanels].forEach((panel) => {
-        const wrapper = panel.firstChild;
-        if (wrapper && wrapper.href) {
-          panel.innerHTML = wrapper.innerHTML;
-        }
-      });
-
-      // build "ellipsable" text content
-      const carouselTextElements = block.getElementsByClassName('carousel-text');
-      const closeButtonSvg = await getIconSvg('icons/close-bold.svg');
-      [...carouselTextElements].forEach((carouselText) => {
-        const textContents = carouselText.querySelectorAll('p');
-        [...textContents].forEach((textContent) => {
-          if (!textContent.classList.contains('button-container')) {
-            const textStyle = window.getComputedStyle(textContent);
-            const textOptions = {
-              font: `${textStyle.fontWeight} ${textStyle.fontSize} ${textStyle.fontFamily}`,
-              letterSpacing: `${textStyle.letterSpacing}`,
-            };
-
-            const displayBufferPixels = 32;
-            const textContentWidth = textContent.offsetWidth - displayBufferPixels;
-            const ellipsedSuffix = blockConfig.ellipsis;
-            const allowedMaxLines = blockConfig.maxlines;
-
-            const fullTextContent = textContent.innerHTML;
-            const ellipsisBuilder = buildEllipsis(
-              fullTextContent,
-              textContentWidth,
-              allowedMaxLines,
-              ellipsedSuffix,
-              textOptions,
-            );
-
-            if (ellipsisBuilder.lineCount >= 2) {
-              const clickableCloseButton = document.createElement('span');
-              const clickableEllipsis = document.createElement('span');
-
-              clickableCloseButton.classList.add('hidden-close-button');
-              clickableEllipsis.classList.add('clickable-ellipsis');
-
-              clickableCloseButton.innerHTML = closeButtonSvg;
-              clickableEllipsis.innerHTML = ellipsedSuffix;
-              textContent.innerHTML = `${ellipsisBuilder.shortText}`;
-
-              textContent.append(clickableEllipsis);
-              carouselText.append(clickableCloseButton);
-
-              clickableEllipsis.addEventListener('click', () => {
-                carouselText.classList.add('extended-text');
-                textContent.innerHTML = `${fullTextContent}`;
-                clickableCloseButton.classList.remove('hidden-close-button');
-                clickableCloseButton.classList.add('active-close-button');
-              });
-              clickableCloseButton.addEventListener('click', () => {
-                carouselText.classList.remove('extended-text');
-                textContent.innerHTML = `${ellipsisBuilder.shortText}`;
-                textContent.append(clickableEllipsis);
-                clickableCloseButton.classList.remove('active-close-button');
-                clickableCloseButton.classList.add('hidden-close-button');
-              });
-            }
-          }
-        });
-      });
-    } else {
-      // make slide clickable
-      const slidePanels = block.getElementsByClassName('carousel-slide');
-      [...slidePanels].forEach((panel) => {
-        let targetLink;
-        let targetTitle;
-        panel.querySelectorAll('a').forEach((link) => {
-          // last link will always be the action button
-          targetLink = link.href;
-          targetTitle = link.title;
-        });
-
-        const link = document.createElement('a');
-        link.classList.add('clickable-slide');
-        link.href = targetLink;
-        link.title = targetTitle;
-
-        link.innerHTML = panel.innerHTML;
-        panel.innerHTML = '';
-        panel.append(link);
-      });
-    }
-  };
-  // needs DOM to be fully build and CSS applied for measurements
-  setTimeout(() => mediaTextWidthChangeHandler(mediaTextWidthQueryMatcher), 0);
 
   // auto scroll when visible only
   const intersectionOptions = {
