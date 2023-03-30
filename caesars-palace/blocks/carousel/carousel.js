@@ -190,17 +190,16 @@ function scrollToSlide(carousel, blockState, slideIndex = 1, scrollBehavior = 's
 function buildDots(block, blockState, slides = []) {
   const dots = document.createElement('ul');
   dots.classList.add('carousel-dots');
-  dots.setAttribute('role', 'tablist');
 
   const navigationDots = new Array(slides.length);
   slides.forEach((slide, index) => {
     const dotItem = document.createElement('li');
     const dotBtn = document.createElement('button');
 
+    dotBtn.innerText = '';
     dotBtn.classList.add('carousel-nav-dot');
     dotBtn.setAttribute('id', `carousel-nav-dot-${index + 1}`);
     dotBtn.setAttribute('type', 'button');
-    dotBtn.setAttribute('role', 'tab');
 
     if (index + 1 === blockState.firstVisibleSlide) {
       dotBtn.setAttribute('tabindex', '0');
@@ -208,9 +207,7 @@ function buildDots(block, blockState, slides = []) {
     } else {
       dotBtn.setAttribute('tabindex', '-1');
     }
-    dotBtn.innerText = '';
 
-    dotItem.setAttribute('role', 'presentation');
     dotItem.append(dotBtn);
 
     dotItem.addEventListener('click', () => {
@@ -263,10 +260,8 @@ function snapScroll(el, blockState, dir = 1) {
 function buildNav(blockState, navigationDirection) {
   const btn = document.createElement('div');
   btn.classList.add('carousel-nav', `carousel-nav-${navigationDirection}`);
-
   btn.addEventListener('click', (e) => {
     stopAutoScroll(blockState);
-
     let nextSlide = blockState.firstVisibleSlide;
     if (navigationDirection === NAVIGATION_DIRECTION_PREV) {
       nextSlide = blockState.curSlide === blockState.firstVisibleSlide
