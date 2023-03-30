@@ -1,10 +1,12 @@
 import { getMetadata, decorateIcons } from '../../scripts/lib-franklin.js';
 
 // media query match that indicates mobile/tablet width
-const isDesktop = window.matchMedia('(min-width: 1170px)');
-const isLargeDesktop = window.matchMedia('(min-width: 1440px)');
-const MAX_NAV_ITEMS_DESKTOP = 7;
-const MAX_NAV_ITEMS_LARGE_DESKTOP = 9;
+// const isDesktop = window.matchMedia('(min-width: 1170px)');
+// const isLargeDesktop = window.matchMedia('(min-width: 1440px)');
+// const MAX_NAV_ITEMS_DESKTOP = 7;
+// const MAX_NAV_ITEMS_LARGE_DESKTOP = 9;
+const smallDesktop = { isDesktop: window.matchMedia('(min-width: 1170px)'), maxItems: 7 };
+const largeDesktop = { isLargeDesktop: window.matchMedia('(min-width: 1440px)'), maxItems: 9 };
 const CAESARS_DOT_COM = 'https://www.caesars.com';
 const GLOBAL_HEADER_JSON = '/content/empire/en/jcr:content/root/header.model.json';
 const GLOBAL_HEADER_JSON_LOCAL = '/caesars-palace/scripts/resources/header.model.json';
@@ -42,11 +44,11 @@ function closeOnEscape(e) {
     const nav = document.getElementById('nav');
     const navSections = nav.querySelector('.nav-sections');
     const navSectionExpanded = navSections.querySelector('[aria-expanded="true"]');
-    if (navSectionExpanded && isDesktop.matches) {
+    if (navSectionExpanded && smallDesktop.isDesktop.matches) {
       // eslint-disable-next-line no-use-before-define
       toggleAllNavSections(navSections);
       navSectionExpanded.focus();
-    } else if (!isDesktop.matches) {
+    } else if (!smallDesktop.isDesktop.matches) {
       // eslint-disable-next-line no-use-before-define
       toggleMenu(nav, navSections);
       nav.querySelector('button').focus();
@@ -99,13 +101,13 @@ function toggleMenu(nav, navSections, forceExpanded = null) {
   const expanded = forceExpanded !== null ? !forceExpanded : nav.getAttribute('aria-expanded') === 'true';
   const button = nav.querySelector('.nav-hamburger button');
   const globalNavSections = nav.querySelector('.nav-sections .global-nav');
-  document.body.style.overflowY = (expanded || isDesktop.matches) ? '' : 'hidden';
+  document.body.style.overflowY = (expanded || smallDesktop.isDesktop.matches) ? '' : 'hidden';
   nav.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-  toggleAllNavSections(navSections, expanded || isDesktop.matches ? 'false' : 'true');
+  toggleAllNavSections(navSections, expanded || smallDesktop.isDesktop.matches ? 'false' : 'true');
   button.setAttribute('aria-label', expanded ? 'Open navigation' : 'Close navigation');
   // enable nav dropdown keyboard accessibility
   const navDrops = navSections.querySelectorAll('.nav-drop');
-  if (isDesktop.matches) {
+  if (smallDesktop.isDesktop.matches) {
     if (globalNavSections) globalNavSections.setAttribute('aria-hidden', true);
     navDrops.forEach((drop) => {
       if (!drop.hasAttribute('tabindex')) {
@@ -123,7 +125,7 @@ function toggleMenu(nav, navSections, forceExpanded = null) {
     });
   }
   // enable menu collapse on escape keypress
-  if (!expanded || isDesktop.matches) {
+  if (!expanded || smallDesktop.isDesktop.matches) {
     // collapse menu on escape press
     window.addEventListener('keydown', closeOnEscape);
   } else {
@@ -288,14 +290,14 @@ export default async function decorate(block) {
     nav.setAttribute('aria-expanded', 'false');
 
     // prevent mobile nav behavior on window resize
-    toggleMenu(nav, navSections, isDesktop.matches);
+    toggleMenu(nav, navSections, smallDesktop.isDesktop.matches);
 
     // add event listeners when window width changes
-    isDesktop.addEventListener('change', () => {
+    smallDesktop.isDesktop.addEventListener('change', () => {
       const localNavTitle = block.querySelector('.local-nav-title');
       const globalNavTitle = block.querySelector('.global-nav-title');
-      toggleMenu(nav, navSections, isDesktop.matches);
-      if (isDesktop.matches) {
+      toggleMenu(nav, navSections, smallDesktop.isDesktop.matches);
+      if (smallDesktop.isDesktop.matches) {
         localNavTitle.removeEventListener('click');
         globalNavTitle.removeEventListener('click');
       } else {
@@ -309,7 +311,7 @@ export default async function decorate(block) {
     // close the mobile menu when clicking anywhere outside of it
     window.addEventListener('click', (event) => {
       const expanded = nav.getAttribute('aria-expanded') === 'true';
-      if (!isDesktop.matches && expanded) {
+      if (!smallDesktop.isDesktop.matches && expanded) {
         const rect = navSections.getBoundingClientRect();
         if (event.clientX > rect.right) {
           toggleMenu(nav, navSections);
@@ -335,10 +337,10 @@ export default async function decorate(block) {
     block.prepend(globalNavDesktop);
     block.append(navWrapper);
 
-    if (isLargeDesktop.matches) {
-      showMore(nav, MAX_NAV_ITEMS_LARGE_DESKTOP);
-    } else if (isDesktop.matches) {
-      showMore(nav, MAX_NAV_ITEMS_DESKTOP);
+    if (largeDesktop.isLargeDesktop.matches) {
+      showMore(nav, largeDesktop.maxItems);
+    } else if (smallDesktop.isDesktop.matches) {
+      showMore(nav, smallDesktop.maxItems);
     }
   }
 }
