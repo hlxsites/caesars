@@ -195,7 +195,6 @@ function buildDots(block, blockState, slides = []) {
     const dotItem = document.createElement('li');
     const dotBtn = document.createElement('button');
 
-    dotBtn.innerText = '';
     dotBtn.classList.add('carousel-nav-dot');
     dotBtn.setAttribute('id', `carousel-nav-dot-${index + 1}`);
     dotBtn.setAttribute('type', 'button');
@@ -477,7 +476,6 @@ export default function decorate(block) {
               clickableCloseButton.classList.add('hidden-close-button');
               clickableEllipsis.classList.add('clickable-ellipsis');
 
-              clickableCloseButton.innerHTML = '';
               clickableEllipsis.innerHTML = blockConfig.ellipsis;
               textContent.innerHTML = `${ellipsisBuilder.shortText}`;
 
