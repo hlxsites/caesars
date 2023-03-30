@@ -5,12 +5,17 @@
  * - smooth scrolling
  * - mouse drag between slides
  * - swipe between slides
- * - allow endless sliding
- * - next and previous navigation button
+ * - endless sliding
+ * - next and previous navigation buttons
+ *
+ * Showcase variant only:
+ * - clickable short/long text for showcase variant with close button
+ * - direct selection via dots
+ * - active slide indicator
  */
 
 import { createOptimizedPicture } from '../../scripts/lib-franklin.js';
-import { readBlockConfigWithContent } from '../../scripts/scripts.js';
+import { readBlockConfigWithContent, buildEllipsis } from '../../scripts/scripts.js';
 
 const DEFAULT_SCROLL_INTERVAL_MS = 5000;
 const SLIDE_ID_PREFIX = 'carousel-slide';
@@ -26,8 +31,14 @@ const firstVisibleSlide = 1;
 let scrollInterval;
 let curSlide = 1;
 let maxVisibleSlides = 0;
+let isShowcase = false;
 
-async function getChevronSvg(iconPath) {
+/**
+ * Get icons of navigation buttons
+ * @param {*} iconPath Icon to get
+ * @returns The SVG of the icon
+ */
+async function getIconSvg(iconPath) {
   let svg = null;
   try {
     const response = await fetch(`${window.hlx.codeBasePath}/${iconPath}`);
@@ -41,6 +52,23 @@ async function getChevronSvg(iconPath) {
     svg = null;
   }
   return svg;
+}
+
+/**
+ * Keep active dot in sync with current slide
+ * @param carousel The carousel
+ * @param activeSlide {number} The active slide
+ */
+function syncActiveDot(block, slideIndex) {
+  const carouselNavDots = block.getElementsByClassName('carousel-nav-dot');
+  const targetId = `carousel-nav-dot-${slideIndex}`;
+  [...carouselNavDots].forEach((navDot) => {
+    if (navDot.id === targetId) {
+      navDot.classList.add('carousel-nav-dot-active');
+    } else {
+      navDot.classList.remove('carousel-nav-dot-active');
+    }
+  });
 }
 
 /**
@@ -60,10 +88,33 @@ function stopAutoScroll() {
 function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
   const carouselSlider = carousel.querySelector('.carousel-slide-container');
 
+  let widthUsage;
+  let realSlideWidth;
+  let slidePadding;
+  let realSlideWidthWithPadding;
+  let paddingFix;
+
+  if (isShowcase) {
+    widthUsage = 0.9; /* carousel-slide width */
+    realSlideWidth = carouselSlider.offsetWidth * widthUsage;
+    slidePadding = 32; /* carousel-slide padding-right */
+    realSlideWidthWithPadding = realSlideWidth + slidePadding;
+    paddingFix = 16; /* carousel-text abs(margin-left) */
+  }
+
   if (slideIndex >= firstVisibleSlide && slideIndex <= maxVisibleSlides) {
-    // normal sliding
+    // normal sliding in-between slides
+    let leftSlideOffset;
+    if (isShowcase) {
+      const translationCorrection = carouselSlider.offsetWidth - realSlideWidthWithPadding;
+      leftSlideOffset = carouselSlider.offsetWidth * slideIndex
+        - translationCorrection * slideIndex
+        - paddingFix;
+    } else {
+      leftSlideOffset = carouselSlider.offsetWidth * slideIndex;
+    }
     carouselSlider.scrollTo({
-      left: carouselSlider.offsetWidth * slideIndex,
+      left: leftSlideOffset,
       behavior: scrollBehavior,
     });
 
@@ -76,10 +127,31 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
       }
     });
     curSlide = slideIndex;
+    syncActiveDot(carousel, curSlide);
   } else if (slideIndex === 0) {
     // sliding from first to last
-    carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * slideIndex, behavior: 'smooth' });
-    setTimeout(() => carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * maxVisibleSlides, behavior: 'auto' }), SLIDE_ANIMATION_DURATION_MS);
+    let leftSlideOffset;
+    if (isShowcase) {
+      const translationCorrection = carouselSlider.offsetWidth - realSlideWidthWithPadding;
+      leftSlideOffset = carouselSlider.offsetWidth * slideIndex
+        - translationCorrection * slideIndex
+        - paddingFix;
+    } else {
+      leftSlideOffset = carouselSlider.offsetWidth * slideIndex;
+    }
+    carouselSlider.scrollTo({ left: leftSlideOffset, behavior: 'smooth' });
+    if (isShowcase) {
+      const translationCorrection = carouselSlider.offsetWidth - realSlideWidthWithPadding;
+      leftSlideOffset = carouselSlider.offsetWidth * maxVisibleSlides
+        - translationCorrection * maxVisibleSlides
+        - paddingFix;
+    } else {
+      leftSlideOffset = carouselSlider.offsetWidth * maxVisibleSlides;
+    }
+    setTimeout(() => {
+      carouselSlider.scrollTo({ left: leftSlideOffset, behavior: 'instant' });
+      syncActiveDot(carousel, maxVisibleSlides);
+    }, SLIDE_ANIMATION_DURATION_MS);
 
     // sync slide state
     [...carouselSlider.children].forEach((slide, index) => {
@@ -92,8 +164,29 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
     curSlide = maxVisibleSlides;
   } else if (slideIndex === maxVisibleSlides + 1) {
     // sliding from last to first
-    carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * slideIndex, behavior: 'smooth' });
-    setTimeout(() => carouselSlider.scrollTo({ left: carouselSlider.offsetWidth * firstVisibleSlide, behavior: 'auto' }), SLIDE_ANIMATION_DURATION_MS);
+    let leftSlideOffset;
+    if (isShowcase) {
+      const translationCorrection = carouselSlider.offsetWidth - realSlideWidthWithPadding;
+      leftSlideOffset = carouselSlider.offsetWidth * slideIndex
+        - translationCorrection * slideIndex
+        - paddingFix;
+    } else {
+      leftSlideOffset = carouselSlider.offsetWidth * slideIndex;
+    }
+    carouselSlider.scrollTo({ left: leftSlideOffset, behavior: 'smooth' });
+
+    if (isShowcase) {
+      const translationCorrection = carouselSlider.offsetWidth - realSlideWidthWithPadding;
+      leftSlideOffset = carouselSlider.offsetWidth * firstVisibleSlide
+        - translationCorrection * firstVisibleSlide
+        - paddingFix;
+    } else {
+      leftSlideOffset = carouselSlider.offsetWidth * firstVisibleSlide;
+    }
+    setTimeout(() => {
+      carouselSlider.scrollTo({ left: leftSlideOffset, behavior: 'instant' });
+      syncActiveDot(carousel, firstVisibleSlide);
+    }, SLIDE_ANIMATION_DURATION_MS);
 
     // sync slide state
     [...carouselSlider.children].forEach((slide, index) => {
@@ -108,6 +201,43 @@ function scrollToSlide(carousel, slideIndex = 1, scrollBehavior = 'smooth') {
 }
 
 /**
+ * Build navigation dots
+ * @param slides An array of slide elements within the carousel
+ * @return {HTMLUListElement} The carousel dots element
+ */
+function buildDots(block, slides = []) {
+  const dots = document.createElement('ul');
+  dots.classList.add('carousel-dots');
+  dots.setAttribute('role', 'tablist');
+  slides.forEach((slide, index) => {
+    const dotItem = document.createElement('li');
+    dotItem.setAttribute('role', 'presentation');
+    const dotBtn = document.createElement('button');
+    dotBtn.classList.add('carousel-nav-dot');
+    dotBtn.setAttribute('id', `carousel-nav-dot-${index + 1}`);
+    dotBtn.setAttribute('type', 'button');
+    dotBtn.setAttribute('role', 'tab');
+
+    if (index + 1 === firstVisibleSlide) {
+      dotBtn.setAttribute('tabindex', '0');
+      dotBtn.classList.add('carousel-nav-dot-active');
+    } else {
+      dotBtn.setAttribute('tabindex', '-1');
+    }
+    dotBtn.innerText = '';
+    dotItem.append(dotBtn);
+
+    dotItem.addEventListener('click', () => {
+      const slideIndex = index + 1;
+      scrollToSlide(block, slideIndex);
+    });
+
+    dots.append(dotItem);
+  });
+  return dots;
+}
+
+/**
  * Based on the direction of a scroll snap the scroll position based on the
  * offset width of the scrollable element. The snap threshold is determined
  * by the direction of the scroll to ensure that snap direction is natural.
@@ -119,11 +249,17 @@ function snapScroll(el, dir = 1) {
   if (!el) {
     return;
   }
-  let threshold = el.offsetWidth * 0.5;
+
+  let snapLimit = 0.5;
+  if (isShowcase) {
+    snapLimit = 0.05;
+  }
+
+  let threshold = el.offsetWidth * snapLimit;
   if (dir >= 0) {
-    threshold -= (threshold * 0.5);
+    threshold -= (threshold * snapLimit);
   } else {
-    threshold += (threshold * 0.5);
+    threshold += (threshold * snapLimit);
   }
   const block = Math.floor(el.scrollLeft / el.offsetWidth);
   const pos = el.scrollLeft - (el.offsetWidth * block);
@@ -143,9 +279,9 @@ async function buildNav(navigationDirection) {
 
   let chevron;
   if (navigationDirection === NAVIGATION_DIRECTION_PREV) {
-    chevron = await getChevronSvg('icons/chevron-left.svg');
+    chevron = await getIconSvg('icons/chevron-left.svg');
   } else if (navigationDirection === NAVIGATION_DIRECTION_NEXT) {
-    chevron = await getChevronSvg('icons/chevron-right.svg');
+    chevron = await getIconSvg('icons/chevron-right.svg');
   }
   const chevronButton = document.createElement('span');
   chevronButton.innerHTML = chevron;
@@ -198,8 +334,12 @@ function buildSlide(slide, index) {
   if (!slideAltImage.classList.contains('carousel-alt-video')) {
     slideAltImage.classList.add('carousel-alt-image');
   }
-  slide.children[2].classList.add('carousel-text');
-  slide.style.transform = `translateX(${index * 100}%)`;
+  if (slide.children && slide.children.length >= 2 && !!slide.children[2]) {
+    slide.children[2].classList.add('carousel-text');
+  }
+
+  // slide positioning
+  slide.style.transform = `translateX(calc(${index * 100}%))`;
   return slide;
 }
 
@@ -253,10 +393,12 @@ function addClones(element) {
 /**
  * Start auto-scrolling
  * @param {*} block Block
- * @param {*} interval Optionel, configured time in ms to show a slide
+ * @param {*} interval Optional, configured time in ms to show a slide
  * Defaults to DEFAULT_SCROLL_INTERVAL_MS
  */
 function startAutoScroll(block, interval) {
+  if (interval === 0) return;
+
   if (!scrollInterval) {
     scrollInterval = setInterval(() => {
       const targetSlide = curSlide <= maxVisibleSlides ? curSlide + 1 : 0;
@@ -272,6 +414,7 @@ function startAutoScroll(block, interval) {
  */
 export default async function decorate(block) {
   const blockConfig = { ...DEFAULT_CONFIG, ...readBlockConfigWithContent(block) };
+  isShowcase = block.classList.contains('showcase');
 
   // turn video links into displayable videos
   block.querySelectorAll('a').forEach((videoLink) => {
@@ -297,17 +440,32 @@ export default async function decorate(block) {
   const carousel = document.createElement('div');
   carousel.classList.add('carousel-slide-container');
 
-  // add carousel to page
   const slides = [...block.children];
   maxVisibleSlides = slides.length;
   const slidesToAdd = new Array(maxVisibleSlides);
   slides.forEach((slide, index) => {
     slidesToAdd[index] = buildSlide(slide, index + 1);
   });
+
+  let navigationDots;
+  if (isShowcase) {
+    navigationDots = buildDots(block, slides);
+  }
   carousel.append(...slidesToAdd);
   addClones(carousel);
   block.append(carousel);
+
+  if (slides.length > 1) {
+    const prevBtn = await buildNav('prev');
+    const nextBtn = await buildNav('next');
+    block.append(prevBtn, nextBtn);
+    if (navigationDots) {
+      block.append(navigationDots);
+    }
+  }
+
   setTimeout(() => {
+    // scroll to first slide once all DOM has been built
     scrollToSlide(block, firstVisibleSlide, 'instant');
   }, 0);
 
@@ -381,7 +539,7 @@ export default async function decorate(block) {
 
   const mediaSmallWidthQueryMatcher = window.matchMedia('(max-width: 768px)');
   const mediaSmallWidthChangeHandler = (event) => {
-    if (event.matches === true) {
+    if (event.matches) {
       block.querySelectorAll('img').forEach((image) => {
         image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '768' }]));
       });
@@ -434,7 +592,7 @@ export default async function decorate(block) {
   mediaExtraLargeWidthQueryMatcher.addEventListener('change', mediaExtraLargeWidthChangeHandler);
 
   const mediaVideoWidthQueryMatcher = window.matchMedia('only screen and (max-width: 1170px)');
-  const mediaVideoWidthChangeHandler = async (event) => {
+  const mediaVideoWidthChangeHandler = (event) => {
     if (event.matches === false) {
       block.querySelectorAll('video').forEach((videoElement) => {
         videoElement.muted = true;
@@ -450,15 +608,109 @@ export default async function decorate(block) {
         videoElement.muted = true;
         videoElement.play();
       });
-      if (slides.length > 1) {
-        const prevBtn = await buildNav('prev');
-        const nextBtn = await buildNav('next');
-        block.append(prevBtn, nextBtn);
-      }
     }
   };
   mediaVideoWidthChangeHandler(mediaVideoWidthQueryMatcher);
-  mediaVideoWidthQueryMatcher.addEventListener('change', mediaLargeWidthChangeHandler);
+  mediaVideoWidthQueryMatcher.addEventListener('change', mediaVideoWidthChangeHandler);
+
+  const mediaTextWidthQueryMatcher = window.matchMedia('only screen and (min-width: 1170px)');
+  const mediaTextWidthChangeHandler = async (event) => {
+    if (!isShowcase) return;
+
+    if (event.matches === true) {
+      // unwrap clickable slide
+      const slidePanels = block.getElementsByClassName('carousel-slide');
+      [...slidePanels].forEach((panel) => {
+        const wrapper = panel.firstChild;
+        if (wrapper && wrapper.href) {
+          panel.innerHTML = wrapper.innerHTML;
+        }
+      });
+
+      // build "ellipsable" text content
+      const carouselTextElements = block.getElementsByClassName('carousel-text');
+      const closeButtonSvg = await getIconSvg('icons/close-bold.svg');
+      [...carouselTextElements].forEach((carouselText) => {
+        const textContents = carouselText.querySelectorAll('p');
+        [...textContents].forEach((textContent) => {
+          if (!textContent.classList.contains('button-container')) {
+            const textStyle = window.getComputedStyle(textContent);
+            const textOptions = {
+              font: `${textStyle.fontWeight} ${textStyle.fontSize} ${textStyle.fontFamily}`,
+              letterSpacing: `${textStyle.letterSpacing}`,
+            };
+
+            const displayBufferPixels = 32;
+            const textContentWidth = textContent.offsetWidth - displayBufferPixels;
+            const ellipsedSuffix = blockConfig.ellipsis;
+            const allowedMaxLines = blockConfig.maxlines;
+
+            const fullTextContent = textContent.innerHTML;
+            const ellipsisBuilder = buildEllipsis(
+              fullTextContent,
+              textContentWidth,
+              allowedMaxLines,
+              ellipsedSuffix,
+              textOptions,
+            );
+
+            if (ellipsisBuilder.lineCount >= 2) {
+              const clickableCloseButton = document.createElement('span');
+              const clickableEllipsis = document.createElement('span');
+
+              clickableCloseButton.classList.add('hidden-close-button');
+              clickableEllipsis.classList.add('clickable-ellipsis');
+
+              clickableCloseButton.innerHTML = closeButtonSvg;
+              clickableEllipsis.innerHTML = ellipsedSuffix;
+              textContent.innerHTML = `${ellipsisBuilder.shortText}`;
+
+              textContent.append(clickableEllipsis);
+              carouselText.append(clickableCloseButton);
+
+              clickableEllipsis.addEventListener('click', () => {
+                carouselText.classList.add('extended-text');
+                textContent.innerHTML = `${fullTextContent}`;
+                clickableCloseButton.classList.remove('hidden-close-button');
+                clickableCloseButton.classList.add('active-close-button');
+              });
+              clickableCloseButton.addEventListener('click', () => {
+                carouselText.classList.remove('extended-text');
+                textContent.innerHTML = `${ellipsisBuilder.shortText}`;
+                textContent.append(clickableEllipsis);
+                clickableCloseButton.classList.remove('active-close-button');
+                clickableCloseButton.classList.add('hidden-close-button');
+              });
+            }
+          }
+        });
+      });
+    } else {
+      // make slide clickable
+      const slidePanels = block.getElementsByClassName('carousel-slide');
+      [...slidePanels].forEach((panel) => {
+        let targetLink;
+        let targetTitle;
+        panel.querySelectorAll('a').forEach((link) => {
+          // last link will always be the action button
+          targetLink = link.href;
+          targetTitle = link.title;
+        });
+
+        const link = document.createElement('a');
+        link.classList.add('clickable-slide');
+        link.href = targetLink;
+        link.title = targetTitle;
+
+        link.innerHTML = panel.innerHTML;
+        panel.innerHTML = '';
+        panel.append(link);
+      });
+    }
+  };
+  // needs DOM to be fully build and CSS applied for measurements
+  setTimeout(() => mediaTextWidthChangeHandler(mediaTextWidthQueryMatcher), 0);
+  mediaTextWidthQueryMatcher.addEventListener('change', mediaTextWidthChangeHandler);
 
   // auto scroll when visible only
   const intersectionOptions = {
@@ -488,5 +740,14 @@ export default async function decorate(block) {
     } else {
       startAutoScroll(block, blockConfig.interval);
     }
+  });
+
+  let resizeTimeout;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+      // scroll to first slide once all DOM has been rebuilt
+      scrollToSlide(block, firstVisibleSlide, 'instant');
+    }, 500);
   });
 }

@@ -1,20 +1,15 @@
-import { readBlockConfigWithContent } from '../../scripts/scripts.js';
+import { readBlockConfigWithContent, buildEllipsis } from '../../scripts/scripts.js';
 
 const DEFAULT_CONFIG = Object.freeze({
   'visible-slides': 3,
+  maxlines: 3,
+  ellipsis: '...more',
 });
 
 const isADesktop = () => {
   const mediaDesktop = window.matchMedia('only screen and (min-width: 769px)');
   return mediaDesktop.matches;
 };
-
-function isATablet() {
-  const mediaQueryTablet = window.matchMedia(
-    'only screen and (min-width: 481px) and (max-width:768px)',
-  );
-  return mediaQueryTablet.matches;
-}
 
 const getPositionX = (event) => (event.type.includes('mouse')
   ? event.pageX
@@ -33,51 +28,78 @@ export default function decorate(block) {
 
   block.querySelectorAll('div.slider > div').forEach((div) => {
     cardWrapper.appendChild(div);
-
     div.classList.add('card');
 
     const picture = div.querySelector('picture');
     if (picture) {
       const imageParent = picture.closest('div');
       imageParent.classList.add('card-image');
+      div.classList.add('tall-card');
     }
 
     const contentDivs = div.querySelectorAll(':scope > div:not(.card-image)');
-    contentDivs[0].classList.add('short-description', 'active');
-    contentDivs[1].classList.add('long-description');
+    contentDivs[0].classList.add('short-description');
   });
 
   block.appendChild(cardWrapper);
 
-  const shortDescriptionDivs = block.querySelectorAll('.short-description');
-  const longDescriptionDivs = block.querySelectorAll('.long-description');
-
-  shortDescriptionDivs.forEach((div) => {
-    const showMore = div.querySelector('p > strong');
-    if (showMore) {
-      showMore.classList.add('show-more');
-    }
-  });
-
-  longDescriptionDivs.forEach((div) => {
-    const closeButton = document.createElement('div');
-    closeButton.classList.add('close-button', 'hide');
-    div.appendChild(closeButton);
-  });
-
-  if (isATablet()) {
+  setTimeout(() => {
+    const shortDescriptionDivs = block.querySelectorAll('.short-description');
     shortDescriptionDivs.forEach((div) => {
-      if (div.classList.contains('active')) {
-        div.classList.toggle('active');
-      }
-    });
+      const ellipsableText = div.querySelector('p');
+      if (!ellipsableText) return;
 
-    longDescriptionDivs.forEach((div) => {
-      if (!div.classList.contains('active')) {
-        div.classList.toggle('active');
+      const textStyle = window.getComputedStyle(div);
+      const textOptions = {
+        font: `${textStyle.fontWeight} ${textStyle.fontSize} ${textStyle.fontFamily}`,
+        letterSpacing: `${textStyle.letterSpacing}`,
+      };
+
+      const displayBufferPixels = 16;
+      const textContentWidth = div.offsetWidth - displayBufferPixels;
+
+      const fullTextContent = ellipsableText.innerText;
+      if (!fullTextContent) return;
+
+      const ellipsisBuilder = buildEllipsis(
+        fullTextContent,
+        textContentWidth,
+        blockConfig.maxlines,
+        blockConfig.ellipsis,
+        textOptions,
+      );
+
+      if (ellipsisBuilder.lineCount > blockConfig.maxlines) {
+        const clickableCloseButton = document.createElement('span');
+        const clickableEllipsis = document.createElement('span');
+
+        clickableCloseButton.classList.add('hidden-close-button');
+        clickableEllipsis.classList.add('clickable-ellipsis');
+
+        clickableCloseButton.innerHTML = '';
+        clickableCloseButton.classList.add('close-button');
+        clickableEllipsis.innerHTML = blockConfig.ellipsis;
+        ellipsableText.innerHTML = `${ellipsisBuilder.shortText}`;
+
+        ellipsableText.append(clickableEllipsis);
+        div.append(clickableCloseButton);
+
+        clickableEllipsis.addEventListener('click', () => {
+          div.classList.add('extended-text');
+          ellipsableText.innerHTML = `${fullTextContent}`;
+          clickableCloseButton.classList.remove('hidden-close-button');
+          clickableCloseButton.classList.add('active-close-button');
+        });
+        clickableCloseButton.addEventListener('click', () => {
+          div.classList.remove('extended-text');
+          ellipsableText.innerHTML = `${ellipsisBuilder.shortText}`;
+          ellipsableText.append(clickableEllipsis);
+          clickableCloseButton.classList.remove('active-close-button');
+          clickableCloseButton.classList.add('hidden-close-button');
+        });
       }
     });
-  }
+  }, 0);
 
   // add slider arrow buttons
   const slides = [...block.querySelectorAll('.card')];
@@ -96,18 +118,6 @@ export default function decorate(block) {
 
   const mediaChangeHandler = () => {
     if (mobileMediaQuery.matches) {
-      shortDescriptionDivs.forEach((div) => {
-        if (!div.classList.contains('active')) {
-          div.classList.toggle('active');
-        }
-      });
-
-      longDescriptionDivs.forEach((div) => {
-        if (div.classList.contains('active')) {
-          div.classList.toggle('active');
-        }
-      });
-
       cardWrapper.style.width = '';
     } else {
       let totalPadding = (blockConfig['visible-slides'] - 1) * 4;
@@ -121,39 +131,6 @@ export default function decorate(block) {
   mediaChangeHandler();
   mobileMediaQuery.addEventListener('change', mediaChangeHandler);
   desktopMediaQuery.addEventListener('change', mediaChangeHandler);
-
-  // toggle from long to short description
-  block.querySelectorAll('.close-button').forEach((button) => {
-    button.addEventListener('click', () => {
-      const parent = button.closest('.card');
-      const shortDescription = parent.querySelector('.short-description');
-      const longDescription = parent.querySelector('.long-description');
-      if (!shortDescription.classList.contains('active')) {
-        shortDescription.classList.toggle('active');
-      }
-      button.classList.add('hide');
-      if (longDescription.classList.contains('active')) {
-        longDescription.classList.toggle('active');
-      }
-    });
-  });
-
-  // toggle from short to long description
-  block.querySelectorAll('.show-more').forEach((item) => {
-    item.addEventListener('click', () => {
-      const parent = item.closest('.card');
-      const shortDescription = parent.querySelector('.short-description');
-      const longDescription = parent.querySelector('.long-description');
-      const closeButton = parent.querySelector('.close-button');
-      if (shortDescription.classList.contains('active')) {
-        shortDescription.classList.toggle('active');
-      }
-      closeButton.classList.remove('hide');
-      if (!longDescription.classList.contains('active')) {
-        longDescription.classList.toggle('active');
-      }
-    });
-  });
 
   let isDragging = false;
   let startPos = 0;
