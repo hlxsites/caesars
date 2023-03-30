@@ -493,7 +493,7 @@ export default function decorate(block) {
               clickableCloseButton.classList.add('hidden-close-button');
               clickableEllipsis.classList.add('clickable-ellipsis');
 
-              clickableCloseButton.innerHTML = "";
+              clickableCloseButton.innerHTML = '';
               clickableEllipsis.innerHTML = ellipsedSuffix;
               textContent.innerHTML = `${ellipsisBuilder.shortText}`;
 
@@ -687,12 +687,7 @@ export default function decorate(block) {
     }
   };
   mediaExtraLargeWidthChangeHandler(mediaExtraLargeWidthQueryMatcher);
-  // auto scroll when visible only
-  const intersectionOptions = {
-    root: null,
-    rootMargin: '0px',
-    threshold: 1.0,
-  };
+
   const handleAutoScroll = (entries) => {
     entries.forEach((entry) => {
       if (entry.isIntersecting) {
@@ -706,7 +701,11 @@ export default function decorate(block) {
     if (entries.some((e) => e.isIntersecting)) {
       handleAutoScroll(entries);
     }
-  }, intersectionOptions);
+  }, {
+    root: null,
+    rootMargin: '0px',
+    threshold: 1.0,
+  });
   observer.observe(block);
 
   mediaVideoWidthQueryMatcher.addEventListener('change', mediaVideoWidthChangeHandler);
