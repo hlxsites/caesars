@@ -26,14 +26,29 @@
   position: absolute;
 }
 
+.carousel.block .carousel-nav,
+.carousel.block .carousel-dots,
+.carousel.showcase.block .carousel-dots,
+.carousel.showcase.block .extended-text p,
+.carousel.showcase.block .carousel-text p {
+  display: none;
+}
+
 .carousel.block .carousel-slide img {
   width: 100%;
   max-height: 670px;
   object-fit: cover;
-  object-position: left top;
+  object-position: 25% 25%;
 
   /* hint browser to use GPU */
   transform: translate3d(0, 0, 0);
+}
+
+.carousel.block .carousel-slide video {
+  width: 100%;
+  height: 670px;
+  object-fit: cover;
+  object-position: 25% 25%;
 }
 
 .carousel.block .carousel-slide > div {
@@ -42,20 +57,12 @@
   letter-spacing: 1px;
 }
 
-.carousel.block .carousel-nav {
-  display: none;
-}
-
 .carousel.block .carousel-main-image {
   position: unset;
   visibility: visible;
 }
 
-.carousel.block .carousel-alt-image {
-  position: absolute;
-  visibility: hidden;
-}
-
+.carousel.block .carousel-alt-image,
 .carousel.block .carousel-alt-video {
   position: absolute;
   visibility: hidden;
@@ -87,10 +94,6 @@
   font-size: 20px;
 }
 
-.carousel.block .carousel-dots {
-  display: none;
-}
-
 .carousel.showcase.block .carousel-text {
   position: absolute;
   z-index: 3;
@@ -118,7 +121,7 @@
 
 .carousel.showcase.block .carousel-slide img {
   height: 400px;
-} 
+}
 
 .carousel.showcase.block .carousel-slide {
   width: 90%;
@@ -129,10 +132,11 @@
 
 .carousel.showcase.block .carousel-text h2 {
   text-transform: uppercase;
-  font-family: var(--text-font-famly);
+  font-family: var(--text-font-family);
   font-weight: var(--emphasized-font-weight);
   line-height: 22px;
   margin-bottom: var(--layout-size-xs);
+  font-display: swap;
 }
 
 .carousel.showcase.block .carousel-text h4 {
@@ -143,21 +147,8 @@
   margin-top: var(--layout-size-xs);
 }
 
-.carousel.showcase.block .extended-text p {
-  display: none;
-}
-
-.carousel.showcase.block .carousel-text p {
-  display: none;
-}
-
-
 .carousel.showcase.block .carousel-text .button-container {
   margin: auto 0 16px auto;
-}
-
-.carousel.showcase.block .carousel-dots {
-  display: none;
 }
 
 /* Responsive breakpoints */
@@ -193,11 +184,7 @@
     border: 1px solid var(--static-color-light-gray);
   }
 
-  .carousel.showcase.block .carousel-nav-dot-active {
-    background-color: var(--static-color-gray-medium);
-    border: 1px solid var(--static-color-gray-medium);
-  }
-
+  .carousel.showcase.block .carousel-nav-dot-active,
   .carousel.showcase.block .carousel-nav-dot:hover {
     background-color: var(--static-color-gray-medium);
     border: 1px solid var(--static-color-gray-medium);
@@ -209,23 +196,27 @@
 
   .carousel.showcase.block .carousel-slide img {
     height: unset;
-  } 
+  }
 
   .carousel.showcase.block .carousel-text {
     margin-top: unset;
     top: unset;
     width: 60%;
     padding: var(--layout-size-m);
-    margin-bottom: -16px; 
+    margin-bottom: -16px;
     margin-left: -16px;
     height: 176px;
   }
 
-  .carousel.showcase.block .extended-text h4 {
-    display: none;
+  .carousel.block .carousel-text h1 {
+    padding-left: 48px;
+    padding-right: 48px;
   }
 
-  .carousel.showcase.block .extended-text h2 {
+  .carousel.showcase.block .extended-text h4,
+  .carousel.showcase.block .extended-text h2,
+  .carousel.showcase.block .hidden-close-button,
+  .carousel.showcase.block .extended-text .button-container  {
     display: none;
   }
 
@@ -236,14 +227,6 @@
     color: black;
     right: var(--layout-size-s);
     top: var(--layout-size-xs);
-  }
-
-  .carousel.showcase.block .hidden-close-button {
-    display: none;
-  }
-
-  .carousel.showcase.block .extended-text .button-container {
-    display: none;
   }
 
   .carousel.showcase.block .carousel-text h4 {
@@ -270,11 +253,7 @@
     font-weight: var(--clickable-font-weight);
   }
 
-  .carousel.block .carousel-alt-image {
-    position: unset;
-    visibility: visible;
-  }
-
+  .carousel.block .carousel-alt-image,
   .carousel.block .carousel-alt-video {
     position: unset;
     visibility: visible;
@@ -288,7 +267,7 @@
   .carousel.block .carousel-nav-prev {
     left: 0;
   }
-  
+
   .carousel.block .carousel-nav-next {
     right: 0;
   }
@@ -310,7 +289,7 @@
     margin-right: var(--layout-size-m);
     padding: 10px;
   }
-  
+
   .carousel.block .carousel-nav:hover {
     border: 0;
     border-radius: 50%;
