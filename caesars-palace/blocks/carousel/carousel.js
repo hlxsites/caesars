@@ -662,17 +662,22 @@ export default function decorate(block) {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           startAutoScroll(block, blockState);
+          mediaVideoWidthQueryMatcher.addEventListener('change', mediaVideoWidthChangeHandler);
+          mediaTextWidthQueryMatcher.addEventListener('change', mediaTextWidthChangeHandler);
+          mediaExtraLargeWidthQueryMatcher.addEventListener('change', mediaExtraLargeWidthChangeHandler);
+          mediaLargeWidthQueryMatcher.addEventListener('change', mediaLargeWidthChangeHandler);
+          mediaMediumWidthQueryMatcher.addEventListener('change', mediaMediumWidthChangeHandler);
+          mediaSmallWidthQueryMatcher.addEventListener('change', mediaSmallWidthChangeHandler);
         } else {
           stopAutoScroll(blockState);
+          mediaVideoWidthQueryMatcher.removeEventListener('change', mediaVideoWidthChangeHandler);
+          mediaTextWidthQueryMatcher.removeEventListener('change', mediaTextWidthChangeHandler);
+          mediaExtraLargeWidthQueryMatcher.removeEventListener('change', mediaExtraLargeWidthChangeHandler);
+          mediaLargeWidthQueryMatcher.removeEventListener('change', mediaLargeWidthChangeHandler);
+          mediaMediumWidthQueryMatcher.removeEventListener('change', mediaMediumWidthChangeHandler);
+          mediaSmallWidthQueryMatcher.removeEventListener('change', mediaSmallWidthChangeHandler);
         }
       });
-
-      mediaVideoWidthQueryMatcher.addEventListener('change', mediaVideoWidthChangeHandler);
-      mediaTextWidthQueryMatcher.addEventListener('change', mediaTextWidthChangeHandler);
-      mediaExtraLargeWidthQueryMatcher.addEventListener('change', mediaExtraLargeWidthChangeHandler);
-      mediaLargeWidthQueryMatcher.addEventListener('change', mediaLargeWidthChangeHandler);
-      mediaMediumWidthQueryMatcher.addEventListener('change', mediaMediumWidthChangeHandler);
-      mediaSmallWidthQueryMatcher.addEventListener('change', mediaSmallWidthChangeHandler);
     }
   }, {
     root: null,
