@@ -584,7 +584,7 @@ export default async function decorate(block) {
   setTimeout(() => {
     // scroll to first slide once all DOM has been built
     scrollToSlide(block, blockState, blockState.firstVisibleSlide, 'instant');
-    mediaTextWidthChangeHandler(mediaTextWidthQueryMatcher)
+    mediaTextWidthChangeHandler(mediaTextWidthQueryMatcher);
   }, 0);
 
   // make carousel draggable and swipeable
