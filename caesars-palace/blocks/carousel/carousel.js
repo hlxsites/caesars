@@ -474,15 +474,13 @@ export default function decorate(block) {
 
             const displayBufferPixels = 32;
             const textContentWidth = textContent.offsetWidth - displayBufferPixels;
-            const ellipsedSuffix = blockConfig.ellipsis;
-            const allowedMaxLines = blockConfig.maxlines;
 
             const fullTextContent = textContent.innerHTML;
             const ellipsisBuilder = buildEllipsis(
               fullTextContent,
               textContentWidth,
-              allowedMaxLines,
-              ellipsedSuffix,
+              blockConfig.maxlines,
+              blockConfig.ellipsis,
               textOptions,
             );
 
@@ -494,7 +492,7 @@ export default function decorate(block) {
               clickableEllipsis.classList.add('clickable-ellipsis');
 
               clickableCloseButton.innerHTML = '';
-              clickableEllipsis.innerHTML = ellipsedSuffix;
+              clickableEllipsis.innerHTML = blockConfig.ellipsis;
               textContent.innerHTML = `${ellipsisBuilder.shortText}`;
 
               textContent.append(clickableEllipsis);
