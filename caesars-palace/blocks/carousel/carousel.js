@@ -719,7 +719,6 @@ export default async function decorate(block) {
     }
   };
   mediaExtraLargeWidthChangeHandler(mediaExtraLargeWidthQueryMatcher);
-
   // auto scroll when visible only
   const intersectionOptions = {
     root: null,
