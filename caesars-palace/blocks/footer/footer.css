@@ -124,7 +124,7 @@ footer .footer .globalfooter-wrapper {
   background-color: white;
 }
 
-footer .footer .globalfooter-wrapper .global-footer-content {
+footer .footer .global-footer-content {
   background-color: white;
   width: var(--screen-width-xs);
   margin-right: auto;
@@ -364,7 +364,7 @@ footer .footer .footer-property-links ul.open {
 
 /* Desktop (large) */
 @media only screen and  (min-width: 1440px) {
-  footer .footer .footer-wrapper, footer .footer .global-footer-content {
+  footer .footer .footer-wrapper, footer .footer .globalfooter-wrapper .global-footer-content {
     width: var(--screen-width-xl);
   }
 }
