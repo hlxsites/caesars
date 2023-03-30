@@ -1,4 +1,4 @@
-import { readBlockConfigWithContent } from '../../scripts/scripts.js';
+import { readBlockConfigWithContent, buildEllipsis } from '../../scripts/scripts.js';
 
 const DEFAULT_CONFIG = Object.freeze({
   'visible-slides': 3,
@@ -18,51 +18,6 @@ const getPositionX = (event) => (event.type.includes('mouse')
 const setSliderPosition = (currentTranslate, slider) => {
   slider.style.transform = `translateX(${currentTranslate}px)`;
 };
-
-/**
- * Build the preview of a text with ellipsis
- * @param {String} text Text that will be shortened
- * @param {Integer} width Width of container
- * @param {Integer} maxVisibleLines Max visible lines allowed
- * @param {*} suffix Suffix to use for ellipsis
- *  (will make sure text+ellipsis fit in `maxVisibleLines`)
- * @param {*} options Text styling option
- *
- * @return The ellipsed text (without ellipsis suffix)
- */
-function buildEllipsis(text, width, maxVisibleLines, suffix, options = {}) {
-  const canvas = buildEllipsis.canvas || (buildEllipsis.canvas = document.createElement('canvas'));
-  const context = canvas.getContext('2d');
-  Object.entries(options).forEach(([key, value]) => {
-    if (key in context) {
-      context[key] = value;
-    }
-  });
-
-  const words = text.split(' ');
-  let testLine = '';
-  let lineCount = 1;
-
-  let shortText = '';
-
-  words.forEach((w, index) => {
-    testLine += `${w} `;
-    const { width: testWidth } = context.measureText(`${testLine}${suffix}`);
-    if (testWidth > width && index > 0) {
-      lineCount += 1;
-      testLine = `${w} `;
-    }
-
-    if (lineCount <= maxVisibleLines) {
-      shortText += `${w} `;
-    }
-  });
-
-  return {
-    lineCount,
-    shortText,
-  };
-}
 
 export default function decorate(block) {
   const blockConfig = { ...DEFAULT_CONFIG, ...readBlockConfigWithContent(block) };
@@ -92,6 +47,8 @@ export default function decorate(block) {
     const shortDescriptionDivs = block.querySelectorAll('.short-description');
     shortDescriptionDivs.forEach((div) => {
       const ellipsableText = div.querySelector('p');
+      if (!ellipsableText) return;
+
       const textStyle = window.getComputedStyle(div);
       const textOptions = {
         font: `${textStyle.fontWeight} ${textStyle.fontSize} ${textStyle.fontFamily}`,
@@ -102,6 +59,8 @@ export default function decorate(block) {
       const textContentWidth = div.offsetWidth - displayBufferPixels;
 
       const fullTextContent = ellipsableText.innerText;
+      if (!fullTextContent) return;
+
       const ellipsisBuilder = buildEllipsis(
         fullTextContent,
         textContentWidth,
