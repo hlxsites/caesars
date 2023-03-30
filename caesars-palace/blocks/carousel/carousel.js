@@ -63,7 +63,6 @@ function stopAutoScroll(blockState) {
 
 /**
  * Scroll a single slide into view.
- *
  * @param carousel The carousel
  * @param slideIndex {number} The slide index
  */
@@ -226,7 +225,6 @@ function buildDots(block, blockState, slides = []) {
  * Based on the direction of a scroll snap the scroll position based on the
  * offset width of the scrollable element. The snap threshold is determined
  * by the direction of the scroll to ensure that snap direction is natural.
- *
  * @param el the scrollable element
  * @param dir the direction of the scroll
  */
@@ -253,7 +251,6 @@ function snapScroll(el, blockState, dir = 1) {
 
 /**
  * Build a navigation button for controlling the direction of carousel slides.
- *
  * @param navigationDirection A string of either 'prev or 'next'
  * @return {HTMLDivElement} The resulting nav element
  */
@@ -280,7 +277,6 @@ function buildNav(blockState, navigationDirection) {
 
 /**
  * Decorate a base slide element.
- *
  * @param slide A base block slide element
  * @param index The slide's position
  * @return {HTMLUListElement} A decorated carousel slide element
@@ -382,7 +378,6 @@ function startAutoScroll(block, blockState) {
 
 /**
  * Decorate and transform a carousel block.
- *
  * @param block HTML block from Franklin
  */
 export default function decorate(block) {
