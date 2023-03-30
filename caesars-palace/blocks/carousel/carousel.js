@@ -567,12 +567,8 @@ export default function decorate(block) {
     startScroll = carousel.scrollLeft;
     prevScroll = startScroll;
   };
-  carousel.addEventListener('mousedown', (e) => {
-    movementStartEventHandler(e);
-  });
-  carousel.addEventListener('touchstart', (e) => {
-    movementStartEventHandler(e);
-  }, { passive: true });
+  carousel.addEventListener('mousedown',movementStartEventHandler);
+  carousel.addEventListener('touchstart', movementStartEventHandler, { passive: true });
 
   carousel.addEventListener('mouseenter', () => {
     stopAutoScroll(blockState);
@@ -591,12 +587,8 @@ export default function decorate(block) {
     }
     isDown = false;
   };
-  carousel.addEventListener('mouseup', () => {
-    movementEndEventHandler();
-  });
-  carousel.addEventListener('touchend', () => {
-    movementEndEventHandler();
-  }, { passive: true });
+  carousel.addEventListener('mouseup', movementEndEventHandler);
+  carousel.addEventListener('touchend', movementEndEventHandler, { passive: true });
 
   carousel.addEventListener('mousemove', (e) => {
     if (!isDown) {
@@ -608,7 +600,6 @@ export default function decorate(block) {
     const walk = (x - startX);
     carousel.scrollLeft = prevScroll - walk;
   });
-
   carousel.addEventListener('touchmove', (e) => {
     if (!isDown) {
       return;
