@@ -567,7 +567,7 @@ export default function decorate(block) {
     startScroll = carousel.scrollLeft;
     prevScroll = startScroll;
   };
-  carousel.addEventListener('mousedown',movementStartEventHandler, { passive: true });
+  carousel.addEventListener('mousedown', movementStartEventHandler, { passive: true });
   carousel.addEventListener('touchstart', movementStartEventHandler, { passive: true });
 
   carousel.addEventListener('mouseenter', () => {
