@@ -666,6 +666,13 @@ export default function decorate(block) {
           stopAutoScroll(blockState);
         }
       });
+
+      mediaVideoWidthQueryMatcher.addEventListener('change', mediaVideoWidthChangeHandler);
+      mediaTextWidthQueryMatcher.addEventListener('change', mediaTextWidthChangeHandler);
+      mediaExtraLargeWidthQueryMatcher.addEventListener('change', mediaExtraLargeWidthChangeHandler);
+      mediaLargeWidthQueryMatcher.addEventListener('change', mediaLargeWidthChangeHandler);
+      mediaMediumWidthQueryMatcher.addEventListener('change', mediaMediumWidthChangeHandler);
+      mediaSmallWidthQueryMatcher.addEventListener('change', mediaSmallWidthChangeHandler);
     }
   }, {
     root: null,
@@ -673,13 +680,6 @@ export default function decorate(block) {
     threshold: 1.0,
   });
   observer.observe(block);
-
-  mediaVideoWidthQueryMatcher.addEventListener('change', mediaVideoWidthChangeHandler);
-  mediaTextWidthQueryMatcher.addEventListener('change', mediaTextWidthChangeHandler);
-  mediaExtraLargeWidthQueryMatcher.addEventListener('change', mediaExtraLargeWidthChangeHandler);
-  mediaLargeWidthQueryMatcher.addEventListener('change', mediaLargeWidthChangeHandler);
-  mediaMediumWidthQueryMatcher.addEventListener('change', mediaMediumWidthChangeHandler);
-  mediaSmallWidthQueryMatcher.addEventListener('change', mediaSmallWidthChangeHandler);
 
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
