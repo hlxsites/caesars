@@ -144,6 +144,10 @@ export default async function decorate(block) {
   const globalNavSection = document.createElement('div');
   globalNavSection.classList.add('global-nav-section');
 
+  const globalNavTitleClickHandler = () => {
+    toggleNavSectionTitles(globalNavTitle, globalNavSections);
+  };
+
   // fetch global nav
   if (window.location.host.endsWith('.page') || window.location.host.endsWith('.live') || window.location.host.startsWith('localhost')) {
     globalNav = await fetch(`${GLOBAL_HEADER_JSON_LOCAL}`);
@@ -178,9 +182,7 @@ export default async function decorate(block) {
       globalNavSection.appendChild(globalNavLinks);
       globalNavDesktop.appendChild(globalNavSection);
       globalNavSections = globalNavDiv;
-      globalNavTitle.addEventListener('click', () => {
-        toggleNavSectionTitles(globalNavTitle, globalNavSections);
-      });
+      globalNavTitle.addEventListener('click', globalNavTitleClickHandler);
     }
     if (globalNavJson.logoFileReference) {
       globalNavDesktop.prepend(await createGlobalNavLogo(globalNavJson.logoFileReference));
@@ -245,14 +247,16 @@ export default async function decorate(block) {
       const localNavTitle = block.querySelector('.local-nav-title');
       const globalNavTitle = block.querySelector('.global-nav-title');
       toggleMenu(nav, navSections, isDesktop.matches);
+
+      const localNavTitleEventHandler = () => {
+        toggleNavSectionTitles(localNavTitle, localNavTitle.parentElement());
+        toggleNavSectionTitles(globalNavTitle, globalNavTitle.parentElement());
+      };
       if (isDesktop.matches) {
-        localNavTitle.removeEventListener('click');
-        globalNavTitle.removeEventListener('click');
+        localNavTitle.removeEventListener('click', localNavTitleEventHandler);
+        globalNavTitle.removeEventListener('click', globalNavTitleClickHandler);
       } else {
-        localNavTitle.addEventListener('click', () => {
-          toggleNavSectionTitles(localNavTitle, localNavTitle.parentElement());
-          toggleNavSectionTitles(globalNavTitle, globalNavTitle.parentElement());
-        });
+        localNavTitle.addEventListener('click', localNavTitleEventHandler);
       }
     });
 
