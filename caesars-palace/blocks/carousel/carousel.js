@@ -283,17 +283,7 @@ function snapScroll(el, blockState, dir = 1) {
  */
 async function buildNav(blockState, navigationDirection) {
   const btn = document.createElement('div');
-
-  let chevron;
-  if (navigationDirection === NAVIGATION_DIRECTION_PREV) {
-    chevron = "";
-  } else if (navigationDirection === NAVIGATION_DIRECTION_NEXT) {
-    chevron = "";
-  }
-  const chevronButton = document.createElement('span');
-  chevronButton.innerHTML = chevron;
   btn.classList.add('carousel-nav', `carousel-nav-${navigationDirection}`);
-  btn.appendChild(chevronButton);
 
   btn.addEventListener('click', (e) => {
     stopAutoScroll(blockState);
