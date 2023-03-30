@@ -265,15 +265,18 @@
 
   .carousel.block .carousel-nav-prev {
     left: 0;
+    content: url('../../icons/chevron-left.svg');
+    color: var(--static-color-white);
+    height: var(--layout-size-xl);
+    filter: invert(100%);
   }
 
   .carousel.block .carousel-nav-next {
     right: 0;
-  }
-
-  .carousel.block .carousel-nav svg {
+    content: url('../../icons/chevron-right.svg');
     color: var(--static-color-white);
     height: var(--layout-size-xl);
+    filter: invert(100%);
   }
 
   .carousel.block .carousel-nav {

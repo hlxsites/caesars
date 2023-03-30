@@ -286,9 +286,9 @@ async function buildNav(blockState, navigationDirection) {
 
   let chevron;
   if (navigationDirection === NAVIGATION_DIRECTION_PREV) {
-    chevron = await getIconSvg('icons/chevron-left.svg');
+    chevron = "";
   } else if (navigationDirection === NAVIGATION_DIRECTION_NEXT) {
-    chevron = await getIconSvg('icons/chevron-right.svg');
+    chevron = "";
   }
   const chevronButton = document.createElement('span');
   chevronButton.innerHTML = chevron;
