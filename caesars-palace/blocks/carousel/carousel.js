@@ -404,15 +404,15 @@ export default function decorate(block) {
   block.querySelectorAll('a').forEach((videoLink) => {
     const foundLink = videoLink.href;
     if (foundLink && foundLink.endsWith('.mp4')) {
+      const divToReplace = videoLink.closest('div');
       const videoDiv = document.createElement('div');
+      const videoElement = document.createElement('video');
+
+      divToReplace.classList.add('carousel-alt-video');
       videoDiv.classList.add('carousel-video');
 
-      const videoElement = document.createElement('video');
-      videoElement.innerHTML = `<source src="${foundLink}" type="video/mp4">`;
       videoElement.muted = true;
-
-      const divToReplace = videoLink.closest('div');
-      divToReplace.classList.add('carousel-alt-video');
+      videoElement.innerHTML = `<source src="${foundLink}" type="video/mp4">`;
 
       videoDiv.appendChild(videoElement);
       divToReplace.appendChild(videoElement);
