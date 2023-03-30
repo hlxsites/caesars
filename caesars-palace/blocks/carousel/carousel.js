@@ -22,8 +22,6 @@ const SLIDE_ID_PREFIX = 'carousel-slide';
 const NAVIGATION_DIRECTION_PREV = 'prev';
 const NAVIGATION_DIRECTION_NEXT = 'next';
 const SLIDE_ANIMATION_DURATION_MS = 640;
-const DEFAULT_CHEVRON_LEFT = '<svg focusable="false" data-prefix="fal" data-icon="chevron-left" class="svg-inline--fa fa-chevron-left fa-w-8 cet-hero__chevron" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" aria-label="chevron left"><path fill="currentColor" d="M238.475 475.535l7.071-7.07c4.686-4.686 4.686-12.284 0-16.971L50.053 256 245.546 60.506c4.686-4.686 4.686-12.284 0-16.971l-7.071-7.07c-4.686-4.686-12.284-4.686-16.97 0L10.454 247.515c-4.686 4.686-4.686 12.284 0 16.971l211.051 211.05c4.686 4.686 12.284 4.686 16.97-.001z"></path></svg>';
-const DEFAULT_CHEVRON_RIGHT = '<svg focusable="false" data-prefix="fal" data-icon="chevron-right" class="svg-inline--fa fa-chevron-right fa-w-8 cet-hero__chevron" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 512" aria-label="chevron right"><path fill="currentColor" d="M17.525 36.465l-7.071 7.07c-4.686 4.686-4.686 12.284 0 16.971L205.947 256 10.454 451.494c-4.686 4.686-4.686 12.284 0 16.971l7.071 7.07c4.686 4.686 12.284 4.686 16.97 0l211.051-211.05c4.686-4.686 4.686-12.284 0-16.971L34.495 36.465c-4.686-4.687-12.284-4.687-16.97 0z"></path></svg>';
 
 const DEFAULT_CONFIG = Object.freeze({
   interval: DEFAULT_SCROLL_INTERVAL_MS,
@@ -46,13 +44,6 @@ class CarouselState {
  * @returns The SVG of the icon
  */
 async function getIconSvg(iconPath) {
-  if (iconPath === 'icons/chevron-left.svg') {
-    return DEFAULT_CHEVRON_LEFT;
-  }
-  if (iconPath === 'icons/chevron-right.svg') {
-    return DEFAULT_CHEVRON_RIGHT;
-  }
-
   let svg = null;
   try {
     const response = await fetch(`${window.hlx.codeBasePath}/${iconPath}`);
@@ -285,14 +276,14 @@ function snapScroll(el, blockState, dir = 1) {
  * @param navigationDirection A string of either 'prev or 'next'
  * @return {HTMLDivElement} The resulting nav element
  */
-function buildNav(blockState, navigationDirection) {
+async function buildNav(blockState, navigationDirection) {
   const btn = document.createElement('div');
 
   let chevron;
   if (navigationDirection === NAVIGATION_DIRECTION_PREV) {
-    chevron = DEFAULT_CHEVRON_LEFT;
+    chevron = await getIconSvg('icons/chevron-left.svg');
   } else if (navigationDirection === NAVIGATION_DIRECTION_NEXT) {
-    chevron = DEFAULT_CHEVRON_RIGHT;
+    chevron = await getIconSvg('icons/chevron-right.svg');
   }
   const chevronButton = document.createElement('span');
   chevronButton.innerHTML = chevron;
@@ -470,8 +461,8 @@ export default async function decorate(block) {
   block.append(carousel);
 
   if (slides.length > 1) {
-    const prevBtn = buildNav(blockState, 'prev');
-    const nextBtn = buildNav(blockState, 'next');
+    const prevBtn = await buildNav(blockState, 'prev');
+    const nextBtn = await buildNav(blockState, 'next');
     block.append(prevBtn, nextBtn);
 
     let navigationDots;
