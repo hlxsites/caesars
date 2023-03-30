@@ -618,7 +618,7 @@ export default function decorate(block) {
     carousel.scrollLeft = prevScroll - walk;
   }, { passive: true });
 
-  const imageSizeEventHandler = (block, targetWidth) => {
+  const imageSizeEventHandler = (targetWidth) => {
     block.querySelectorAll('img').forEach((image) => {
       image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: targetWidth }]));
     });
@@ -628,7 +628,7 @@ export default function decorate(block) {
   const mediaSmallWidthQueryMatcher = window.matchMedia('(max-width: 768px)');
   const mediaSmallWidthChangeHandler = (event) => {
     if (event.matches) {
-      imageSizeEventHandler(block, '768');
+      imageSizeEventHandler('768');
     }
   };
   mediaSmallWidthChangeHandler(mediaSmallWidthQueryMatcher);
@@ -636,7 +636,7 @@ export default function decorate(block) {
   const mediaMediumWidthQueryMatcher = window.matchMedia('(min-width: 769px) and (max-width: 960px)');
   const mediaMediumWidthChangeHandler = (event) => {
     if (event.matches === true) {
-      imageSizeEventHandler(block, '960');
+      imageSizeEventHandler('960');
     }
   };
   mediaMediumWidthChangeHandler(mediaMediumWidthQueryMatcher);
@@ -644,7 +644,7 @@ export default function decorate(block) {
   const mediaLargeWidthQueryMatcher = window.matchMedia('(min-width: 961px) and (max-width: 1170px)');
   const mediaLargeWidthChangeHandler = (event) => {
     if (event.matches === true) {
-      imageSizeEventHandler(block, '1170');
+      imageSizeEventHandler('1170');
     }
   };
   mediaLargeWidthChangeHandler(mediaLargeWidthQueryMatcher);
@@ -652,7 +652,7 @@ export default function decorate(block) {
   const mediaExtraLargeWidthQueryMatcher = window.matchMedia('(min-width: 1171px) and (max-width: 1440px)');
   const mediaExtraLargeWidthChangeHandler = (event) => {
     if (event.matches === true) {
-      imageSizeEventHandler(block, '1440');
+      imageSizeEventHandler('1440');
     }
   };
   mediaExtraLargeWidthChangeHandler(mediaExtraLargeWidthQueryMatcher);
