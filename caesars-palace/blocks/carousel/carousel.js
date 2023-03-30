@@ -104,6 +104,7 @@ function scrollToSlide(carousel, blockState, slideIndex = 1, scrollBehavior = 's
   let slidePadding;
   let realSlideWidthWithPadding;
   let paddingFix;
+
   if (blockState.isShowcase) {
     widthUsage = 0.9; /* carousel-slide width */
     realSlideWidth = carouselSlider.offsetWidth * widthUsage;
