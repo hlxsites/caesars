@@ -284,7 +284,6 @@ function buildNav(blockState, navigationDirection) {
 function buildSlide(blockState, slide, index) {
   slide.setAttribute('id', `${SLIDE_ID_PREFIX}${index}`);
   slide.setAttribute('data-slide-index', index);
-  slide.setAttribute('role', 'tabpanel');
   if (index !== blockState.firstVisibleSlide) {
     slide.setAttribute('tabindex', '-1');
   }
