@@ -39,27 +39,6 @@ class CarouselState {
 }
 
 /**
- * Get icons of navigation buttons
- * @param {*} iconPath Icon to get
- * @returns The SVG of the icon
- */
-async function getIconSvg(iconPath) {
-  let svg = null;
-  try {
-    const response = await fetch(`${window.hlx.codeBasePath}/${iconPath}`);
-    if (!response.ok) {
-      return svg;
-    }
-    svg = await response.text();
-  } catch (err) {
-    // eslint-disable-next-line no-console
-    console.error(err);
-    svg = null;
-  }
-  return svg;
-}
-
-/**
  * Keep active dot in sync with current slide
  * @param carousel The carousel
  * @param activeSlide {number} The active slide
@@ -281,7 +260,7 @@ function snapScroll(el, blockState, dir = 1) {
  * @param navigationDirection A string of either 'prev or 'next'
  * @return {HTMLDivElement} The resulting nav element
  */
-async function buildNav(blockState, navigationDirection) {
+function buildNav(blockState, navigationDirection) {
   const btn = document.createElement('div');
   btn.classList.add('carousel-nav', `carousel-nav-${navigationDirection}`);
 
@@ -411,7 +390,7 @@ function startAutoScroll(block, blockState) {
  *
  * @param block HTML block from Franklin
  */
-export default async function decorate(block) {
+export default function decorate(block) {
   const blockConfig = { ...DEFAULT_CONFIG, ...readBlockConfigWithContent(block) };
   const blockState = new CarouselState(
     1,
@@ -456,8 +435,8 @@ export default async function decorate(block) {
   block.append(carousel);
 
   if (slides.length > 1) {
-    const prevBtn = await buildNav(blockState, 'prev');
-    const nextBtn = await buildNav(blockState, 'next');
+    const prevBtn = buildNav(blockState, 'prev');
+    const nextBtn = buildNav(blockState, 'next');
     block.append(prevBtn, nextBtn);
 
     let navigationDots;
@@ -468,7 +447,7 @@ export default async function decorate(block) {
   }
 
   const mediaTextWidthQueryMatcher = window.matchMedia('only screen and (min-width: 1170px)');
-  const mediaTextWidthChangeHandler = async (event) => {
+  const mediaTextWidthChangeHandler = (event) => {
     if (!blockState.isShowcase) return;
 
     if (event.matches === true) {
@@ -483,7 +462,6 @@ export default async function decorate(block) {
 
       // build "ellipsable" text content
       const carouselTextElements = block.getElementsByClassName('carousel-text');
-      const closeButtonSvg = await getIconSvg('icons/close-bold.svg');
       [...carouselTextElements].forEach((carouselText) => {
         const textContents = carouselText.querySelectorAll('p');
         [...textContents].forEach((textContent) => {
@@ -515,7 +493,7 @@ export default async function decorate(block) {
               clickableCloseButton.classList.add('hidden-close-button');
               clickableEllipsis.classList.add('clickable-ellipsis');
 
-              clickableCloseButton.innerHTML = closeButtonSvg;
+              clickableCloseButton.innerHTML = "";
               clickableEllipsis.innerHTML = ellipsedSuffix;
               textContent.innerHTML = `${ellipsisBuilder.shortText}`;
 

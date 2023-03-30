@@ -226,6 +226,7 @@
     color: black;
     right: var(--layout-size-s);
     top: var(--layout-size-xs);
+    content: url('../../icons/close-bold.svg');
   }
 
   .carousel.showcase.block .carousel-text h4 {
