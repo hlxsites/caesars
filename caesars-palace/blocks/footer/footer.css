@@ -272,13 +272,13 @@ footer .footer .footer-property-links ul.open {
     font-size: 12px;
   }
 
+  footer .footer .global-footer-content p:nth-of-type(3) {
+    margin-top: -1em;
+  }
+
   footer .footer .global-footer-content p:nth-of-type(2):hover,
   footer .footer .global-footer-content p:nth-of-type(3):hover {
     text-decoration: underline;
-  }
-
-  footer .footer .global-footer-content p:nth-of-type(3) {
-    margin-top: -1em;
   }
 
   footer .footer .global-footer-content p a {
@@ -300,11 +300,11 @@ footer .footer .footer-property-links ul.open {
     display: flex;
     align-items: center;
     margin-right: 40px;
+    margin-left: 40px;
   }
 
   footer .footer .global-footer-content .global-footer-links img {
-    width: 150px;
-    margin: 0;
+    width: 200px;
     padding: 0 0 25px;
   }
 
