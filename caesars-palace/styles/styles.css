@@ -86,7 +86,6 @@ body {
   border: 0;
   font-family: var(--body-font-family);
   font-size: var(--body-font-size-s);
-  font-display: swap;
   line-height: 1.4;
   color: var(--text-color);
   background-color: var(--background-color);
