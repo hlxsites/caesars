@@ -567,7 +567,7 @@ export default function decorate(block) {
     startScroll = carousel.scrollLeft;
     prevScroll = startScroll;
   };
-  carousel.addEventListener('mousedown',movementStartEventHandler);
+  carousel.addEventListener('mousedown',movementStartEventHandler, { passive: true });
   carousel.addEventListener('touchstart', movementStartEventHandler, { passive: true });
 
   carousel.addEventListener('mouseenter', () => {
@@ -587,7 +587,7 @@ export default function decorate(block) {
     }
     isDown = false;
   };
-  carousel.addEventListener('mouseup', movementEndEventHandler);
+  carousel.addEventListener('mouseup', movementEndEventHandler, { passive: true });
   carousel.addEventListener('touchend', movementEndEventHandler, { passive: true });
 
   carousel.addEventListener('mousemove', (e) => {
