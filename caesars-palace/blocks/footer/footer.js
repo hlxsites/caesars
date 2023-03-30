@@ -31,7 +31,7 @@ export default async function decorate(block) {
     };
   }
 
-  const globalFooterPath = getMetadata('global-footer') || '/caesars-palace/drafts/swbarman/global-footer';
+  const globalFooterPath = getMetadata('global-footer') || '/caesars-palace/global-footer';
   if (globalFooterPath && globalFooterPath !== 'none') {
     contentPaths.globalfooter = {
       path: `${globalFooterPath}.plain.html`,
