@@ -39,36 +39,13 @@ class CarouselState {
 }
 
 /**
- * Get icons of navigation buttons
- * @param {*} iconPath Icon to get
- * @returns The SVG of the icon
- */
-async function getIconSvg(iconPath) {
-  let svg = null;
-  try {
-    const response = await fetch(`${window.hlx.codeBasePath}/${iconPath}`);
-    if (!response.ok) {
-      return svg;
-    }
-    svg = await response.text();
-  } catch (err) {
-    // eslint-disable-next-line no-console
-    console.error(err);
-    svg = null;
-  }
-  return svg;
-}
-
-/**
  * Keep active dot in sync with current slide
  * @param carousel The carousel
  * @param activeSlide {number} The active slide
  */
 function syncActiveDot(block, slideIndex) {
-  const carouselNavDots = block.getElementsByClassName('carousel-nav-dot');
-  const targetId = `carousel-nav-dot-${slideIndex}`;
-  [...carouselNavDots].forEach((navDot) => {
-    if (navDot.id === targetId) {
+  [...block.getElementsByClassName('carousel-nav-dot')].forEach((navDot) => {
+    if (navDot.id === `carousel-nav-dot-${slideIndex}`) {
       navDot.classList.add('carousel-nav-dot-active');
     } else {
       navDot.classList.remove('carousel-nav-dot-active');
@@ -86,7 +63,6 @@ function stopAutoScroll(blockState) {
 
 /**
  * Scroll a single slide into view.
- *
  * @param carousel The carousel
  * @param slideIndex {number} The slide index
  */
@@ -98,6 +74,7 @@ function scrollToSlide(carousel, blockState, slideIndex = 1, scrollBehavior = 's
   let slidePadding;
   let realSlideWidthWithPadding;
   let paddingFix;
+
   if (blockState.isShowcase) {
     widthUsage = 0.9; /* carousel-slide width */
     realSlideWidth = carouselSlider.offsetWidth * widthUsage;
@@ -212,15 +189,15 @@ function scrollToSlide(carousel, blockState, slideIndex = 1, scrollBehavior = 's
 function buildDots(block, blockState, slides = []) {
   const dots = document.createElement('ul');
   dots.classList.add('carousel-dots');
-  dots.setAttribute('role', 'tablist');
+
+  const navigationDots = new Array(slides.length);
   slides.forEach((slide, index) => {
     const dotItem = document.createElement('li');
-    dotItem.setAttribute('role', 'presentation');
     const dotBtn = document.createElement('button');
+
     dotBtn.classList.add('carousel-nav-dot');
     dotBtn.setAttribute('id', `carousel-nav-dot-${index + 1}`);
     dotBtn.setAttribute('type', 'button');
-    dotBtn.setAttribute('role', 'tab');
 
     if (index + 1 === blockState.firstVisibleSlide) {
       dotBtn.setAttribute('tabindex', '0');
@@ -228,16 +205,18 @@ function buildDots(block, blockState, slides = []) {
     } else {
       dotBtn.setAttribute('tabindex', '-1');
     }
-    dotBtn.innerText = '';
+
     dotItem.append(dotBtn);
 
     dotItem.addEventListener('click', () => {
-      const slideIndex = index + 1;
-      scrollToSlide(block, blockState, slideIndex);
+      scrollToSlide(block, blockState, index + 1);
     });
 
-    dots.append(dotItem);
+    navigationDots[index] = dotItem;
   });
+
+  dots.append(...navigationDots);
+
   return dots;
 }
 
@@ -245,7 +224,6 @@ function buildDots(block, blockState, slides = []) {
  * Based on the direction of a scroll snap the scroll position based on the
  * offset width of the scrollable element. The snap threshold is determined
  * by the direction of the scroll to ensure that snap direction is natural.
- *
  * @param el the scrollable element
  * @param dir the direction of the scroll
  */
@@ -272,27 +250,14 @@ function snapScroll(el, blockState, dir = 1) {
 
 /**
  * Build a navigation button for controlling the direction of carousel slides.
- *
  * @param navigationDirection A string of either 'prev or 'next'
  * @return {HTMLDivElement} The resulting nav element
  */
-async function buildNav(blockState, navigationDirection) {
+function buildNav(blockState, navigationDirection) {
   const btn = document.createElement('div');
-
-  let chevron;
-  if (navigationDirection === NAVIGATION_DIRECTION_PREV) {
-    chevron = await getIconSvg('icons/chevron-left.svg');
-  } else if (navigationDirection === NAVIGATION_DIRECTION_NEXT) {
-    chevron = await getIconSvg('icons/chevron-right.svg');
-  }
-  const chevronButton = document.createElement('span');
-  chevronButton.innerHTML = chevron;
   btn.classList.add('carousel-nav', `carousel-nav-${navigationDirection}`);
-  btn.appendChild(chevronButton);
-
   btn.addEventListener('click', (e) => {
     stopAutoScroll(blockState);
-
     let nextSlide = blockState.firstVisibleSlide;
     if (navigationDirection === NAVIGATION_DIRECTION_PREV) {
       nextSlide = blockState.curSlide === blockState.firstVisibleSlide
@@ -311,7 +276,6 @@ async function buildNav(blockState, navigationDirection) {
 
 /**
  * Decorate a base slide element.
- *
  * @param slide A base block slide element
  * @param index The slide's position
  * @return {HTMLUListElement} A decorated carousel slide element
@@ -319,7 +283,6 @@ async function buildNav(blockState, navigationDirection) {
 function buildSlide(blockState, slide, index) {
   slide.setAttribute('id', `${SLIDE_ID_PREFIX}${index}`);
   slide.setAttribute('data-slide-index', index);
-  slide.setAttribute('role', 'tabpanel');
   if (index !== blockState.firstVisibleSlide) {
     slide.setAttribute('tabindex', '-1');
   }
@@ -366,7 +329,6 @@ function setImageEagerLoading(block, slideId) {
  */
 function createClone(item, targetIndex) {
   const clone = item.cloneNode(true);
-  clone.id = `data-slide-index${targetIndex}`;
   clone.setAttribute('data-slide-index', targetIndex);
   clone.style.transform = `translateX(${targetIndex * 100}%)`;
   return clone;
@@ -413,10 +375,9 @@ function startAutoScroll(block, blockState) {
 
 /**
  * Decorate and transform a carousel block.
- *
  * @param block HTML block from Franklin
  */
-export default async function decorate(block) {
+export default function decorate(block) {
   const blockConfig = { ...DEFAULT_CONFIG, ...readBlockConfigWithContent(block) };
   const blockState = new CarouselState(
     1,
@@ -430,15 +391,15 @@ export default async function decorate(block) {
   block.querySelectorAll('a').forEach((videoLink) => {
     const foundLink = videoLink.href;
     if (foundLink && foundLink.endsWith('.mp4')) {
+      const divToReplace = videoLink.closest('div');
       const videoDiv = document.createElement('div');
+      const videoElement = document.createElement('video');
+
+      divToReplace.classList.add('carousel-alt-video');
       videoDiv.classList.add('carousel-video');
 
-      const videoElement = document.createElement('video');
-      videoElement.innerHTML = `<source src="${foundLink}" type="video/mp4">`;
       videoElement.muted = true;
-
-      const divToReplace = videoLink.closest('div');
-      divToReplace.classList.add('carousel-alt-video');
+      videoElement.innerHTML = `<source src="${foundLink}" type="video/mp4">`;
 
       videoDiv.appendChild(videoElement);
       divToReplace.appendChild(videoElement);
@@ -461,8 +422,8 @@ export default async function decorate(block) {
   block.append(carousel);
 
   if (slides.length > 1) {
-    const prevBtn = await buildNav(blockState, 'prev');
-    const nextBtn = await buildNav(blockState, 'next');
+    const prevBtn = buildNav(blockState, 'prev');
+    const nextBtn = buildNav(blockState, 'next');
     block.append(prevBtn, nextBtn);
 
     let navigationDots;
@@ -472,9 +433,121 @@ export default async function decorate(block) {
     }
   }
 
+  const mediaTextWidthQueryMatcher = window.matchMedia('only screen and (min-width: 1170px)');
+  const mediaTextWidthChangeHandler = (event) => {
+    if (!blockState.isShowcase) return;
+
+    if (event.matches === true) {
+      // unwrap clickable slide
+      const slidePanels = block.getElementsByClassName('carousel-slide');
+      [...slidePanels].forEach((panel) => {
+        const wrapper = panel.firstChild;
+        if (wrapper && wrapper.href) {
+          panel.innerHTML = wrapper.innerHTML;
+        }
+      });
+
+      // build "ellipsable" text content
+      const carouselTextElements = block.getElementsByClassName('carousel-text');
+      [...carouselTextElements].forEach((carouselText) => {
+        const textContents = carouselText.querySelectorAll('p');
+        [...textContents].forEach((textContent) => {
+          if (!textContent.classList.contains('button-container')) {
+            const displayBufferPixels = 32;
+            const textContentWidth = textContent.offsetWidth - displayBufferPixels;
+
+            const textStyle = window.getComputedStyle(textContent);
+            const fullTextContent = textContent.innerHTML;
+            const ellipsisBuilder = buildEllipsis(
+              fullTextContent,
+              textContentWidth,
+              blockConfig.maxlines,
+              blockConfig.ellipsis,
+              {
+                font: `${textStyle.fontWeight} ${textStyle.fontSize} ${textStyle.fontFamily}`,
+                letterSpacing: `${textStyle.letterSpacing}`,
+              },
+            );
+
+            if (ellipsisBuilder.lineCount >= 2) {
+              const clickableCloseButton = document.createElement('span');
+              const clickableEllipsis = document.createElement('span');
+
+              clickableCloseButton.classList.add('hidden-close-button');
+              clickableEllipsis.classList.add('clickable-ellipsis');
+
+              clickableEllipsis.innerHTML = blockConfig.ellipsis;
+              textContent.innerHTML = `${ellipsisBuilder.shortText}`;
+
+              textContent.append(clickableEllipsis);
+              carouselText.append(clickableCloseButton);
+
+              clickableEllipsis.addEventListener('click', () => {
+                carouselText.classList.add('extended-text');
+                textContent.innerHTML = `${fullTextContent}`;
+                clickableCloseButton.classList.remove('hidden-close-button');
+                clickableCloseButton.classList.add('active-close-button');
+              });
+              clickableCloseButton.addEventListener('click', () => {
+                carouselText.classList.remove('extended-text');
+                textContent.innerHTML = `${ellipsisBuilder.shortText}`;
+                textContent.append(clickableEllipsis);
+                clickableCloseButton.classList.remove('active-close-button');
+                clickableCloseButton.classList.add('hidden-close-button');
+              });
+            }
+          }
+        });
+      });
+    } else {
+      // make slide clickable
+      const slidePanels = block.getElementsByClassName('carousel-slide');
+      [...slidePanels].forEach((panel) => {
+        let targetLink;
+        let targetTitle;
+        panel.querySelectorAll('a').forEach((link) => {
+          // last link will always be the action button
+          targetLink = link.href;
+          targetTitle = link.title;
+        });
+
+        const link = document.createElement('a');
+        link.classList.add('clickable-slide');
+        link.href = targetLink;
+        link.title = targetTitle;
+
+        link.innerHTML = panel.innerHTML;
+        panel.innerHTML = '';
+        panel.append(link);
+      });
+    }
+  };
+
+  const mediaVideoWidthQueryMatcher = window.matchMedia('only screen and (max-width: 1170px)');
+  const mediaVideoWidthChangeHandler = (event) => {
+    if (event.matches === false) {
+      block.querySelectorAll('video').forEach((videoElement) => {
+        videoElement.autoplay = true;
+        videoElement.loop = true;
+        videoElement.playsinline = true;
+        videoElement.muted = true;
+        videoElement.play();
+      });
+    } else {
+      block.querySelectorAll('video').forEach((videoElement) => {
+        videoElement.muted = true;
+        videoElement.autoplay = false;
+        videoElement.loop = false;
+        videoElement.playsinline = false;
+      });
+    }
+  };
+  mediaVideoWidthChangeHandler(mediaVideoWidthQueryMatcher);
+
   setTimeout(() => {
     // scroll to first slide once all DOM has been built
     scrollToSlide(block, blockState, blockState.firstVisibleSlide, 'instant');
+    mediaTextWidthChangeHandler(mediaTextWidthQueryMatcher);
   }, 0);
 
   // make carousel draggable and swipeable
@@ -557,7 +630,6 @@ export default async function decorate(block) {
     }
   };
   mediaSmallWidthChangeHandler(mediaSmallWidthQueryMatcher);
-  mediaSmallWidthQueryMatcher.addEventListener('change', mediaSmallWidthChangeHandler);
 
   const mediaMediumWidthQueryMatcher = window.matchMedia('(min-width: 769px) and (max-width: 960px)');
   const mediaMediumWidthChangeHandler = (event) => {
@@ -571,7 +643,6 @@ export default async function decorate(block) {
     }
   };
   mediaMediumWidthChangeHandler(mediaMediumWidthQueryMatcher);
-  mediaMediumWidthQueryMatcher.addEventListener('change', mediaMediumWidthChangeHandler);
 
   const mediaLargeWidthQueryMatcher = window.matchMedia('(min-width: 961px) and (max-width: 1170px)');
   const mediaLargeWidthChangeHandler = (event) => {
@@ -585,9 +656,6 @@ export default async function decorate(block) {
     }
   };
   mediaLargeWidthChangeHandler(mediaLargeWidthQueryMatcher);
-  mediaLargeWidthQueryMatcher.addEventListener('change', (event) => {
-    mediaLargeWidthChangeHandler(event);
-  });
 
   const mediaExtraLargeWidthQueryMatcher = window.matchMedia('(min-width: 1171px) and (max-width: 1440px)');
   const mediaExtraLargeWidthChangeHandler = (event) => {
@@ -601,150 +669,30 @@ export default async function decorate(block) {
     }
   };
   mediaExtraLargeWidthChangeHandler(mediaExtraLargeWidthQueryMatcher);
-  mediaExtraLargeWidthQueryMatcher.addEventListener('change', mediaExtraLargeWidthChangeHandler);
 
-  const mediaVideoWidthQueryMatcher = window.matchMedia('only screen and (max-width: 1170px)');
-  const mediaVideoWidthChangeHandler = (event) => {
-    if (event.matches === false) {
-      block.querySelectorAll('video').forEach((videoElement) => {
-        videoElement.autoplay = true;
-        videoElement.loop = true;
-        videoElement.playsinline = true;
-        videoElement.muted = true;
-        videoElement.play();
-      });
-    } else {
-      block.querySelectorAll('video').forEach((videoElement) => {
-        videoElement.muted = true;
-        videoElement.autoplay = false;
-        videoElement.loop = false;
-        videoElement.playsinline = false;
-      });
-    }
-  };
-  mediaVideoWidthChangeHandler(mediaVideoWidthQueryMatcher);
-  mediaVideoWidthQueryMatcher.addEventListener('change', mediaVideoWidthChangeHandler);
-
-  const mediaTextWidthQueryMatcher = window.matchMedia('only screen and (min-width: 1170px)');
-  const mediaTextWidthChangeHandler = async (event) => {
-    if (!blockState.isShowcase) return;
-
-    if (event.matches === true) {
-      // unwrap clickable slide
-      const slidePanels = block.getElementsByClassName('carousel-slide');
-      [...slidePanels].forEach((panel) => {
-        const wrapper = panel.firstChild;
-        if (wrapper && wrapper.href) {
-          panel.innerHTML = wrapper.innerHTML;
+  const observer = new IntersectionObserver((entries) => {
+    if (entries.some((e) => e.isIntersecting)) {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          startAutoScroll(block, blockState);
+        } else {
+          stopAutoScroll(blockState);
         }
       });
-
-      // build "ellipsable" text content
-      const carouselTextElements = block.getElementsByClassName('carousel-text');
-      const closeButtonSvg = await getIconSvg('icons/close-bold.svg');
-      [...carouselTextElements].forEach((carouselText) => {
-        const textContents = carouselText.querySelectorAll('p');
-        [...textContents].forEach((textContent) => {
-          if (!textContent.classList.contains('button-container')) {
-            const textStyle = window.getComputedStyle(textContent);
-            const textOptions = {
-              font: `${textStyle.fontWeight} ${textStyle.fontSize} ${textStyle.fontFamily}`,
-              letterSpacing: `${textStyle.letterSpacing}`,
-            };
-
-            const displayBufferPixels = 32;
-            const textContentWidth = textContent.offsetWidth - displayBufferPixels;
-            const ellipsedSuffix = blockConfig.ellipsis;
-            const allowedMaxLines = blockConfig.maxlines;
-
-            const fullTextContent = textContent.innerHTML;
-            const ellipsisBuilder = buildEllipsis(
-              fullTextContent,
-              textContentWidth,
-              allowedMaxLines,
-              ellipsedSuffix,
-              textOptions,
-            );
-
-            if (ellipsisBuilder.lineCount >= 2) {
-              const clickableCloseButton = document.createElement('span');
-              const clickableEllipsis = document.createElement('span');
-
-              clickableCloseButton.classList.add('hidden-close-button');
-              clickableEllipsis.classList.add('clickable-ellipsis');
-
-              clickableCloseButton.innerHTML = closeButtonSvg;
-              clickableEllipsis.innerHTML = ellipsedSuffix;
-              textContent.innerHTML = `${ellipsisBuilder.shortText}`;
-
-              textContent.append(clickableEllipsis);
-              carouselText.append(clickableCloseButton);
-
-              clickableEllipsis.addEventListener('click', () => {
-                carouselText.classList.add('extended-text');
-                textContent.innerHTML = `${fullTextContent}`;
-                clickableCloseButton.classList.remove('hidden-close-button');
-                clickableCloseButton.classList.add('active-close-button');
-              });
-              clickableCloseButton.addEventListener('click', () => {
-                carouselText.classList.remove('extended-text');
-                textContent.innerHTML = `${ellipsisBuilder.shortText}`;
-                textContent.append(clickableEllipsis);
-                clickableCloseButton.classList.remove('active-close-button');
-                clickableCloseButton.classList.add('hidden-close-button');
-              });
-            }
-          }
-        });
-      });
-    } else {
-      // make slide clickable
-      const slidePanels = block.getElementsByClassName('carousel-slide');
-      [...slidePanels].forEach((panel) => {
-        let targetLink;
-        let targetTitle;
-        panel.querySelectorAll('a').forEach((link) => {
-          // last link will always be the action button
-          targetLink = link.href;
-          targetTitle = link.title;
-        });
-
-        const link = document.createElement('a');
-        link.classList.add('clickable-slide');
-        link.href = targetLink;
-        link.title = targetTitle;
-
-        link.innerHTML = panel.innerHTML;
-        panel.innerHTML = '';
-        panel.append(link);
-      });
     }
-  };
-  // needs DOM to be fully build and CSS applied for measurements
-  setTimeout(() => mediaTextWidthChangeHandler(mediaTextWidthQueryMatcher), 0);
-  mediaTextWidthQueryMatcher.addEventListener('change', mediaTextWidthChangeHandler);
-
-  // auto scroll when visible only
-  const intersectionOptions = {
+  }, {
     root: null,
     rootMargin: '0px',
     threshold: 1.0,
-  };
-  const handleAutoScroll = (entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        startAutoScroll(block, blockState);
-      } else {
-        stopAutoScroll(blockState);
-      }
-    });
-  };
-  const observer = new IntersectionObserver((entries) => {
-    if (entries.some((e) => e.isIntersecting)) {
-      handleAutoScroll(entries);
-    }
-  }, intersectionOptions);
+  });
   observer.observe(block);
+
+  mediaVideoWidthQueryMatcher.addEventListener('change', mediaVideoWidthChangeHandler);
+  mediaTextWidthQueryMatcher.addEventListener('change', mediaTextWidthChangeHandler);
+  mediaExtraLargeWidthQueryMatcher.addEventListener('change', mediaExtraLargeWidthChangeHandler);
+  mediaLargeWidthQueryMatcher.addEventListener('change', mediaLargeWidthChangeHandler);
+  mediaMediumWidthQueryMatcher.addEventListener('change', mediaMediumWidthChangeHandler);
+  mediaSmallWidthQueryMatcher.addEventListener('change', mediaSmallWidthChangeHandler);
 
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
