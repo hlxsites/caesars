@@ -172,7 +172,6 @@ const showMore = (nav, maxItemsDesktop) => {
     if (!(eventTarget.contains('more') || eventTarget.contains('more-link') || eventTarget.contains('more-text')
      || eventTarget.contains('dropdown') || eventTarget.contains('dropdown-menu'))) {
       const dropdown = more.querySelector('.dropdown-menu');
-      nav.setAttribute('aria-expanded', 'true');
       if (dropdown.classList.contains('active')) {
         dropdown.classList.toggle('active');
         aMore.classList.toggle('active');
