@@ -567,12 +567,8 @@ export default function decorate(block) {
     startScroll = carousel.scrollLeft;
     prevScroll = startScroll;
   };
-  carousel.addEventListener('mousedown', (e) => {
-    movementStartEventHandler(e);
-  });
-  carousel.addEventListener('touchstart', (e) => {
-    movementStartEventHandler(e);
-  }, { passive: true });
+  carousel.addEventListener('mousedown', movementStartEventHandler, { passive: true });
+  carousel.addEventListener('touchstart', movementStartEventHandler, { passive: true });
 
   carousel.addEventListener('mouseenter', () => {
     stopAutoScroll(blockState);
@@ -591,12 +587,8 @@ export default function decorate(block) {
     }
     isDown = false;
   };
-  carousel.addEventListener('mouseup', () => {
-    movementEndEventHandler();
-  });
-  carousel.addEventListener('touchend', () => {
-    movementEndEventHandler();
-  }, { passive: true });
+  carousel.addEventListener('mouseup', movementEndEventHandler, { passive: true });
+  carousel.addEventListener('touchend', movementEndEventHandler, { passive: true });
 
   carousel.addEventListener('mousemove', (e) => {
     if (!isDown) {
@@ -608,7 +600,6 @@ export default function decorate(block) {
     const walk = (x - startX);
     carousel.scrollLeft = prevScroll - walk;
   });
-
   carousel.addEventListener('touchmove', (e) => {
     if (!isDown) {
       return;
@@ -618,15 +609,17 @@ export default function decorate(block) {
     carousel.scrollLeft = prevScroll - walk;
   }, { passive: true });
 
+  const imageSizeEventHandler = (targetWidth) => {
+    block.querySelectorAll('img').forEach((image) => {
+      image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: targetWidth }]));
+    });
+    setImageEagerLoading(block, 'carousel-slide0');
+    setImageEagerLoading(block, 'carousel-slide1');
+  };
   const mediaSmallWidthQueryMatcher = window.matchMedia('(max-width: 768px)');
   const mediaSmallWidthChangeHandler = (event) => {
     if (event.matches) {
-      block.querySelectorAll('img').forEach((image) => {
-        image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '768' }]));
-      });
-
-      setImageEagerLoading(block, 'carousel-slide0');
-      setImageEagerLoading(block, 'carousel-slide1');
+      imageSizeEventHandler('768');
     }
   };
   mediaSmallWidthChangeHandler(mediaSmallWidthQueryMatcher);
@@ -634,12 +627,7 @@ export default function decorate(block) {
   const mediaMediumWidthQueryMatcher = window.matchMedia('(min-width: 769px) and (max-width: 960px)');
   const mediaMediumWidthChangeHandler = (event) => {
     if (event.matches === true) {
-      block.querySelectorAll('img').forEach((image) => {
-        image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '960' }]));
-      });
-
-      setImageEagerLoading(block, 'carousel-slide0');
-      setImageEagerLoading(block, 'carousel-slide1');
+      imageSizeEventHandler('960');
     }
   };
   mediaMediumWidthChangeHandler(mediaMediumWidthQueryMatcher);
@@ -647,12 +635,7 @@ export default function decorate(block) {
   const mediaLargeWidthQueryMatcher = window.matchMedia('(min-width: 961px) and (max-width: 1170px)');
   const mediaLargeWidthChangeHandler = (event) => {
     if (event.matches === true) {
-      block.querySelectorAll('img').forEach((image) => {
-        image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '1170' }]));
-      });
-
-      setImageEagerLoading(block, 'carousel-slide0');
-      setImageEagerLoading(block, 'carousel-slide1');
+      imageSizeEventHandler('1170');
     }
   };
   mediaLargeWidthChangeHandler(mediaLargeWidthQueryMatcher);
@@ -660,12 +643,7 @@ export default function decorate(block) {
   const mediaExtraLargeWidthQueryMatcher = window.matchMedia('(min-width: 1171px) and (max-width: 1440px)');
   const mediaExtraLargeWidthChangeHandler = (event) => {
     if (event.matches === true) {
-      block.querySelectorAll('img').forEach((image) => {
-        image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '1440' }]));
-      });
-
-      setImageEagerLoading(block, 'carousel-slide0');
-      setImageEagerLoading(block, 'carousel-slide1');
+      imageSizeEventHandler('1440');
     }
   };
   mediaExtraLargeWidthChangeHandler(mediaExtraLargeWidthQueryMatcher);
@@ -675,8 +653,20 @@ export default function decorate(block) {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           startAutoScroll(block, blockState);
+          mediaVideoWidthQueryMatcher.addEventListener('change', mediaVideoWidthChangeHandler);
+          mediaTextWidthQueryMatcher.addEventListener('change', mediaTextWidthChangeHandler);
+          mediaExtraLargeWidthQueryMatcher.addEventListener('change', mediaExtraLargeWidthChangeHandler);
+          mediaLargeWidthQueryMatcher.addEventListener('change', mediaLargeWidthChangeHandler);
+          mediaMediumWidthQueryMatcher.addEventListener('change', mediaMediumWidthChangeHandler);
+          mediaSmallWidthQueryMatcher.addEventListener('change', mediaSmallWidthChangeHandler);
         } else {
           stopAutoScroll(blockState);
+          mediaVideoWidthQueryMatcher.removeEventListener('change', mediaVideoWidthChangeHandler);
+          mediaTextWidthQueryMatcher.removeEventListener('change', mediaTextWidthChangeHandler);
+          mediaExtraLargeWidthQueryMatcher.removeEventListener('change', mediaExtraLargeWidthChangeHandler);
+          mediaLargeWidthQueryMatcher.removeEventListener('change', mediaLargeWidthChangeHandler);
+          mediaMediumWidthQueryMatcher.removeEventListener('change', mediaMediumWidthChangeHandler);
+          mediaSmallWidthQueryMatcher.removeEventListener('change', mediaSmallWidthChangeHandler);
         }
       });
     }
@@ -686,13 +676,6 @@ export default function decorate(block) {
     threshold: 1.0,
   });
   observer.observe(block);
-
-  mediaVideoWidthQueryMatcher.addEventListener('change', mediaVideoWidthChangeHandler);
-  mediaTextWidthQueryMatcher.addEventListener('change', mediaTextWidthChangeHandler);
-  mediaExtraLargeWidthQueryMatcher.addEventListener('change', mediaExtraLargeWidthChangeHandler);
-  mediaLargeWidthQueryMatcher.addEventListener('change', mediaLargeWidthChangeHandler);
-  mediaMediumWidthQueryMatcher.addEventListener('change', mediaMediumWidthChangeHandler);
-  mediaSmallWidthQueryMatcher.addEventListener('change', mediaSmallWidthChangeHandler);
 
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) {
