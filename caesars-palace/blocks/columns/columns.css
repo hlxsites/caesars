@@ -96,6 +96,21 @@
     margin-bottom: var(--layout-size-l);
 }
 
+.columns.product-quickfacts.stretch-end {
+  width: 80%;
+}
+
+.columns.product-quickfacts.stretch-end > div > div {
+  flex: 1;
+  display: flex;
+  justify-content: right;
+}
+
+.columns.product-quickfacts.stretch-end img {
+  max-height: 100px;
+  max-width: 200px;
+}
+
 @media (min-width: 768px) {
     .columns [data-align='center'] {
         text-align: center;

@@ -541,6 +541,11 @@ main .section.is-hero.has-background-block > div:nth-child(2) {
   margin-top: 520px;
 }
 
+.section.product-quickfacts {
+  background-color: var(--static-color-black);
+  color: var(--static-color-white);
+}
+
 /* Responsive Breakpoints */
 
 /* Tablet (portrait) */
