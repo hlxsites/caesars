@@ -97,13 +97,13 @@
 }
 
 .columns.product-quickfacts.stretch-end {
-  width: 80%;
+  width: 100%;
 }
 
 .columns.product-quickfacts.stretch-end > div > div {
   flex: 1;
   display: flex;
-  justify-content: right;
+  justify-content: center;
 }
 
 .columns.product-quickfacts.stretch-end img {
@@ -240,6 +240,14 @@
         display: unset;
         margin: 0;
         text-align: justify;
+    }
+
+    .columns.product-quickfacts.stretch-end > div > div {
+      justify-content: right;
+    }
+
+    .columns.product-quickfacts.stretch-end {
+      width: 80%;
     }
 
 }
