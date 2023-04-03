@@ -40,7 +40,7 @@ function convertHoursTo24HoursFormat(textualHours){
 
 function parseOpeningHours(openingHours){
   if(openingHours.toUpperCase() === CLOSED_TXT){
-    return openingHours;
+    return CLOSED_TXT;
   }
 
   const openedHours = openingHours.split('-');
@@ -56,6 +56,23 @@ function parseOpeningHours(openingHours){
   };
 }
 
+function getOpeningStatus(openingSchedule){
+  const mydate = new Date(Date.now());
+  const day = DAYS_LOOKUP[mydate.getDay()];
+  console.log("Day is ", day);
+
+  const todayOpeningHours = openingSchedule[day];
+  console.log("Today's opening schedule: ", todayOpeningHours);
+  if(todayOpeningHours === CLOSED_TXT){
+    return CLOSED_TXT;
+  }
+
+  const hours = mydate.getHours();
+  console.log("Hour is ", hours);
+  const minutes = mydate.getMinutes();
+  console.log("Minutes are ", minutes);
+}
+
 // Structure:
 // One line: Current status, closes/opens next, see all hours overlay link
 export default function decorate(block) {
@@ -68,8 +85,6 @@ export default function decorate(block) {
   console.log(productSchedule);
   console.log('-----');
 
-  // const mydate = new Date(Date.now());
-  // mydate.getDay();
-  // console.log(mydate.getHours());
-  // console.log(mydate.getMinutes());
+  const openingStatus = getOpeningStatus(productSchedule);
+  console.log("opening status based on browser time: ", openingStatus);
 }
