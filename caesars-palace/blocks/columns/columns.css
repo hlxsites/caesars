@@ -99,18 +99,23 @@
 .columns.product-quickfacts.stretch-end {
   width: 100%;
   margin-bottom: 32px;
+  font-size: 14px;
+  line-height: 30px;
 }
 
 .columns.product-quickfacts.stretch-end > div > div {
   flex: 1;
   display: flex;
   justify-content: center;
+  font-family: var(----body-font-family);
+  font-size: 16px;
 }
 
 .columns.product-quickfacts.stretch-end img {
   max-height: 100px;
   max-width: 200px;
-  margin-bottom: 48px;
+  margin-bottom: 32px;
+  margin-top: 24px;
 }
 
 @media (min-width: 768px) {
