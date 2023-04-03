@@ -98,6 +98,7 @@
 
 .columns.product-quickfacts.stretch-end {
   width: 100%;
+  margin-bottom: 32px;
 }
 
 .columns.product-quickfacts.stretch-end > div > div {
@@ -109,6 +110,7 @@
 .columns.product-quickfacts.stretch-end img {
   max-height: 100px;
   max-width: 200px;
+  margin-bottom: 48px;
 }
 
 @media (min-width: 768px) {
@@ -248,8 +250,14 @@
 
     .columns.product-quickfacts.stretch-end {
       width: 80%;
+      margin-bottom: 32px;
     }
 
+    .columns.product-quickfacts.stretch-end img {
+      max-height: 100px;
+      max-width: 200px;
+      margin-bottom: unset;
+    }
 }
 
 @media only screen and (min-width: 960px) {

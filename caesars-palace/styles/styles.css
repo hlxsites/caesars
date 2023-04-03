@@ -546,6 +546,31 @@ main .section.is-hero.has-background-block > div:nth-child(2) {
   color: var(--static-color-white);
 }
 
+.section.product-quickfacts .default-content-wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 80%;
+}
+
+.section.product-quickfacts .default-content-wrapper p {
+  margin: 16px auto 24px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-right: 16px;
+}
+
+.section.product-quickfacts .default-content-wrapper > p > span {
+  display: flex;
+}
+
+.section.product-quickfacts .default-content-wrapper > p > span > svg {
+  height: 28px;
+  margin-right: 16px;
+}
+
 /* Responsive Breakpoints */
 
 /* Tablet (portrait) */
@@ -560,6 +585,11 @@ main .section.is-hero.has-background-block > div:nth-child(2) {
 
   main .section > div:last-of-type {
     padding-bottom: var(--layout-size-xxl);
+  }
+
+  .section.product-quickfacts .default-content-wrapper > p > span > svg {
+    height: 50px;
+    margin-right: 16px;
   }
 }
 
