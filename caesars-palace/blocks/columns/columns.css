@@ -19,6 +19,13 @@
     width: 100%;
 }
 
+.columns.product-quickfacts.stretch-end {
+  width: 100%;
+  margin-bottom: 32px;
+  font-size: 14px;
+  line-height: 30px;
+}
+
 /* Intro variation */
 .columns.columns-2-cols.intro {
     display: flex;
@@ -36,6 +43,21 @@
 
 .columns.columns-2-cols.cet-card > div > div {
     text-align: unset;
+}
+
+.columns.product-quickfacts.stretch-end > div > div {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+}
+
+.columns.product-quickfacts.stretch-end img {
+  max-height: 100px;
+  max-width: 200px;
+  margin-bottom: 32px;
+  margin-top: 24px;
 }
 
 .columns.columns-2-cols.intro > div:first-child {
@@ -94,28 +116,6 @@
 
 .columns-wrapper:not(:last-child) .columns.columns-2-cols.cet-card > div:last-child {
     margin-bottom: var(--layout-size-l);
-}
-
-.columns.product-quickfacts.stretch-end {
-  width: 100%;
-  margin-bottom: 32px;
-  font-size: 14px;
-  line-height: 30px;
-}
-
-.columns.product-quickfacts.stretch-end > div > div {
-  flex: 1;
-  display: flex;
-  justify-content: center;
-  font-family: var(--body-font-family);
-  font-size: 16px;
-}
-
-.columns.product-quickfacts.stretch-end img {
-  max-height: 100px;
-  max-width: 200px;
-  margin-bottom: 32px;
-  margin-top: 24px;
 }
 
 @media (min-width: 768px) {
@@ -182,12 +182,27 @@
         text-align: left;
     }
 
+    .columns.product-quickfacts.stretch-end > div > div {
+      justify-content: right;
+    }
+
     .columns.columns-2-cols.intro > div:last-child {
         display: none;
     }
 
     .columns.columns-2-cols.intro > div:first-child {
         justify-content: unset;
+    }
+
+    .columns.product-quickfacts.stretch-end {
+      width: 80%;
+      margin-bottom: 32px;
+    }
+
+    .columns.product-quickfacts.stretch-end img {
+      max-height: 100px;
+      max-width: 200px;
+      margin-bottom: unset;
     }
 
     .columns.columns-2-cols.intro > div:first-child > div {
@@ -247,21 +262,6 @@
         display: unset;
         margin: 0;
         text-align: justify;
-    }
-
-    .columns.product-quickfacts.stretch-end > div > div {
-      justify-content: right;
-    }
-
-    .columns.product-quickfacts.stretch-end {
-      width: 80%;
-      margin-bottom: 32px;
-    }
-
-    .columns.product-quickfacts.stretch-end img {
-      max-height: 100px;
-      max-width: 200px;
-      margin-bottom: unset;
     }
 }
 

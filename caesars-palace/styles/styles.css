@@ -548,9 +548,8 @@ main .section.is-hero.has-background-block > div:nth-child(2) {
 
 .section.product-quickfacts .default-content-wrapper {
   display: flex;
-  flex-direction: row;
+  flex-flow: row wrap;
   justify-content: center;
-  flex-wrap: wrap;
   width: 80%;
 }
 
