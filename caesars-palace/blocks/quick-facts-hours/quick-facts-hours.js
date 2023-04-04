@@ -1,11 +1,33 @@
-import { isVentureOpen } from '../../scripts/scripts.js';
+import { isVentureOpen, getNextClosing, getNextOpening } from '../../scripts/scripts.js';
 
 const CLOSED_TXT = 'CLOSED';
+const OPEN_TXT = 'NOW OPEN';
+const NEXT_OPEN_TXT = 'Opens';
+const NEXT_CLOSE_TXT = 'Closes';
+
+const DAYS_REVERSE_LOOKUP = {
+  'Sunday': 0,
+  'Monday': 1,
+  'Tuesday': 2,
+  'Wednesday': 3,
+  'Thursday': 4,
+  'Friday': 5,
+  'Saturday': 6
+};
+const DAYS_LOOKUP = [
+  'Sunday',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday'
+];
 
 /**
- * 
- * @param {*} textualHours 
- * @returns 
+ * Convert authored datetime format to 24hours format
+ * @param {*} textualHours Authored hours (AM/PM format)
+ * @returns Hour value in 24 hour format, as object (hours, minutes, halfday marker)
  */
 function convertHoursTo24HoursFormat(textualHours) {
   if (textualHours.endsWith('AM')) {
@@ -29,36 +51,12 @@ function convertHoursTo24HoursFormat(textualHours) {
   }
 }
 
-const DAYS_REVERSE_LOOKUP = {
-  'Sunday': 0,
-  'Monday': 1,
-  'Tuesday': 2, 
-  'Wednesday': 3,
-  'Thursday': 4, 
-  'Friday': 5,
-  'Saturday': 6
-};
-
-const DAYS_LOOKUP = [
-  'Sunday',
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday'
-];
-
 /**
- * 
- * @param {*} openingHours 
- * @returns 
+ * Parses authored content to build a schedule used for time comparisions
+ * @param {Object} productSchedule Known product schedule (empty per default) to be updated
+ * @returns An updated product schedule
  */
 function updateOpeningSchedule(productSchedule, dayOfSchedule, openingHours) {
-  console.log("productSchedule: ", productSchedule);
-  console.log("dayOfSchedule: ", dayOfSchedule)
-  console.log("openingHours: ", openingHours);
-
   if (openingHours.toUpperCase() === CLOSED_TXT) {
     return CLOSED_TXT;
   }
@@ -105,8 +103,6 @@ function updateOpeningSchedule(productSchedule, dayOfSchedule, openingHours) {
   return productSchedule;
 }
 
-// Structure:
-// One line: Current status, closes/opens next, see all hours overlay link
 export default function decorate(block) {
   const printedSchedule = {};
   const productOpenSchedule = {
@@ -143,10 +139,22 @@ export default function decorate(block) {
 
   let dateToCheck;
   // dateToCheck = new Date(2023, 3, 4, 22, 35);
-  // dateToCheck = new Date(2023, 3, 4, 1, 0); Tuesday, 1AM
+  dateToCheck = new Date(2023, 3, 4, 1, 0); // Tuesday, 1AM
   // dateToCheck = new Date(2023, 3, 5, 3, 59);// Wednesday 1AM
+  // dateToCheck = new Date(2023, 3, 2, 22, 31);// Sunday 1AM
   console.log("Checking opening for date: ", dateToCheck);
 
   const isOpen = isVentureOpen(productOpenSchedule, dateToCheck);
-  console.log("Venture is open: ", isOpen);
+  console.log("Venture open: ", isOpen);
+
+  let openingStatusText;
+  let nextStatusChangeTime;
+  if(isOpen){
+    openingStatusText = OPEN_TXT;
+    nextStatusChangeTime = getNextClosing(productOpenSchedule, dateToCheck);
+  } else {
+    openingStatusText = CLOSED_TXT;
+    nextStatusChangeTime = getNextOpening(productOpenSchedule, dateToCheck);
+    console.log("Next opening is at ", nextStatusChangeTime);
+  }
 }

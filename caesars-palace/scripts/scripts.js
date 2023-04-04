@@ -27,44 +27,78 @@ const DAYS_LOOKUP = [
   'Saturday'
 ];
 
+export function getNextOpening(openingSchedule, dateToCheck) {
+}
+
 /**
- * Uses an opening schedule to determine if a venture is currently open
- * @param {*} openingSchedule Opening schedule for the week
- * @param {*} closedText "Closed" marked in opening schedule
- * @returns true if open, false otherwise
+ * Gets next closing hour of a venture, based on an opening schedule
+ * @param {*} openingSchedule The opening schedule to use
+ * @param {*} dateToCheck Datetime to use to find next closing time
+ * Precondition: `dateToCheck` must be in a current open time
+ * @returns An object describing the next closing time
  */
-export function isVentureOpen(openingSchedule, dateToCheck) {
+export function getNextClosing(openingSchedule, dateToCheck) {
   const day = DAYS_LOOKUP[dateToCheck.getDay()];
-
   const scheduleToUse = openingSchedule[day];
-  console.log("Using schedule: ", scheduleToUse);
-
-  if(!scheduleToUse || !scheduleToUse.opens || scheduleToUse.opens.length === 0){
-    console.log("No opening schedule, so considered closed");
-    return false;
-  }
-
-  console.log("Looking at opening schedule for day ", day);
 
   let hourToCheck = dateToCheck.getHours();
   let minuteToCheck = dateToCheck.getMinutes();
 
-  let isOpen = false;
+  let closingHoursCandidate;
   scheduleToUse.opens.forEach((openingHours) => {
-    console.log("openingHours.start.hours: ", openingHours.start.hours);
-    console.log("openingHours.end.hours: ", openingHours.end.hours);
-    console.log("hourToCheck: ", hourToCheck);
+    if (hourToCheck > openingHours.start.hours && hourToCheck < openingHours.end.hours) {
+      closingHoursCandidate = openingHours.end;
+    } else if (hourToCheck === openingHours.start.hours
+      && minuteToCheck >= openingHours.start.minutes) {
+      closingHoursCandidate = openingHours.end;
+    } else if (hourToCheck === openingHours.end.hours
+      && minuteToCheck <= openingHours.end.minutes) {
+      closingHoursCandidate = openingHours.end;
+    }
+  });
 
-    if(hourToCheck > openingHours.start.hours && hourToCheck < openingHours.end.hours){
+  let closingHour = closingHoursCandidate;
+  if (closingHour.hours === 24 && closingHour.minutes === 0) {
+    // check if we have a continuous next day "late hours opening"
+    const nextDay = DAYS_LOOKUP[(dateToCheck.getDay() + 1) % 7];
+    const nextDaySchedule = openingSchedule[nextDay];
+    nextDaySchedule.opens.forEach((openingHours) => {
+      if (openingHours.start.hours === 0 && openingHours.start.minutes === 0) {
+        closingHour = openingHours.end;
+        closingHour.isNextDay = true;
+      }
+    });
+  }
+  return closingHour;
+}
+
+/**
+ * Uses an opening schedule to determine if a venture is currently open
+ * @param {*} openingSchedule Opening schedule for the week
+ * @param {*} dateToCheck Datetime to check for opening status
+ * @returns true if open, false otherwise
+ */
+export function isVentureOpen(openingSchedule, dateToCheck) {
+  const day = DAYS_LOOKUP[dateToCheck.getDay()];
+  const scheduleToUse = openingSchedule[day];
+  // console.log("Using schedule: ", scheduleToUse);
+
+  if (!scheduleToUse || !scheduleToUse.opens || scheduleToUse.opens.length === 0) {
+    return false;
+  }
+
+  let isOpen = false;
+  let hourToCheck = dateToCheck.getHours();
+  let minuteToCheck = dateToCheck.getMinutes();
+  scheduleToUse.opens.forEach((openingHours) => {
+    if (hourToCheck > openingHours.start.hours && hourToCheck < openingHours.end.hours) {
       isOpen = true;
-    } else if(hourToCheck === openingHours.start.hours){
-      if(minuteToCheck >= openingHours.start.minutes){
-        isOpen = true;
-      }
-    } else if (hourToCheck === openingHours.end.hours){
-      if(minuteToCheck <= openingHours.end.minutes){
-        isOpen = true;
-      }
+    } else if (hourToCheck === openingHours.start.hours
+      && minuteToCheck >= openingHours.start.minutes) {
+      isOpen = true;
+    } else if (hourToCheck === openingHours.end.hours
+      && minuteToCheck <= openingHours.end.minutes) {
+      isOpen = true;
     }
   });
 
