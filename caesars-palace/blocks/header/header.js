@@ -1,6 +1,9 @@
 import { getMetadata, decorateIcons } from '../../scripts/lib-franklin.js';
 
 const screenConfig = Object.freeze({
+  tablet: {
+    media: window.matchMedia('(max-width: 1169px)'),
+  },
   smallDesktop: {
     media: window.matchMedia('(min-width: 1170px) and (max-width: 1439px'),
     maxItems: 7,
@@ -347,6 +350,25 @@ export default async function decorate(block) {
     } else if (screenConfig.smallDesktop.media.matches) {
       showMore(nav, screenConfig.smallDesktop.maxItems);
     }
+
+    const handleTabletScreenChange = (query) => {
+      if (query.matches) {
+        const ul = nav.querySelector('.nav-sections > .local-nav > ul');
+        const more = nav.querySelector('.more');
+        const dropdownMenu = nav.querySelector('.dropdown-menu');
+        if (more && dropdownMenu) {
+          [...dropdownMenu.children].forEach((item) => {
+            item.firstChild.classList.remove('menu-item');
+            const li = document.createElement('li');
+            li.appendChild(item.firstChild);
+            ul.appendChild(li);
+          });
+          ul.removeChild(more);
+        }
+      }
+    };
+    handleTabletScreenChange(screenConfig.tablet.media);
+    screenConfig.tablet.media.addEventListener('change', handleTabletScreenChange);
 
     const handleScreenChange = (query) => {
       if (query.matches) {
