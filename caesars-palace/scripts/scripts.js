@@ -33,45 +33,42 @@ const DAYS_LOOKUP = [
  * @param {*} closedText "Closed" marked in opening schedule
  * @returns true if open, false otherwise
  */
-export function isVentureOpen(openingSchedule, dateToCheck, closedText='CLOSED') {
-  const nowDate = dateToCheck;
-  const day = DAYS_LOOKUP[nowDate.getDay()];
+export function isVentureOpen(openingSchedule, dateToCheck) {
+  const day = DAYS_LOOKUP[dateToCheck.getDay()];
 
-  const todayOpeningHours = openingSchedule[day];
-  if (todayOpeningHours === closedText) {
+  const scheduleToUse = openingSchedule[day];
+  console.log("Using schedule: ", scheduleToUse);
+
+  if(!scheduleToUse || !scheduleToUse.opens || scheduleToUse.opens.length === 0){
+    console.log("No opening schedule, so considered closed");
     return false;
   }
 
-  // Build interval dates to check opening horus
-  const openTime = new Date(
-    nowDate.getFullYear(),
-    nowDate.getMonth(),
-    nowDate.getDate(), /* confusing, but this is the day of the month */
-    todayOpeningHours.opens.hours,
-    todayOpeningHours.opens.minutes);
+  console.log("Looking at opening schedule for day ", day);
 
-  let closeTime = new Date(
-    nowDate.getFullYear(),
-    nowDate.getMonth(),
-    nowDate.getDate(),
-    todayOpeningHours.closes.hours,
-    todayOpeningHours.closes.minutes);
-
-  if (todayOpeningHours.opens.hours > todayOpeningHours.closes.hours) {
-    // opening interval goes over to next day
-    closeTime.setDate(closeTime.getDate() + 1);
-  }
-
-  console.log(nowDate.getDay())
-  console.log("Checked date is: ", nowDate);
-  console.log("Close time: ", closeTime);
-  console.log("Open time: ", openTime);
+  let hourToCheck = dateToCheck.getHours();
+  let minuteToCheck = dateToCheck.getMinutes();
 
   let isOpen = false;
-  if(nowDate >= openTime && nowDate <= closeTime) {
-    isOpen = true;
-  }
-  return isOpen;
+  scheduleToUse.opens.forEach((openingHours) => {
+    console.log("openingHours.start.hours: ", openingHours.start.hours);
+    console.log("openingHours.end.hours: ", openingHours.end.hours);
+    console.log("hourToCheck: ", hourToCheck);
+
+    if(hourToCheck > openingHours.start.hours && hourToCheck < openingHours.end.hours){
+      isOpen = true;
+    } else if(hourToCheck === openingHours.start.hours){
+      if(minuteToCheck >= openingHours.start.minutes){
+        isOpen = true;
+      }
+    } else if (hourToCheck === openingHours.end.hours){
+      if(minuteToCheck <= openingHours.end.minutes){
+        isOpen = true;
+      }
+    }
+  });
+
+  return isOpen || false;
 }
 
 /**
