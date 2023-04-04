@@ -4,6 +4,7 @@ const CLOSED_TXT = 'CLOSED';
 const OPEN_TXT = 'NOW OPEN';
 const NEXT_OPEN_TXT = 'Opens';
 const NEXT_CLOSE_TXT = 'Closes';
+const ALL_HOURS_TXT = 'See all hours';
 
 const DAYS_REVERSE_LOOKUP = {
   'Sunday': 0,
@@ -132,29 +133,50 @@ export default function decorate(block) {
   [...block.children].forEach((row) => {
     printedSchedule[row.children[0].innerText] = row.children[1].innerText;
     updateOpeningSchedule(productOpenSchedule, row.children[0].innerText, row.children[1].innerText);
+    row.remove();
   });
 
   console.log("Printed schedule is: ", printedSchedule);
   console.log("Opening schedule is: ", productOpenSchedule);
 
   let dateToCheck = new Date();
-  // dateToCheck = new Date(2023, 3, 4, 22, 35);
-  // dateToCheck = new Date(2023, 3, 4, 1, 0); // Tuesday, 1AM
-  // dateToCheck = new Date(2023, 3, 5, 3, 59);// Wednesday 1AM
-  // dateToCheck = new Date(2023, 3, 2, 22, 31);// Sunday
-  // dateToCheck = new Date(2023, 3, 2, 6, 0);// Sunday 6AM
-  // dateToCheck = new Date(2023, 3, 5, 17, 0);// Wednesday 5PM
   console.log("Checking opening for date: ", dateToCheck);
-
   const isOpen = isVentureOpen(productOpenSchedule, dateToCheck);
-
   let openingStatusText;
   let nextStatusChangeTime;
+  let nextStatusChangeTimeText;
   if(isOpen){
     openingStatusText = OPEN_TXT;
     nextStatusChangeTime = getNextClosing(productOpenSchedule, dateToCheck);
+    if(nextStatusChangeTime){
+      nextStatusChangeTimeText = `${NEXT_CLOSE_TXT} ${nextStatusChangeTime.hours % 12}:${nextStatusChangeTime.minutes} ${nextStatusChangeTime.halfdayMarker}`;
+    }
   } else {
     openingStatusText = CLOSED_TXT;
     nextStatusChangeTime = getNextOpening(productOpenSchedule, dateToCheck);
+    if(nextStatusChangeTime){
+      nextStatusChangeTimeText = `${NEXT_OPEN_TXT} ${nextStatusChangeTime.hours % 12}:${nextStatusChangeTime.minutes} ${nextStatusChangeTime.halfdayMarker}`;
+    }
   }
+
+  console.log("Opening text: ", openingStatusText);
+
+  const statusDiv = document.createElement('div');
+  const statusTextNode = document.createElement('span');
+  statusTextNode.innerText = openingStatusText;
+  const nextStatusChangeNode = document.createElement('span');
+  nextStatusChangeNode.innerText = nextStatusChangeTimeText;
+  const allHours = document.createElement('a');
+  allHours.href = '#';
+  allHours.title = ALL_HOURS_TXT;
+  allHours.text = ALL_HOURS_TXT;
+
+  statusDiv.classList.add('quick-facts-hours-container');
+  statusTextNode.classList.add('hours-status');
+  nextStatusChangeNode.classList.add('next-status-change');
+
+  statusDiv.append(statusTextNode);
+  statusDiv.append(nextStatusChangeNode);
+  statusDiv.append(allHours);
+  block.append(statusDiv);
 }

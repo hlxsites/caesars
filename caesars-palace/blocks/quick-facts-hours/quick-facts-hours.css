@@ -1,3 +1,23 @@
 .quick-facts-hours.block {
-  display: none;
+  display: flex;
+  justify-content: center;
+}
+
+.quick-facts-hours.block .quick-facts-hours-container {
+  display: flex;
+  background:rgba(255,255,255,0.1);
+  border-radius: 4px;
+  height: 50px;
+}
+
+.quick-facts-hours.block .hours-status {
+  border: 3px solid red;
+}
+
+.quick-facts-hours.block .next-status-change {
+  border: 3px solid yellow;
+}
+
+.quick-facts-hours.block .quick-facts-hours-container a {
+  color: white;
 }
