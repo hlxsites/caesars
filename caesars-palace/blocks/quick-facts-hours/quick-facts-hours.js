@@ -7,13 +7,13 @@ const NEXT_CLOSE_TXT = 'Closes';
 const ALL_HOURS_TXT = 'See all hours';
 
 const DAYS_REVERSE_LOOKUP = {
-  'Sunday': 0,
-  'Monday': 1,
-  'Tuesday': 2,
-  'Wednesday': 3,
-  'Thursday': 4,
-  'Friday': 5,
-  'Saturday': 6
+  Sunday: 0,
+  Monday: 1,
+  Tuesday: 2,
+  Wednesday: 3,
+  Thursday: 4,
+  Friday: 5,
+  Saturday: 6,
 };
 const DAYS_LOOKUP = [
   'Sunday',
@@ -22,7 +22,7 @@ const DAYS_LOOKUP = [
   'Wednesday',
   'Thursday',
   'Friday',
-  'Saturday'
+  'Saturday',
 ];
 
 /**
@@ -38,18 +38,19 @@ function convertHoursTo24HoursFormat(textualHours) {
       hours: parseInt(hourMinutes[0], 10),
       minutes: hourMinutes[1] ? parseInt(hourMinutes[1], 10) : 0,
       halfdayMarker: 'AM',
-    }
+    };
   }
 
   if (textualHours.endsWith('PM')) {
-    let hours = textualHours.replace('PM', '');
+    const hours = textualHours.replace('PM', '');
     const hourMinutes = hours.split(':');
     return {
       hours: 12 + parseInt(hourMinutes[0], 10),
       minutes: hourMinutes[1] ? parseInt(hourMinutes[1], 10) : 0,
       halfdayMarker: 'PM',
-    }
+    };
   }
+  return textualHours;
 }
 
 /**
@@ -69,26 +70,26 @@ function updateOpeningSchedule(productSchedule, dayOfSchedule, openingHours) {
 
   const opens = convertHoursTo24HoursFormat(openedHours[0]);
   const closes = convertHoursTo24HoursFormat(openedHours[1]);
-  const midnightEnd ={
+  const midnightEnd = {
     fullText: '',
     hours: 24,
     minutes: 0,
   };
 
-  const midnightStart ={
+  const midnightStart = {
     fullText: '',
     hours: 0,
     minutes: 0,
   };
 
-  if(opens.halfdayMarker === 'PM' && closes.halfdayMarker === 'AM'){
+  if (opens.halfdayMarker === 'PM' && closes.halfdayMarker === 'AM') {
     // needs to go to next day, as it closes the next day ~ has late hours
     const targetDayIndex = (DAYS_REVERSE_LOOKUP[dayOfSchedule] + 1) % 7;
     const targetDay = DAYS_LOOKUP[targetDayIndex];
 
     productSchedule[dayOfSchedule].opens.push({
       start: opens,
-      end: midnightEnd
+      end: midnightEnd,
     });
     productSchedule[targetDay].opens.push({
       start: midnightStart,
@@ -107,62 +108,60 @@ function updateOpeningSchedule(productSchedule, dayOfSchedule, openingHours) {
 export default function decorate(block) {
   const printedSchedule = {};
   const productOpenSchedule = {
-    'Sunday': {
+    Sunday: {
       opens: [],
     },
-    'Monday': {
+    Monday: {
       opens: [],
     },
-    'Tuesday': {
+    Tuesday: {
       opens: [],
     },
-    'Wednesday': {
+    Wednesday: {
       opens: [],
     },
-    'Thursday': {
+    Thursday: {
       opens: [],
     },
-    'Friday': {
+    Friday: {
       opens: [],
     },
-    'Saturday': {
+    Saturday: {
       opens: [],
-    }
+    },
   };
 
   [...block.children].forEach((row) => {
     printedSchedule[row.children[0].innerText] = row.children[1].innerText;
-    updateOpeningSchedule(productOpenSchedule, row.children[0].innerText, row.children[1].innerText);
+    updateOpeningSchedule(
+      productOpenSchedule,
+      row.children[0].innerText,
+      row.children[1].innerText,
+    );
     row.remove();
   });
 
-  console.log("Printed schedule is: ", printedSchedule);
-  console.log("Opening schedule is: ", productOpenSchedule);
-
-  let dateToCheck = new Date();
-  console.log("Checking opening for date: ", dateToCheck);
+  const dateToCheck = new Date();
   const isOpen = isVentureOpen(productOpenSchedule, dateToCheck);
   let openingStatusText;
   let nextStatusChangeTime;
   let nextStatusChangeTimeText;
   let statusIconClass;
-  if(isOpen){
+  if (isOpen) {
     openingStatusText = OPEN_TXT;
     statusIconClass = 'status-open';
     nextStatusChangeTime = getNextClosing(productOpenSchedule, dateToCheck);
-    if(nextStatusChangeTime){
+    if (nextStatusChangeTime) {
       nextStatusChangeTimeText = `${NEXT_CLOSE_TXT} ${nextStatusChangeTime.hours % 12}:${nextStatusChangeTime.minutes} ${nextStatusChangeTime.halfdayMarker}`;
     }
   } else {
     openingStatusText = CLOSED_TXT;
     statusIconClass = 'status-closed';
     nextStatusChangeTime = getNextOpening(productOpenSchedule, dateToCheck);
-    if(nextStatusChangeTime){
+    if (nextStatusChangeTime) {
       nextStatusChangeTimeText = `${NEXT_OPEN_TXT} ${nextStatusChangeTime.hours % 12}:${nextStatusChangeTime.minutes} ${nextStatusChangeTime.halfdayMarker}`;
     }
   }
-
-  console.log("Opening text: ", openingStatusText);
 
   const statusDiv = document.createElement('div');
   const statusIconNode = document.createElement('span');

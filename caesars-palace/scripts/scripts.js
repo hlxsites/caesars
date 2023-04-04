@@ -24,7 +24,7 @@ const DAYS_LOOKUP = [
   'Wednesday',
   'Thursday',
   'Friday',
-  'Saturday'
+  'Saturday',
 ];
 
 /**
@@ -39,15 +39,13 @@ export function getNextOpening(openingSchedule, dateToCheck, allowGoingToNextDay
   const scheduleToUse = openingSchedule[day];
 
   let openingHourCandidate;
-  let hourToCheck = dateToCheck.getHours();
-  let minuteToCheck = dateToCheck.getMinutes();
+  const hourToCheck = dateToCheck.getHours();
+  const minuteToCheck = dateToCheck.getMinutes();
   if (scheduleToUse.opens.length > 1) {
-    let hourToCheck = dateToCheck.getHours();
-    let minuteToCheck = dateToCheck.getMinutes();
     let openingDistance = Number.POSITIVE_INFINITY;
     scheduleToUse.opens.forEach((openingHourOption) => {
       if (hourToCheck <= openingHourOption.start.hours) {
-        let currentOpeningDistance = (openingHourOption.start.hours - hourToCheck) * 60;
+        const currentOpeningDistance = (openingHourOption.start.hours - hourToCheck) * 60;
         if (currentOpeningDistance < openingDistance) {
           openingHourCandidate = openingHourOption.start;
           openingDistance = currentOpeningDistance;
@@ -55,7 +53,7 @@ export function getNextOpening(openingSchedule, dateToCheck, allowGoingToNextDay
       } else if (hourToCheck === openingHourOption.start.hours) {
         // same hour, depends on minutes
         if (openingHourOption.start.minutes >= minuteToCheck) {
-          let currentOpeningDistance = openingHourOption.start.minutes - minuteToCheck;
+          const currentOpeningDistance = openingHourOption.start.minutes - minuteToCheck;
           if (currentOpeningDistance < openingDistance) {
             openingHourCandidate = openingHourOption.start;
             openingDistance = currentOpeningDistance;
@@ -69,17 +67,17 @@ export function getNextOpening(openingSchedule, dateToCheck, allowGoingToNextDay
     } else if (scheduleToUse.opens[0].start.hours === hourToCheck) {
       if (scheduleToUse.opens[0].start.minutes > minuteToCheck) {
         openingHourCandidate = scheduleToUse.opens[0].start;
-      } else {
+      } else if (allowGoingToNextDay) {
         const nextDayDate = new Date();
-        nextDayDate.setDate(dateToCheck.getDate() + 1)
+        nextDayDate.setDate(dateToCheck.getDate() + 1);
         nextDayDate.setHours(0);
         nextDayDate.setMinutes(0);
         nextDayDate.setSeconds(0);
         openingHourCandidate = getNextOpening(openingSchedule, nextDayDate, false);
       }
-    } else {
+    } else if (allowGoingToNextDay) {
       const nextDayDate = new Date();
-      nextDayDate.setDate(dateToCheck.getDate() + 1)
+      nextDayDate.setDate(dateToCheck.getDate() + 1);
       nextDayDate.setHours(0);
       nextDayDate.setMinutes(0);
       nextDayDate.setSeconds(0);
@@ -101,8 +99,8 @@ export function getNextClosing(openingSchedule, dateToCheck) {
   const day = DAYS_LOOKUP[dateToCheck.getDay()];
   const scheduleToUse = openingSchedule[day];
 
-  let hourToCheck = dateToCheck.getHours();
-  let minuteToCheck = dateToCheck.getMinutes();
+  const hourToCheck = dateToCheck.getHours();
+  const minuteToCheck = dateToCheck.getMinutes();
 
   let closingHoursCandidate;
   scheduleToUse.opens.forEach((openingHours) => {
@@ -147,8 +145,8 @@ export function isVentureOpen(openingSchedule, dateToCheck) {
   }
 
   let isOpen = false;
-  let hourToCheck = dateToCheck.getHours();
-  let minuteToCheck = dateToCheck.getMinutes();
+  const hourToCheck = dateToCheck.getHours();
+  const minuteToCheck = dateToCheck.getMinutes();
   scheduleToUse.opens.forEach((openingHours) => {
     if (hourToCheck > openingHours.start.hours && hourToCheck < openingHours.end.hours) {
       isOpen = true;
