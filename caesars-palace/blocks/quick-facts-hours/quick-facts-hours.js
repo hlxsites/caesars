@@ -62,7 +62,4 @@ export default function decorate(block) {
 
   const isOpen = isVentureOpen(productSchedule, new Date(Date.now()));
   console.log("Venture is open: ", isOpen);
-
-  let dateToCheck = new Date(2023, 3, 5, 9, 22);
-  console.log(dateToCheck);
 }

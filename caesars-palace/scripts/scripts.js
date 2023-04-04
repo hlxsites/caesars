@@ -63,7 +63,7 @@ export function isVentureOpen(openingSchedule, dateToCheck, closedText='CLOSED')
   }
 
   console.log(nowDate.getDay())
-  console.log("Current date is: ", nowDate);
+  console.log("Checked date is: ", nowDate);
   console.log("Close time: ", closeTime);
   console.log("Open time: ", openTime);
 

@@ -53,7 +53,7 @@ describe('Quickfacts time calculations', () => {
     lib = await import('../../caesars-palace/scripts/lib-franklin.js');
   });
 
-  it('identifies a venture is closed based on an opening schedule, when date is clearly out of opening interval', async () => {
+  it('identifies that a venture is closed based on an opening schedule, when checked date is clearly out of opening interval', async () => {
     const initialSchedule = {
       "Sunday": { "opens": { "fullText": "10:30PM", "hours": 22, "minutes": 30 }, "closes": { "fullText": "4AM", "hours": 4, "minutes": 0 } },
       "Monday": "CLOSED",
@@ -100,7 +100,7 @@ describe('Quickfacts time calculations', () => {
     expect(isOpen).to.equal(false);
   });
 
-  it('identifies a venture is open based on an opening schedule, when date is clearly in the opening interval in the same calendar day', async () => {
+  it('identifies that a venture is open based on an opening schedule, when checked date is clearly in the opening interval', async () => {
     const initialSchedule = {
       "Sunday": { "opens": { "fullText": "10:30PM", "hours": 22, "minutes": 30 }, "closes": { "fullText": "4AM", "hours": 4, "minutes": 0 } },
       "Monday": "CLOSED",
@@ -112,7 +112,7 @@ describe('Quickfacts time calculations', () => {
     };
 
     // Tuesday
-    let dateToCheck = new Date(2023, 3, 4, 23, 0);
+    let dateToCheck = new Date(2023, 3, 4, 22, 31);
     let isOpen = scripts.isVentureOpen(initialSchedule, dateToCheck, "CLOSED");
     expect(isOpen).to.equal(true);
 
@@ -122,17 +122,17 @@ describe('Quickfacts time calculations', () => {
     expect(isOpen).to.equal(true);
 
     // Friday
-    dateToCheck = new Date(2023, 3, 7, 23, 54);
+    dateToCheck = new Date(2023, 3, 7, 23, 0);
     isOpen = scripts.isVentureOpen(initialSchedule, dateToCheck, "CLOSED");
     expect(isOpen).to.equal(true);
 
     // Saturday
-    dateToCheck = new Date(2023, 3, 8, 23, 59);
+    dateToCheck = new Date(2023, 3, 8, 23, 10);
     isOpen = scripts.isVentureOpen(initialSchedule, dateToCheck, "CLOSED");
     expect(isOpen).to.equal(true);
 
     // Sunday
-    dateToCheck = new Date(2023, 3, 9, 22, 31);
+    dateToCheck = new Date(2023, 3, 9, 23, 59);
     isOpen = scripts.isVentureOpen(initialSchedule, dateToCheck, "CLOSED");
     expect(isOpen).to.equal(true);
   });
