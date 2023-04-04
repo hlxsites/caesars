@@ -137,13 +137,13 @@ export default function decorate(block) {
   console.log("Printed schedule is: ", printedSchedule);
   console.log("Opening schedule is: ", productOpenSchedule);
 
-  let dateToCheck;
+  let dateToCheck = new Date();
   // dateToCheck = new Date(2023, 3, 4, 22, 35);
   // dateToCheck = new Date(2023, 3, 4, 1, 0); // Tuesday, 1AM
   // dateToCheck = new Date(2023, 3, 5, 3, 59);// Wednesday 1AM
   // dateToCheck = new Date(2023, 3, 2, 22, 31);// Sunday
   // dateToCheck = new Date(2023, 3, 2, 6, 0);// Sunday 6AM
-  dateToCheck = new Date(2023, 3, 5, 17, 0);// Wednesday 5PM
+  // dateToCheck = new Date(2023, 3, 5, 17, 0);// Wednesday 5PM
   console.log("Checking opening for date: ", dateToCheck);
 
   const isOpen = isVentureOpen(productOpenSchedule, dateToCheck);
