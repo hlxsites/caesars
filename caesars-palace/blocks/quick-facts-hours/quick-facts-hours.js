@@ -145,14 +145,17 @@ export default function decorate(block) {
   let openingStatusText;
   let nextStatusChangeTime;
   let nextStatusChangeTimeText;
+  let statusIconClass;
   if(isOpen){
     openingStatusText = OPEN_TXT;
+    statusIconClass = 'status-open';
     nextStatusChangeTime = getNextClosing(productOpenSchedule, dateToCheck);
     if(nextStatusChangeTime){
       nextStatusChangeTimeText = `${NEXT_CLOSE_TXT} ${nextStatusChangeTime.hours % 12}:${nextStatusChangeTime.minutes} ${nextStatusChangeTime.halfdayMarker}`;
     }
   } else {
     openingStatusText = CLOSED_TXT;
+    statusIconClass = 'status-closed';
     nextStatusChangeTime = getNextOpening(productOpenSchedule, dateToCheck);
     if(nextStatusChangeTime){
       nextStatusChangeTimeText = `${NEXT_OPEN_TXT} ${nextStatusChangeTime.hours % 12}:${nextStatusChangeTime.minutes} ${nextStatusChangeTime.halfdayMarker}`;
@@ -162,19 +165,22 @@ export default function decorate(block) {
   console.log("Opening text: ", openingStatusText);
 
   const statusDiv = document.createElement('div');
+  const statusIconNode = document.createElement('span');
   const statusTextNode = document.createElement('span');
-  statusTextNode.innerText = openingStatusText;
   const nextStatusChangeNode = document.createElement('span');
+  statusTextNode.innerText = openingStatusText;
   nextStatusChangeNode.innerText = nextStatusChangeTimeText;
   const allHours = document.createElement('a');
   allHours.href = '#';
   allHours.title = ALL_HOURS_TXT;
   allHours.text = ALL_HOURS_TXT;
 
+  statusIconNode.classList.add(statusIconClass);
   statusDiv.classList.add('quick-facts-hours-container');
   statusTextNode.classList.add('hours-status');
   nextStatusChangeNode.classList.add('next-status-change');
 
+  statusDiv.append(statusIconNode);
   statusDiv.append(statusTextNode);
   statusDiv.append(nextStatusChangeNode);
   statusDiv.append(allHours);
