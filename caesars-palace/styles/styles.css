@@ -443,11 +443,6 @@ main .section.is-hero.left-aligned h1 {
   margin-left: 20%;
 }
 
-main .section.is-hero.right-aligned h1 {
-  text-align: right;
-  margin-right: 20%;
-}
-
 main .section.is-hero h4 {
   font-style: normal;
   text-align: center;
@@ -465,6 +460,7 @@ main .section.is-hero.left-aligned h4 {
   padding-bottom: unset;
 }
 
+main .section.is-hero.right-aligned h1,
 main .section.is-hero.right-aligned h4 {
   text-align: right;
   margin-right: 20%;
