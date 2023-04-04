@@ -100,7 +100,7 @@ describe('Quickfacts time calculations', () => {
     expect(isOpen).to.equal(false);
   });
 
-  it('identifies that a venture is open based on an opening schedule, when checked date is clearly in the opening interval', async () => {
+  it('identifies that a venture is open based on an opening schedule, when checked date is clearly in the opening interval before midnight', async () => {
     const initialSchedule = {
       "Sunday": { "opens": { "fullText": "10:30PM", "hours": 22, "minutes": 30 }, "closes": { "fullText": "4AM", "hours": 4, "minutes": 0 } },
       "Monday": "CLOSED",
