@@ -27,7 +27,67 @@ const DAYS_LOOKUP = [
   'Saturday'
 ];
 
-export function getNextOpening(openingSchedule, dateToCheck) {
+/**
+ * Gets next closing hour of a venture, based on an opening schedule
+ * @param {*} openingSchedule The opening schedule to use
+ * @param {*} dateToCheck Datetime to use to find next closing time
+ * Precondition: `dateToCheck` must not be in a current open time
+ * @returns An object describing the next closing time
+ */
+export function getNextOpening(openingSchedule, dateToCheck, allowGoingToNextDay = true) {
+  const day = DAYS_LOOKUP[dateToCheck.getDay()];
+  const scheduleToUse = openingSchedule[day];
+
+  let openingHourCandidate;
+  let hourToCheck = dateToCheck.getHours();
+  let minuteToCheck = dateToCheck.getMinutes();
+  if (scheduleToUse.opens.length > 1) {
+    let hourToCheck = dateToCheck.getHours();
+    let minuteToCheck = dateToCheck.getMinutes();
+    let openingDistance = Number.POSITIVE_INFINITY;
+    scheduleToUse.opens.forEach((openingHourOption) => {
+      if (hourToCheck <= openingHourOption.start.hours) {
+        let currentOpeningDistance = (openingHourOption.start.hours - hourToCheck) * 60;
+        if (currentOpeningDistance < openingDistance) {
+          openingHourCandidate = openingHourOption.start;
+          openingDistance = currentOpeningDistance;
+        }
+      } else if (hourToCheck === openingHourOption.start.hours) {
+        // same hour, depends on minutes
+        if (openingHourOption.start.minutes >= minuteToCheck) {
+          let currentOpeningDistance = openingHourOption.start.minutes - minuteToCheck;
+          if (currentOpeningDistance < openingDistance) {
+            openingHourCandidate = openingHourOption.start;
+            openingDistance = currentOpeningDistance;
+          }
+        }
+      }
+    });
+  } else if (scheduleToUse.opens.length === 1) {
+    if (scheduleToUse.opens[0].start.hours > hourToCheck) {
+      openingHourCandidate = scheduleToUse.opens[0].start;
+    } else if (scheduleToUse.opens[0].start.hours === hourToCheck) {
+      if (scheduleToUse.opens[0].start.minutes > minuteToCheck) {
+        openingHourCandidate = scheduleToUse.opens[0].start;
+      } else {
+        const nextDayDate = new Date();
+        nextDayDate.setDate(dateToCheck.getDate() + 1)
+        nextDayDate.setHours(0);
+        nextDayDate.setMinutes(0);
+        nextDayDate.setSeconds(0);
+        openingHourCandidate = getNextOpening(openingSchedule, nextDayDate, false);
+      }
+    } else {
+      const nextDayDate = new Date();
+      nextDayDate.setDate(dateToCheck.getDate() + 1)
+      nextDayDate.setHours(0);
+      nextDayDate.setMinutes(0);
+      nextDayDate.setSeconds(0);
+      openingHourCandidate = getNextOpening(openingSchedule, nextDayDate, false);
+    }
+  }
+
+  return openingHourCandidate;
 }
 
 /**
@@ -46,13 +106,12 @@ export function getNextClosing(openingSchedule, dateToCheck) {
 
   let closingHoursCandidate;
   scheduleToUse.opens.forEach((openingHours) => {
-    if (hourToCheck > openingHours.start.hours && hourToCheck < openingHours.end.hours) {
-      closingHoursCandidate = openingHours.end;
-    } else if (hourToCheck === openingHours.start.hours
-      && minuteToCheck >= openingHours.start.minutes) {
-      closingHoursCandidate = openingHours.end;
-    } else if (hourToCheck === openingHours.end.hours
-      && minuteToCheck <= openingHours.end.minutes) {
+    if ((hourToCheck > openingHours.start.hours
+      && hourToCheck < openingHours.end.hours)
+      || (hourToCheck === openingHours.start.hours
+        && minuteToCheck >= openingHours.start.minutes)
+      || (hourToCheck === openingHours.end.hours
+        && minuteToCheck <= openingHours.end.minutes)) {
       closingHoursCandidate = openingHours.end;
     }
   });
