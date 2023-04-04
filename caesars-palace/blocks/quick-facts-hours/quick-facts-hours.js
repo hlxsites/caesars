@@ -1,10 +1,6 @@
 import { isVentureOpen } from '../../scripts/scripts.js';
 
-const OPEN_TXT = 'OPEN';
 const CLOSED_TXT = 'CLOSED';
-const SEE_DETAILS_TXT = 'See all hours';
-const OPENS_NEXT_TXT = 'Opens ';
-const CLOSES_NEXT_TXT = 'Closes ';
 
 /**
  * 
@@ -64,6 +60,9 @@ export default function decorate(block) {
     productSchedule[row.children[0].innerText] = parseOpeningHours(row.children[1].innerText);
   });
 
-  const openingStatus = isVentureOpen(productSchedule);
-  console.log("opening status based on browser time: ", openingStatus);
+  const isOpen = isVentureOpen(productSchedule, new Date(Date.now()));
+  console.log("Venture is open: ", isOpen);
+
+  let dateToCheck = new Date(2023, 3, 5, 9, 22);
+  console.log(dateToCheck);
 }

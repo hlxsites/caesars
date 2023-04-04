@@ -33,8 +33,8 @@ const DAYS_LOOKUP = [
  * @param {*} closedText "Closed" marked in opening schedule
  * @returns true if open, false otherwise
  */
-export function isVentureOpen(openingSchedule, closedText='CLOSED') {
-  const nowDate = new Date(Date.now());
+export function isVentureOpen(openingSchedule, dateToCheck, closedText='CLOSED') {
+  const nowDate = dateToCheck;
   const day = DAYS_LOOKUP[nowDate.getDay()];
 
   const todayOpeningHours = openingSchedule[day];
@@ -42,7 +42,7 @@ export function isVentureOpen(openingSchedule, closedText='CLOSED') {
     return false;
   }
 
-  // Build interval dates
+  // Build interval dates to check opening horus
   const openTime = new Date(
     nowDate.getFullYear(),
     nowDate.getMonth(),
@@ -66,6 +66,12 @@ export function isVentureOpen(openingSchedule, closedText='CLOSED') {
   console.log("Current date is: ", nowDate);
   console.log("Close time: ", closeTime);
   console.log("Open time: ", openTime);
+
+  let isOpen = false;
+  if(nowDate >= openTime && nowDate <= closeTime) {
+    isOpen = true;
+  }
+  return isOpen;
 }
 
 /**
