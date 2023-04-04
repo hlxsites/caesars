@@ -17,6 +17,57 @@ import {
 const LCP_BLOCKS = []; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'caesars-palace'; // add your RUM generation information here
 
+const DAYS_LOOKUP = [
+  'Sunday',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday'
+];
+
+/**
+ * Uses an opening schedule to determine if a venture is currently open
+ * @param {*} openingSchedule Opening schedule for the week
+ * @param {*} closedText "Closed" marked in opening schedule
+ * @returns true if open, false otherwise
+ */
+export function isVentureOpen(openingSchedule, closedText='CLOSED') {
+  const nowDate = new Date(Date.now());
+  const day = DAYS_LOOKUP[nowDate.getDay()];
+
+  const todayOpeningHours = openingSchedule[day];
+  if (todayOpeningHours === closedText) {
+    return false;
+  }
+
+  // Build interval dates
+  const openTime = new Date(
+    nowDate.getFullYear(),
+    nowDate.getMonth(),
+    nowDate.getDate(), /* confusing, but this is the day of the month */
+    todayOpeningHours.opens.hours,
+    todayOpeningHours.opens.minutes);
+
+  let closeTime = new Date(
+    nowDate.getFullYear(),
+    nowDate.getMonth(),
+    nowDate.getDate(),
+    todayOpeningHours.closes.hours,
+    todayOpeningHours.closes.minutes);
+
+  if (todayOpeningHours.opens.hours > todayOpeningHours.closes.hours) {
+    // opening interval goes over to next day
+    closeTime.setDate(closeTime.getDate() + 1);
+  }
+
+  console.log(nowDate.getDay())
+  console.log("Current date is: ", nowDate);
+  console.log("Close time: ", closeTime);
+  console.log("Open time: ", openTime);
+}
+
 /**
  * Build the preview of a text with ellipsis
  * @param {String} text Text that will be shortened
