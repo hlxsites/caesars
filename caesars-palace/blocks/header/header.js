@@ -1,7 +1,15 @@
 import { getMetadata, decorateIcons } from '../../scripts/lib-franklin.js';
 
-const smallDesktop = { isDesktop: window.matchMedia('(min-width: 1170px) and (max-width: 1439px'), maxItems: 7 };
-const largeDesktop = { isLargeDesktop: window.matchMedia('(min-width: 1440px)'), maxItems: 9 };
+const screenConfig = Object.freeze({
+  smallDesktop: {
+    media: window.matchMedia('(min-width: 1170px) and (max-width: 1439px'),
+    maxItems: 7,
+  },
+  largeDesktop: {
+    media: window.matchMedia('(min-width: 1440px)'),
+    maxItems: 9,
+  },
+});
 const CAESARS_DOT_COM = 'https://www.caesars.com';
 const GLOBAL_HEADER_JSON = '/content/empire/en/jcr:content/root/header.model.json';
 const GLOBAL_HEADER_JSON_LOCAL = '/caesars-palace/scripts/resources/header.model.json';
@@ -39,11 +47,11 @@ function closeOnEscape(e) {
     const nav = document.getElementById('nav');
     const navSections = nav.querySelector('.nav-sections');
     const navSectionExpanded = navSections.querySelector('[aria-expanded="true"]');
-    if (navSectionExpanded && smallDesktop.isDesktop.matches) {
+    if (navSectionExpanded && screenConfig.smallDesktop.media.matches) {
       // eslint-disable-next-line no-use-before-define
       toggleAllNavSections(navSections);
       navSectionExpanded.focus();
-    } else if (!smallDesktop.isDesktop.matches) {
+    } else if (!screenConfig.smallDesktop.media.matches) {
       // eslint-disable-next-line no-use-before-define
       toggleMenu(nav, navSections);
       nav.querySelector('button').focus();
@@ -96,13 +104,13 @@ function toggleMenu(nav, navSections, forceExpanded = null) {
   const expanded = forceExpanded !== null ? !forceExpanded : nav.getAttribute('aria-expanded') === 'true';
   const button = nav.querySelector('.nav-hamburger button');
   const globalNavSections = nav.querySelector('.nav-sections .global-nav');
-  document.body.style.overflowY = (expanded || smallDesktop.isDesktop.matches || largeDesktop.isLargeDesktop.matches) ? '' : 'hidden';
+  document.body.style.overflowY = (expanded || screenConfig.smallDesktop.media.matches || screenConfig.largeDesktop.media.matches) ? '' : 'hidden';
   nav.setAttribute('aria-expanded', expanded ? 'false' : 'true');
-  toggleAllNavSections(navSections, expanded || smallDesktop.isDesktop.matches || largeDesktop.isLargeDesktop.matches ? 'false' : 'true');
+  toggleAllNavSections(navSections, expanded || screenConfig.smallDesktop.media.matches || screenConfig.largeDesktop.media.matches ? 'false' : 'true');
   button.setAttribute('aria-label', expanded ? 'Open navigation' : 'Close navigation');
   // enable nav dropdown keyboard accessibility
   const navDrops = navSections.querySelectorAll('.nav-drop');
-  if (smallDesktop.isDesktop.matches || largeDesktop.isLargeDesktop.matches) {
+  if (screenConfig.smallDesktop.media.matches || screenConfig.largeDesktop.media.matches) {
     if (globalNavSections) globalNavSections.setAttribute('aria-hidden', true);
     navDrops.forEach((drop) => {
       if (!drop.hasAttribute('tabindex')) {
@@ -120,7 +128,8 @@ function toggleMenu(nav, navSections, forceExpanded = null) {
     });
   }
   // enable menu collapse on escape keypress
-  if (!expanded || smallDesktop.isDesktop.matches || largeDesktop.isLargeDesktop.matches) {
+  if (!expanded || screenConfig.smallDesktop.media.matches
+    || screenConfig.largeDesktop.media.matches) {
     // collapse menu on escape press
     window.addEventListener('keydown', closeOnEscape);
   } else {
@@ -141,8 +150,6 @@ const showMore = (nav, maxItemsDesktop) => {
   const dropdownMenu = document.createElement('div');
   dropdownMenu.classList.add('dropdown-menu');
 
-  const dropdownItems = [];
-
   [...ul.children].forEach((child, index) => {
     if (index < maxItemsDesktop) {
       return;
@@ -151,11 +158,9 @@ const showMore = (nav, maxItemsDesktop) => {
     dropdownItem.classList.add('dropdown');
     child.firstChild.classList.add('menu-item');
     dropdownItem.appendChild(child.firstChild);
-    dropdownItems.push(dropdownItem);
+    dropdownMenu.appendChild(dropdownItem);
     ul.removeChild(child);
   });
-
-  dropdownItems.forEach((item) => dropdownMenu.appendChild(item));
 
   more.prepend(moreText);
   more.appendChild(dropdownMenu);
@@ -289,14 +294,14 @@ export default async function decorate(block) {
     nav.setAttribute('aria-expanded', 'false');
 
     // prevent mobile nav behavior on window resize
-    toggleMenu(nav, navSections, smallDesktop.isDesktop.matches);
+    toggleMenu(nav, navSections, screenConfig.smallDesktop.media.matches);
 
     // add event listeners when window width changes
-    smallDesktop.isDesktop.addEventListener('change', () => {
+    screenConfig.smallDesktop.media.addEventListener('change', () => {
       const localNavTitle = block.querySelector('.local-nav-title');
       const globalNavTitle = block.querySelector('.global-nav-title');
-      toggleMenu(nav, navSections, smallDesktop.isDesktop.matches);
-      if (smallDesktop.isDesktop.matches) {
+      toggleMenu(nav, navSections, screenConfig.smallDesktop.media.matches);
+      if (screenConfig.smallDesktop.media.matches) {
         localNavTitle.removeEventListener('click');
         globalNavTitle.removeEventListener('click');
       } else {
@@ -310,7 +315,8 @@ export default async function decorate(block) {
     // close the mobile menu when clicking anywhere outside of it
     window.addEventListener('click', (event) => {
       const expanded = nav.getAttribute('aria-expanded') === 'true';
-      if (!smallDesktop.isDesktop.matches && !largeDesktop.isLargeDesktop.matches && expanded) {
+      if (!screenConfig.smallDesktop.media.matches
+        && !screenConfig.largeDesktop.media.matches && expanded) {
         const rect = navSections.getBoundingClientRect();
         if (event.clientX > rect.right) {
           toggleMenu(nav, navSections);
@@ -336,10 +342,10 @@ export default async function decorate(block) {
     block.prepend(globalNavDesktop);
     block.append(navWrapper);
 
-    if (largeDesktop.isLargeDesktop.matches) {
-      showMore(nav, largeDesktop.maxItems);
-    } else if (smallDesktop.isDesktop.matches) {
-      showMore(nav, smallDesktop.maxItems);
+    if (screenConfig.largeDesktop.media.matches) {
+      showMore(nav, screenConfig.largeDesktop.maxItems);
+    } else if (screenConfig.smallDesktop.media.matches) {
+      showMore(nav, screenConfig.smallDesktop.maxItems);
     }
 
     const handleScreenChange = (query) => {
@@ -347,30 +353,25 @@ export default async function decorate(block) {
         nav.setAttribute('aria-expanded', 'true');
         const ul = nav.querySelector('.nav-sections > .local-nav > ul');
         const dropdownMenu = nav.querySelector('.dropdown-menu');
-        if (ul.children.length >= largeDesktop.maxItems + 1) {
+        const more = nav.querySelector('.more');
+
+        if (ul.children.length >= screenConfig.largeDesktop.maxItems + 1) {
           return;
         }
-        const itemsToAdd = [];
         [...dropdownMenu.children].forEach((menuItem, index) => {
-          if (index >= (largeDesktop.maxItems - smallDesktop.maxItems)) {
+          if (index >= (screenConfig.largeDesktop.maxItems - screenConfig.smallDesktop.maxItems)) {
             return;
           }
           dropdownMenu.removeChild(menuItem);
           menuItem.firstChild.classList.remove('menu-item');
-          itemsToAdd.push(menuItem.firstChild);
-        });
-
-        const more = nav.querySelector('.more');
-
-        [...itemsToAdd].forEach((item) => {
           const li = document.createElement('li');
-          li.appendChild(item);
+          li.appendChild(menuItem.firstChild);
           ul.insertBefore(li, more);
         });
       }
     };
-    handleScreenChange(largeDesktop.isLargeDesktop);
-    largeDesktop.isLargeDesktop.addEventListener('change', handleScreenChange);
+    handleScreenChange(screenConfig.largeDesktop.media);
+    screenConfig.largeDesktop.media.addEventListener('change', handleScreenChange);
 
     // screen change to small desktop
     const handleScreenChangeSmallDesktop = (query) => {
@@ -378,14 +379,14 @@ export default async function decorate(block) {
         const items = nav.querySelectorAll('.dropdown');
         if (items.length === 0) {
           // For screen change from tablet to small desktop
-          showMore(nav, smallDesktop.maxItems);
+          showMore(nav, screenConfig.smallDesktop.maxItems);
           return;
         }
         const ul = nav.querySelector('.nav-sections > .local-nav > ul');
         const dropdownMenu = nav.querySelector('.dropdown-menu');
         const firstElementChild = dropdownMenu.firstChild;
         [...ul.children].forEach((li, index) => {
-          if (index < smallDesktop.maxItems || li.classList.contains('more')) {
+          if (index < screenConfig.smallDesktop.maxItems || li.classList.contains('more')) {
             return;
           }
           ul.removeChild(li);
@@ -397,7 +398,7 @@ export default async function decorate(block) {
         });
       }
     };
-    handleScreenChangeSmallDesktop(smallDesktop.isDesktop);
-    smallDesktop.isDesktop.addEventListener('change', handleScreenChangeSmallDesktop);
+    handleScreenChangeSmallDesktop(screenConfig.smallDesktop.media);
+    screenConfig.smallDesktop.media.addEventListener('change', handleScreenChangeSmallDesktop);
   }
 }
