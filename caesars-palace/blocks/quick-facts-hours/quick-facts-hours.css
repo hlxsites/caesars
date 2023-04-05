@@ -79,8 +79,11 @@
   position: fixed;
   display: flex;
   flex-direction: column;
+  width: 400px;
   background-color: var(--static-color-white);
-  color: var(--static-color-black);
+  color: var(--static-color-midnight);
+  font-size: 14px;
+  line-height: 32px;
   padding-bottom: 32px;
   top: 25%;
   right: auto;
@@ -98,11 +101,16 @@
 
 /* top | right | bottom | left */
 .quick-facts-hours.block .quick-facts-modal h3 {
+  font-size: 22px;
   padding: 32px 32px 16px;
+  color: var(--static-color-midnight);
 }
 
 .quick-facts-hours.block .quick-facts-modal h4 {
+  line-height: 40px;
+  font-size: 14px;
   padding: 8px 32px;
+  color: var(--static-color-midnight);
 }
 
 .quick-facts-hours.block .quick-facts-modal-overlay-hidden,

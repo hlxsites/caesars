@@ -109,6 +109,8 @@ function updateOpeningSchedule(productSchedule, dayOfSchedule, openingHours) {
 function buildHoursModal(printedSchedule, modalOverlay) {
   if (!printedSchedule || printedSchedule.length === 0) return null;
 
+  const modalTitle = document.querySelector('.is-hero h1');
+
   const modalDiv = document.createElement('div');
   modalDiv.classList.add('quick-facts-modal');
   modalDiv.classList.add('quick-facts-modal-hidden');
@@ -139,7 +141,7 @@ function buildHoursModal(printedSchedule, modalOverlay) {
   const modalDivTitle = document.createElement('h3');
   const modalDivSubtitle = document.createElement('h4');
   modalCloseButton.classList.add('quick-facts-modal-close-button');
-  modalDivTitle.innerText = 'TODO: Get page title';
+  modalDivTitle.innerText = modalTitle.innerText;
   modalDivSubtitle.innerText = MODAL_ALL_HOURS_TXT;
   modalDiv.append(modalCloseButton, modalDivTitle, modalDivSubtitle, ...hourLines);
 
