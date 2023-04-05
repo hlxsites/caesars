@@ -119,6 +119,10 @@
   flex-direction: row;
 }
 
+.quick-facts-hours.block .quickfacts-opening-hours-line-focused {
+  font-weight: var(--emphasized-font-weight);
+}
+
 .quickfacts-opening-hours-day {
   text-align: left;
   flex-grow: 1;

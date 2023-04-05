@@ -114,6 +114,9 @@ function buildHoursModal(printedSchedule, modalOverlay) {
   modalDiv.classList.add('quick-facts-modal-hidden');
   const hourLines = new Array(printedSchedule.length);
 
+  const todayDay = new Date(Date.now()).getDay();
+  const todayDayName = DAYS_LOOKUP[todayDay];
+
   for (let i = 0; i < printedSchedule.length; i += 1) {
     const hourLine = document.createElement('div');
     const dayDiv = document.createElement('div');
@@ -124,6 +127,9 @@ function buildHoursModal(printedSchedule, modalOverlay) {
     hoursDiv.classList.add('quickfacts-opening-hours-time');
     dayDiv.innerText = printedSchedule[i].day;
     hoursDiv.innerText = printedSchedule[i].hours;
+    if(printedSchedule[i].day.toUpperCase() === todayDayName.toUpperCase()) {
+      hourLine.classList.add('quickfacts-opening-hours-line-focused');
+    }
 
     hourLine.append(dayDiv, hoursDiv);
     hourLines[i] = hourLine;
