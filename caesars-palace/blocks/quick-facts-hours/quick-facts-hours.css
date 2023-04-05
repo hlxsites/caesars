@@ -62,6 +62,7 @@
   width: 14px;
   height: 14px;
   filter: invert(100%);
+  cursor: pointer;
 }
 
 .always-open.block .quick-facts-hours-container a {

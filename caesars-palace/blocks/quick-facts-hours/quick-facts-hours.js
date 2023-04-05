@@ -297,11 +297,12 @@ export default function decorate(block) {
 
     if (modalDiv) {
       block.append(modalOverlay, modalDiv);
-
-      allHours.addEventListener('click', () => {
+      const allHoursViewHandler = () => {
         modalDiv.classList.remove('quick-facts-modal-hidden');
         modalOverlay.classList.remove('quick-facts-modal-overlay-hidden');
-      }, { passive: true });
+      };
+      allHours.addEventListener('click', allHoursViewHandler, { passive: true });
+      allHoursDecoration.addEventListener('click', allHoursViewHandler, { passive: true });
     }
   }
 }
