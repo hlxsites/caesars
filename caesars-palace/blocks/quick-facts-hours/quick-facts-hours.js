@@ -6,7 +6,6 @@ const NEXT_OPEN_TXT = 'Opens';
 const NEXT_CLOSE_TXT = 'Closes';
 const ALL_HOURS_TXT = 'See all hours';
 const MODAL_ALL_HOURS_TXT = 'Daily hours';
-
 const DAYS_REVERSE_LOOKUP = {
   Sunday: 0,
   Monday: 1,
@@ -24,6 +23,15 @@ const DAYS_LOOKUP = [
   'Thursday',
   'Friday',
   'Saturday',
+];
+const ALWAYS_OPEN_PRINT_SCHEDULE = [
+  { day: 'Sunday', hours: '12AM-12AM' },
+  { day: 'Monday', hours: '12AM-12AM' },
+  { day: 'Tuesday', hours: '12AM-12AM' },
+  { day: 'Wednesday', hours: '12AM-12AM' },
+  { day: 'Thursday', hours: '12AM-12AM' },
+  { day: 'Friday', hours: '12AM-12AM' },
+  { day: 'Saturday', hours: '12AM-12AM' },
 ];
 
 /**
@@ -129,7 +137,7 @@ function buildHoursModal(printedSchedule, modalOverlay) {
     hoursDiv.classList.add('quickfacts-opening-hours-time');
     dayDiv.innerText = printedSchedule[i].day;
     hoursDiv.innerText = printedSchedule[i].hours;
-    if(printedSchedule[i].day.toUpperCase() === todayDayName.toUpperCase()) {
+    if (printedSchedule[i].day.toUpperCase() === todayDayName.toUpperCase()) {
       hourLine.classList.add('quickfacts-opening-hours-line-focused');
     }
 
@@ -193,6 +201,11 @@ export default function decorate(block) {
       row.remove();
     });
 
+    const modalOverlay = document.createElement('div');
+    modalOverlay.classList.add('quickfacts-modal-overlay');
+    modalOverlay.classList.add('quick-facts-modal-overlay-hidden');
+    const modalDiv = buildHoursModal(ALWAYS_OPEN_PRINT_SCHEDULE, modalOverlay);
+
     const statusDiv = document.createElement('div');
     const statusIconNode = document.createElement('span');
 
@@ -207,6 +220,15 @@ export default function decorate(block) {
 
     statusDiv.append(statusIconNode, allHours);
     block.append(statusDiv);
+
+    if (modalDiv) {
+      block.append(modalOverlay, modalDiv);
+      const allHoursViewHandler = () => {
+        modalDiv.classList.remove('quick-facts-modal-hidden');
+        modalOverlay.classList.remove('quick-facts-modal-overlay-hidden');
+      };
+      statusDiv.addEventListener('click', allHoursViewHandler, { passive: true });
+    }
   } else {
     const printedSchedule = new Array(7);
     const productOpenSchedule = {
@@ -292,7 +314,13 @@ export default function decorate(block) {
     statusTextNode.classList.add('hours-status');
     nextStatusChangeNode.classList.add('next-status-change');
 
-    statusDiv.append(statusIconNode, statusTextNode, nextStatusChangeNode, allHours, allHoursDecoration);
+    statusDiv.append(
+      statusIconNode,
+      statusTextNode,
+      nextStatusChangeNode,
+      allHours,
+      allHoursDecoration,
+    );
     block.append(statusDiv);
 
     if (modalDiv) {
