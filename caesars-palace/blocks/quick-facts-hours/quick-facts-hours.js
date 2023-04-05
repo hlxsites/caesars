@@ -128,10 +128,7 @@ export default function decorate(block) {
 
     statusDiv.append(statusIconNode);
     statusDiv.append(allHours);
-
-    console.log("Appending status div")
     block.append(statusDiv);
-
   } else {
     const printedSchedule = {};
     const productOpenSchedule = {
