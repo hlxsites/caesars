@@ -53,8 +53,9 @@ function convertHoursTo24HoursFormat(textualHours) {
   if (textualHours.endsWith('PM')) {
     const hours = textualHours.replace('PM', '');
     const hourMinutes = hours.split(':');
+
     return {
-      hours: 12 + parseInt(hourMinutes[0], 10),
+      hours: 12 + parseInt((hourMinutes[0] % 12), 10),
       minutes: hourMinutes[1] ? parseInt(hourMinutes[1], 10) : 0,
       halfdayMarker: 'PM',
     };
@@ -155,6 +156,12 @@ function updateOpeningSchedule(productSchedule, dayOfSchedule, openingHours) {
   return productSchedule;
 }
 
+/**
+ * Builds the modal dialog displaying the opening hours
+ * @param {*} printedSchedule Schedule to display
+ * @param {*} modalOverlay Overlay (background) dialog node
+ * @returns A build DOM node to use as modal dialog
+ */
 function buildHoursModal(printedSchedule, modalOverlay) {
   if (!printedSchedule || printedSchedule.length === 0) return null;
 
