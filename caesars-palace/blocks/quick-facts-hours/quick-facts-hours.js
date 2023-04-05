@@ -5,6 +5,7 @@ const OPEN_TXT = 'NOW OPEN';
 const NEXT_OPEN_TXT = 'Opens';
 const NEXT_CLOSE_TXT = 'Closes';
 const ALL_HOURS_TXT = 'See all hours';
+const MODAL_ALL_HOURS_TXT = 'Daily hours';
 
 const DAYS_REVERSE_LOOKUP = {
   Sunday: 0,
@@ -105,6 +106,33 @@ function updateOpeningSchedule(productSchedule, dayOfSchedule, openingHours) {
   return productSchedule;
 }
 
+function buildHoursModal(printedSchedule){
+  if(!printedSchedule || printedSchedule.length === 0) return null;
+
+  const modalDiv = document.createElement('div');
+  modalDiv.classList.add('quick-facts-modal-hidden');
+  const hourLines = new Array(printedSchedule.length);
+
+  for(let i = 0; i < printedSchedule.length; i++){
+    const hourLine = document.createElement('div');
+    const dayDiv = document.createElement('div');
+    const hoursDiv = document.createElement('div');
+
+    dayDiv.innerText = printedSchedule[i].day;
+    hoursDiv.innerText = printedSchedule[i].hours;
+
+    hourLine.append(dayDiv, hoursDiv);
+    hourLines[i] = hourLine;
+  }
+
+  const modalDivTitle = document.createElement('div');
+  const modalDivSubtitle = document.createElement('h3');
+  modalDivSubtitle.innerText = MODAL_ALL_HOURS_TXT;
+  modalDiv.append(modalDivTitle, modalDivSubtitle, ...hourLines);
+
+  return modalDiv;
+}
+
 export default function decorate(block) {
   if (block.classList.contains('live-show')) {
     if (block.parentNode.previousSibling && block.parentNode.previousSibling.classList.contains('default-content-wrapper')) {
@@ -160,7 +188,7 @@ export default function decorate(block) {
     statusDiv.append(statusIconNode, allHours);
     block.append(statusDiv);
   } else {
-    const printedSchedule = {};
+    const printedSchedule = new Array(7);
     const productOpenSchedule = {
       Sunday: {
         opens: [],
@@ -185,8 +213,11 @@ export default function decorate(block) {
       },
     };
 
-    [...block.children].forEach((row) => {
-      printedSchedule[row.children[0].innerText] = row.children[1].innerText;
+    [...block.children].forEach((row, index) => {
+      printedSchedule[index] = {
+        day: row.children[0].innerText,
+        hours: row.children[1].innerText,
+      };
       updateOpeningSchedule(
         productOpenSchedule,
         row.children[0].innerText,
@@ -194,6 +225,8 @@ export default function decorate(block) {
       );
       row.remove();
     });
+
+    const modalDiv = buildHoursModal(printedSchedule);
 
     const dateToCheck = new Date();
     const isOpen = isVentureOpen(productOpenSchedule, dateToCheck);
@@ -239,5 +272,10 @@ export default function decorate(block) {
     statusDiv.append(nextStatusChangeNode);
     statusDiv.append(allHours);
     block.append(statusDiv);
+    block.append(modalDiv);
+
+    allHours.addEventListener('click', (e) => {
+      console.log("Handle overlay click");
+    }, { passive: true });
   }
 }

@@ -64,3 +64,11 @@
   text-transform: uppercase;
   text-decoration:none;
 }
+
+.quick-facts-hours.block .quick-facts-modal-hidden {
+  display: none;
+}
+
+.quick-facts-hours.block .quick-facts-modal-visible {
+  display: flex;
+}
