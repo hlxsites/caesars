@@ -34,6 +34,19 @@
   padding-right: 16px;
 }
 
+.quick-facts-hours.block .show-open {
+  height: 50px;
+  filter: invert(100%);
+  content: url('../../icons/calendar-open.svg');
+  padding-right: 16px;
+  margin-top: 16px;
+}
+
+.quick-facts-hours.block .quick-facts-showtime-hours {
+  margin-top: 16px;
+  font-weight: var(--emphasized-font-weight);
+}
+
 .quick-facts-hours.block .next-status-change {
   padding: 0 16px;
   font-weight: var(--clickable-font-weight);

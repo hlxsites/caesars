@@ -107,8 +107,12 @@ function updateOpeningSchedule(productSchedule, dayOfSchedule, openingHours) {
 
 export default function decorate(block) {
   if (block.classList.contains('live-show')) {
+    console.log();
+
+    const statusDivIcon = document.createElement('div');
     const statusDiv = document.createElement('div');
     statusDiv.classList.add('quick-facts-showtime-hours');
+    statusDivIcon.classList.add('show-open');
 
     [...block.children].forEach((row) => {
       const timeDiv = document.createElement('div');
@@ -117,7 +121,7 @@ export default function decorate(block) {
       row.remove();
     });
 
-    block.append(statusDiv);
+    block.append(statusDivIcon, statusDiv);
   } else if (block.classList.contains('always-open')) {
     const printedSchedule = {};
     [...block.children].forEach((row) => {
@@ -132,12 +136,12 @@ export default function decorate(block) {
     allHours.href = '#';
     allHours.title = ALL_HOURS_TXT;
     allHours.text = 'Open 24hr';
+    allHours.classList.add('quick-facts-hours-link');
 
     statusIconNode.classList.add('status-open');
     statusDiv.classList.add('quick-facts-hours-container');
 
-    statusDiv.append(statusIconNode);
-    statusDiv.append(allHours);
+    statusDiv.append(statusIconNode, allHours);
     block.append(statusDiv);
   } else {
     const printedSchedule = {};
@@ -207,6 +211,7 @@ export default function decorate(block) {
     allHours.href = '#';
     allHours.title = ALL_HOURS_TXT;
     allHours.text = ALL_HOURS_TXT;
+    allHours.classList.add('quick-facts-hours-link');
 
     statusIconNode.classList.add(statusIconClass);
     statusDiv.classList.add('quick-facts-hours-container');
