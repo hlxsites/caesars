@@ -267,9 +267,6 @@ export default function decorate(block) {
       row.remove();
     });
 
-    console.log('Product schedule: ');
-    console.log(productOpenSchedule);
-
     const modalOverlay = document.createElement('div');
     modalOverlay.classList.add('quickfacts-modal-overlay');
     modalOverlay.classList.add('quick-facts-modal-overlay-hidden');
