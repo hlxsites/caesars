@@ -580,21 +580,21 @@ main .section.is-hero.has-background-block > div:nth-child(2) {
 
 .section.product-quickfacts .default-content-wrapper > p > span > svg {
   height: 28px;
-  margin-right: 16px;
+  margin-right: var(--layout-size-m);
 }
 
 .section.product-quickfacts .default-content-wrapper > p > span.quick-facts-show-open {
   height: 52px;
   filter: invert(100%);
   content: url('../icons/calendar-open.svg');
-  padding-right: 16px;
-  margin-top: -2px;
+  padding-right: var(--layout-size-m);
+  margin-top: var(--layout-size-xs);
 }
 
 .section.product-quickfacts .default-content-wrapper > p > span.quick-facts-showtime-hours {
   display: flex;
   flex-direction: column;
-  margin-top: 16px;
+  margin-top: var(--layout-size-m);
   font-weight: var(--emphasized-font-weight);
 }
 
