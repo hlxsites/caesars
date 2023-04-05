@@ -18,6 +18,23 @@ header .global-nav-desktop {
   display: none;
 }
 
+header nav .local-nav .dropdown-menu {
+  display: none;
+}
+
+header nav .local-nav .dropdown-menu.active {
+  display: flex;
+  flex-direction: column;
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 250ms cubic-bezier(0.4,0,0.2,1);
+  position: absolute;
+  top: 70px;
+  min-width: 211px;
+  background: var(--static-color-white);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -1px rgb(0 0 0 / 6%);
+}
+
 header nav {
   box-sizing: border-box;
   display: grid;
@@ -304,6 +321,29 @@ header nav .nav-tools p:first-of-type a:hover {
 }
 
 @media (min-width: 1170px) {
+  header nav .local-nav .more {
+    color: var(--static-color-white);
+    opacity: unset;
+    display: inline-block;
+    text-decoration: none;
+    font-size: var(--body-font-size-xs);
+    font-weight: var(--clickable-font-weight);
+    height: 70px;
+  }
+
+  header nav .local-nav .more-link {
+    display: flex !important;
+    align-items: center;
+  }
+
+  header nav .local-nav .dropdown:hover {
+    background-color: var(--static-color-light-gray);
+  }
+
+  header nav .local-nav .menu-item {
+    margin-left: 1em;
+  }
+
   /* Global Nav */
   header .global-nav-desktop {
     display: flex;
@@ -313,6 +353,7 @@ header nav .nav-tools p:first-of-type a:hover {
     justify-content: flex-start;
     max-width: 1170px;
     height: var(--global-nav-height);
+    transition: height .2s ease-in-out;
     overflow: visible;
     background-color: white;
     gap: 0 2em;
@@ -321,14 +362,27 @@ header nav .nav-tools p:first-of-type a:hover {
   }
   
   header.is-sticky .global-nav-desktop {
-    display: none;
+    height: 0;
+  }
+
+  header nav .more-link::after {
+    content: '';
+    background: url("../../icons/chevron-white-down.svg") no-repeat;
+    min-width: 15px;
+    min-height: 15px;
+    transform: scale(1.0);
+    margin-left: 0.5em;
+    transition: transform 200ms cubic-bezier(0.4, 0, 1, 1) 0ms;
+  }
+
+  header nav .more-link.active::after {
+    transform: scaleY(-1);
+    transition: transform 200ms cubic-bezier(0.4, 0, 1, 1) 0ms;
   }
 
   header .global-nav-desktop .logo {
     display: flex;
     justify-content: center;
-
-    /* transition: height .2s ease-in-out; */
     width: 200px;
   }
 
@@ -399,11 +453,18 @@ header nav .nav-tools p:first-of-type a:hover {
     height: 120px;
     min-width: 200px;
     background-color: var(--static-color-black);
-    transition: height 200ms cubic-bezier(0.4,0,1,1);
-    transition: transform 200ms cubic-bezier(0.4,0,1,1);
+    transform: scale(1.1) translateY(25px);
+    transition: transform 200ms cubic-bezier(0.4, 0, 1, 1) 0ms;
     box-shadow: 0 20px 25px -5px rgb(0 0 0 / 10%), 0 10px 10px -5px rgb(0 0 0 / 6%);
     align-items: unset;
     align-self: flex-start;
+  }
+
+  header.is-sticky nav .nav-brand{
+    transform: translateY(10px);
+    height: var(--global-nav-height);
+    transition: transform 200ms cubic-bezier(0.4, 0, 1, 1) 0ms;
+    transition: height 200ms cubic-bezier(0.4,0,1,1);
   }
 
   header nav .nav-brand p a {
@@ -413,7 +474,7 @@ header nav .nav-tools p:first-of-type a:hover {
   }
 
   header.is-sticky nav .nav-brand p a {
-    height: var(--nav-height);
+    height: var(--global-nav-height);
   }
 
   header nav .nav-brand p a::after {
@@ -479,7 +540,7 @@ header nav .nav-tools p:first-of-type a:hover {
     margin: unset;
   }
 
-  header nav[aria-expanded=true] .nav-sections .local-nav[aria-expanded="true"] ul li a {
+  header nav[aria-expanded=true] .nav-sections .local-nav[aria-expanded="true"] ul li a:not(.menu-item) {
     color: var(--static-color-white);
     opacity: unset;
     display: inline-block;
@@ -495,7 +556,7 @@ header nav .nav-tools p:first-of-type a:hover {
     transition: unset;
   }
 
-  header nav[aria-expanded=true] .nav-sections .local-nav[aria-expanded="true"] ul li a::after {
+  header nav[aria-expanded=true] .nav-sections .local-nav[aria-expanded="true"] ul li a:not(.more-link, .menu-item)::after {
     content: '';
     display: block;
     height: 3px;
@@ -505,7 +566,7 @@ header nav .nav-tools p:first-of-type a:hover {
     background-color: var(--static-color-white);
   }
 
-  header nav[aria-expanded=true] .nav-sections .local-nav[aria-expanded="true"] ul li a:hover::after {
+  header nav[aria-expanded=true] .nav-sections .local-nav[aria-expanded="true"] ul li a:hover::after:not(.more-link) {
     transform: scaleX(1);
   }
 
