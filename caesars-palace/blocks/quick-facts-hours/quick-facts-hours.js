@@ -104,6 +104,10 @@ function updateOpeningSchedule(productSchedule, dayOfSchedule, openingHours) {
       start: midnightStart,
       end: closes,
     });
+  }  else if (opens.halfdayMarker === 'AM' && closes.halfdayMarker === 'AM') {
+
+  } else if (opens.halfdayMarker === 'PM' && closes.halfdayMarker === 'PM') {
+
   } else {
     productSchedule[dayOfSchedule].opens.push({
       start: opens,
@@ -267,6 +271,9 @@ export default function decorate(block) {
       row.remove();
     });
 
+    console.log('Product schedule: ');
+    console.log(productOpenSchedule);
+
     const modalOverlay = document.createElement('div');
     modalOverlay.classList.add('quickfacts-modal-overlay');
     modalOverlay.classList.add('quick-facts-modal-overlay-hidden');
@@ -282,22 +289,24 @@ export default function decorate(block) {
       openingStatusText = OPEN_TXT;
       statusIconClass = 'status-open';
       nextStatusChangeTime = getNextClosing(productOpenSchedule, dateToCheck);
-      let { minutes } = nextStatusChangeTime;
-      if (minutes < 10) {
-        minutes = `0${minutes}`;
-      }
+
       if (nextStatusChangeTime) {
+        let { minutes } = nextStatusChangeTime;
+        if (minutes < 10) {
+          minutes = `0${minutes}`;
+        }
         nextStatusChangeTimeText = `${NEXT_CLOSE_TXT} ${nextStatusChangeTime.hours % 12}:${minutes} ${nextStatusChangeTime.halfdayMarker}`;
       }
     } else {
       openingStatusText = CLOSED_TXT;
       statusIconClass = 'status-closed';
       nextStatusChangeTime = getNextOpening(productOpenSchedule, dateToCheck);
-      let { minutes } = nextStatusChangeTime;
-      if (minutes < 10) {
-        minutes = `0${minutes}`;
-      }
+
       if (nextStatusChangeTime) {
+        let { minutes } = nextStatusChangeTime;
+        if (minutes < 10) {
+          minutes = `0${minutes}`;
+        }
         nextStatusChangeTimeText = `${NEXT_OPEN_TXT} ${nextStatusChangeTime.hours % 12}:${minutes} ${nextStatusChangeTime.halfdayMarker}`;
       }
     }
