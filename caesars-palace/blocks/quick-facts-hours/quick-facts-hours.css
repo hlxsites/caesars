@@ -70,27 +70,23 @@
   font-weight: var(--emphasized-font-weight);
   font-size: 22px;
   text-transform: uppercase;
-  text-decoration:none;
-}
-
-.quick-facts-hours.block .quickfacts-modal-overlay {
-  display: none;
+  text-decoration: none;
 }
 
 .quick-facts-hours.block .quick-facts-modal {
   position: fixed;
-    display: flex;
-    flex-direction: column;
-    background-color: var(--static-color-white);
-    color: var(--static-color-midnight);
-    font-size: 14px;
-    line-height: 32px;
-    padding-bottom: var(--layout-size-xl);
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
-    z-index: 15;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--static-color-white);
+  color: var(--static-color-midnight);
+  font-size: 14px;
+  line-height: 32px;
+  padding-bottom: var(--layout-size-xl);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 15;
 }
 
 .quick-facts-hours.block .quick-facts-modal-close-button {
@@ -115,6 +111,7 @@
   color: var(--static-color-midnight);
 }
 
+.quick-facts-hours.block .quickfacts-modal-overlay,
 .quick-facts-hours.block .quick-facts-modal-overlay-hidden,
 .quick-facts-hours.block .quick-facts-modal-hidden {
   display: none;
