@@ -195,9 +195,7 @@ export default function decorate(block) {
       block.append(statusDivIcon, statusDiv);
     }
   } else if (block.classList.contains('always-open')) {
-    const printedSchedule = {};
     [...block.children].forEach((row) => {
-      printedSchedule[row.children[0].innerText] = row.children[1].innerText;
       row.remove();
     });
 
