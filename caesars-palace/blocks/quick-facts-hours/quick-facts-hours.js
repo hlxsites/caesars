@@ -96,6 +96,26 @@ function updateOpeningSchedule(productSchedule, dayOfSchedule, openingHours) {
     const targetDayIndex = (DAYS_REVERSE_LOOKUP[dayOfSchedule] + 1) % 7;
     const targetDay = DAYS_LOOKUP[targetDayIndex];
 
+    if (closes.minutes === 0 && closes.hours === 12) {
+      productSchedule[dayOfSchedule].opens.push({
+        start: opens,
+        end: midnightEnd,
+      });
+    } else {
+      productSchedule[dayOfSchedule].opens.push({
+        start: opens,
+        end: midnightEnd,
+      });
+      productSchedule[targetDay].opens.push({
+        start: midnightStart,
+        end: closes,
+      });
+    }
+  } else if (opens.halfdayMarker === 'AM' && closes.halfdayMarker === 'AM') {
+    // needs to go to next day, as it closes the next day ~ has late hours
+    const targetDayIndex = (DAYS_REVERSE_LOOKUP[dayOfSchedule] + 1) % 7;
+    const targetDay = DAYS_LOOKUP[targetDayIndex];
+
     productSchedule[dayOfSchedule].opens.push({
       start: opens,
       end: midnightEnd,
@@ -104,10 +124,25 @@ function updateOpeningSchedule(productSchedule, dayOfSchedule, openingHours) {
       start: midnightStart,
       end: closes,
     });
-  }  else if (opens.halfdayMarker === 'AM' && closes.halfdayMarker === 'AM') {
-
   } else if (opens.halfdayMarker === 'PM' && closes.halfdayMarker === 'PM') {
-
+    // needs to go to next day, as it closes the next day ~ has late hours
+    const targetDayIndex = (DAYS_REVERSE_LOOKUP[dayOfSchedule] + 1) % 7;
+    const targetDay = DAYS_LOOKUP[targetDayIndex];
+    if (closes.minutes === 0 && closes.hours === 24) {
+      productSchedule[dayOfSchedule].opens.push({
+        start: opens,
+        end: midnightEnd,
+      });
+    } else {
+      productSchedule[dayOfSchedule].opens.push({
+        start: opens,
+        end: midnightEnd,
+      });
+      productSchedule[targetDay].opens.push({
+        start: midnightStart,
+        end: closes,
+      });
+    }
   } if (opens.halfdayMarker === 'AM' && closes.halfdayMarker === 'PM') {
     productSchedule[dayOfSchedule].opens.push({
       start: opens,
@@ -270,9 +305,6 @@ export default function decorate(block) {
       );
       row.remove();
     });
-
-    console.log('Product schedule: ');
-    console.log(productOpenSchedule);
 
     const modalOverlay = document.createElement('div');
     modalOverlay.classList.add('quickfacts-modal-overlay');
