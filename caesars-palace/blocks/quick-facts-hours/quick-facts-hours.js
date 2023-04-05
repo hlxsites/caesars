@@ -119,6 +119,9 @@ function buildHoursModal(printedSchedule){
     const dayDiv = document.createElement('div');
     const hoursDiv = document.createElement('div');
 
+    hourLine.classList.add('quickfacts-opening-hours-line');
+    dayDiv.classList.add('quickfacts-opening-hours-day');
+    hoursDiv.classList.add('quickfacts-opening-hours-time');
     dayDiv.innerText = printedSchedule[i].day;
     hoursDiv.innerText = printedSchedule[i].hours;
 
@@ -126,9 +129,9 @@ function buildHoursModal(printedSchedule){
     hourLines[i] = hourLine;
   }
 
-  const modalDivTitle = document.createElement('div');
+  const modalDivTitle = document.createElement('h3');
   modalDivTitle.innerText = "TODO: Get page title";
-  const modalDivSubtitle = document.createElement('h3');
+  const modalDivSubtitle = document.createElement('h4');
   modalDivSubtitle.innerText = MODAL_ALL_HOURS_TXT;
   modalDiv.append(modalDivTitle, modalDivSubtitle, ...hourLines);
 
