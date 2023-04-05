@@ -65,6 +65,16 @@
   text-decoration:none;
 }
 
+.quick-facts-hours.block .quickfacts-modal-overlay {
+  z-index: 10;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(20,20,20,0.8);
+}
+
 .quick-facts-hours.block .quick-facts-modal {
   position: fixed;
   display: flex;
@@ -72,8 +82,7 @@
   background-color: var(--static-color-white);
   color: var(--static-color-black);
   padding-bottom: 32px;
-  top: 50%;
-  left: 50%;
+  top: 25%;
   right: auto;
   bottom: auto;
   z-index: 15;
@@ -88,6 +97,7 @@
   padding: 8px 32px;
 }
 
+.quick-facts-hours.block .quick-facts-modal-overlay-hidden,
 .quick-facts-hours.block .quick-facts-modal-hidden {
   display: none;
 }

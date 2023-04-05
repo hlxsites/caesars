@@ -277,11 +277,19 @@ export default function decorate(block) {
     statusDiv.append(nextStatusChangeNode);
     statusDiv.append(allHours);
     block.append(statusDiv);
-    block.append(modalDiv);
 
-    allHours.addEventListener('click', (e) => {
-      console.log("Handle overlay click");
-      modalDiv.classList.remove('quick-facts-modal-hidden');
-    }, { passive: true });
+    if(modalDiv){
+      const modalOverlay = document.createElement('div');
+      modalOverlay.classList.add('quickfacts-modal-overlay');
+      modalOverlay.classList.add('quick-facts-modal-overlay-hidden');
+      block.append(modalOverlay);
+      block.append(modalDiv);
+
+      allHours.addEventListener('click', (e) => {
+        console.log("Handle overlay click");
+        modalDiv.classList.remove('quick-facts-modal-hidden');
+        modalOverlay.classList.remove('quick-facts-modal-overlay-hidden');
+      }, { passive: true });
+    }
   }
 }
