@@ -19,16 +19,16 @@
 }
 
 .quick-facts-hours.block .status-closed {
-  width: 24px;
-  height: 24px;
+  width: var(--layout-size-l);
+  height: var(--layout-size-l);
   filter: invert(100%);
   content: url('../../icons/calendar-closed.svg');
   padding-right: 16px;
 }
 
 .quick-facts-hours.block .status-open {
-  width: 24px;
-  height: 24px;
+  width: var(--layout-size-l);
+  height: var(--layout-size-l);
   filter: invert(100%);
   content: url('../../icons/calendar-open.svg');
   padding-right: 16px;
@@ -38,12 +38,12 @@
   height: 50px;
   filter: invert(100%);
   content: url('../../icons/calendar-open.svg');
-  padding-right: 16px;
-  margin-top: 16px;
+  padding-right: var(--layout-size-m);
+  margin-top: var(--layout-size-m);
 }
 
 .quick-facts-hours.block .quick-facts-showtime-hours {
-  margin-top: 16px;
+  margin-top: var(--layout-size-m);
   font-weight: var(--emphasized-font-weight);
 }
 
@@ -84,7 +84,7 @@
   color: var(--static-color-midnight);
   font-size: 14px;
   line-height: 32px;
-  padding-bottom: 32px;
+  padding-bottom: var(--layout-size-xl);
   top: 25%;
   right: auto;
   bottom: auto;
@@ -93,7 +93,7 @@
 
 .quick-facts-hours.block .quick-facts-modal-close-button {
   position: absolute;
-  height: 24px;
+  height: var(--layout-size-l);
   content: url('../../icons/close-bold.svg');
   right: 10px;
   top: 8px;
@@ -134,10 +134,10 @@
 .quickfacts-opening-hours-day {
   text-align: left;
   flex-grow: 1;
-  padding-left: 32px;
+  padding-left: var(--layout-size-xl);
 }
 
 .quickfacts-opening-hours-time {
   text-align: right;
-  padding-right: 32px;
+  padding-right: var(--layout-size-xl);
 }
