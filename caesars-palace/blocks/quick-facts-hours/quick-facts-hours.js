@@ -163,7 +163,8 @@ function buildHoursModal(printedSchedule, modalOverlay) {
 
 export default function decorate(block) {
   if (block.classList.contains('live-show')) {
-    if (block.parentNode.previousSibling && block.parentNode.previousSibling.classList.contains('default-content-wrapper')) {
+    const targetBlockFromSection = block.parentNode.previousSibling;
+    if (targetBlockFromSection && targetBlockFromSection.classList.contains('default-content-wrapper')) {
       const statusSpanIcon = document.createElement('span');
       const statusSpan = document.createElement('span');
       statusSpan.classList.add('quick-facts-showtime-hours');
@@ -178,7 +179,7 @@ export default function decorate(block) {
 
       const showTimeHolder = document.createElement('p');
       showTimeHolder.append(statusSpanIcon, statusSpan);
-      block.parentNode.previousSibling.append(showTimeHolder);
+      targetBlockFromSection.append(showTimeHolder);
     } else {
       const statusDivIcon = document.createElement('div');
       const statusDiv = document.createElement('div');
