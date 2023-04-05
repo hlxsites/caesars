@@ -88,6 +88,14 @@
   z-index: 15;
 }
 
+.quick-facts-hours.block .quick-facts-modal-close-button {
+  position: absolute;
+  height: 24px;
+  content: url('../../icons/close-bold.svg');
+  right: 10px;
+  top: 8px;
+}
+
 /* top | right | bottom | left */
 .quick-facts-hours.block .quick-facts-modal h3 {
   padding: 32px 32px 16px 32px;

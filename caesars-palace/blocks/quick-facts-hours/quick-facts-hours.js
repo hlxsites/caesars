@@ -106,7 +106,7 @@ function updateOpeningSchedule(productSchedule, dayOfSchedule, openingHours) {
   return productSchedule;
 }
 
-function buildHoursModal(printedSchedule){
+function buildHoursModal(printedSchedule, modalOverlay){
   if(!printedSchedule || printedSchedule.length === 0) return null;
 
   const modalDiv = document.createElement('div');
@@ -129,11 +129,18 @@ function buildHoursModal(printedSchedule){
     hourLines[i] = hourLine;
   }
 
+  const modalCloseButton = document.createElement('div');
   const modalDivTitle = document.createElement('h3');
-  modalDivTitle.innerText = "TODO: Get page title";
   const modalDivSubtitle = document.createElement('h4');
+  modalCloseButton.classList.add('quick-facts-modal-close-button');
+  modalDivTitle.innerText = "TODO: Get page title";
   modalDivSubtitle.innerText = MODAL_ALL_HOURS_TXT;
-  modalDiv.append(modalDivTitle, modalDivSubtitle, ...hourLines);
+  modalDiv.append(modalCloseButton, modalDivTitle, modalDivSubtitle, ...hourLines);
+
+  modalCloseButton.addEventListener('click', () => {
+    modalDiv.classList.add('quick-facts-modal-hidden');
+    modalOverlay.classList.add('quick-facts-modal-overlay-hidden');
+  }, { passive: true });
 
   return modalDiv;
 }
@@ -231,7 +238,10 @@ export default function decorate(block) {
       row.remove();
     });
 
-    const modalDiv = buildHoursModal(printedSchedule);
+    const modalOverlay = document.createElement('div');
+    modalOverlay.classList.add('quickfacts-modal-overlay');
+    modalOverlay.classList.add('quick-facts-modal-overlay-hidden');
+    const modalDiv = buildHoursModal(printedSchedule, modalOverlay);
 
     const dateToCheck = new Date();
     const isOpen = isVentureOpen(productOpenSchedule, dateToCheck);
@@ -279,14 +289,10 @@ export default function decorate(block) {
     block.append(statusDiv);
 
     if(modalDiv){
-      const modalOverlay = document.createElement('div');
-      modalOverlay.classList.add('quickfacts-modal-overlay');
-      modalOverlay.classList.add('quick-facts-modal-overlay-hidden');
       block.append(modalOverlay);
       block.append(modalDiv);
 
-      allHours.addEventListener('click', (e) => {
-        console.log("Handle overlay click");
+      allHours.addEventListener('click', () => {
         modalDiv.classList.remove('quick-facts-modal-hidden');
         modalOverlay.classList.remove('quick-facts-modal-overlay-hidden');
       }, { passive: true });
