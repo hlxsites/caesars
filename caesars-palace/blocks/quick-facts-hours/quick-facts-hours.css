@@ -57,6 +57,13 @@
   font-weight: var(--clickable-font-weight);
 }
 
+.quick-facts-hours.block .quick-facts-hours-container-chevron {
+  content: url('../../icons/chevron-right.svg');
+  width: 14px;
+  height: 14px;
+  filter: invert(100%);
+}
+
 .always-open.block .quick-facts-hours-container a {
   color: white;
   font-weight: var(--emphasized-font-weight);

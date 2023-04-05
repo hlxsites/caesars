@@ -280,25 +280,23 @@ export default function decorate(block) {
     statusTextNode.innerText = openingStatusText;
     nextStatusChangeNode.innerText = nextStatusChangeTimeText;
     const allHours = document.createElement('a');
+    const allHoursDecoration = document.createElement('div');
     allHours.href = '#';
     allHours.title = ALL_HOURS_TXT;
     allHours.text = ALL_HOURS_TXT;
     allHours.classList.add('quick-facts-hours-link');
+    allHoursDecoration.classList.add('quick-facts-hours-container-chevron');
 
     statusIconNode.classList.add(statusIconClass);
     statusDiv.classList.add('quick-facts-hours-container');
     statusTextNode.classList.add('hours-status');
     nextStatusChangeNode.classList.add('next-status-change');
 
-    statusDiv.append(statusIconNode);
-    statusDiv.append(statusTextNode);
-    statusDiv.append(nextStatusChangeNode);
-    statusDiv.append(allHours);
+    statusDiv.append(statusIconNode, statusTextNode, nextStatusChangeNode, allHours, allHoursDecoration);
     block.append(statusDiv);
 
     if (modalDiv) {
-      block.append(modalOverlay);
-      block.append(modalDiv);
+      block.append(modalOverlay, modalDiv);
 
       allHours.addEventListener('click', () => {
         modalDiv.classList.remove('quick-facts-modal-hidden');
