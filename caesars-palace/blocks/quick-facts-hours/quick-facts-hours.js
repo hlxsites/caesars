@@ -107,21 +107,37 @@ function updateOpeningSchedule(productSchedule, dayOfSchedule, openingHours) {
 
 export default function decorate(block) {
   if (block.classList.contains('live-show')) {
-    console.log();
+    if (block.parentNode.previousSibling && block.parentNode.previousSibling.classList.contains('default-content-wrapper')) {
+      const statusSpanIcon = document.createElement('span');
+      const statusSpan = document.createElement('span');
+      statusSpan.classList.add('quick-facts-showtime-hours');
+      statusSpanIcon.classList.add('quick-facts-show-open');
 
-    const statusDivIcon = document.createElement('div');
-    const statusDiv = document.createElement('div');
-    statusDiv.classList.add('quick-facts-showtime-hours');
-    statusDivIcon.classList.add('show-open');
+      [...block.children].forEach((row) => {
+        const timeSpan = document.createElement('span');
+        timeSpan.innerText = `${row.children[0].innerText}: ${row.children[1].innerText}`;
+        statusSpan.append(timeSpan);
+        row.remove();
+      });
 
-    [...block.children].forEach((row) => {
-      const timeDiv = document.createElement('div');
-      timeDiv.innerText =`${row.children[0].innerText}: ${row.children[1].innerText}`;
-      statusDiv.append(timeDiv);
-      row.remove();
-    });
+      const showTimeHolder = document.createElement('p');
+      showTimeHolder.append(statusSpanIcon, statusSpan);
+      block.parentNode.previousSibling.append(showTimeHolder);
+    } else {
+      const statusDivIcon = document.createElement('div');
+      const statusDiv = document.createElement('div');
+      statusDiv.classList.add('quick-facts-showtime-hours');
+      statusDivIcon.classList.add('show-open');
 
-    block.append(statusDivIcon, statusDiv);
+      [...block.children].forEach((row) => {
+        const timeDiv = document.createElement('div');
+        timeDiv.innerText = `${row.children[0].innerText}: ${row.children[1].innerText}`;
+        statusDiv.append(timeDiv);
+        row.remove();
+      });
+
+      block.append(statusDivIcon, statusDiv);
+    }
   } else if (block.classList.contains('always-open')) {
     const printedSchedule = {};
     [...block.children].forEach((row) => {

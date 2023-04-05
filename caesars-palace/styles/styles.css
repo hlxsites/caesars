@@ -576,6 +576,21 @@ main .section.is-hero.has-background-block > div:nth-child(2) {
   margin-right: 16px;
 }
 
+.section.product-quickfacts .default-content-wrapper > p > span.quick-facts-show-open {
+  height: 52px;
+  filter: invert(100%);
+  content: url('../icons/calendar-open.svg');
+  padding-right: 16px;
+  margin-top: -2px;
+}
+
+.section.product-quickfacts .default-content-wrapper > p > span.quick-facts-showtime-hours {
+  display: flex;
+  flex-direction: column;
+  margin-top: 16px;
+  font-weight: var(--emphasized-font-weight);
+}
+
 /* Responsive Breakpoints */
 
 /* Tablet (portrait) */
