@@ -110,6 +110,7 @@ function buildHoursModal(printedSchedule){
   if(!printedSchedule || printedSchedule.length === 0) return null;
 
   const modalDiv = document.createElement('div');
+  modalDiv.classList.add('quick-facts-modal');
   modalDiv.classList.add('quick-facts-modal-hidden');
   const hourLines = new Array(printedSchedule.length);
 
@@ -126,6 +127,7 @@ function buildHoursModal(printedSchedule){
   }
 
   const modalDivTitle = document.createElement('div');
+  modalDivTitle.innerText = "TODO: Get page title";
   const modalDivSubtitle = document.createElement('h3');
   modalDivSubtitle.innerText = MODAL_ALL_HOURS_TXT;
   modalDiv.append(modalDivTitle, modalDivSubtitle, ...hourLines);
@@ -276,6 +278,7 @@ export default function decorate(block) {
 
     allHours.addEventListener('click', (e) => {
       console.log("Handle overlay click");
+      modalDiv.classList.remove('quick-facts-modal-hidden');
     }, { passive: true });
   }
 }
