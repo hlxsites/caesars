@@ -106,15 +106,15 @@ function updateOpeningSchedule(productSchedule, dayOfSchedule, openingHours) {
   return productSchedule;
 }
 
-function buildHoursModal(printedSchedule, modalOverlay){
-  if(!printedSchedule || printedSchedule.length === 0) return null;
+function buildHoursModal(printedSchedule, modalOverlay) {
+  if (!printedSchedule || printedSchedule.length === 0) return null;
 
   const modalDiv = document.createElement('div');
   modalDiv.classList.add('quick-facts-modal');
   modalDiv.classList.add('quick-facts-modal-hidden');
   const hourLines = new Array(printedSchedule.length);
 
-  for(let i = 0; i < printedSchedule.length; i++){
+  for (let i = 0; i < printedSchedule.length; i += 1) {
     const hourLine = document.createElement('div');
     const dayDiv = document.createElement('div');
     const hoursDiv = document.createElement('div');
@@ -133,7 +133,7 @@ function buildHoursModal(printedSchedule, modalOverlay){
   const modalDivTitle = document.createElement('h3');
   const modalDivSubtitle = document.createElement('h4');
   modalCloseButton.classList.add('quick-facts-modal-close-button');
-  modalDivTitle.innerText = "TODO: Get page title";
+  modalDivTitle.innerText = 'TODO: Get page title';
   modalDivSubtitle.innerText = MODAL_ALL_HOURS_TXT;
   modalDiv.append(modalCloseButton, modalDivTitle, modalDivSubtitle, ...hourLines);
 
@@ -288,7 +288,7 @@ export default function decorate(block) {
     statusDiv.append(allHours);
     block.append(statusDiv);
 
-    if(modalDiv){
+    if (modalDiv) {
       block.append(modalOverlay);
       block.append(modalDiv);
 
