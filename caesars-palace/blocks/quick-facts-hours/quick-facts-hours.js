@@ -96,6 +96,7 @@ function updateOpeningSchedule(productSchedule, dayOfSchedule, openingHours) {
     const targetDayIndex = (DAYS_REVERSE_LOOKUP[dayOfSchedule] + 1) % 7;
     const targetDay = DAYS_LOOKUP[targetDayIndex];
 
+    opens.hours %= 24;
     if (closes.minutes === 0 && closes.hours === 12) {
       productSchedule[dayOfSchedule].opens.push({
         start: opens,
@@ -128,6 +129,7 @@ function updateOpeningSchedule(productSchedule, dayOfSchedule, openingHours) {
     // needs to go to next day, as it closes the next day ~ has late hours
     const targetDayIndex = (DAYS_REVERSE_LOOKUP[dayOfSchedule] + 1) % 7;
     const targetDay = DAYS_LOOKUP[targetDayIndex];
+
     if (closes.minutes === 0 && closes.hours === 24) {
       productSchedule[dayOfSchedule].opens.push({
         start: opens,
@@ -320,7 +322,7 @@ export default function decorate(block) {
     if (isOpen) {
       openingStatusText = OPEN_TXT;
       statusIconClass = 'status-open';
-      nextStatusChangeTime = getNextClosing(productOpenSchedule, dateToCheck);
+      nextStatusChangeTime = getNextClosing(productOpenSchedule, dateToCheck) || '';
 
       if (nextStatusChangeTime) {
         let { minutes } = nextStatusChangeTime;
@@ -332,7 +334,7 @@ export default function decorate(block) {
     } else {
       openingStatusText = CLOSED_TXT;
       statusIconClass = 'status-closed';
-      nextStatusChangeTime = getNextOpening(productOpenSchedule, dateToCheck);
+      nextStatusChangeTime = getNextOpening(productOpenSchedule, dateToCheck) || '';
 
       if (nextStatusChangeTime) {
         let { minutes } = nextStatusChangeTime;
@@ -348,7 +350,7 @@ export default function decorate(block) {
     const statusTextNode = document.createElement('span');
     const nextStatusChangeNode = document.createElement('span');
     statusTextNode.innerText = openingStatusText;
-    nextStatusChangeNode.innerText = nextStatusChangeTimeText;
+    nextStatusChangeNode.innerText = nextStatusChangeTimeText || '';
     const allHours = document.createElement('a');
     const allHoursDecoration = document.createElement('div');
     allHours.href = '#';
