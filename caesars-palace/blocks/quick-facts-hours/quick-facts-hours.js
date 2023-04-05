@@ -107,7 +107,17 @@ function updateOpeningSchedule(productSchedule, dayOfSchedule, openingHours) {
 
 export default function decorate(block) {
   if (block.classList.contains('live-show')) {
+    const statusDiv = document.createElement('div');
+    statusDiv.classList.add('quick-facts-showtime-hours');
 
+    [...block.children].forEach((row) => {
+      const timeDiv = document.createElement('div');
+      timeDiv.innerText =`${row.children[0].innerText}: ${row.children[1].innerText}`;
+      statusDiv.append(timeDiv);
+      row.remove();
+    });
+
+    block.append(statusDiv);
   } else if (block.classList.contains('always-open')) {
     const printedSchedule = {};
     [...block.children].forEach((row) => {
