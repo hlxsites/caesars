@@ -106,82 +106,110 @@ function updateOpeningSchedule(productSchedule, dayOfSchedule, openingHours) {
 }
 
 export default function decorate(block) {
-  const printedSchedule = {};
-  const productOpenSchedule = {
-    Sunday: {
-      opens: [],
-    },
-    Monday: {
-      opens: [],
-    },
-    Tuesday: {
-      opens: [],
-    },
-    Wednesday: {
-      opens: [],
-    },
-    Thursday: {
-      opens: [],
-    },
-    Friday: {
-      opens: [],
-    },
-    Saturday: {
-      opens: [],
-    },
-  };
+  if (block.classList.contains('live-show')) {
 
-  [...block.children].forEach((row) => {
-    printedSchedule[row.children[0].innerText] = row.children[1].innerText;
-    updateOpeningSchedule(
-      productOpenSchedule,
-      row.children[0].innerText,
-      row.children[1].innerText,
-    );
-    row.remove();
-  });
+  } else if (block.classList.contains('always-open')) {
+    const printedSchedule = {};
+    [...block.children].forEach((row) => {
+      printedSchedule[row.children[0].innerText] = row.children[1].innerText;
+      row.remove();
+    });
 
-  const dateToCheck = new Date();
-  const isOpen = isVentureOpen(productOpenSchedule, dateToCheck);
-  let openingStatusText;
-  let nextStatusChangeTime;
-  let nextStatusChangeTimeText;
-  let statusIconClass;
-  if (isOpen) {
-    openingStatusText = OPEN_TXT;
-    statusIconClass = 'status-open';
-    nextStatusChangeTime = getNextClosing(productOpenSchedule, dateToCheck);
-    if (nextStatusChangeTime) {
-      nextStatusChangeTimeText = `${NEXT_CLOSE_TXT} ${nextStatusChangeTime.hours % 12}:${nextStatusChangeTime.minutes} ${nextStatusChangeTime.halfdayMarker}`;
-    }
+    const statusDiv = document.createElement('div');
+    const statusIconNode = document.createElement('span');
+
+    const allHours = document.createElement('a');
+    allHours.href = '#';
+    allHours.title = ALL_HOURS_TXT;
+    allHours.text = 'Open 24hr';
+
+    statusIconNode.classList.add('status-open');
+    statusDiv.classList.add('quick-facts-hours-container');
+
+    statusDiv.append(statusIconNode);
+    statusDiv.append(allHours);
+
+    console.log("Appending status div")
+    block.append(statusDiv);
+
   } else {
-    openingStatusText = CLOSED_TXT;
-    statusIconClass = 'status-closed';
-    nextStatusChangeTime = getNextOpening(productOpenSchedule, dateToCheck);
-    if (nextStatusChangeTime) {
-      nextStatusChangeTimeText = `${NEXT_OPEN_TXT} ${nextStatusChangeTime.hours % 12}:${nextStatusChangeTime.minutes} ${nextStatusChangeTime.halfdayMarker}`;
+    const printedSchedule = {};
+    const productOpenSchedule = {
+      Sunday: {
+        opens: [],
+      },
+      Monday: {
+        opens: [],
+      },
+      Tuesday: {
+        opens: [],
+      },
+      Wednesday: {
+        opens: [],
+      },
+      Thursday: {
+        opens: [],
+      },
+      Friday: {
+        opens: [],
+      },
+      Saturday: {
+        opens: [],
+      },
+    };
+
+    [...block.children].forEach((row) => {
+      printedSchedule[row.children[0].innerText] = row.children[1].innerText;
+      updateOpeningSchedule(
+        productOpenSchedule,
+        row.children[0].innerText,
+        row.children[1].innerText,
+      );
+      row.remove();
+    });
+
+    const dateToCheck = new Date();
+    const isOpen = isVentureOpen(productOpenSchedule, dateToCheck);
+    let openingStatusText;
+    let nextStatusChangeTime;
+    let nextStatusChangeTimeText;
+    let statusIconClass;
+    if (isOpen) {
+      openingStatusText = OPEN_TXT;
+      statusIconClass = 'status-open';
+      nextStatusChangeTime = getNextClosing(productOpenSchedule, dateToCheck);
+      if (nextStatusChangeTime) {
+        nextStatusChangeTimeText = `${NEXT_CLOSE_TXT} ${nextStatusChangeTime.hours % 12}:${nextStatusChangeTime.minutes} ${nextStatusChangeTime.halfdayMarker}`;
+      }
+    } else {
+      openingStatusText = CLOSED_TXT;
+      statusIconClass = 'status-closed';
+      nextStatusChangeTime = getNextOpening(productOpenSchedule, dateToCheck);
+      if (nextStatusChangeTime) {
+        nextStatusChangeTimeText = `${NEXT_OPEN_TXT} ${nextStatusChangeTime.hours % 12}:${nextStatusChangeTime.minutes} ${nextStatusChangeTime.halfdayMarker}`;
+      }
     }
+
+    const statusDiv = document.createElement('div');
+    const statusIconNode = document.createElement('span');
+    const statusTextNode = document.createElement('span');
+    const nextStatusChangeNode = document.createElement('span');
+    statusTextNode.innerText = openingStatusText;
+    nextStatusChangeNode.innerText = nextStatusChangeTimeText;
+    const allHours = document.createElement('a');
+    allHours.href = '#';
+    allHours.title = ALL_HOURS_TXT;
+    allHours.text = ALL_HOURS_TXT;
+
+    statusIconNode.classList.add(statusIconClass);
+    statusDiv.classList.add('quick-facts-hours-container');
+    statusTextNode.classList.add('hours-status');
+    nextStatusChangeNode.classList.add('next-status-change');
+
+    statusDiv.append(statusIconNode);
+    statusDiv.append(statusTextNode);
+    statusDiv.append(nextStatusChangeNode);
+    statusDiv.append(allHours);
+    block.append(statusDiv);
   }
-
-  const statusDiv = document.createElement('div');
-  const statusIconNode = document.createElement('span');
-  const statusTextNode = document.createElement('span');
-  const nextStatusChangeNode = document.createElement('span');
-  statusTextNode.innerText = openingStatusText;
-  nextStatusChangeNode.innerText = nextStatusChangeTimeText;
-  const allHours = document.createElement('a');
-  allHours.href = '#';
-  allHours.title = ALL_HOURS_TXT;
-  allHours.text = ALL_HOURS_TXT;
-
-  statusIconNode.classList.add(statusIconClass);
-  statusDiv.classList.add('quick-facts-hours-container');
-  statusTextNode.classList.add('hours-status');
-  nextStatusChangeNode.classList.add('next-status-change');
-
-  statusDiv.append(statusIconNode);
-  statusDiv.append(statusTextNode);
-  statusDiv.append(nextStatusChangeNode);
-  statusDiv.append(allHours);
-  block.append(statusDiv);
 }

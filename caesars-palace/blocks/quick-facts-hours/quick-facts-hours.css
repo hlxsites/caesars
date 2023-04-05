@@ -43,3 +43,11 @@
   color: white;
   font-weight: var(--clickable-font-weight);
 }
+
+.always-open.block .quick-facts-hours-container a {
+  color: white;
+  font-weight: var(--emphasized-font-weight);
+  font-size: 22px;
+  text-transform: uppercase;
+  text-decoration:none;
+}
