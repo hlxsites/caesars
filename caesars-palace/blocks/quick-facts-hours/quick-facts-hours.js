@@ -108,7 +108,7 @@ function updateOpeningSchedule(productSchedule, dayOfSchedule, openingHours) {
 
   } else if (opens.halfdayMarker === 'PM' && closes.halfdayMarker === 'PM') {
 
-  } else {
+  } if (opens.halfdayMarker === 'AM' && closes.halfdayMarker === 'PM') {
     productSchedule[dayOfSchedule].opens.push({
       start: opens,
       end: closes,
