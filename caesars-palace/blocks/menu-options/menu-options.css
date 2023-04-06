@@ -2,7 +2,6 @@
 
 .menu-options > div {
     display: flex;
-    gap: 10%;
 }
 
 .menu-options > div > div > h2 {
@@ -10,12 +9,12 @@
     font-size: 22px;
 }
 
-.menu-options > div > div > p {
+.menu-options > div > div > .menu-link {
     display: flex;
     gap: 5%;
 }
 
-.menu-options > div > div > p > a {
+.menu-options > div > div > .menu-link > a {
     font-size: 16px;
     font-weight: bold;
 }
