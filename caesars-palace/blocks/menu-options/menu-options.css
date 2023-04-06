@@ -2,7 +2,7 @@
 
 .menu-options > div {
     display: flex;
-    gap: 2%;
+    gap: 10%;
 }
 
 .menu-options > div > div > h2 {
@@ -13,6 +13,11 @@
 .menu-options > div > div > p {
     display: flex;
     gap: 5%;
+}
+
+.menu-options > div > div > p > a {
+    font-size: 16px;
+    font-weight: bold;
 }
 
 .menu-options > div > div > p .icon-pdf {
