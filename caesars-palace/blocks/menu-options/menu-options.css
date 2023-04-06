@@ -1,3 +1,11 @@
+.menu-options-container {
+    background-color: var(--static-color-light-gray);
+}
+
+.menu-options {
+    box-sizing: border-box
+}
+
 .menu-options > div {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -39,8 +47,9 @@
     display: flex;
     font-size: 11px;
     text-transform: uppercase;
-    font-weight: normal !important;
+    font-weight: normal;
     align-items: center;
     color: #343840;
+    font-family: var(--body-font-family);
     gap: 4%;
 }
