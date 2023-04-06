@@ -348,7 +348,7 @@ export default function decorate(block) {
         if (minutes < 10) {
           minutes = `0${minutes}`;
         }
-        nextStatusChangeTimeText = `${NEXT_OPEN_TXT} ${nextStatusChangeTime.hours % 12}:${minutes} ${nextStatusChangeTime.halfdayMarker}`;
+        nextStatusChangeTimeText = `${NEXT_OPEN_TXT} ${nextStatusChangeTime.hours % 12}:${minutes} ${nextStatusChangeTime.halfdayMarker} (${nextStatusChangeTime.day})`;
       }
     }
 

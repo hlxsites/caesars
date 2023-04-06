@@ -48,6 +48,7 @@ export function getNextOpening(openingSchedule, dateToCheck, allowGoingToNextDay
         const currentOpeningDistance = (openingHourOption.start.hours - hourToCheck) * 60;
         if (currentOpeningDistance < openingDistance) {
           openingHourCandidate = openingHourOption.start;
+          openingHourCandidate.day = day;
           openingDistance = currentOpeningDistance;
         }
       } else if (hourToCheck === openingHourOption.start.hours) {
@@ -56,6 +57,7 @@ export function getNextOpening(openingSchedule, dateToCheck, allowGoingToNextDay
           const currentOpeningDistance = openingHourOption.start.minutes - minuteToCheck;
           if (currentOpeningDistance < openingDistance) {
             openingHourCandidate = openingHourOption.start;
+            openingHourCandidate.day = day;
             openingDistance = currentOpeningDistance;
           }
         }
@@ -64,9 +66,11 @@ export function getNextOpening(openingSchedule, dateToCheck, allowGoingToNextDay
   } else if (scheduleToUse.opens.length === 1) {
     if (scheduleToUse.opens[0].start.hours > hourToCheck) {
       openingHourCandidate = scheduleToUse.opens[0].start;
+      openingHourCandidate.day = day;
     } else if (scheduleToUse.opens[0].start.hours === hourToCheck) {
       if (scheduleToUse.opens[0].start.minutes > minuteToCheck) {
         openingHourCandidate = scheduleToUse.opens[0].start;
+        openingHourCandidate.day = day;
       } else if (allowGoingToNextDay) {
         const nextDayDate = new Date();
         nextDayDate.setDate(dateToCheck.getDate() + 1);
