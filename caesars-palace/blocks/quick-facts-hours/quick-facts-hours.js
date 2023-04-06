@@ -44,7 +44,7 @@ function convertHoursTo24HoursFormat(textualHours) {
     const hours = textualHours.replace('AM', '');
     const hourMinutes = hours.split(':');
     return {
-      hours: parseInt(hourMinutes[0], 10),
+      hours: parseInt((hourMinutes[0] % 12), 10),
       minutes: hourMinutes[1] ? parseInt(hourMinutes[1], 10) : 0,
       halfdayMarker: 'AM',
     };
