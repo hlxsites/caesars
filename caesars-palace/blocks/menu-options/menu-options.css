@@ -47,7 +47,8 @@
     display: flex;
     font-size: 11px;
     text-transform: uppercase;
-    font-weight: normal;
+    font-weight: 600;
+    line-height: 18px;
     align-items: center;
     color: #343840;
     font-family: var(--body-font-family);
