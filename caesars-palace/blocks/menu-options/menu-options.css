@@ -1,5 +1,3 @@
-
-
 .menu-options > div {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -23,4 +21,26 @@
 .menu-options > div > div > p .icon-pdf {
     width: 16px;
     height: 24px;
+}
+
+.menu-options .icon-checkmark,
+.menu-options .icon-crossmark
+ {
+    width: 32px;
+    height: 32px;
+}
+
+.menu-options .menu-rewards {
+    display: flex;
+    margin-top: 5%;
+}
+
+.menu-options .menu-rewards h4 {
+    display: flex;
+    font-size: 11px;
+    text-transform: uppercase;
+    font-weight: normal !important;
+    align-items: center;
+    color: #343840;
+    gap: 4%;
 }
