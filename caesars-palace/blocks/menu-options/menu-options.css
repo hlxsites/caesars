@@ -1,7 +1,8 @@
 
 
 .menu-options > div {
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .menu-options > div > div > h2 {
