@@ -1,0 +1,21 @@
+
+
+.menu-options > div {
+    display: flex;
+    gap: 2%;
+}
+
+.menu-options > div > div > h2 {
+    font-weight: 700;
+    font-size: 22px;
+}
+
+.menu-options > div > div > p {
+    display: flex;
+    gap: 5%;
+}
+
+.menu-options > div > div > p .icon-pdf {
+    width: 16px;
+    height: 24px;
+}
