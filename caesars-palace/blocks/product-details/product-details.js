@@ -2,10 +2,9 @@ import {
   createOptimizedPicture,
   getMetadata,
   buildBlock,
-  decorateSections,
-  decorateBlocks,
   loadBlocks,
 } from '../../scripts/lib-franklin.js';
+import { decorateMain } from '../../scripts/scripts.js';
 
 export default async function decorate(block) {
   // Check if json endpoint exists and this is a product details template
@@ -21,6 +20,23 @@ export default async function decorate(block) {
     const json = await resp.json();
     if (json) {
       const main = document.querySelector('main');
+
+      /** Create Hero Section */
+      // Get Image, Title
+      const heroImage = json.overview.data[0]['Hero Image'];
+      const heroTitle = json.overview.data[0].Title;
+      if (heroImage && heroTitle) {
+        // Create the content structure
+        const heroH1 = document.createElement('h1');
+        heroH1.innerText = heroTitle;
+        const picture = createOptimizedPicture(`${heroImage}`, heroTitle, true);
+        // Add the elements to the section
+        const heroSection = document.createElement('div');
+        heroSection.classList.add('section', 'has-background', 'is-hero', 'right-aligned');
+        heroSection.append(picture);
+        heroSection.append(heroH1);
+        main.prepend(heroSection);
+      }
 
       /** Create Columns section */
       const contentDetails = json['content-details'].data;
@@ -105,28 +121,8 @@ export default async function decorate(block) {
         }
 
         // Decorate and load all the newly injected content
-        decorateSections(main);
-        decorateBlocks(main);
+        decorateMain(main);
         await loadBlocks(main);
-      }
-
-      /** Create Hero Section */
-      // Get Image, Title
-      const heroImage = json.overview.data[0]['Hero Image'];
-      const heroTitle = json.overview.data[0].Title;
-      if (heroImage && heroTitle) {
-        // Create the content structure
-        const heroH1 = document.createElement('h1');
-        heroH1.innerText = heroTitle;
-        const defaultContentWrapper = document.createElement('div');
-        defaultContentWrapper.appendChild(heroH1);
-        const picture = createOptimizedPicture(`${heroImage}`, heroTitle, true);
-        // Add the elements to the section
-        const heroSection = document.createElement('div');
-        heroSection.classList.add('section', 'has-background', 'is-hero');
-        heroSection.append(defaultContentWrapper);
-        heroSection.append(picture);
-        main.prepend(heroSection);
       }
     }
   }
