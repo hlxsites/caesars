@@ -24,17 +24,25 @@ export default async function decorate(block) {
       /** Create Hero Section */
       // Get Image, Title
       const heroImage = json.overview.data[0]['Hero Image'];
-      const heroTitle = json.overview.data[0].Title;
+      const heroTitle = json.overview.data[0]['Hero Title'];
+      const heroTitleAdd = json.overview.data[0]['Hero Title Add'];
+      const heroSubtitle = json.overview.data[0]['Hero Subtitle'];
       if (heroImage && heroTitle) {
         // Create the content structure
+        const picture = createOptimizedPicture(`${heroImage}`, heroTitle, true);
         const heroH1 = document.createElement('h1');
         heroH1.innerText = heroTitle;
-        const picture = createOptimizedPicture(`${heroImage}`, heroTitle, true);
+        const heroH1Add = document.createElement('h1');
+        if (heroTitleAdd) heroH1Add.innerText = heroTitleAdd;
+        const heroH4 = document.createElement('h4');
+        if (heroSubtitle) heroH4.innerText = heroSubtitle;
         // Add the elements to the section
         const heroSection = document.createElement('div');
         heroSection.classList.add('section', 'has-background', 'is-hero', 'right-aligned');
         heroSection.append(picture);
         heroSection.append(heroH1);
+        if (heroTitleAdd) heroSection.append(heroH1Add);
+        if (heroSubtitle) heroSection.append(heroH4);
         main.prepend(heroSection);
       }
 
