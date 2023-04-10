@@ -26,12 +26,17 @@
 
 .menu-options > div > div > .menu-link > a {
   font-size: 16px;
-  font-weight: bold;
+  font-weight: var(--emphasized-font-weight);
 }
 
 .menu-options > div > div > p .icon-pdf {
   width: 16px;
   height: 24px;
+}
+
+.menu-options > div > div > .button-container > .button.primary {
+    letter-spacing: unset !important;
+    font-weight: var(--emphasized-font-weight) !important;
 }
 
 .menu-options .icon-checkmark,
