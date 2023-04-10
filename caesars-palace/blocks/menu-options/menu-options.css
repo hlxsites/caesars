@@ -1,0 +1,92 @@
+.menu-options-container {
+  background-color: var(--static-color-light-gray);
+}
+
+.menu-options {
+  box-sizing: border-box;
+}
+
+.menu-options > div {
+  display: grid;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  row-gap: 5%;
+  text-align: center;
+}
+
+.menu-options > div > div > h2 {
+  font-weight: var(--emphasized-font-weight);
+  font-size: 22px;
+}
+
+.menu-options > div > div > .menu-link {
+  display: flex;
+  gap: 5%;
+}
+
+.menu-options > div > div > .menu-link > a {
+  font-size: 16px;
+  font-weight: var(--emphasized-font-weight);
+}
+
+.menu-options > div > div > p {
+  padding-left: 20%;
+}
+
+.menu-options > div > div > p .icon-pdf {
+  width: 16px;
+  height: 24px;
+}
+
+.menu-options > div > div > .button-container > .button.primary {
+  letter-spacing: unset !important;
+  font-weight: var(--emphasized-font-weight) !important;
+}
+
+.menu-options .icon-checkmark,
+.menu-options .icon-crossmark {
+  width: 32px;
+  height: 32px;
+}
+
+.menu-options .menu-rewards {
+  display: flex;
+  margin-top: 5%;
+}
+
+.menu-options .menu-rewards h4 {
+  display: flex;
+  font-size: 11px;
+  text-transform: uppercase;
+  font-weight: var(--clickable-font-weight);
+  line-height: 18px;
+  align-items: center;
+  font-family: var(--body-font-family);
+  gap: 4%;
+}
+
+@media only screen and (min-width: 481px) {
+  .menu-options > div {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: 1fr 1fr;
+    gap: 2%;
+    row-gap: 10%;
+    text-align: left;
+  }
+
+  .menu-options > div > div > p {
+    padding-left: unset;
+  }
+}
+
+@media only screen and (min-width: 960px) {
+  .menu-options > div {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-rows: 1fr 1fr;
+  }
+}
+
+@media only screen and (min-width: 1170px) {
+  .menu-options > div {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
