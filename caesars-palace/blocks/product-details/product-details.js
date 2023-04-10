@@ -27,22 +27,34 @@ export default async function decorate(block) {
       const heroTitle = json.overview.data[0]['Hero Title'];
       const heroTitleAdd = json.overview.data[0]['Hero Title Add'];
       const heroSubtitle = json.overview.data[0]['Hero Subtitle'];
+      const openTableEmbed = json.overview.data[0]['Opentable Widget Link'];
+
       if (heroImage && heroTitle) {
         // Create the content structure
         const picture = createOptimizedPicture(`${heroImage}`, heroTitle, true);
         const heroH1 = document.createElement('h1');
         heroH1.innerText = heroTitle;
-        const heroH1Add = document.createElement('h1');
-        if (heroTitleAdd) heroH1Add.innerText = heroTitleAdd;
-        const heroH4 = document.createElement('h4');
-        if (heroSubtitle) heroH4.innerText = heroSubtitle;
         // Add the elements to the section
         const heroSection = document.createElement('div');
         heroSection.classList.add('section', 'has-background', 'is-hero', 'right-aligned');
         heroSection.append(picture);
         heroSection.append(heroH1);
-        if (heroTitleAdd) heroSection.append(heroH1Add);
-        if (heroSubtitle) heroSection.append(heroH4);
+        if (heroTitleAdd) {
+          const heroH1Add = document.createElement('h1');
+          heroH1Add.innerText = heroTitleAdd;
+          heroSection.append(heroH1Add);
+        }
+        if (heroSubtitle) {
+          const heroH4 = document.createElement('h4');
+          heroH4.innerText = heroSubtitle;
+          heroSection.append(heroH4);
+        }
+        if (openTableEmbed) {
+          const otLink = document.createElement('a');
+          otLink.href = openTableEmbed;
+          const openTableBlock = buildBlock('opentable', [[otLink]]);
+          heroSection.append(openTableBlock);
+        }
         main.prepend(heroSection);
       }
 
