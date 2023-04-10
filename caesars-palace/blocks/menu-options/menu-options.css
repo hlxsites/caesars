@@ -8,10 +8,9 @@
 
 .menu-options > div {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  grid-template-rows: 1fr 1fr;
-  gap: 2%;
-  row-gap: 10%;
+  grid-template-rows: 1fr 1fr 1fr 1fr;
+  row-gap: 5%;
+  text-align: center;
 }
 
 .menu-options > div > div > h2 {
@@ -29,14 +28,18 @@
   font-weight: var(--emphasized-font-weight);
 }
 
+.menu-options > div > div > p {
+  padding-left: 20%;
+}
+
 .menu-options > div > div > p .icon-pdf {
   width: 16px;
   height: 24px;
 }
 
 .menu-options > div > div > .button-container > .button.primary {
-    letter-spacing: unset !important;
-    font-weight: var(--emphasized-font-weight) !important;
+  letter-spacing: unset !important;
+  font-weight: var(--emphasized-font-weight) !important;
 }
 
 .menu-options .icon-checkmark,
@@ -61,6 +64,21 @@
   gap: 4%;
 }
 
+@media only screen and (min-width: 481px) {
+  .menu-options > div {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: 1fr 1fr;
+    gap: 2%;
+    row-gap: 10%;
+    text-align: left;
+  }
+
+  .menu-options > div > div > p {
+    padding-left: unset;
+  }
+}
+
 @media only screen and (min-width: 960px) {
   .menu-options > div {
     display: grid;
@@ -68,6 +86,11 @@
     grid-template-rows: 1fr 1fr;
     gap: 4%;
     row-gap: 10%;
+    text-align: left;
+  }
+
+  .menu-options > div > div > p {
+    padding-left: unset;
   }
 }
 
@@ -76,5 +99,10 @@
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 2%;
+    text-align: left;
+  }
+
+  .menu-options > div > div > p {
+    padding-left: unset;
   }
 }
