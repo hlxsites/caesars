@@ -28,6 +28,9 @@ export default async function decorate(block) {
       const heroTitleAdd = json.overview.data[0]['Hero Title Add'];
       const heroSubtitle = json.overview.data[0]['Hero Subtitle'];
       const openTableEmbed = json.overview.data[0]['Opentable Widget Link'];
+      const secondaryUrl = json.overview.data[0]['Secondary Url'];
+      const secondaryUrlText = json.overview.data[0]['Secondary Url button text'];
+      const secondaryUrlNewWindow = json.overview.data[0]['Open secondary url in new tab'];
 
       if (heroImage && heroTitle) {
         // Create the content structure
@@ -63,6 +66,16 @@ export default async function decorate(block) {
           otLink.href = openTableEmbed;
           const openTableBlock = buildBlock('opentable', [[otLink]]);
           heroSection.append(openTableBlock);
+        } else if (secondaryUrl && secondaryUrlText) {
+          const secondaryLink = document.createElement('a');
+          secondaryLink.href = secondaryUrl;
+          secondaryLink.textContent = secondaryUrlText;
+          if (secondaryUrlNewWindow === 'true') secondaryLink.target = '_blank';
+          const whiteButton = document.createElement('em');
+          whiteButton.append(secondaryLink);
+          const buttonParagraph = document.createElement('p');
+          buttonParagraph.append(whiteButton);
+          heroSection.append(buttonParagraph);
         }
         main.prepend(heroSection);
       }
