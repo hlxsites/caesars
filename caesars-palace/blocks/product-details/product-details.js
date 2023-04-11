@@ -1,6 +1,6 @@
 import {
   createOptimizedPicture,
-  getMetadata,
+  // getMetadata,
   buildBlock,
   loadBlocks,
 } from '../../scripts/lib-franklin.js';
@@ -8,9 +8,9 @@ import { decorateMain } from '../../scripts/scripts.js';
 
 export default async function decorate(block) {
   // Check if json endpoint exists and this is a product details template
-  const template = getMetadata('template');
+  // const template = getMetadata('template');
   const endpoint = block.querySelector('a').href;
-  if ((template === 'Product Details') && endpoint) {
+  if (endpoint) {
     // Remove the existing block and containing section
     const productDetailsSection = document.querySelector('.section.product-details-container');
     productDetailsSection.remove();
