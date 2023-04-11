@@ -31,13 +31,22 @@ export default async function decorate(block) {
 
       if (heroImage && heroTitle) {
         // Create the content structure
-        const picture = createOptimizedPicture(`${heroImage}`, heroTitle, true);
+        const heroSection = document.createElement('div');
+        if (heroImage.endsWith('.mp4')) {
+          const video = document.createElement('a');
+          video.href = heroImage;
+          const videoBlock = buildBlock('video-with-alt-image', [[video]]);
+          heroSection.classList.add('has-video-background');
+          heroSection.append(videoBlock);
+        } else {
+          const picture = createOptimizedPicture(`${heroImage}`, heroTitle, true);
+          heroSection.classList.add('has-background');
+          heroSection.append(picture);
+        }
         const heroH1 = document.createElement('h1');
         heroH1.innerText = heroTitle;
         // Add the elements to the section
-        const heroSection = document.createElement('div');
-        heroSection.classList.add('section', 'has-background', 'is-hero', 'right-aligned');
-        heroSection.append(picture);
+        heroSection.classList.add('section', 'is-hero', 'right-aligned');
         heroSection.append(heroH1);
         if (heroTitleAdd) {
           const heroH1Add = document.createElement('h1');
