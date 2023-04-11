@@ -1,0 +1,27 @@
+main .opentable-wrapper {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    bottom: 32px;
+    align-items: center;
+    z-index: 100;
+}
+
+main .opentable.block {
+    display: flex;
+    align-items: center;
+    max-width: 1200px;
+    height: auto;
+    position: relative;
+    z-index: 6;
+}
+
+main .opentable.block h1.ot-title {
+    font-weight: bold;
+    font-size: 18px;
+    text-align: left !important;
+    margin-bottom: 12px;
+    font-family: unset;
+    text-transform: unset;
+}
