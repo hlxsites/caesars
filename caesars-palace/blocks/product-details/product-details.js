@@ -70,7 +70,10 @@ export default async function decorate(block) {
           const secondaryLink = document.createElement('a');
           secondaryLink.href = secondaryUrl;
           secondaryLink.textContent = secondaryUrlText;
-          if (secondaryUrlNewWindow === 'true') secondaryLink.target = '_blank';
+          if (secondaryUrlNewWindow === 'true') {
+            secondaryLink.target = '_blank';
+            secondaryLink.setAttribute('rel', 'noreferrer noopener');
+          }
           const whiteButton = document.createElement('em');
           whiteButton.append(secondaryLink);
           const buttonParagraph = document.createElement('p');
