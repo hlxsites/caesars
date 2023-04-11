@@ -24,6 +24,7 @@ export default async function decorate(block) {
       /** Create Hero Section */
       // Get Image, Title
       const heroImage = json.overview.data[0]['Hero Image'];
+      const heroVideo = json.overview.data[0]['Hero Video'];
       const heroTitle = json.overview.data[0]['Hero Title'];
       const heroTitleAdd = json.overview.data[0]['Hero Title Add'];
       const heroSubtitle = json.overview.data[0]['Hero Subtitle'];
@@ -35,13 +36,14 @@ export default async function decorate(block) {
       if (heroImage && heroTitle) {
         // Create the content structure
         const heroSection = document.createElement('div');
-        if (heroImage.endsWith('.mp4')) {
+        if (heroImage && heroVideo && heroVideo.endsWith('.mp4')) {
           const video = document.createElement('a');
-          video.href = heroImage;
-          const videoBlock = buildBlock('video-with-alt-image', [[video]]);
+          video.href = heroVideo;
+          const picture = createOptimizedPicture(`${heroImage}`, heroTitle, true);
+          const videoBlock = buildBlock('video-with-alt-image', [[video], [picture]]);
           heroSection.classList.add('has-video-background');
           heroSection.append(videoBlock);
-        } else {
+        } else if (heroImage && !heroVideo) {
           const picture = createOptimizedPicture(`${heroImage}`, heroTitle, true);
           heroSection.classList.add('has-background');
           heroSection.append(picture);
