@@ -128,6 +128,11 @@
   flex: 1;
 }
 
+.slider.full-card .tall-card .card-image picture img {
+  aspect-ratio: unset;
+  height: 100%;
+}
+
 .slider .tall-card .active-close-button {
   position: absolute;
   top: var(--layout-size-xs);
