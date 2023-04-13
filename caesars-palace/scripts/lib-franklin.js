@@ -484,17 +484,13 @@ export function decorateButtons(element) {
       const up = a.parentElement;
       const twoup = a.parentElement.parentElement;
       if (!a.querySelector('img')) {
-        if (up.childNodes.length === 1 && (up.tagName === 'P' || up.tagName === 'DIV')) {
-          a.className = 'button primary'; // default
+        if (up.tagName === 'P' || up.tagName === 'DIV') { // Regular link decoration
+          a.className = 'button primary';
           up.classList.add('button-container');
-        }
-        if (up.childNodes.length === 1 && up.tagName === 'STRONG'
-          && twoup.childNodes.length === 1 && twoup.tagName === 'P') {
+        } else if (up.tagName === 'STRONG' && twoup.tagName === 'P') { // Bolded link decoration
           a.className = 'button primary';
           twoup.classList.add('button-container');
-        }
-        if (up.childNodes.length === 1 && up.tagName === 'EM'
-          && twoup.childNodes.length === 1 && twoup.tagName === 'P') {
+        } else if (up.tagName === 'EM' && twoup.tagName === 'P') { // Italicized link decoration
           a.className = 'button secondary';
           twoup.classList.add('button-container');
         }
