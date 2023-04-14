@@ -4,6 +4,10 @@ main .form {
   box-shadow: 0 1px 6px rgb(34 34 34 / 10%);
 }
 
+main .form.sign-in {
+  box-shadow: none;
+}
+
 main .form h2 {
   padding: var(--spacing-m) 0;
   font-size: var(--type-heading-l-lh);
@@ -29,6 +33,14 @@ main .form select {
   margin-top: 4px;
 }
 
+main .form.sign-in input.error,
+main .form.sign-in textarea.error,
+main .form.sign-in select.error {
+  padding: 16px 16px 4px;
+  border-color: #d60000;
+  font: inherit;
+}
+
 main .form textarea {
   min-height: 100px;
 }
@@ -49,10 +61,45 @@ main .form label {
   font-weight: 800;
 }
 
+main .form.sign-in label {
+  position: absolute;
+  margin-left: 16px;
+  margin-top: 24px;
+  font-size: 14px;
+  color: #343840;
+  transform: scale(1) translateY(-50%);
+  transform-origin: top left;
+  transition: transform .4s ease;
+  pointer-events: none;
+  z-index: 1;
+  text-transform: none;
+  font-weight: 400;
+}
+
+main .form span.input-error {
+  display: none;
+  font-size: 11px;
+  color: #d60000;
+  line-height: 1.5;
+}
+
+main .form span.input-error.active {
+  display: flex;
+}
+
+main .form.sign-in label.active {
+  color: #000;
+  transform: scale(0.71) translateY(-50%) translateY(-11px);
+}
+
 main .form label.required::after {
   content: "*";
   color: red;
   padding-left: 5px;
+}
+
+main .form.form.sign-in label.required::after {
+  display: none;
 }
 
 main .form .field-wrapper {
@@ -119,7 +166,39 @@ main .form .button {
   font-family: adobe-clean, 'Trebuchet MS', sans-serif;
 }
 
+main .form.sign-in .button {
+  border: 1px solid #ad1f23;
+  border-radius: 4px;
+  background: #ad1f23;
+  color: #fff;
+  width: 100%;
+  max-width: 50rem;
+  height: 36px;
+  line-height: 36px;
+  margin-top: 16px;
+  padding: 0 16px;
+}
+
+main .form.sign-in .button:hover {
+  transition: background-color 75ms cubic-bezier(0.4,0,0.2,1);
+  transition: box-shadow 75ms cubic-bezier(0.4,0,0.2,1);
+  background-color: #971b1f;
+  box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1), 0 4px 6px -2px rgba(0,0,0,0.06);
+}
+
+main .form.sign-in .button:disabled {
+  color: #ccc;
+  box-shadow: none;
+  background: transparent;
+  border-color: #ccc;
+  cursor: default;
+}
+
 main .form .form-submit-wrapper {
   display: flex;
   justify-content: flex-end;
+}
+
+main .form.sign-in .form-submit-wrapper {
+  display: block;
 }

@@ -50,13 +50,14 @@ function createButton(fd) {
   const button = document.createElement('button');
   button.textContent = fd.Label;
   button.classList.add('button');
+  button.setAttribute('disabled', 'disabled');
   if (fd.Type === 'submit') {
     button.addEventListener('click', async (event) => {
       const form = button.closest('form');
       if (fd.Placeholder) form.dataset.action = fd.Placeholder;
       if (form.checkValidity()) {
         event.preventDefault();
-        button.setAttribute('disabled', '');
+        button.removeAttribute('disabled');
         await submitForm(form);
         const redirectTo = fd.Extra;
         window.location.href = redirectTo;
@@ -72,6 +73,37 @@ function createHeading(fd) {
   return heading;
 }
 
+function toggleLabelActive(event) {
+  if (event.type === 'focus') {
+    this.parentElement.querySelector('label').classList.add('active');
+  } else if (this.value === '') {
+    this.parentElement.querySelector('label').classList.remove('active');
+  }
+}
+
+function validateForm(event) {
+  const form = event.target.closest('form');
+  const submitButton = form.querySelector('div.form-submit-wrapper button');
+  if (form.checkValidity()) {
+    submitButton.removeAttribute('disabled');
+  } else {
+    submitButton.setAttribute('disabled', 'disabled');
+  }
+}
+
+function validateInput(event) {
+  const input = event.target;
+  const inputError = input.parentElement.querySelector('span.input-error');
+  if (input.hasAttribute('required') && input.value === '') {
+    input.classList.add('error');
+    inputError.classList.add('active');
+  } else {
+    input.classList.remove('error');
+    inputError.classList.remove('active');
+  }
+  validateForm(event);
+}
+
 function createInput(fd) {
   const input = document.createElement('input');
   input.type = fd.Type;
@@ -80,7 +112,17 @@ function createInput(fd) {
   if (fd.Mandatory === 'x') {
     input.setAttribute('required', 'required');
   }
+  input.addEventListener('focus', toggleLabelActive);
+  input.addEventListener('blur', toggleLabelActive);
+  input.addEventListener('blur', validateInput);
   return input;
+}
+
+function createErrorMessage(fd) {
+  const span = document.createElement('span');
+  span.classList.add('input-error');
+  span.textContent = fd['Error Message'];
+  return span;
 }
 
 function createTextArea(fd) {
@@ -165,6 +207,9 @@ async function createForm(formURL) {
       default:
         fieldWrapper.append(createLabel(fd));
         fieldWrapper.append(createInput(fd));
+        if (fd['Error Message']) {
+          fieldWrapper.append(createErrorMessage(fd));
+        }
     }
 
     if (fd.Rules) {
