@@ -33,16 +33,21 @@ main .form select {
   margin-top: 4px;
 }
 
-main .form.sign-in input:focus-visible {
-  outline: 0px;
+main .form.sign-in input,
+main .form.sign-in textarea,
+main .form.sign-in select {
+  padding: 16px 16px 4px;
+  font: inherit;
 }
 
 main .form.sign-in input.error,
 main .form.sign-in textarea.error,
-main .form.sign-in select.error {
-  padding: 16px 16px 4px;
+main .form.sign-in select.error { 
   border-color: #d60000;
-  font: inherit;
+}
+
+main .form.sign-in input:focus-visible {
+  outline: 0px;
 }
 
 main .form textarea {
