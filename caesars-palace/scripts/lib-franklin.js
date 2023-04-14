@@ -481,9 +481,11 @@ export function decorateButtons(element) {
   element.querySelectorAll('a').forEach((a) => {
     a.title = a.title || a.textContent;
     if (a.href !== a.textContent) {
+      const href = a.href;
       const up = a.parentElement;
       const twoup = a.parentElement.parentElement;
-      if (!a.querySelector('img')) {
+      // Decorate links that are not on an img or are a tel
+      if (!a.querySelector('img') && !href.startsWith('tel:')) {
         if (up.tagName === 'P' || up.tagName === 'DIV') { // Regular link decoration
           a.className = 'button primary';
           up.classList.add('button-container');
