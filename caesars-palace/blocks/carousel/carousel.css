@@ -183,7 +183,6 @@
   text-decoration: line-through;
   opacity: 0.6;
   padding-right: 4px;
-  z-index: 5;
 }
 
 .carousel.showcase.block .carousel-text-price {
@@ -287,6 +286,7 @@
 
   .carousel.showcase.block .carousel-text p {
     display: unset;
+    max-width: 80%;
   }
 
   .carousel.showcase.block .extended-text p {
@@ -353,6 +353,7 @@
   .carousel.showcase.block .carousel-product-pricing {
     position: absolute;
     top: 0;
+    right: unset;
     margin-top: 496px;
     margin-left: 700px;
   }
@@ -360,6 +361,7 @@
   .carousel.showcase.block .carousel-product-sale-pricing {
     position: absolute;
     top: 0;
+    right: unset;
     margin-top: 496px;
     margin-left: 680px;
   }
@@ -372,5 +374,6 @@
   .carousel.showcase.block .carousel-product-prices {
     display: flex;
     flex-direction: row;
+    margin-top: 4px;
   }
 }
