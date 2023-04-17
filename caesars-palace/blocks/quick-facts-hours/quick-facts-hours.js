@@ -6,6 +6,7 @@ const CLOSED_TXT = 'CLOSED';
 const OPEN_TXT = 'NOW OPEN';
 const NEXT_OPEN_TXT = 'Opens';
 const NEXT_CLOSE_TXT = 'Closes';
+const ALWAYS_OPEN_TXT = 'Open 24hr';
 const ALL_HOURS_TXT = 'See all hours';
 const MODAL_ALL_HOURS_TXT = 'Daily hours';
 const DAYS_REVERSE_LOOKUP = {
@@ -260,9 +261,8 @@ export default function decorate(block) {
     const statusIconNode = document.createElement('span');
 
     const allHours = document.createElement('a');
-    allHours.href = '#';
     allHours.title = ALL_HOURS_TXT;
-    allHours.text = 'Open 24hr';
+    allHours.text = ALWAYS_OPEN_TXT;
     allHours.classList.add('quick-facts-hours-link');
 
     statusIconNode.classList.add('status-open');
@@ -278,6 +278,10 @@ export default function decorate(block) {
         modalOverlay.classList.remove('quick-facts-modal-overlay-hidden');
       };
       statusDiv.addEventListener('click', allHoursViewHandler, { passive: true });
+      modalOverlay.addEventListener('click', () => {
+        modalDiv.classList.add('quick-facts-modal-hidden');
+        modalOverlay.classList.add('quick-facts-modal-overlay-hidden');
+      }, { passive: true});
     }
   } else {
     const printedSchedule = new Array(7);
