@@ -253,6 +253,7 @@ export default function decorate(block) {
     const modalOverlay = document.createElement('div');
     modalOverlay.classList.add('quickfacts-modal-overlay');
     modalOverlay.classList.add('quick-facts-modal-overlay-hidden');
+
     const modalDiv = buildHoursModal(ALWAYS_OPEN_PRINT_SCHEDULE, modalOverlay);
 
     const statusDiv = document.createElement('div');
@@ -387,6 +388,10 @@ export default function decorate(block) {
       };
       allHours.addEventListener('click', allHoursViewHandler, { passive: true });
       allHoursDecoration.addEventListener('click', allHoursViewHandler, { passive: true });
+      modalOverlay.addEventListener('click', () => {
+        modalDiv.classList.add('quick-facts-modal-hidden');
+        modalOverlay.classList.add('quick-facts-modal-overlay-hidden');
+      }, { passive: true});
     }
   }
 }
