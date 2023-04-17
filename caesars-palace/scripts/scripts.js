@@ -17,6 +17,155 @@ import {
 const LCP_BLOCKS = []; // add your LCP blocks to the list
 window.hlx.RUM_GENERATION = 'caesars-palace'; // add your RUM generation information here
 
+const DAYS_LOOKUP = [
+  'Sunday',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+];
+
+/**
+ * Gets next closing hour of a venture, based on an opening schedule
+ * @param {*} openingSchedule The opening schedule to use
+ * @param {*} dateToCheck Datetime to use to find next closing time
+ * Precondition: `dateToCheck` must not be in a current open time
+ * @returns An object describing the next closing time
+ */
+export function getNextOpening(openingSchedule, dateToCheck, allowGoingToNextDay = true) {
+  const day = DAYS_LOOKUP[dateToCheck.getDay()];
+  const scheduleToUse = openingSchedule[day];
+
+  let openingHourCandidate;
+  const hourToCheck = dateToCheck.getHours();
+  const minuteToCheck = dateToCheck.getMinutes();
+  if (scheduleToUse.opens.length > 1) {
+    let openingDistance = Number.POSITIVE_INFINITY;
+    scheduleToUse.opens.forEach((openingHourOption) => {
+      if (hourToCheck <= openingHourOption.start.hours) {
+        const currentOpeningDistance = (openingHourOption.start.hours - hourToCheck) * 60;
+        if (currentOpeningDistance < openingDistance) {
+          openingHourCandidate = openingHourOption.start;
+          openingHourCandidate.day = day;
+          openingDistance = currentOpeningDistance;
+        }
+      } else if (hourToCheck === openingHourOption.start.hours) {
+        // same hour, depends on minutes
+        if (openingHourOption.start.minutes >= minuteToCheck) {
+          const currentOpeningDistance = openingHourOption.start.minutes - minuteToCheck;
+          if (currentOpeningDistance < openingDistance) {
+            openingHourCandidate = openingHourOption.start;
+            openingHourCandidate.day = day;
+            openingDistance = currentOpeningDistance;
+          }
+        }
+      }
+    });
+  } else if (scheduleToUse.opens.length === 1) {
+    if (scheduleToUse.opens[0].start.hours > hourToCheck) {
+      openingHourCandidate = scheduleToUse.opens[0].start;
+      openingHourCandidate.day = day;
+    } else if (scheduleToUse.opens[0].start.hours === hourToCheck) {
+      if (scheduleToUse.opens[0].start.minutes > minuteToCheck) {
+        openingHourCandidate = scheduleToUse.opens[0].start;
+        openingHourCandidate.day = day;
+      } else if (allowGoingToNextDay) {
+        const nextDayDate = new Date();
+        nextDayDate.setDate(dateToCheck.getDate() + 1);
+        nextDayDate.setHours(0);
+        nextDayDate.setMinutes(0);
+        nextDayDate.setSeconds(0);
+        openingHourCandidate = getNextOpening(openingSchedule, nextDayDate, false);
+      }
+    } else if (allowGoingToNextDay) {
+      const nextDayDate = new Date();
+      nextDayDate.setDate(dateToCheck.getDate() + 1);
+      nextDayDate.setHours(0);
+      nextDayDate.setMinutes(0);
+      nextDayDate.setSeconds(0);
+      openingHourCandidate = getNextOpening(openingSchedule, nextDayDate, false);
+    }
+  }
+
+  return openingHourCandidate;
+}
+
+/**
+ * Gets next closing hour of a venture, based on an opening schedule
+ * @param {*} openingSchedule The opening schedule to use
+ * @param {*} dateToCheck Datetime to use to find next closing time
+ * Precondition: `dateToCheck` must be in a current open time
+ * @returns An object describing the next closing time
+ */
+export function getNextClosing(openingSchedule, dateToCheck) {
+  const day = DAYS_LOOKUP[dateToCheck.getDay()];
+  const scheduleToUse = openingSchedule[day];
+
+  const hourToCheck = dateToCheck.getHours();
+  const minuteToCheck = dateToCheck.getMinutes();
+
+  let closingHoursCandidate;
+  scheduleToUse.opens.forEach((openingHours) => {
+    if ((hourToCheck > openingHours.start.hours
+      && hourToCheck < openingHours.end.hours)
+      || (hourToCheck === openingHours.start.hours
+        && minuteToCheck >= openingHours.start.minutes)
+      || (hourToCheck === openingHours.end.hours
+        && minuteToCheck <= openingHours.end.minutes)) {
+      closingHoursCandidate = openingHours.end;
+    }
+  });
+
+  let closingHour = closingHoursCandidate;
+  if (closingHour.hours === 24 && closingHour.minutes === 0) {
+    // check if we have a continuous next day "late hours opening"
+    const nextDay = DAYS_LOOKUP[(dateToCheck.getDay() + 1) % 7];
+    const nextDaySchedule = openingSchedule[nextDay];
+    nextDaySchedule.opens.forEach((openingHours) => {
+      if (openingHours.start.hours === 0 && openingHours.start.minutes === 0) {
+        closingHour = openingHours.end;
+        closingHour.isNextDay = true;
+      }
+    });
+  }
+  return closingHour;
+}
+
+/**
+ * Uses an opening schedule to determine if a venture is currently open
+ * @param {*} openingSchedule Opening schedule for the week
+ * @param {*} dateToCheck Datetime to check for opening status
+ * @returns true if open, false otherwise
+ */
+export function isVentureOpen(openingSchedule, dateToCheck) {
+  const day = DAYS_LOOKUP[dateToCheck.getDay()];
+  const scheduleToUse = openingSchedule[day];
+  // console.log("Using schedule: ", scheduleToUse);
+
+  if (!scheduleToUse || !scheduleToUse.opens || scheduleToUse.opens.length === 0) {
+    return false;
+  }
+
+  let isOpen = false;
+  const hourToCheck = dateToCheck.getHours();
+  const minuteToCheck = dateToCheck.getMinutes();
+  scheduleToUse.opens.forEach((openingHours) => {
+    if (hourToCheck > openingHours.start.hours && hourToCheck < openingHours.end.hours) {
+      isOpen = true;
+    } else if (hourToCheck === openingHours.start.hours
+      && minuteToCheck >= openingHours.start.minutes) {
+      isOpen = true;
+    } else if (hourToCheck === openingHours.end.hours
+      && minuteToCheck <= openingHours.end.minutes) {
+      isOpen = true;
+    }
+  });
+
+  return isOpen || false;
+}
+
 /**
  * Build the preview of a text with ellipsis
  * @param {String} text Text that will be shortened
