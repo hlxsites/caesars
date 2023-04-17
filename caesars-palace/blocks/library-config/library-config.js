@@ -1,36 +1,20 @@
 import { createTag } from '../../scripts/scripts.js';
 
+const validListTypes = ['blocks', 'sections', 'buttons', 'placeholders', 'assets', 'templates'];
+
 const LIBRARY_PATH = '/caesars-palace/block-library/library.json';
 
-async function loadBlocks(content, list) {
-  const { default: blocks } = await import('./lists/blocks.js');
-  blocks(content, list);
+async function executeList(name, content, list) {
+  const { default: listFn } = await import(`./lists/${name}.js`);
+  listFn(content, list);
 }
 
-async function loadPlaceholders(content, list) {
-  const { default: placeholders } = await import('./lists/placeholders.js');
-  placeholders(content, list);
-}
-
-async function loadAssets(content, list) {
-  const { default: assets } = await import('./lists/assets.js');
-  assets(content, list);
-}
-
-async function loadList(type, content, list) {
+async function loadListContent(type, content, list) {
   list.innerHTML = '';
-  switch (type) {
-    case 'blocks':
-      loadBlocks(content, list);
-      break;
-    case 'placeholders':
-      loadPlaceholders(content, list);
-      break;
-    case 'assets':
-      loadAssets(content, list);
-      break;
-    default:
-      console.log(`Library type not supported: ${type}`); // eslint-disable-line no-console
+  if (validListTypes.includes(type)) {
+    executeList(type, content, list);
+  } else {
+    console.log(`Library type not supported: ${type}`); // eslint-disable-line no-console
   }
 }
 
@@ -38,13 +22,12 @@ async function fetchLibrary(domain) {
   const { searchParams } = new URL(window.location.href);
   const suppliedLibrary = searchParams.get('library');
   const library = suppliedLibrary || `${domain}${LIBRARY_PATH}`;
-
   const resp = await fetch(library);
   if (!resp.ok) return null;
   return resp.json();
 }
 
-async function getSuppliedLibrary() {
+async function fetchSuppliedLibrary() {
   const { searchParams } = new URL(window.location.href);
   const repo = searchParams.get('repo');
   const owner = searchParams.get('owner');
@@ -58,61 +41,33 @@ async function fetchAssetsData(path) {
   if (!resp.ok) return null;
 
   const json = await resp.json();
-  const assetHrefs = json.entities.map((entity) => entity.links[0].href);
-  return assetHrefs;
+  return json.entities.map((entity) => entity.links[0].href);
 }
 
 async function combineLibraries(base, supplied) {
+  if (!base) {
+    return {};
+  }
+
+  const library = Object.entries(base).reduce((prev, [name, item]) => ({
+    ...prev,
+    [name]: [...(item.data || [])],
+  }), {});
+
   const url = new URL(window.location.href);
-
   const assetsPath = url.searchParams.get('assets');
-
-  const library = {
-    blocks: base.blocks.data,
-    placeholders: base.placeholders?.data,
-    assets: await fetchAssetsData(assetsPath),
-  };
+  library.assets = await fetchAssetsData(assetsPath);
 
   if (supplied) {
-    if (supplied.blocks.data.length > 0) {
-      library.blocks.push(...supplied.blocks.data);
-    }
-
-    if (supplied.placeholders.data.length > 0) {
-      library.placeholders = supplied.placeholders.data;
-    }
+    Object.entries(supplied).forEach(([name, item]) => {
+      const { data } = item;
+      if (data?.length > 0) {
+        library[name].push(...data);
+      }
+    });
   }
 
   return library;
-}
-
-function createList(libraries) {
-  const container = createTag('div', { class: 'con-container' });
-
-  const libraryList = createTag('ul', { class: 'sk-library-list' });
-  container.append(libraryList);
-
-  Object.keys(libraries).forEach((type) => {
-    if (!libraries[type] || libraries[type].length === 0) return;
-
-    const item = createTag('li', { class: 'content-type' }, type);
-    libraryList.append(item);
-
-    const list = document.createElement('ul');
-    list.classList.add('con-type-list', `con-${type}-list`);
-    container.append(list);
-
-    item.addEventListener('click', (e) => {
-      const skLibrary = e.target.closest('.sk-library');
-      skLibrary.querySelector('.sk-library-title-text').textContent = type;
-      libraryList.classList.add('inset');
-      list.classList.add('inset');
-      skLibrary.classList.add('allow-back');
-      loadList(type, libraries[type], list);
-    });
-  });
-
-  return container;
 }
 
 function createHeader() {
@@ -133,6 +88,35 @@ function createHeader() {
   return header;
 }
 
+function createLibraryList(libraries) {
+  const container = createTag('div', { class: 'con-container' });
+
+  const libraryList = createTag('ul', { class: 'sk-library-list' });
+  container.append(libraryList);
+
+  Object.entries(libraries).forEach(([type, lib]) => {
+    if (!libraries[type] || libraries[type].length === 0) return;
+
+    const item = createTag('li', { class: 'content-type' }, type);
+    libraryList.append(item);
+
+    const list = document.createElement('ul');
+    list.classList.add('con-type-list', `con-${type}-list`);
+    container.append(list);
+
+    item.addEventListener('click', (e) => {
+      const skLibrary = e.target.closest('.sk-library');
+      skLibrary.querySelector('.sk-library-title-text').textContent = type;
+      libraryList.classList.add('inset');
+      list.classList.add('inset');
+      skLibrary.classList.add('allow-back');
+      loadListContent(type, lib, list);
+    });
+  });
+
+  return container;
+}
+
 function detectContext() {
   if (window.self === window.top) {
     document.body.classList.add('in-page');
@@ -144,9 +128,11 @@ export default async function init(el) {
   detectContext();
 
   // Get the data
-  const base = await fetchLibrary(window.location.origin);
-  const supplied = await getSuppliedLibrary();
-  const libraries = await combineLibraries(base, supplied);
+  const [base, supplied] = await Promise.allSettled([
+    fetchLibrary(window.location.origin),
+    fetchSuppliedLibrary(),
+  ]);
+  const libraries = await combineLibraries(base.value, supplied.value);
 
   // Create the UI
   const skLibrary = createTag('div', { class: 'sk-library' });
@@ -154,12 +140,13 @@ export default async function init(el) {
   const header = createHeader();
   skLibrary.append(header);
 
-  const list = createList(libraries);
+  const list = createLibraryList(libraries);
   skLibrary.append(list);
   el.attachShadow({ mode: 'open' });
 
   el.shadowRoot.append(skLibrary);
 
+  // add styles
   const link = document.createElement('link');
   link.setAttribute('rel', 'stylesheet');
   link.setAttribute('href', '/caesars-palace/blocks/library-config/library-config.css');
