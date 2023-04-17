@@ -1,4 +1,5 @@
-import { getMetadata, decorateIcons } from '../../scripts/lib-franklin.js';
+import { getMetadata, decorateIcons, loadBlocks } from '../../scripts/lib-franklin.js';
+import { decorateMain } from '../../scripts/scripts.js';
 
 const screenConfig = Object.freeze({
   tablet: {
@@ -17,6 +18,7 @@ const CAESARS_DOT_COM = 'https://www.caesars.com';
 const GLOBAL_HEADER_JSON = '/content/empire/en/jcr:content/root/header.model.json';
 const GLOBAL_HEADER_JSON_LOCAL = '/caesars-palace/scripts/resources/header.model.json';
 const GLOBAL_HEADER_LOGO_LOCAL = '/caesars-palace/icons/caesars-global-logo.svg';
+const GLOBAL_HEADER_SIGN_IN = '/caesars-palace/drafts/borland/sign-in';
 
 async function createGlobalNavLogo(logoFileReference) {
   // Add logo
@@ -43,6 +45,19 @@ async function createGlobalNavLogo(logoFileReference) {
     }
   }
   return logo;
+}
+
+async function fetchFragment(path) {
+  const resp = await fetch(`${path}.plain.html`);
+  if (resp.ok) {
+    const container = document.createElement('div');
+    container.innerHTML = await resp.text();
+    //decorateBlock(container);
+    decorateMain(container);
+    await loadBlocks(container);
+    return container;
+  }
+  return null;
 }
 
 function closeOnEscape(e) {
@@ -189,6 +204,60 @@ const showMore = (nav, maxItemsDesktop) => {
 };
 
 /**
+ * shows the login modal
+ */
+function showLoginModal() {
+  alert('hey, im a login modal');
+}
+
+/**
+ * 
+ * @param {Element} globalNavDesktop Global desktop navigation
+ */
+async function createUserMenu(globalNavDesktop) {
+  // user account
+  const userAccount = document.createElement('div');
+  userAccount.classList.add('user-account');
+  
+  // not signed in.
+  const signIn = document.createElement('a');
+  signIn.classList.add('sign-in');
+  signIn.setAttribute('aria-label', 'Sign In');
+  signIn.innerHTML = 'Sign In';
+  signIn.addEventListener('click', showLoginModal);
+  userAccount.appendChild(signIn);
+
+  // signed in.
+  globalNavDesktop.appendChild(userAccount);
+
+  // user menu
+  const userMenu = document.createElement('div');
+  userMenu.classList.add('user-menu');
+  
+  // close button
+  const userMenuClose = document.createElement('div');
+  userMenuClose.classList.add('user-menu-close');
+  userMenu.appendChild(userMenuClose);
+
+  const userMenuContainer = document.createElement('div');
+  userMenuContainer.classList.add('user-menu-container');
+
+  const userMenuMainPanel = document.createElement('div');
+  userMenuMainPanel.classList.add('user-menu-main-panel');
+
+  const loginText = document.createElement('div');
+  loginText.classList.add('text-center');
+  userMenuMainPanel.appendChild(loginText);
+
+  const fragmentBlock = await fetchFragment(`${GLOBAL_HEADER_SIGN_IN}`);
+  userMenuContainer.appendChild(fragmentBlock);
+
+  userMenu.appendChild(userMenuContainer);
+
+  globalNavDesktop.appendChild(userMenu);
+}
+
+/**
  * decorates the header, mainly the nav
  * @param {Element} block The header block element
  */
@@ -240,6 +309,7 @@ export default async function decorate(block) {
       globalNavTitle.addEventListener('click', () => {
         toggleNavSectionTitles(globalNavTitle, globalNavSections);
       });
+      createUserMenu(globalNavDesktop);
     }
     if (globalNavJson.logoFileReference) {
       globalNavDesktop.prepend(await createGlobalNavLogo(globalNavJson.logoFileReference));
