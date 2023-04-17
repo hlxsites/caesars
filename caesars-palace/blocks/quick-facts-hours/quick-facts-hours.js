@@ -1,4 +1,6 @@
-import { isVentureOpen, getNextClosing, getNextOpening } from '../../scripts/scripts.js';
+import {
+  isVentureOpen, getNextClosing, getNextOpening, createTag,
+} from '../../scripts/scripts.js';
 
 const CLOSED_TXT = 'CLOSED';
 const OPEN_TXT = 'NOW OPEN';
@@ -356,16 +358,13 @@ export default function decorate(block) {
     const statusIconNode = document.createElement('span');
     const statusTextNode = document.createElement('span');
     const nextStatusChangeNode = document.createElement('span');
+    const allHoursDecoration = document.createElement('div');
+    const allHours = createTag('a', { title: ALL_HOURS_TXT, text: ALL_HOURS_TXT });
+
     statusTextNode.innerText = openingStatusText;
     nextStatusChangeNode.innerText = nextStatusChangeTimeText || '';
-    const allHours = document.createElement('a');
-    const allHoursDecoration = document.createElement('div');
-    allHours.href = '#';
-    allHours.title = ALL_HOURS_TXT;
-    allHours.text = ALL_HOURS_TXT;
     allHours.classList.add('quick-facts-hours-link');
     allHoursDecoration.classList.add('quick-facts-hours-container-chevron');
-
     statusIconNode.classList.add(statusIconClass);
     statusDiv.classList.add('quick-facts-hours-container');
     statusTextNode.classList.add('hours-status');

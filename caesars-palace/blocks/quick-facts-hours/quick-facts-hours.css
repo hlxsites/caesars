@@ -53,7 +53,7 @@
 }
 
 .quick-facts-hours.block .quick-facts-hours-container a {
-  color: white;
+  color: var(--static-color-white);
   font-weight: var(--clickable-font-weight);
 }
 
@@ -66,7 +66,7 @@
 }
 
 .always-open.block .quick-facts-hours-container a {
-  color: white;
+  color: var(--static-color-white);
   font-weight: var(--emphasized-font-weight);
   font-size: 22px;
   text-transform: uppercase;
