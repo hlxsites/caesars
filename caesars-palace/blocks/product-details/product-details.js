@@ -1,6 +1,6 @@
 import {
   createOptimizedPicture,
-  getMetadata,
+  // getMetadata,
   buildBlock,
   loadBlocks,
 } from '../../scripts/lib-franklin.js';
@@ -8,9 +8,9 @@ import { decorateMain } from '../../scripts/scripts.js';
 
 export default async function decorate(block) {
   // Check if json endpoint exists and this is a product details template
-  const template = getMetadata('template');
+  // const template = getMetadata('template');
   const endpoint = block.querySelector('a').href;
-  if ((template === 'Product Details') && endpoint) {
+  if (endpoint) {
     // Remove the existing block and containing section
     const productDetailsSection = document.querySelector('.section.product-details-container');
     productDetailsSection.remove();
@@ -24,20 +24,34 @@ export default async function decorate(block) {
       /** Create Hero Section */
       // Get Image, Title
       const heroImage = json.overview.data[0]['Hero Image'];
+      const heroVideo = json.overview.data[0]['Hero Video'];
       const heroTitle = json.overview.data[0]['Hero Title'];
       const heroTitleAdd = json.overview.data[0]['Hero Title Add'];
       const heroSubtitle = json.overview.data[0]['Hero Subtitle'];
       const openTableEmbed = json.overview.data[0]['Opentable Widget Link'];
+      const secondaryUrl = json.overview.data[0]['Secondary Url'];
+      const secondaryUrlText = json.overview.data[0]['Secondary Url button text'];
+      const secondaryUrlNewWindow = json.overview.data[0]['Open secondary url in new tab'];
 
       if (heroImage && heroTitle) {
         // Create the content structure
-        const picture = createOptimizedPicture(`${heroImage}`, heroTitle, true);
+        const heroSection = document.createElement('div');
+        if (heroImage && heroVideo && heroVideo.endsWith('.mp4')) {
+          const video = document.createElement('a');
+          video.href = heroVideo;
+          const picture = createOptimizedPicture(`${heroImage}`, heroTitle, true);
+          const videoBlock = buildBlock('video-with-alt-image', [[video], [picture]]);
+          heroSection.classList.add('has-video-background');
+          heroSection.append(videoBlock);
+        } else if (heroImage && !heroVideo) {
+          const picture = createOptimizedPicture(`${heroImage}`, heroTitle, true);
+          heroSection.classList.add('has-background');
+          heroSection.append(picture);
+        }
         const heroH1 = document.createElement('h1');
         heroH1.innerText = heroTitle;
         // Add the elements to the section
-        const heroSection = document.createElement('div');
-        heroSection.classList.add('section', 'has-background', 'is-hero', 'right-aligned');
-        heroSection.append(picture);
+        heroSection.classList.add('section', 'is-hero', 'right-aligned');
         heroSection.append(heroH1);
         if (heroTitleAdd) {
           const heroH1Add = document.createElement('h1');
@@ -54,6 +68,19 @@ export default async function decorate(block) {
           otLink.href = openTableEmbed;
           const openTableBlock = buildBlock('opentable', [[otLink]]);
           heroSection.append(openTableBlock);
+        } else if (secondaryUrl && secondaryUrlText) {
+          const secondaryLink = document.createElement('a');
+          secondaryLink.href = secondaryUrl;
+          secondaryLink.textContent = secondaryUrlText;
+          if (secondaryUrlNewWindow === 'true') {
+            secondaryLink.target = '_blank';
+            secondaryLink.setAttribute('rel', 'noreferrer noopener');
+          }
+          const whiteButton = document.createElement('em');
+          whiteButton.append(secondaryLink);
+          const buttonParagraph = document.createElement('p');
+          buttonParagraph.append(whiteButton);
+          heroSection.append(buttonParagraph);
         }
         main.prepend(heroSection);
       }

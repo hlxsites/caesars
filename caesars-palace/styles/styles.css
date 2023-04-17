@@ -461,7 +461,8 @@ main .section.is-hero.left-aligned h4 {
 }
 
 main .section.is-hero.right-aligned h1,
-main .section.is-hero.right-aligned h4 {
+main .section.is-hero.right-aligned h4,
+main .section.is-hero.right-aligned p {
   text-align: right !important;
   margin-right: 20%;
   padding-right: unset;
