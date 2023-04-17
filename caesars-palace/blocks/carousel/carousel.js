@@ -307,7 +307,7 @@ function buildSlide(blockState, slide, index) {
     slide.children[2].classList.add('carousel-text');
   }
 
-  if(slide.children.length === 4){
+  if (slide.children.length === 4) {
     const pricingDiv = document.createElement('div');
     const pricingLineDiv = document.createElement('div');
 
@@ -315,13 +315,13 @@ function buildSlide(blockState, slide, index) {
     pricingDiv.classList.add('carousel-product-pricing');
 
     const currentPriceNode = slide.children[3];
-    if(currentPriceNode.innerText !== ''){
+    if (currentPriceNode.innerText !== '') {
       currentPriceNode.classList.add('carousel-text-price');
-    } else if(slide.children[3]) {
+    } else if (slide.children[3]) {
       currentPriceNode.remove();
     }
 
-    if(currentPriceNode && currentPriceNode.classList.contains('carousel-text-price')){
+    if (currentPriceNode && currentPriceNode.classList.contains('carousel-text-price')) {
       const pricingLineSubtitle = document.createElement('div');
       pricingLineSubtitle.classList.add('carousel-text-price-subtitle');
       pricingLineSubtitle.innerText = CAROUSEL_PRICE_SUBTITLE_TXT;
@@ -331,7 +331,7 @@ function buildSlide(blockState, slide, index) {
       pricingDiv.append(pricingLineSubtitle);
       slide.append(pricingDiv);
     }
-  } else if (slide.children.length === 5){
+  } else if (slide.children.length === 5) {
     const pricingDiv = document.createElement('div');
     const pricingLineDiv = document.createElement('div');
 
@@ -339,21 +339,21 @@ function buildSlide(blockState, slide, index) {
     pricingDiv.classList.add('carousel-product-sale-pricing');
 
     const crossedOutPriceNode = slide.children[3];
-    if(crossedOutPriceNode.innerText !== ''){
+    if (crossedOutPriceNode.innerText !== '') {
       crossedOutPriceNode.classList.add('carousel-text-crossed-price');
     } else {
       crossedOutPriceNode.remove();
     }
 
     const currentPriceNode = slide.children[4];
-    if(currentPriceNode && currentPriceNode.innerText !== ''){
+    if (currentPriceNode && currentPriceNode.innerText !== '') {
       currentPriceNode.classList.add('carousel-text-price');
-    } else if(slide.children[4]){
+    } else if (slide.children[4]) {
       currentPriceNode.remove();
     }
 
-    if(crossedOutPriceNode && crossedOutPriceNode.classList.contains('carousel-text-crossed-price')
-      && currentPriceNode && currentPriceNode.classList.contains('carousel-text-price')){
+    if (crossedOutPriceNode && crossedOutPriceNode.classList.contains('carousel-text-crossed-price')
+      && currentPriceNode && currentPriceNode.classList.contains('carousel-text-price')) {
       const pricingLineSubtitle = document.createElement('div');
       pricingLineSubtitle.classList.add('carousel-text-price-subtitle');
       pricingLineSubtitle.innerText = CAROUSEL_PRICE_SUBTITLE_TXT;

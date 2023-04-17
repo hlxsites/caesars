@@ -188,7 +188,7 @@
 
 .carousel.showcase.block .carousel-text-price {
   color: var(--static-color-black);
-  font-family: 'Montserrat',sans-serif;
+  font-family: var(--text-font-family);
   font-weight: 700;
   font-size: 36px;
   line-height: 1;
