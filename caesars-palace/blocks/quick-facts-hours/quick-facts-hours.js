@@ -281,7 +281,7 @@ export default function decorate(block) {
       modalOverlay.addEventListener('click', () => {
         modalDiv.classList.add('quick-facts-modal-hidden');
         modalOverlay.classList.add('quick-facts-modal-overlay-hidden');
-      }, { passive: true});
+      }, { passive: true });
     }
   } else {
     const printedSchedule = new Array(7);
@@ -395,7 +395,7 @@ export default function decorate(block) {
       modalOverlay.addEventListener('click', () => {
         modalDiv.classList.add('quick-facts-modal-hidden');
         modalOverlay.classList.add('quick-facts-modal-overlay-hidden');
-      }, { passive: true});
+      }, { passive: true });
     }
   }
 }
