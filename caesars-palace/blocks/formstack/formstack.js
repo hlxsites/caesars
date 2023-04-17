@@ -24,48 +24,6 @@ document.write = function (s) {
   };
 };
 
-// const formstack = document.querySelector('formstack');
-// formstack.innerHTML = formStackContent;
-
-// document.write = function (s) {
-//   const fsBodyEmbed = /.*?fsBody fsEmbed.*?/;
-//   const openDiv = /<div.*?>/;
-//   const closeDiv = /.*?<\/div>/;
-//   const formstack = document.querySelector('formstack');
-//   if (fsBodyEmbed.test(s)) {
-//     formstack.innerHTML += s;
-//   } else {
-//     const fsBody = formstack.querySelector(':scope > .fsBody.fsEmbed');
-//     if (openDiv.test(s)) {
-
-//     } else if (closeDiv.test(s)) {
-//       fsBody.innerHTML += s;
-//     }
-//     // console.log(`s is ${s}`);
-//   }
-// };
-
-// eslint-disable-next-line func-names
-// document.write = function (parameter) {
-//   if (!parameter) return;
-//   const scriptPattern = /<script.*?src=['|"](.*?)['|"]/;
-//   const stylePattern = /<style.*?type=['|"](.*?)['|"]/;
-//   if (scriptPattern.test(parameter)) {
-//     const srcAttribute = scriptPattern.exec(parameter)[1];
-//     const script = document.createElement('script');
-//     script.src = srcAttribute;
-//     document.head.appendChild(script);
-//   } else if (stylePattern.test(parameter)) {
-//     const srcAttribute = scriptPattern.exec(parameter)[1];
-//     const script = document.createElement('script');
-//     script.src = srcAttribute;
-//     document.head.appendChild(script);
-//   } else {
-//     const formstack = document.querySelector('formstack');
-//     if (formstack) formstack.innerHTML += parameter;
-//   }
-// };
-
 export default function decorate(block) {
   const formstackLink = block.querySelector('a');
   if (formstackLink && formstackLink.href) {
@@ -75,6 +33,8 @@ export default function decorate(block) {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
           block.append(loadScript(formstackUrl));
+          // Now delay for a few seconds and then set the formstack div innerHTML
+          // to whatever is saved under window.formStackContent.value
           window.setTimeout(() => {
             const saveToDom = document.createElement('script');
             saveToDom.type = 'text/javascript';
