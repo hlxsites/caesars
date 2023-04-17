@@ -99,6 +99,7 @@
 
 .slider .card .short-description h4 {
   text-transform: uppercase;
+  line-height: 1.1;
 }
 
 .slider .card .short-description h5 {
@@ -106,6 +107,9 @@
   font-size: var(--heading-font-size-xxs);
   font-weight: var(--emphasized-font-weight);
   margin-top: 5px;
+  line-height: 1.25;
+  font-size: 12px;
+  font-weight: 700;
 }
 
 .slider .card .active-close-button {
