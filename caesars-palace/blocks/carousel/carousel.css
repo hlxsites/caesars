@@ -156,17 +156,21 @@
 
 .carousel.showcase.block .carousel-product-pricing {
   position: absolute;
+  display: flex;
   top: 0;
-  margin-top: 496px;
-  margin-left: 700px;
+  flex-direction: column;
+  margin-top: 403px;
+  right: 40px;
   z-index: 5;
 }
 
 .carousel.showcase.block .carousel-product-sale-pricing {
   position: absolute;
+  display: flex;
   top: 0;
-  margin-top: 496px;
-  margin-left: 680px;
+  flex-direction: column;
+  margin-top: 403px;
+  right: 40px;
   z-index: 5;
 }
 
