@@ -154,7 +154,7 @@
   margin: auto 0 16px auto;
 }
 
-.carousel-product-pricing {
+.carousel.showcase.block .carousel-product-pricing {
   position: absolute;
   top: 0;
   margin-top: 496px;
@@ -162,7 +162,7 @@
   z-index: 5;
 }
 
-.carousel-product-sale-pricing {
+.carousel.showcase.block .carousel-product-sale-pricing {
   position: absolute;
   top: 0;
   margin-top: 496px;
@@ -170,17 +170,17 @@
   z-index: 5;
 }
 
-.carousel-text-crossed-price {
+.carousel.showcase.block .carousel-text-crossed-price {
   display: flex;
   align-items: self-end;
   color: var(--static-color-black);
-  z-index: 5;
   text-decoration: line-through;
   opacity: 0.6;
   padding-right: 4px;
+  z-index: 5;
 }
 
-.carousel-text-price {
+.carousel.showcase.block .carousel-text-price {
   color: var(--static-color-black);
   font-family: 'Montserrat',sans-serif;
   font-weight: 700;
@@ -188,7 +188,7 @@
   line-height: 1;
 }
 
-.carousel-text-price-subtitle {
+.carousel.showcase.block .carousel-text-price-subtitle {
   color: rgba(52 56 64 / 0.8);
   white-space: nowrap;
   text-transform: uppercase;
@@ -198,13 +198,9 @@
   padding-top: 4px;
 }
 
-.carousel-product-prices {
+.carousel.showcase.block .carousel-product-prices {
   display: flex;
   flex-direction: row;
-}
-
-.carousel-text-price-subtitle {
-
 }
 
 /* Responsive breakpoints */
@@ -348,12 +344,27 @@
     transition: background-color 75ms cubic-bezier(0.4, 0, 0.2, 1);
   }
 
-  .carousel-text-crossed-price {
+  .carousel.showcase.block .carousel-product-pricing {
+    position: absolute;
+    top: 0;
+    margin-top: 496px;
+    margin-left: 700px;
   }
 
-  .carousel-text-price {
+  .carousel.showcase.block .carousel-product-sale-pricing {
+    position: absolute;
+    top: 0;
+    margin-top: 496px;
+    margin-left: 680px;
   }
 
-  .carousel-text-price-subtitle {
+  .carousel.showcase.block .carousel-text-crossed-price {
+    display: flex;
+    align-items: self-end;
+  }
+
+  .carousel.showcase.block .carousel-product-prices {
+    display: flex;
+    flex-direction: row;
   }
 }
