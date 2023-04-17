@@ -23,6 +23,8 @@ const NAVIGATION_DIRECTION_PREV = 'prev';
 const NAVIGATION_DIRECTION_NEXT = 'next';
 const SLIDE_ANIMATION_DURATION_MS = 640;
 
+const CAROUSEL_PRICE_SUBTITLE_TXT = 'per night';
+
 const DEFAULT_CONFIG = Object.freeze({
   interval: DEFAULT_SCROLL_INTERVAL_MS,
 });
@@ -303,6 +305,66 @@ function buildSlide(blockState, slide, index) {
   }
   if (slide.children && slide.children.length >= 2 && !!slide.children[2]) {
     slide.children[2].classList.add('carousel-text');
+  }
+
+  if(slide.children.length === 4){
+    const pricingDiv = document.createElement('div');
+    const pricingLineDiv = document.createElement('div');
+
+    pricingLineDiv.classList.add('carousel-product-prices');
+    pricingDiv.classList.add('carousel-product-pricing');
+
+    const currentPriceNode = slide.children[3];
+    if(currentPriceNode.innerText !== ''){
+      currentPriceNode.classList.add('carousel-text-price');
+    } else if(slide.children[3]) {
+      currentPriceNode.remove();
+    }
+
+    if(currentPriceNode && currentPriceNode.classList.contains('carousel-text-price')){
+      const pricingLineSubtitle = document.createElement('div');
+      pricingLineSubtitle.classList.add('carousel-text-price-subtitle');
+      pricingLineSubtitle.innerText = CAROUSEL_PRICE_SUBTITLE_TXT;
+      pricingLineDiv.append(currentPriceNode);
+
+      pricingDiv.append(pricingLineDiv);
+      pricingDiv.append(pricingLineSubtitle);
+      slide.append(pricingDiv);
+    }
+  } else if (slide.children.length === 5){
+    const pricingDiv = document.createElement('div');
+    const pricingLineDiv = document.createElement('div');
+
+    pricingLineDiv.classList.add('carousel-product-prices');
+    pricingDiv.classList.add('carousel-product-sale-pricing');
+
+    const crossedOutPriceNode = slide.children[3];
+    if(crossedOutPriceNode.innerText !== ''){
+      crossedOutPriceNode.classList.add('carousel-text-crossed-price');
+    } else {
+      crossedOutPriceNode.remove();
+    }
+
+    const currentPriceNode = slide.children[4];
+    if(currentPriceNode && currentPriceNode.innerText !== ''){
+      currentPriceNode.classList.add('carousel-text-price');
+    } else if(slide.children[4]){
+      currentPriceNode.remove();
+    }
+
+    if(crossedOutPriceNode && crossedOutPriceNode.classList.contains('carousel-text-crossed-price')
+      && currentPriceNode && currentPriceNode.classList.contains('carousel-text-price')){
+      const pricingLineSubtitle = document.createElement('div');
+      pricingLineSubtitle.classList.add('carousel-text-price-subtitle');
+      pricingLineSubtitle.innerText = CAROUSEL_PRICE_SUBTITLE_TXT;
+
+      pricingLineDiv.append(crossedOutPriceNode);
+      pricingLineDiv.append(currentPriceNode);
+
+      pricingDiv.append(pricingLineDiv);
+      pricingDiv.append(pricingLineSubtitle);
+      slide.append(pricingDiv);
+    }
   }
 
   slide.style.transform = `translateX(calc(${index * 100}%))`;

@@ -95,6 +95,10 @@
 
 .carousel.showcase.block .carousel-text {
   position: absolute;
+  font-family: unset;
+  line-height: unset;
+  letter-spacing: unset;
+  font-size: var(--heading-font-size-s);
   z-index: 3;
   bottom: 0;
   display: flex;
@@ -150,6 +154,59 @@
   margin: auto 0 16px auto;
 }
 
+.carousel-product-pricing {
+  position: absolute;
+  top: 0;
+  margin-top: 496px;
+  margin-left: 700px;
+  z-index: 5;
+}
+
+.carousel-product-sale-pricing {
+  position: absolute;
+  top: 0;
+  margin-top: 496px;
+  margin-left: 680px;
+  z-index: 5;
+}
+
+.carousel-text-crossed-price {
+  display: flex;
+  align-items: self-end;
+  color: var(--static-color-black);
+  z-index: 5;
+  text-decoration: line-through;
+  opacity: 0.6;
+  padding-right: 4px;
+}
+
+.carousel-text-price {
+  color: var(--static-color-black);
+  font-family: 'Montserrat',sans-serif;
+  font-weight: 700;
+  font-size: 36px;
+  line-height: 1;
+}
+
+.carousel-text-price-subtitle {
+  color: rgba(52 56 64 / 0.8);
+  white-space: nowrap;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 14px;
+  text-align: right;
+  padding-top: 4px;
+}
+
+.carousel-product-prices {
+  display: flex;
+  flex-direction: row;
+}
+
+.carousel-text-price-subtitle {
+
+}
+
 /* Responsive breakpoints */
 @media screen and (min-width: 1170px) {
   .carousel.showcase.block .carousel-slide-container {
@@ -158,13 +215,6 @@
     overflow: hidden;
     margin: 0 auto;
     height: 686px;
-  }
-
-  .carousel.showcase.block .carousel-slide > div {
-    font-family: unset;
-    line-height: unset;
-    letter-spacing: unset;
-    font-size: var(--heading-font-size-s);
   }
 
   .carousel.showcase.block .carousel-dots {
@@ -296,5 +346,14 @@
     border-radius: 50%;
     background-color: rgba(190 192 197 / 20%);
     transition: background-color 75ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .carousel-text-crossed-price {
+  }
+
+  .carousel-text-price {
+  }
+
+  .carousel-text-price-subtitle {
   }
 }
