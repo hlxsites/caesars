@@ -107,7 +107,7 @@
   }
 
   .accordion.block .accordion-panel-selected {
-    height: 702px;
+    height: 627px;
     flex-grow: 2;
     transition: height 700ms cubic-bezier(0.4, 0, 0.2, 1), flex-grow 900ms cubic-bezier(0.4, 0, 0.2, 1);
   }
@@ -124,6 +124,8 @@
   .accordion.block .accordion-panel-selected .accordion-item-title {
     font-size: var(--heading-font-size-m);
     transition: font-size 700ms cubic-bezier(0.4, 0, 0.2, 1);
+    margin-top: 400px;
+    border: 2px solid white;
   }
 
   .accordion.block .accordion-panel-selected .accordion-item-description>p {
