@@ -48,6 +48,7 @@
   flex-direction: column;
   position: relative;
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%);
+  color: var(--text-color);
 }
 
 .slider.no-image .card .short-description,
@@ -68,6 +69,29 @@
 .slider:not(.flat) .card .short-description {
   background: var(--static-color-white);
 }
+
+.slider .extended-text .button-container {
+  display: none;
+}
+
+.slider:not(.flat) .card .button-container {
+  text-align: right;
+  position: absolute;
+  margin-top: 120px;
+  margin-left: 260px;
+}
+
+.slider.flat .card .button-container {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+}
+
+.slider.full-card .card-wrapper .tall-card .button-container {
+  margin-left: 50%;
+} 
 
 .slider .extended-text h4 {
   display: none;
@@ -96,6 +120,31 @@
   z-index: 2;
 }
 
+.slider .tall-card {
+  display: flex;
+  flex-direction: column;
+}
+
+.slider.full-card .tall-card .card-image {
+  flex: 1;
+}
+
+.slider .card img {
+  width: 100%;
+  object-fit: cover;
+}
+
+.slider.flat .card img {
+  width: 287px;
+  height: 160px;
+  object-fit: contain;
+}
+
+.slider.full-card .tall-card .card-image picture img {
+  aspect-ratio: unset;
+  height: 100%;
+}
+
 .slider .tall-card .active-close-button {
   position: absolute;
   top: var(--layout-size-xs);
@@ -112,36 +161,6 @@
   display: none;
 }
 
-.slider .extended-text .button-container {
-  display: none;
-}
-
-.slider:not(.flat) .card .button-container {
-  text-align: right;
-    position: absolute;
-    margin-top: 120px;
-    margin-left: 260px;
-}
-
-.slider.flat .card .button-container {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  margin: 0;
-}
-
-.slider .card img {
-  width: 100%;
-  object-fit: cover;
-}
-
-.slider.flat .card img {
-  width: 287px;
-  height: 160px;
-  object-fit: contain;
-}
-
 .clickable-ellipsis {
   cursor: pointer;
   margin-left: var(--layout-size-xxs);
@@ -152,6 +171,10 @@
   .slider .card {
     width: 100%;
   }
+
+  .slider.full-card .card-wrapper .tall-card .button-container {
+    margin-left: 70%;
+  } 
 }
 
 @media only screen and (min-width: 768px) {
@@ -163,12 +186,20 @@
     height: 180px;
   }
 
-  .slider:not(.flat) .card .extended-text::-webkit-scrollbar {
-    display: none;
-  }
-
   .slider.no-image .card .short-description {
     margin: 0;
+  }
+
+  .slider:not(.flat).full-card .card .short-description {
+    margin: unset !important;
+  }
+
+  .slider.full-card .card-wrapper .tall-card .button-container {
+    margin-left: 38%;
+  } 
+
+  .slider:not(.flat) .card .extended-text::-webkit-scrollbar {
+    display: none;
   }
 
   .slider-button {
@@ -218,4 +249,14 @@
   .slider.spacious .card-wrapper {
     gap: 50px;
   }
+
+  .slider.full-card .card-wrapper .tall-card .button-container {
+    margin-left: 55%;
+  } 
+}
+
+@media (min-width: 1440px) {
+  .slider.full-card .card-wrapper .tall-card .button-container {
+    margin-left: 62%;
+  } 
 }
