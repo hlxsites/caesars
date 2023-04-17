@@ -745,7 +745,7 @@ export default function decorate(block) {
     } else {
       startAutoScroll(block, blockState);
     }
-  });
+  }, { passive: true });
 
   let resizeTimeout;
   window.addEventListener('resize', () => {
