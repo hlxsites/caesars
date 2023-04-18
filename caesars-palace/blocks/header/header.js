@@ -52,7 +52,6 @@ async function fetchFragment(path) {
   if (resp.ok) {
     const container = document.createElement('div');
     container.innerHTML = await resp.text();
-    //decorateBlock(container);
     decorateMain(container);
     await loadBlocks(container);
     return container;

@@ -623,6 +623,7 @@ header nav .nav-tools p:first-of-type a:hover {
   }
 }
 
+
 header .user-menu-container {
   transform: unset;
   top: 0;
@@ -639,5 +640,6 @@ header .user-menu-container {
   display: block;
   height: auto;
   border-radius: 2px;
-  max-width: 400px;
+  max-width: 360px;
+  padding: 20px;
 }

@@ -1,29 +1,29 @@
-main .form {
+.form {
   background-color: white;
   padding: var(--spacing-m);
   box-shadow: 0 1px 6px rgb(34 34 34 / 10%);
 }
 
-main .form.sign-in {
+.form.sign-in {
   box-shadow: none;
 }
 
-main .form h2 {
+.form h2 {
   padding: var(--spacing-m) 0;
   font-size: var(--type-heading-l-lh);
   font-weight: normal;
 }
 
-main .form h3 {
+.form h3 {
   padding-top: var(--spacing-m);
   font-size: var(--type-heading-m-size);
   font-weight: bold;
   text-transform: uppercase;
 }
 
-main .form input,
-main .form textarea,
-main .form select {
+.form input,
+.form textarea,
+.form select {
   border: 1px solid rgb(193 193 195);
   padding: 11px;
   border-radius: 0;
@@ -33,29 +33,29 @@ main .form select {
   margin-top: 4px;
 }
 
-main .form textarea {
+.form textarea {
   min-height: 100px;
 }
 
-main .form.sign-in input,
-main .form.sign-in textarea,
-main .form.sign-in select {
+.form.sign-in input,
+.form.sign-in textarea,
+.form.sign-in select {
   padding: 16px 16px 4px;
   font: inherit;
 }
 
-main .form.sign-in input.error,
-main .form.sign-in textarea.error,
-main .form.sign-in select.error { 
+.form.sign-in input.error,
+.form.sign-in textarea.error,
+.form.sign-in select.error { 
   border-color: #d60000;
 }
 
-main .form input:hover,
-main .form select:hover {
+.form input:hover,
+.form select:hover {
   border-color: rgb(90 92 96);
 }
 
-main .form label {
+.form label {
   width: 100%;
   display: block;
   font-size: var(--type-body-s-size);
@@ -66,7 +66,7 @@ main .form label {
   font-weight: 800;
 }
 
-main .form.sign-in label {
+.form.sign-in label {
   position: absolute;
   margin-left: 16px;
   margin-top: 24px;
@@ -81,42 +81,42 @@ main .form.sign-in label {
   font-weight: 400;
 }
 
-main .form span.input-error {
+.form span.input-error {
   display: none;
   font-size: 11px;
   color: #d60000;
   line-height: 1.5;
 }
 
-main .form span.input-error.active {
+.form span.input-error.active {
   display: flex;
 }
 
-main .form.sign-in label.active {
+.form.sign-in label.active {
   color: #000;
   transform: scale(0.71) translateY(-50%) translateY(-11px);
 }
 
-main .form label.required::after {
+.form label.required::after {
   content: "*";
   color: red;
   padding-left: 5px;
 }
 
-main .form.form.sign-in label.required::after {
+.form.form.sign-in label.required::after {
   display: none;
 }
 
-main .form .field-wrapper {
+.form .field-wrapper {
   margin-bottom: 20px;
 }
 
-main .form .form-checkbox-wrapper {
+.form .form-checkbox-wrapper {
   display: flex;
   margin: var(--spacing-s) 0;
 }
 
-main .form .form-checkbox-wrapper input[type='checkbox'] {
+.form .form-checkbox-wrapper input[type='checkbox'] {
   appearance: none;
 
   /* stylelint-disable */
@@ -133,7 +133,7 @@ main .form .form-checkbox-wrapper input[type='checkbox'] {
   margin-left: 0;
 }
 
-main .form .form-checkbox-wrapper input[type='checkbox']::after {
+.form .form-checkbox-wrapper input[type='checkbox']::after {
   display: block;
   position: absolute;
   top: 0;
@@ -145,13 +145,13 @@ main .form .form-checkbox-wrapper input[type='checkbox']::after {
   background-size: contain;
 }
 
-main .form .form-checkbox-wrapper input[type='checkbox']:checked::after {
+.form .form-checkbox-wrapper input[type='checkbox']:checked::after {
   background: url('./checkbox-checked.svg');
   background-size: contain;
   content: ' ';
 }
 
-main .form .form-checkbox-wrapper label {
+.form .form-checkbox-wrapper label {
   font-size: var(--type-body-m-size);
   line-height: var(--type-body-m-lh);
   font-weight: normal;
@@ -159,7 +159,7 @@ main .form .form-checkbox-wrapper label {
   display: block;
 }
 
-main .form .button {
+.form .button {
   cursor: pointer;
   background: rgb(20 115 230);
   color: white;
@@ -171,7 +171,7 @@ main .form .button {
   font-family: adobe-clean, 'Trebuchet MS', sans-serif;
 }
 
-main .form.sign-in .button {
+.form.sign-in .button {
   border: 1px solid #ad1f23;
   border-radius: 4px;
   background: #ad1f23;
@@ -184,14 +184,14 @@ main .form.sign-in .button {
   padding: 0 16px;
 }
 
-main .form.sign-in .button:hover {
+.form.sign-in .button:hover {
   transition: background-color 75ms cubic-bezier(0.4,0,0.2,1);
   transition: box-shadow 75ms cubic-bezier(0.4,0,0.2,1);
   background-color: #971b1f;
   box-shadow: 0 10px 15px -3px rgb(0 0 0 / 10%), 0 4px 6px -2px rgb(0 0 0 / 6%);
 }
 
-main .form.sign-in .button:disabled {
+.form.sign-in .button:disabled {
   color: #ccc;
   box-shadow: none;
   background: transparent;
@@ -199,11 +199,11 @@ main .form.sign-in .button:disabled {
   cursor: default;
 }
 
-main .form .form-submit-wrapper {
+.form .form-submit-wrapper {
   display: flex;
   justify-content: flex-end;
 }
 
-main .form.sign-in .form-submit-wrapper {
+.form.sign-in .form-submit-wrapper {
   display: block;
 }
