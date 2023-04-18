@@ -78,7 +78,7 @@
   text-align: right;
   position: absolute;
   margin-top: 120px;
-  margin-left: 260px;
+  margin-left: 280px;
 }
 
 .slider.flat .card .button-container {
@@ -91,7 +91,7 @@
 
 .slider.full-card .card-wrapper .tall-card .button-container {
   margin-left: 50%;
-} 
+}
 
 .slider .extended-text h4 {
   display: none;
@@ -99,13 +99,15 @@
 
 .slider .card .short-description h4 {
   text-transform: uppercase;
+  line-height: 1.1;
 }
 
 .slider .card .short-description h5 {
   opacity: .7;
-  font-size: var(--heading-font-size-xxs);
+  font-size: 12px;
   font-weight: var(--emphasized-font-weight);
   margin-top: 5px;
+  line-height: 1.25;
 }
 
 .slider .card .active-close-button {
@@ -174,7 +176,7 @@
 
   .slider.full-card .card-wrapper .tall-card .button-container {
     margin-left: 70%;
-  } 
+  }
 }
 
 @media only screen and (min-width: 768px) {
@@ -196,7 +198,7 @@
 
   .slider.full-card .card-wrapper .tall-card .button-container {
     margin-left: 38%;
-  } 
+  }
 
   .slider:not(.flat) .card .extended-text::-webkit-scrollbar {
     display: none;
@@ -205,7 +207,7 @@
   .slider-button {
     position: absolute;
     z-index: 10;
-    top: calc(50% - 25px);
+    top: calc(45% - 25px);
     background-color: var(--static-color-white);
     width: 50px;
     height: 50px;
@@ -221,27 +223,29 @@
   .slider-button::after {
     content: '';
     position: absolute;
-    width: 10px;
-    height: 20px;
+    width: 20px;
+    height: 35px;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
   }
 
   .slider-button.left {
-    left: -25px;
+    left: -8px;
   }
 
   .slider-button.left::after {
     background: url("../../icons/chevron-left.svg") no-repeat;
+    filter: invert(50%);
   }
 
   .slider-button.right {
-    right: -25px;
+    right: -8px;
   }
 
   .slider-button.right::after {
     background: url("../../icons/chevron-right.svg") no-repeat;
+    filter: invert(50%);
   }
 }
 
@@ -252,11 +256,11 @@
 
   .slider.full-card .card-wrapper .tall-card .button-container {
     margin-left: 55%;
-  } 
+  }
 }
 
 @media (min-width: 1440px) {
   .slider.full-card .card-wrapper .tall-card .button-container {
     margin-left: 62%;
-  } 
+  }
 }
