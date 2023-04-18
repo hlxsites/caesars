@@ -171,11 +171,11 @@
     }
 
     .columns.stretch-start > div > div:first-of-type {
-        flex: 2;
+        flex: 4;
     }
 
     .columns.stretch-end > div > div:last-of-type {
-        flex: 2;
+        flex: 4;
     }
 
     .columns.columns-2-cols.cet-card .button-group {
