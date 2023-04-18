@@ -114,9 +114,63 @@ export default function decorate(block) {
   }
 
   const mobileMediaQuery = window.matchMedia('only screen and (max-width:768px)');
+  const tabletMediaQuery = window.matchMedia('only screen and (min-width:769px) and (max-width:1169px)');
   const desktopMediaQuery = window.matchMedia('only screen and (min-width:1170px)');
 
   const mediaChangeHandler = () => {
+    if (tabletMediaQuery.matches) {
+      const shortDescriptionDivs = block.querySelectorAll('.short-description');
+      shortDescriptionDivs.forEach((div) => {
+        const ellipsableText = div.querySelector('p');
+        if (!ellipsableText) return;
+
+        const textStyle = window.getComputedStyle(div);
+        const textOptions = {
+          font: `${textStyle.fontWeight} ${textStyle.fontSize} ${textStyle.fontFamily}`,
+          letterSpacing: `${textStyle.letterSpacing}`,
+        };
+
+        const displayBufferPixels = 16;
+        const textContentWidth = div.offsetWidth - displayBufferPixels;
+        const fullTextContent = ellipsableText.innerText;
+        if (!fullTextContent) return;
+        const ellipsisBuilder = buildEllipsis(
+          fullTextContent,
+          textContentWidth,
+          2,
+          blockConfig.ellipsis,
+          textOptions,
+        );
+        if (ellipsisBuilder.lineCount > 2) {
+          const clickableCloseButton = document.createElement('span');
+          const clickableEllipsis = document.createElement('span');
+
+          clickableCloseButton.classList.add('hidden-close-button');
+          clickableEllipsis.classList.add('clickable-ellipsis');
+
+          clickableCloseButton.innerHTML = '';
+          clickableCloseButton.classList.add('close-button');
+          clickableEllipsis.innerHTML = blockConfig.ellipsis;
+          ellipsableText.innerHTML = `${ellipsisBuilder.shortText}`;
+          ellipsableText.append(clickableEllipsis);
+          div.append(clickableCloseButton);
+
+          clickableEllipsis.addEventListener('click', () => {
+            div.classList.add('extended-text');
+            ellipsableText.innerHTML = `${fullTextContent}`;
+            clickableCloseButton.classList.remove('hidden-close-button');
+            clickableCloseButton.classList.add('active-close-button');
+          });
+          clickableCloseButton.addEventListener('click', () => {
+            div.classList.remove('extended-text');
+            ellipsableText.innerHTML = `${ellipsisBuilder.shortText}`;
+            ellipsableText.append(clickableEllipsis);
+            clickableCloseButton.classList.remove('active-close-button');
+            clickableCloseButton.classList.add('hidden-close-button');
+          });
+        }
+      });
+    }
     if (mobileMediaQuery.matches) {
       cardWrapper.style.width = '';
     } else {
