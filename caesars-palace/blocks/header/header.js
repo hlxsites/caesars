@@ -205,8 +205,13 @@ const showMore = (nav, maxItemsDesktop) => {
 /**
  * shows the login modal
  */
-function showLoginModal() {
-  alert('hey, im a login modal');
+function toggleUserMenu() {
+  const userMenu = this.closest('.header.block').querySelector('.user-menu')
+  if (userMenu.classList.contains('open')){
+    userMenu.classList.remove('open');
+  } else {
+    userMenu.classList.add('open');
+  }
 }
 
 /**
@@ -223,7 +228,7 @@ async function createUserMenu(globalNavDesktop) {
   signIn.classList.add('sign-in');
   signIn.setAttribute('aria-label', 'Sign In');
   signIn.innerHTML = 'Sign In';
-  signIn.addEventListener('click', showLoginModal);
+  signIn.addEventListener('click', toggleUserMenu);
   userAccount.appendChild(signIn);
 
   // signed in.
@@ -236,6 +241,7 @@ async function createUserMenu(globalNavDesktop) {
   // close button
   const userMenuClose = document.createElement('div');
   userMenuClose.classList.add('user-menu-close');
+  userMenuClose.addEventListener('click', toggleUserMenu);
   userMenu.appendChild(userMenuClose);
 
   const userMenuContainer = document.createElement('div');

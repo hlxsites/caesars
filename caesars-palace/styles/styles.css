@@ -158,6 +158,10 @@ blockquote {
   margin-bottom: 1em;
 }
 
+p:has(> sub) {
+  line-height: 0.7;
+} 
+
 /* Links */
 :any-link {
   color: var(--link-color);

@@ -41,7 +41,7 @@
 .form.sign-in textarea,
 .form.sign-in select {
   padding: 16px 16px 4px;
-  font: inherit;
+  font: 14px;
 }
 
 .form.sign-in input.error,
@@ -109,6 +109,10 @@
 
 .form .field-wrapper {
   margin-bottom: 20px;
+}
+
+.form.sign-in .field-wrapper {
+  margin-bottom: 16px;
 }
 
 .form .form-checkbox-wrapper {
@@ -206,4 +210,8 @@
 
 .form.sign-in .form-submit-wrapper {
   display: block;
+}
+
+.form.sign-in .form-submit-wrapper > button {
+  margin-top: 0px;
 }
