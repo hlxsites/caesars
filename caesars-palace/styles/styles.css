@@ -409,6 +409,15 @@ main .section.compact > div:last-of-type {
   padding-bottom: 0;
 }
 
+.section.product-quickfacts .default-content-wrapper p {
+  margin: 16px auto 24px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-right: 16px;
+  font-weight: 700;
+}
+
 main .section.is-hero > div:last-of-type {
   padding-bottom: unset;
 }
@@ -457,6 +466,10 @@ main .section.is-hero h4 {
 main .section.is-hero.left-aligned h4 {
   text-align: left;
   margin-left: 20%;
+  padding-bottom: unset;
+}
+
+main .section.is-hero.remove-bottom-space h4 {
   padding-bottom: unset;
 }
 
@@ -549,6 +562,47 @@ main .section.is-hero.has-background-block > div:nth-child(2) {
   margin-top: 520px;
 }
 
+.section.product-quickfacts {
+  background-color: var(--static-color-black);
+  color: var(--static-color-white);
+}
+
+.section.product-quickfacts .default-content-wrapper {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: center;
+  width: 80%;
+}
+
+.section.product-quickfacts .default-content-wrapper p > a {
+  text-decoration: none;
+  color: var(--static-color-white);
+}
+
+.section.product-quickfacts .default-content-wrapper > p > span {
+  display: flex;
+}
+
+.section.product-quickfacts .default-content-wrapper > p > span > svg {
+  height: 28px;
+  margin-right: var(--layout-size-m);
+}
+
+.section.product-quickfacts .default-content-wrapper > p > span.quick-facts-show-open {
+  height: 52px;
+  filter: invert(100%);
+  content: url('../icons/calendar-open.svg');
+  padding-right: var(--layout-size-m);
+  margin-top: var(--layout-size-xs);
+}
+
+.section.product-quickfacts .default-content-wrapper > p > span.quick-facts-showtime-hours {
+  display: flex;
+  flex-direction: column;
+  margin-top: var(--layout-size-m);
+  font-weight: var(--emphasized-font-weight);
+}
+
 /* Responsive Breakpoints */
 
 /* Tablet (portrait) */
@@ -563,6 +617,15 @@ main .section.is-hero.has-background-block > div:nth-child(2) {
 
   main .section > div:last-of-type {
     padding-bottom: var(--layout-size-xxl);
+  }
+
+  .section.product-quickfacts .default-content-wrapper {
+    width: 50%;
+  }
+
+  .section.product-quickfacts .default-content-wrapper > p > span > svg {
+    height: 50px;
+    margin-right: 16px;
   }
 }
 

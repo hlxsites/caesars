@@ -1,0 +1,169 @@
+.quick-facts-hours.block {
+  display: flex;
+  justify-content: center;
+}
+
+.quick-facts-hours.block .quick-facts-hours-container {
+  display: flex;
+  align-items: center;
+  background: rgba(255 255 255 / 10%);
+  border-radius: 4px;
+  height: 50px;
+  padding: 2px 16px;
+}
+
+.quick-facts-hours.block .hours-status {
+  font-weight: var(--emphasized-font-weight);
+  font-size: 22px;
+  text-transform: uppercase;
+}
+
+.quick-facts-hours.block .status-closed {
+  width: var(--layout-size-l);
+  height: var(--layout-size-l);
+  filter: invert(100%);
+  content: url('../../icons/calendar-closed.svg');
+  padding-right: 16px;
+}
+
+.quick-facts-hours.block .status-open {
+  width: var(--layout-size-l);
+  height: var(--layout-size-l);
+  filter: invert(100%);
+  content: url('../../icons/calendar-open.svg');
+  padding-right: 16px;
+}
+
+.quick-facts-hours.block .show-open {
+  height: 50px;
+  filter: invert(100%);
+  content: url('../../icons/calendar-open.svg');
+  padding-right: var(--layout-size-m);
+  margin-top: var(--layout-size-m);
+}
+
+.quick-facts-hours.block .quick-facts-showtime-hours {
+  margin-top: var(--layout-size-m);
+  font-weight: var(--emphasized-font-weight);
+}
+
+.quick-facts-hours.block .next-status-change {
+  padding: 0 16px;
+  font-weight: var(--clickable-font-weight);
+}
+
+.quick-facts-hours.block .quick-facts-hours-container a {
+  color: var(--static-color-white);
+  font-weight: var(--clickable-font-weight);
+}
+
+.quick-facts-hours.block .quick-facts-hours-container-chevron {
+  content: url('../../icons/chevron-right.svg');
+  width: 14px;
+  height: 14px;
+  filter: invert(100%);
+  cursor: pointer;
+}
+
+.always-open.block .quick-facts-hours-container a {
+  color: var(--static-color-white);
+  font-weight: var(--emphasized-font-weight);
+  font-size: 22px;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+
+.quick-facts-hours.block .quick-facts-modal {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  background-color: var(--static-color-white);
+  color: var(--static-color-midnight);
+  font-size: 14px;
+  line-height: 32px;
+  padding-bottom: var(--layout-size-xl);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 15;
+}
+
+.quick-facts-hours.block .quick-facts-modal-close-button {
+  position: absolute;
+  height: var(--layout-size-l);
+  content: url('../../icons/close-bold.svg');
+  right: 10px;
+  top: 8px;
+}
+
+/* top | right | bottom | left */
+.quick-facts-hours.block .quick-facts-modal h3 {
+  font-size: 22px;
+  padding: 32px 32px 16px;
+  color: var(--static-color-midnight);
+}
+
+.quick-facts-hours.block .quick-facts-modal h4 {
+  line-height: 40px;
+  font-size: 14px;
+  padding: 8px 32px;
+  color: var(--static-color-midnight);
+}
+
+.quick-facts-hours.block .quickfacts-modal-overlay,
+.quick-facts-hours.block .quick-facts-modal-overlay-hidden,
+.quick-facts-hours.block .quick-facts-modal-hidden {
+  display: none;
+}
+
+.quick-facts-hours.block .quick-facts-modal-visible {
+  display: flex;
+}
+
+.quick-facts-hours.block .quickfacts-opening-hours-line {
+  display: flex;
+  flex-direction: row;
+}
+
+.quick-facts-hours.block .quickfacts-opening-hours-line-focused {
+  font-weight: var(--emphasized-font-weight);
+}
+
+.quick-facts-hours.block .quickfacts-opening-hours-day {
+  text-align: left;
+  flex-grow: 1;
+  padding-left: var(--layout-size-xl);
+}
+
+.quick-facts-hours.block .quickfacts-opening-hours-time {
+  text-align: right;
+  padding-right: var(--layout-size-xl);
+}
+
+@media only screen and (min-width: 768px) {
+  .quick-facts-hours.block .quickfacts-modal-overlay {
+    display: unset;
+    z-index: 10;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(20 20 20 / 80%);
+  }
+
+  .quick-facts-hours.block .quick-facts-modal {
+    width: 400px;
+    top: 25%;
+    right: auto;
+    bottom: auto;
+    z-index: 15;
+    left: unset;
+  }
+
+  .quick-facts-hours.block .quick-facts-modal-overlay-hidden,
+  .quick-facts-hours.block .quick-facts-modal-hidden {
+    display: none;
+  }
+}
