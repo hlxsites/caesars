@@ -610,7 +610,7 @@ main .section.short-width-text > div {
 }
 
 main .section.short-width-text > div > p {
-  max-width: 60%;
+  max-width: 50%;
   padding-bottom: 50px;
 }
 
