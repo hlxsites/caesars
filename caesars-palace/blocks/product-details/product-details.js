@@ -4,7 +4,7 @@ import {
   buildBlock,
   loadBlocks,
 } from '../../scripts/lib-franklin.js';
-import { decorateMain } from '../../scripts/scripts.js';
+import { decorateMain, getDateFromExcel } from '../../scripts/scripts.js';
 
 export default async function decorate(block) {
   // Check if json endpoint exists and this is a product details template
@@ -23,6 +23,7 @@ export default async function decorate(block) {
 
       /** Create Hero Section */
       // Get Image, Title
+      const title = json.overview.data[0].Title;
       const heroImage = json.overview.data[0]['Hero Image'];
       const heroVideo = json.overview.data[0]['Hero Video'];
       const heroTitle = json.overview.data[0]['Hero Title'];
@@ -32,6 +33,8 @@ export default async function decorate(block) {
       const secondaryUrl = json.overview.data[0]['Secondary Url'];
       const secondaryUrlText = json.overview.data[0]['Secondary Url button text'];
       const secondaryUrlNewWindow = json.overview.data[0]['Open secondary url in new tab'];
+      const logo = json.overview.data[0].Logo;
+      const longDescription = json.overview.data[0]['Long Description'];
 
       if (heroImage && heroTitle) {
         // Create the content structure
@@ -84,6 +87,45 @@ export default async function decorate(block) {
         }
         main.prepend(heroSection);
       }
+
+      /** Create Product quick facts section */
+      const productQuickFactsSection = document.createElement('div');
+      productQuickFactsSection.classList.add('product-quickfacts');
+      // Add the logo and description column block
+      if (logo && longDescription && title) {
+        const logoPicture = createOptimizedPicture(`${logo}`, title, false);
+        const quickFactsBlock = buildBlock('columns', [[logoPicture, longDescription]]);
+        quickFactsBlock.classList.add('product-quickfacts', 'stretch-end');
+        productQuickFactsSection.append(quickFactsBlock);
+      }
+
+      // Add hours
+      const { hours } = json;
+      if (hours && hours.data && (hours.data.length > 0)) {
+        const hoursArray = [];
+        hours.data.forEach((row) => {
+          const day = row.Day;
+          const openTime = getDateFromExcel(row['Open Time']);
+          const openTimeOutput = openTime.toLocaleTimeString('en-US', {
+            timeZone: 'UTC',
+            hour12: true,
+            hour: 'numeric',
+            minute: 'numeric',
+          });
+          const closeTime = getDateFromExcel(row['Close Time']);
+          const closeTimeOutput = closeTime.toLocaleTimeString('en-US', {
+            timeZone: 'UTC',
+            hour12: true,
+            hour: 'numeric',
+            minute: 'numeric',
+          });
+          hoursArray.push([day, `${openTimeOutput}-${closeTimeOutput}`]);
+        });
+        const hoursBlock = buildBlock('quick-facts-hours', hoursArray);
+        productQuickFactsSection.append(hoursBlock);
+      }
+
+      if (productQuickFactsSection.hasChildNodes()) main.append(productQuickFactsSection);
 
       /** Create Columns section */
       const contentDetails = json['content-details'].data;
