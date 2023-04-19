@@ -4,7 +4,10 @@ import {
   buildBlock,
   loadBlocks,
 } from '../../scripts/lib-franklin.js';
-import { decorateMain } from '../../scripts/scripts.js';
+import { createTag, decorateMain, getDateFromExcel } from '../../scripts/scripts.js';
+
+const CROSSMARK = 'icon-crossmark';
+const CHECKMARK = 'icon-checkmark';
 
 export default async function decorate(block) {
   // Check if json endpoint exists and this is a product details template
@@ -23,15 +26,34 @@ export default async function decorate(block) {
 
       /** Create Hero Section */
       // Get Image, Title
-      const heroImage = json.overview.data[0]['Hero Image'];
-      const heroVideo = json.overview.data[0]['Hero Video'];
-      const heroTitle = json.overview.data[0]['Hero Title'];
-      const heroTitleAdd = json.overview.data[0]['Hero Title Add'];
-      const heroSubtitle = json.overview.data[0]['Hero Subtitle'];
-      const openTableEmbed = json.overview.data[0]['Opentable Widget Link'];
-      const secondaryUrl = json.overview.data[0]['Secondary Url'];
-      const secondaryUrlText = json.overview.data[0]['Secondary Url button text'];
-      const secondaryUrlNewWindow = json.overview.data[0]['Open secondary url in new tab'];
+      const overview = json.overview.data[0];
+      const title = overview.Title;
+      const heroImage = overview['Hero Image'];
+      const heroVideo = overview['Hero Video'];
+      const heroTitle = overview['Hero Title'];
+      const heroTitleAdd = overview['Hero Title Add'];
+      const heroSubtitle = overview['Hero Subtitle'];
+      const openTableEmbed = overview['Opentable Widget Link'];
+      const secondaryUrl = overview['Secondary Url'];
+      const secondaryUrlText = overview['Secondary Url button text'];
+      const secondaryUrlNewWindow = overview['Open secondary url in new tab'];
+      const logo = overview.Logo;
+      const longDescription = overview['Long Description'];
+      const cuisine = overview.Cuisine;
+      const price = overview.Price;
+      const attire = overview.Attire;
+      const phone = overview.Phone;
+      const groupMenu = overview['Group Dining Menu'];
+      const mainMenu = overview['Main Menu'];
+      const togoMenu = overview['To Go Menu'];
+      const groupDescription = overview['Group Dining Description'];
+      const groupLink = overview['Group Dining Link'];
+      const dinein = overview['Dine In'];
+      const takeout = overview['Take Out'];
+      const delivery = overview.Delivery;
+      const rewardsEarn = overview['Caesars Rewards Earn'];
+      const rewardsRedeem = overview['Caesars Rewards Redeem'];
+      const rewardsLink = overview['Caesars Rewards Link'];
 
       if (heroImage && heroTitle) {
         // Create the content structure
@@ -83,6 +105,168 @@ export default async function decorate(block) {
           heroSection.append(buttonParagraph);
         }
         main.prepend(heroSection);
+      }
+
+      /** Create Product quick facts section */
+      const productQuickFactsSection = document.createElement('div');
+      productQuickFactsSection.classList.add('product-quickfacts');
+      // Add the logo and description column block
+      if (logo && longDescription && title) {
+        const logoPicture = createOptimizedPicture(`${logo}`, title, false);
+        const quickFactsBlock = buildBlock('columns', [[logoPicture, longDescription]]);
+        quickFactsBlock.classList.add('product-quickfacts', 'stretch-end');
+        productQuickFactsSection.append(quickFactsBlock);
+      }
+
+      // Add hours
+      const { hours } = json;
+      if (hours && hours.data && (hours.data.length > 0)) {
+        const hoursArray = [];
+        hours.data.forEach((row) => {
+          const day = row.Day;
+          const openTime = getDateFromExcel(row['Open Time']);
+          const openTimeOutput = openTime.toLocaleTimeString('en-US', {
+            timeZone: 'UTC',
+            hour12: true,
+            hour: 'numeric',
+            minute: 'numeric',
+          });
+          const closeTime = getDateFromExcel(row['Close Time']);
+          const closeTimeOutput = closeTime.toLocaleTimeString('en-US', {
+            timeZone: 'UTC',
+            hour12: true,
+            hour: 'numeric',
+            minute: 'numeric',
+          });
+          hoursArray.push([day, `${openTimeOutput}-${closeTimeOutput}`]);
+        });
+        const hoursBlock = buildBlock('quick-facts-hours', hoursArray);
+        productQuickFactsSection.append(hoursBlock);
+      }
+
+      // Add cuisine, price and attire
+      if (cuisine) {
+        const cuisineP = document.createElement('p');
+        const cuisineIcon = createTag('span', { class: 'icon icon-restaurant' });
+        cuisineP.append(cuisineIcon);
+        cuisineP.append(cuisine);
+        productQuickFactsSection.append(cuisineP);
+      }
+      if (price) {
+        const priceP = document.createElement('p');
+        const priceIcon = createTag('span', { class: 'icon icon-costs' });
+        priceP.append(priceIcon);
+        priceP.append(price);
+        productQuickFactsSection.append(priceP);
+      }
+      if (attire) {
+        const attireIconName = attire.replace(' ', '-').toLowerCase();
+        const attireP = document.createElement('p');
+        const attireIcon = createTag('span', { class: `icon icon-${attireIconName}` });
+        attireP.append(attireIcon);
+        attireP.append(attire);
+        productQuickFactsSection.append(attireP);
+      }
+      if (phone) {
+        const phoneP = document.createElement('p');
+        const phoneIcon = createTag('span', { class: 'icon icon-phone-contact' });
+        phoneP.append(phoneIcon);
+        phoneP.append(phone);
+        productQuickFactsSection.append(phoneP);
+      }
+      // TODO: add more quick facts to cover shows and nightclubs here
+
+      if (productQuickFactsSection.hasChildNodes()) main.append(productQuickFactsSection);
+
+      /** Add Menu and Dining Options */
+      // Get the content in place first
+      const diningMenus = document.createElement('div');
+      if (groupMenu && mainMenu && togoMenu) {
+        const menuTitle = createTag('h2', {}, 'HERO');
+        const groupP = createTag('p');
+        const groupMenuIcon = createTag('span', { class: 'icon icon-pdf' });
+        const groupMenuLink = createTag('a', { href: groupMenu, title: 'Group Dining Menu' }, 'Group Dining Menu');
+        groupP.append(groupMenuIcon);
+        groupP.append(groupMenuLink);
+        const mainMenuP = createTag('p');
+        const mainMenuIcon = createTag('span', { class: 'icon icon-pdf' });
+        const mainMenuLink = createTag('a', { href: mainMenu, title: 'Main Menu' }, 'Main Menu');
+        mainMenuP.append(mainMenuIcon);
+        mainMenuP.append(mainMenuLink);
+        const togoMenuP = createTag('p');
+        const togoMenuIcon = createTag('span', { class: 'icon icon-pdf' });
+        const togoMenuLink = createTag('a', { href: groupMenu, title: 'To Go' }, 'To Go');
+        togoMenuP.append(togoMenuIcon);
+        togoMenuP.append(togoMenuLink);
+        diningMenus.append(menuTitle);
+        diningMenus.append(groupP);
+        diningMenus.append(mainMenuP);
+        diningMenus.append(togoMenuP);
+      }
+
+      const groupDiningContent = document.createElement('div');
+      if (groupDescription && groupLink) {
+        const groupDiningTitle = createTag('h2', {}, 'GROUP DINING');
+        const groupDiningP = createTag('p', {}, groupDescription);
+        const groupDiningLink = createTag('a', { href: groupLink, title: 'Contact Us' }, 'Contact Us');
+        const groupDiningLinkP = createTag('p', {}, groupDiningLink);
+        groupDiningContent.append(groupDiningTitle);
+        groupDiningContent.append(groupDiningP);
+        groupDiningContent.append(groupDiningLinkP);
+      }
+
+      const rewardsContent = document.createElement('div');
+      if (rewardsEarn && rewardsRedeem && rewardsLink) {
+        let earnIcon = CROSSMARK;
+        const isRewardsEarn = (rewardsEarn === 'true');
+        if (isRewardsEarn) earnIcon = CHECKMARK;
+        let redeemIcon = CROSSMARK;
+        const isRewardsRedeem = (rewardsRedeem === 'true');
+        if (isRewardsRedeem) redeemIcon = CHECKMARK;
+        const rewardsTitle = createTag('h2', {}, 'CAESAR REWARDS');
+        const rewardsEarnSpan = createTag('span', { class: `icon ${earnIcon}` });
+        const rewardsRedeemSpan = createTag('span', { class: `icon ${redeemIcon}` });
+        const rewardsEarnH4 = createTag('h4', {}, [rewardsEarnSpan, 'Earn Credit Rewards']);
+        const rewardsRedeemH4 = createTag('h4', {}, [rewardsRedeemSpan, 'Redeem Reward Credits']);
+        const rewardsDiv = createTag('div', { class: 'menu-rewards' }, [rewardsEarnH4, rewardsRedeemH4]);
+        const rewardsLinkA = createTag('a', { href: rewardsLink, title: 'Learn More' }, 'Learn More');
+        const rewardsLinkP = createTag('p', {}, rewardsLinkA);
+        rewardsContent.append(rewardsTitle);
+        rewardsContent.append(rewardsDiv);
+        rewardsContent.append(rewardsLinkP);
+      }
+
+      const diningOptions = document.createElement('div');
+      if (dinein && takeout && delivery) {
+        let dineinIcon = CROSSMARK;
+        let takeoutIcon = CROSSMARK;
+        let deliveryIcon = CROSSMARK;
+        const isDinein = (dinein === 'true');
+        if (isDinein) dineinIcon = CHECKMARK;
+        const isDelivery = (delivery === 'true');
+        if (isDelivery) deliveryIcon = CHECKMARK;
+        const isTakeout = (takeout === 'true');
+        if (isTakeout) takeoutIcon = CHECKMARK;
+        const diningOptionsTitle = createTag('h2', null, 'DINING OPTIONS');
+        const dineinSpan = createTag('span', { class: `icon ${dineinIcon}` });
+        const takeoutSpan = createTag('span', { class: `icon ${takeoutIcon}` });
+        const deliverySpan = createTag('span', { class: `icon ${deliveryIcon}` });
+
+        const dineinH4 = createTag('h4', {}, [dineinSpan, 'DINE IN']);
+        const takeoutH4 = createTag('h4', {}, [takeoutSpan, 'TAKE OUT']);
+        const deliveryH4 = createTag('h4', {}, [deliverySpan, 'DELIVERY']);
+
+        const diningOptionsDiv = createTag('div', { class: 'menu-rewards' }, [dineinH4, takeoutH4, deliveryH4]);
+        diningOptions.append(diningOptionsTitle);
+        diningOptions.append(diningOptionsDiv);
+      }
+
+      // Build out the block with the content from above
+      if (diningMenus.hasChildNodes() && groupDiningContent.hasChildNodes()
+        && rewardsContent.hasChildNodes() && diningOptions.hasChildNodes()) {
+        const menuOptionsBlock = buildBlock('menu-options', [[diningMenus, groupDiningContent, rewardsContent, diningOptions]]);
+        const menuOptionsSection = createTag('div', {}, menuOptionsBlock);
+        main.append(menuOptionsSection);
       }
 
       /** Create Columns section */
