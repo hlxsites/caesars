@@ -183,17 +183,17 @@ export default async function decorate(block) {
       const diningMenus = document.createElement('div');
       if (groupMenu && mainMenu && togoMenu) {
         const menuTitle = createTag('h2', {}, 'HERO');
-        const groupP = createTag('p', { class: 'menu-link' });
+        const groupP = createTag('p');
         const groupMenuIcon = createTag('span', { class: 'icon icon-pdf' });
         const groupMenuLink = createTag('a', { href: groupMenu, title: 'Group Dining Menu' }, 'Group Dining Menu');
         groupP.append(groupMenuIcon);
         groupP.append(groupMenuLink);
-        const mainMenuP = createTag('p', { class: 'menu-link' });
+        const mainMenuP = createTag('p');
         const mainMenuIcon = createTag('span', { class: 'icon icon-pdf' });
         const mainMenuLink = createTag('a', { href: mainMenu, title: 'Main Menu' }, 'Main Menu');
         mainMenuP.append(mainMenuIcon);
         mainMenuP.append(mainMenuLink);
-        const togoMenuP = createTag('p', { class: 'menu-link' });
+        const togoMenuP = createTag('p');
         const togoMenuIcon = createTag('span', { class: 'icon icon-pdf' });
         const togoMenuLink = createTag('a', { href: groupMenu, title: 'To Go' }, 'To Go');
         togoMenuP.append(togoMenuIcon);
@@ -253,7 +253,7 @@ export default async function decorate(block) {
         const deliverySpan = createTag('span', { class: `icon ${deliveryIcon}` });
 
         const dineinH4 = createTag('h4', {}, [dineinSpan, 'DINE IN']);
-        const takeoutH4 = createTag('h4', {}, [takeoutSpan, 'TAKEOUT']);
+        const takeoutH4 = createTag('h4', {}, [takeoutSpan, 'TAKE OUT']);
         const deliveryH4 = createTag('h4', {}, [deliverySpan, 'DELIVERY']);
 
         const diningOptionsDiv = createTag('div', { class: 'menu-rewards' }, [dineinH4, takeoutH4, deliveryH4]);
