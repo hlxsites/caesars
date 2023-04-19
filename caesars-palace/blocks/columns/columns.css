@@ -60,6 +60,10 @@
   margin-top: 24px;
 }
 
+.cet-card-zigzag {
+  padding-top: 56px;
+}
+
 .cet-card-zigzag > div:nth-child(odd) > div > h3,
 .cet-card-zigzag > div:nth-child(odd) > div > p  {
   padding-right: 180px;
