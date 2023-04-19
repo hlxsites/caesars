@@ -409,7 +409,7 @@ main .section.compact > div:last-of-type {
   padding-bottom: 0;
 }
 
-.section.product-quickfacts .default-content-wrapper p {
+main .section.product-quickfacts .default-content-wrapper p {
   margin: 16px auto 24px;
   display: flex;
   flex-direction: row;
@@ -562,33 +562,33 @@ main .section.is-hero.has-background-block > div:nth-child(2) {
   margin-top: 520px;
 }
 
-.section.product-quickfacts {
+main .section.product-quickfacts {
   background-color: var(--static-color-black);
   color: var(--static-color-white);
 }
 
-.section.product-quickfacts .default-content-wrapper {
+main .section.product-quickfacts .default-content-wrapper {
   display: flex;
   flex-flow: row wrap;
   justify-content: center;
   width: 80%;
 }
 
-.section.product-quickfacts .default-content-wrapper p > a {
+main .section.product-quickfacts .default-content-wrapper p > a {
   text-decoration: none;
   color: var(--static-color-white);
 }
 
-.section.product-quickfacts .default-content-wrapper > p > span {
+main .section.product-quickfacts .default-content-wrapper > p > span {
   display: flex;
 }
 
-.section.product-quickfacts .default-content-wrapper > p > span > svg {
+main .section.product-quickfacts .default-content-wrapper > p > span > svg {
   height: 28px;
   margin-right: var(--layout-size-m);
 }
 
-.section.product-quickfacts .default-content-wrapper > p > span.quick-facts-show-open {
+main .section.product-quickfacts .default-content-wrapper > p > span.quick-facts-show-open {
   height: 52px;
   filter: invert(100%);
   content: url('../icons/calendar-open.svg');
@@ -596,11 +596,21 @@ main .section.is-hero.has-background-block > div:nth-child(2) {
   margin-top: var(--layout-size-xs);
 }
 
-.section.product-quickfacts .default-content-wrapper > p > span.quick-facts-showtime-hours {
+main .section.product-quickfacts .default-content-wrapper > p > span.quick-facts-showtime-hours {
   display: flex;
   flex-direction: column;
   margin-top: var(--layout-size-m);
   font-weight: var(--emphasized-font-weight);
+}
+
+main .section.short-width-text > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+main .section.short-width-text > div > p {
+  max-width: 60%;
 }
 
 /* Responsive Breakpoints */
@@ -619,11 +629,11 @@ main .section.is-hero.has-background-block > div:nth-child(2) {
     padding-bottom: var(--layout-size-xxl);
   }
 
-  .section.product-quickfacts .default-content-wrapper {
+  main .section.product-quickfacts .default-content-wrapper {
     width: 50%;
   }
 
-  .section.product-quickfacts .default-content-wrapper > p > span > svg {
+  main .section.product-quickfacts .default-content-wrapper > p > span > svg {
     height: 50px;
     margin-right: 16px;
   }
