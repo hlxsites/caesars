@@ -122,6 +122,17 @@
     margin-bottom: var(--layout-size-l);
 }
 
+.cet-card-zigzag > div:nth-child(odd) > div > h3,
+.cet-card-zigzag > div:nth-child(odd) > div > p  {
+  padding-right: 180px;
+}
+
+.cet-card-zigzag > div:nth-child(even) > div > h3,
+.cet-card-zigzag > div:nth-child(even) > div > p {
+  padding-left: 180px;
+  padding-right: 16px;
+}
+
 @media (min-width: 768px) {
     .columns [data-align='center'] {
         text-align: center;
