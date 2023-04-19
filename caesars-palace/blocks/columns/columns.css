@@ -109,7 +109,11 @@
 .columns.columns-2-cols.cet-card h1,
 .columns.columns-2-cols.cet-card h2,
 .columns.columns-2-cols.cet-card h3,
-.columns.columns-2-cols.cet-card h4 {
+.columns.columns-2-cols.cet-card h4,
+.columns.columns-2-cols.cet-card-zig-zag h1,
+.columns.columns-2-cols.cet-card-zig-zag h2,
+.columns.columns-2-cols.cet-card-zig-zag h3,
+.columns.columns-2-cols.cet-card-zig-zag h4 {
     margin: 0 0 var(--layout-size-l) -4px;
     text-transform: uppercase;
 }
