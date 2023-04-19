@@ -283,6 +283,11 @@ export default async function decorate(block) {
       localNavTitle.addEventListener('click', () => {
         toggleNavSectionTitles(localNavTitle, newDiv);
       });
+      const navLinks = navSections.querySelectorAll('a');
+      navLinks.forEach((link) => {
+        const url = new URL(link);
+        link.href = `${url.pathname}`;
+      });
       if (globalNavSections) navSections.append(globalNavSections);
     }
 
