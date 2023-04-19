@@ -4,7 +4,7 @@ import {
   buildBlock,
   loadBlocks,
 } from '../../scripts/lib-franklin.js';
-import { decorateMain, getDateFromExcel } from '../../scripts/scripts.js';
+import { createTag, decorateMain, getDateFromExcel } from '../../scripts/scripts.js';
 
 export default async function decorate(block) {
   // Check if json endpoint exists and this is a product details template
@@ -35,6 +35,10 @@ export default async function decorate(block) {
       const secondaryUrlNewWindow = json.overview.data[0]['Open secondary url in new tab'];
       const logo = json.overview.data[0].Logo;
       const longDescription = json.overview.data[0]['Long Description'];
+      const cuisine = json.overview.data[0].Cuisine;
+      const price = json.overview.data[0].Price;
+      const attire = json.overview.data[0].Attire;
+      const phone = json.overview.data[0].Phone;
 
       if (heroImage && heroTitle) {
         // Create the content structure
@@ -125,7 +129,41 @@ export default async function decorate(block) {
         productQuickFactsSection.append(hoursBlock);
       }
 
+      // Add cuisine, price and attire
+      if (cuisine) {
+        const cuisineP = document.createElement('p');
+        const cuisineIcon = createTag('span', { class: 'icon icon-restaurant' });
+        cuisineP.append(cuisineIcon);
+        cuisineP.append(cuisine);
+        productQuickFactsSection.append(cuisineP);
+      }
+      if (price) {
+        const priceP = document.createElement('p');
+        const priceIcon = createTag('span', { class: 'icon icon-costs' });
+        priceP.append(priceIcon);
+        priceP.append(price);
+        productQuickFactsSection.append(priceP);
+      }
+      if (attire) {
+        const attireIconName = attire.replace(' ', '-').toLowerCase();
+        const attireP = document.createElement('p');
+        const attireIcon = createTag('span', { class: `icon icon-${attireIconName}` });
+        attireP.append(attireIcon);
+        attireP.append(attire);
+        productQuickFactsSection.append(attireP);
+      }
+      if (phone) {
+        const phoneP = document.createElement('p');
+        const phoneIcon = createTag('span', { class: 'icon icon-phone-contact' });
+        phoneP.append(phoneIcon);
+        phoneP.append(phone);
+        productQuickFactsSection.append(phoneP);
+      }
+      // TODO: add more quick facts to cover shows and nightclubs
+
       if (productQuickFactsSection.hasChildNodes()) main.append(productQuickFactsSection);
+
+      /** Add Menu and Dining Options */
 
       /** Create Columns section */
       const contentDetails = json['content-details'].data;
