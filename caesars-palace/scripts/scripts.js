@@ -396,14 +396,24 @@ async function loadPage() {
   loadDelayed();
 }
 
+async function fetchProduct(productPath) {
+  const fetchPromise = fetch(`${productPath}?sheet=overview`);
+  return fetchPromise.then((resp) => { return resp.json() }).then((json) => { return json.data[0] });
+}
+
 export async function lookupCardsByType(type) {
   if (!window.cardIndex || !window.cardIndex[type]) {
-    const resp = await fetch(`${window.hlx.codeBasePath}/${type}.json`);
+    const resp = await fetch(`${window.hlx.codeBasePath}/${type}/query-index.json`);
     const json = await resp.json();
+    let productFetches = [];
+    json.data.forEach((product) => {
+      productFetches.push(fetchProduct(product.path));
+    });
+    const products = await Promise.all(productFetches);
     if (!window.cardIndex) {
       window.cardIndex = {};
     }
-    window.cardIndex[type] = json;
+    window.cardIndex[type] = products;
   }
   return (window.cardIndex[type]);
 }
