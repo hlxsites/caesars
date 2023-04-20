@@ -194,6 +194,23 @@ header nav .nav-sections .global-nav[aria-hidden=true] {
   display: none;
 }
 
+header nav[aria-expanded=true] .nav-sections .user-account-mobile {
+  display: flex;
+  min-height: 84px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+header nav[aria-expanded=true] .nav-sections .user-account-mobile::before {
+  content: '';
+  margin-right: 10px;
+  right: 16px;
+  width: 16px;
+  height: 16px;
+  background: url('../../icons/user-circle.svg') no-repeat;
+}
+
 header nav[aria-expanded=true] .nav-sections .local-nav-title,
 header nav[aria-expanded=true] .nav-sections .global-nav-title {
   display: flex;
@@ -519,6 +536,10 @@ header nav .nav-tools p:first-of-type a:hover {
     display: none;
   }
 
+  header nav[aria-expanded=true] .nav-sections .user-account-mobile {
+    display: none;
+  }
+
   header nav .nav-sections ul {
     display: flex;
     position: relative;
@@ -635,14 +656,14 @@ header .user-menu {
   padding: 0px;
 }
 
-header:not(.is-sticky) .user-menu.open {
+header .user-menu.open {
   display: block;
 }
 
 header .user-menu-close {
   position: absolute;
-  top: 16px;
-  right: 48px;
+  top: 12px;
+  right: 12px;
   font-size: 28px;
   cursor: pointer;
   width: 24px;
@@ -663,21 +684,55 @@ header .user-menu-close::after {
 }
 
 header .user-menu-container {
-  transform: unset;
   top: 0;
   right: -3px;
   z-index: 11;
   display: block;
   transform: translateX(0);
   transition: transform 200ms cubic-bezier(0.4,0,1,1);
+  transition: height 200ms cubic-bezier(0.4,0,1,1);
   box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
   position: absolute;
   top: 0;
-  right: 24px;
   background-color: #fff;
   display: block;
-  height: auto;
+  height: 100vh;
   border-radius: 2px;
-  max-width: 360px;
+  max-width: 300px;
   padding: 20px;
+}
+
+header .user-menu.open:before {
+  content: '';
+  display: block;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  visibility: visible;
+  background-color: rgba(20,20,20,0.5);
+  z-index: -1;
+  pointer-events: none;
+}
+
+
+@media (min-width: 1170px) {
+  header .user-menu-container {
+    transform: unset;
+    top: 0;
+    right: 24px;
+    height: auto;
+    max-width: 360px;
+  }
+
+  header .user-menu-close {
+    top: 16px;
+    right: 48px;
+  }
+
+  header.is-sticky .user-menu.open {
+    display: none;
+  }
+
 }

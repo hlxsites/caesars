@@ -212,54 +212,35 @@ function toggleUserMenu() {
   } else {
     userMenu.classList.add('open');
   }
+  if (this.classList.contains('user-account-mobile')) {
+    const nav = this.closest('nav');
+    const navSections = nav.querySelector('.nav-sections');
+    toggleMenu(nav, navSections);
+  }
 }
 
 /**
- * 
- * @param {Element} globalNavDesktop Global desktop navigation
+ * Creates the user menu
+ * @param {Element} block Header block
  */
-async function createUserMenu(globalNavDesktop) {
-  // user account
-  const userAccount = document.createElement('div');
-  userAccount.classList.add('user-account');
-  
-  // not signed in.
-  const signIn = document.createElement('a');
-  signIn.classList.add('sign-in');
-  signIn.setAttribute('aria-label', 'Sign In');
-  signIn.innerHTML = 'Sign In';
-  signIn.addEventListener('click', toggleUserMenu);
-  userAccount.appendChild(signIn);
-
-  // signed in.
-  globalNavDesktop.appendChild(userAccount);
-
-  // user menu
+async function createUserMenu(block) {
   const userMenu = document.createElement('div');
   userMenu.classList.add('user-menu');
-  
-  // close button
   const userMenuClose = document.createElement('div');
   userMenuClose.classList.add('user-menu-close');
   userMenuClose.addEventListener('click', toggleUserMenu);
   userMenu.appendChild(userMenuClose);
-
   const userMenuContainer = document.createElement('div');
   userMenuContainer.classList.add('user-menu-container');
-
   const userMenuMainPanel = document.createElement('div');
   userMenuMainPanel.classList.add('user-menu-main-panel');
-
   const loginText = document.createElement('div');
   loginText.classList.add('text-center');
   userMenuMainPanel.appendChild(loginText);
-
   const fragmentBlock = await fetchFragment(`${GLOBAL_HEADER_SIGN_IN}`);
   userMenuContainer.appendChild(fragmentBlock);
-
   userMenu.appendChild(userMenuContainer);
-
-  globalNavDesktop.appendChild(userMenu);
+  block.appendChild(userMenu);
 }
 
 /**
@@ -314,13 +295,24 @@ export default async function decorate(block) {
       globalNavTitle.addEventListener('click', () => {
         toggleNavSectionTitles(globalNavTitle, globalNavSections);
       });
-      createUserMenu(globalNavDesktop);
+      // user account
+      const userAccount = document.createElement('div');
+      userAccount.classList.add('user-account');
+      const signIn = document.createElement('a');
+      signIn.classList.add('sign-in');
+      signIn.setAttribute('aria-label', 'Sign In');
+      signIn.innerHTML = 'Sign In';
+      signIn.addEventListener('click', toggleUserMenu);
+      userAccount.appendChild(signIn);
+      globalNavDesktop.appendChild(userAccount);
     }
     if (globalNavJson.logoFileReference) {
       globalNavDesktop.prepend(await createGlobalNavLogo(globalNavJson.logoFileReference));
     }
     if (globalNavJson.style) globalNavDesktop.classList.add(globalNavJson.style);
   }
+
+  createUserMenu(block);
 
   // fetch nav content
   const navPath = getMetadata('nav') || '/caesars-palace/nav';
@@ -359,6 +351,17 @@ export default async function decorate(block) {
         toggleNavSectionTitles(localNavTitle, newDiv);
       });
       if (globalNavSections) navSections.append(globalNavSections);
+
+      const userAccountMobile = document.createElement('div');
+      userAccountMobile.classList.add('user-account-mobile');
+      const signInMobile = document.createElement('div');
+      signInMobile.classList.add('sign-in');
+      const signInLink = document.createElement('a');
+      signInLink.textContent = 'Sign Up / Sign In';
+      signInMobile.appendChild(signInLink);
+      userAccountMobile.append(signInMobile);
+      userAccountMobile.addEventListener('click', toggleUserMenu);
+      navSections.prepend(userAccountMobile);
     }
 
     // hamburger for mobile
