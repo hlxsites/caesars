@@ -692,7 +692,7 @@ header .user-menu-container {
   transition: transform 200ms cubic-bezier(0.4,0,1,1);
   transition: height 200ms cubic-bezier(0.4,0,1,1);
   box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-  position: absolute;
+  position: fixed;
   top: 0;
   background-color: #fff;
   display: block;
@@ -718,7 +718,7 @@ header .user-menu.open:before {
 
 
 @media (min-width: 1170px) {
-  
+
   header .user-menu.open:before {
     display: none;
   }
