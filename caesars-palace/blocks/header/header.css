@@ -718,6 +718,11 @@ header .user-menu.open:before {
 
 
 @media (min-width: 1170px) {
+  
+  header .user-menu.open:before {
+    display: none;
+  }
+
   header .user-menu-container {
     transform: unset;
     top: 0;
