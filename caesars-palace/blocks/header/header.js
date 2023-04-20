@@ -18,7 +18,7 @@ const CAESARS_DOT_COM = 'https://www.caesars.com';
 const GLOBAL_HEADER_JSON = '/content/empire/en/jcr:content/root/header.model.json';
 const GLOBAL_HEADER_JSON_LOCAL = '/caesars-palace/scripts/resources/header.model.json';
 const GLOBAL_HEADER_LOGO_LOCAL = '/caesars-palace/icons/caesars-global-logo.svg';
-const GLOBAL_HEADER_SIGN_IN = '/caesars-palace/drafts/borland/sign-in';
+const GLOBAL_HEADER_SIGN_IN = '/caesars-palace/fragments/header/sign-in';
 
 async function createGlobalNavLogo(logoFileReference) {
   // Add logo
