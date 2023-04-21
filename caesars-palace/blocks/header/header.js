@@ -206,8 +206,8 @@ const showMore = (nav, maxItemsDesktop) => {
  * shows the login modal
  */
 function toggleUserMenu() {
-  const userMenu = this.closest('.header.block').querySelector('.user-menu')
-  if (userMenu.classList.contains('open')){
+  const userMenu = this.closest('.header.block').querySelector('.user-menu');
+  if (userMenu.classList.contains('open')) {
     userMenu.classList.remove('open');
   } else {
     userMenu.classList.add('open');
