@@ -1,5 +1,5 @@
 .form {
-  background-color: white;
+  background-color: var(--static-color-white);
   padding: var(--spacing-m);
   box-shadow: 0 1px 6px rgb(34 34 34 / 10%);
 }
@@ -24,7 +24,7 @@
 .form input,
 .form textarea,
 .form select {
-  border: 1px solid rgb(193 193 195);
+  border: 1px solid var(--static-color-gray);
   padding: 11px;
   border-radius: 0;
   width: 100%;
@@ -41,18 +41,18 @@
 .form.sign-in textarea,
 .form.sign-in select {
   padding: 16px 16px 4px;
-  font: 14px;
+  font-size: var(--heading-font-size-xs);
 }
 
 .form.sign-in input.error,
 .form.sign-in textarea.error,
 .form.sign-in select.error { 
-  border-color: #d60000;
+  border-color: var(--static-color-red);
 }
 
 .form input:hover,
 .form select:hover {
-  border-color: rgb(90 92 96);
+  border-color: var(--static-color-gray-dark);
 }
 
 .form label {
@@ -63,28 +63,28 @@
   padding-bottom: var(--spacing-xs);
   text-transform: uppercase;
   box-sizing: border-box;
-  font-weight: 800;
+  font-weight: var(--heavy-font-weight);
 }
 
 .form.sign-in label {
   position: absolute;
   margin-left: 16px;
   margin-top: 24px;
-  font-size: 14px;
-  color: #343840;
+  font-size: var(--heading-font-size-xs);
+  color: var(--static-color-gray-dark);
   transform: scale(1) translateY(-50%);
   transform-origin: top left;
   transition: transform .4s ease;
   pointer-events: none;
   z-index: 1;
   text-transform: none;
-  font-weight: 400;
+  font-weight: var(--light-font-weight);
 }
 
 .form span.input-error {
   display: none;
   font-size: 11px;
-  color: #d60000;
+  color: var(--static-color-red);
   line-height: 1.5;
 }
 
@@ -93,13 +93,13 @@
 }
 
 .form.sign-in label.active {
-  color: #000;
+  color: var(--static-color-black);
   transform: scale(0.71) translateY(-50%) translateY(-11px);
 }
 
 .form label.required::after {
   content: "*";
-  color: red;
+  color: var(--static-color-red);
   padding-left: 5px;
 }
 
@@ -165,21 +165,21 @@
 
 .form .button {
   cursor: pointer;
-  background: rgb(20 115 230);
-  color: white;
+  background: #1473e6;
+  color: var(--static-color-white);
   border-radius: 16px;
   font-size: var(--type-body-s-size);
-  font-weight: 300;
+  font-weight: var(--super-light-font-weight);
   padding: 6px 16px;
   border: none;
   font-family: adobe-clean, 'Trebuchet MS', sans-serif;
 }
 
 .form.sign-in .button {
-  border: 1px solid #ad1f23;
+  border: 1px solid var(--static-color-caesars-red);
   border-radius: 4px;
-  background: #ad1f23;
-  color: #fff;
+  background: var(--static-color-caesars-red);
+  color: var(--static-color-white);
   width: 100%;
   max-width: 50rem;
   height: 36px;
@@ -191,15 +191,15 @@
 .form.sign-in .button:hover {
   transition: background-color 75ms cubic-bezier(0.4,0,0.2,1);
   transition: box-shadow 75ms cubic-bezier(0.4,0,0.2,1);
-  background-color: #971b1f;
+  background-color: var(--static-color-caesars-red-active);
   box-shadow: 0 10px 15px -3px rgb(0 0 0 / 10%), 0 4px 6px -2px rgb(0 0 0 / 6%);
 }
 
 .form.sign-in .button:disabled {
-  color: #ccc;
+  color: var(--static-color-gray);
   box-shadow: none;
   background: transparent;
-  border-color: #ccc;
+  border-color: var(--static-color-gray);
   cursor: default;
 }
 

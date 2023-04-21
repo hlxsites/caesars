@@ -19,6 +19,8 @@ const GLOBAL_HEADER_JSON = '/content/empire/en/jcr:content/root/header.model.jso
 const GLOBAL_HEADER_JSON_LOCAL = '/caesars-palace/scripts/resources/header.model.json';
 const GLOBAL_HEADER_LOGO_LOCAL = '/caesars-palace/icons/caesars-global-logo.svg';
 const GLOBAL_HEADER_SIGN_IN = '/caesars-palace/fragments/header/sign-in';
+const DESKTOP_SIGN_IN_TEXT = 'Sign In';
+const MOBILE_SIGN_IN_TEXT = 'Sign Up / Sign In';
 
 async function createGlobalNavLogo(logoFileReference) {
   // Add logo
@@ -300,8 +302,8 @@ export default async function decorate(block) {
       userAccount.classList.add('user-account');
       const signIn = document.createElement('a');
       signIn.classList.add('sign-in');
-      signIn.setAttribute('aria-label', 'Sign In');
-      signIn.innerHTML = 'Sign In';
+      signIn.setAttribute('aria-label', `${DESKTOP_SIGN_IN_TEXT}`);
+      signIn.innerHTML = `${DESKTOP_SIGN_IN_TEXT}`;
       signIn.addEventListener('click', toggleUserMenu);
       userAccount.appendChild(signIn);
       globalNavDesktop.appendChild(userAccount);
@@ -357,7 +359,7 @@ export default async function decorate(block) {
       const signInMobile = document.createElement('div');
       signInMobile.classList.add('sign-in');
       const signInLink = document.createElement('a');
-      signInLink.textContent = 'Sign Up / Sign In';
+      signInLink.textContent = `${MOBILE_SIGN_IN_TEXT}`;
       signInMobile.appendChild(signInLink);
       userAccountMobile.append(signInMobile);
       userAccountMobile.addEventListener('click', toggleUserMenu);
