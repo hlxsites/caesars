@@ -139,7 +139,7 @@ export default async function decorate(block) {
 
       // Add cuisine, price and attire
       if (cuisine) {
-        const cuisineIconName = cuisine.replace(' ', '-').toLowerCase();
+        const cuisineIconName = cuisine.trim().replace(' ', '-').toLowerCase();
         const cuisineP = document.createElement('p');
         const cuisineIcon = createTag('span', { class: `icon icon-${cuisineIconName}` });
         cuisineP.append(cuisineIcon);
@@ -154,7 +154,7 @@ export default async function decorate(block) {
         productQuickFactsSection.append(priceP);
       }
       if (attire) {
-        const attireIconName = attire.replace(' ', '-').toLowerCase();
+        const attireIconName = attire.trim().replace(' ', '-').toLowerCase();
         const attireP = document.createElement('p');
         const attireIcon = createTag('span', { class: `icon icon-${attireIconName}` });
         attireP.append(attireIcon);
