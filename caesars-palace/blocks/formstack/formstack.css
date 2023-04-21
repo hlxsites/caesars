@@ -1,0 +1,8 @@
+* {
+    box-sizing: border-box;
+}
+
+/* stylelint-disable-next-line selector-class-pattern */
+.fsBody .fsForm {
+    box-shadow: 0 1px 0 rgb(255 255 255 / 80%) inset, 0 -2px 0 rgb(0 0 0 / 10%) inset, 0 0 10px rgb(255 255 255 / 50%) inset, 0 0 0 1px rgb(0 0 0 / 10%), 0 2px 4px rgb(0 0 0 / 20%);
+}

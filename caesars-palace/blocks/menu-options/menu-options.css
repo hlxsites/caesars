@@ -13,31 +13,31 @@
   text-align: center;
 }
 
-.menu-options > div > div > h2 {
+.menu-options h2 {
   font-weight: var(--emphasized-font-weight);
   font-size: 22px;
 }
 
-.menu-options > div > div > .menu-link {
+.menu-options .menu-link {
   display: flex;
   gap: 5%;
 }
 
-.menu-options > div > div > .menu-link > a {
+.menu-options .menu-link > a {
   font-size: 16px;
   font-weight: var(--emphasized-font-weight);
 }
 
-.menu-options > div > div > p {
+.menu-options p {
   padding-left: 20%;
 }
 
-.menu-options > div > div > p .icon-pdf {
+.menu-options p .icon-pdf {
   width: 16px;
   height: 24px;
 }
 
-.menu-options > div > div > .button-container > .button.primary {
+.menu-options .button-container > .button.primary {
   letter-spacing: unset !important;
   font-weight: var(--emphasized-font-weight) !important;
 }
@@ -73,7 +73,7 @@
     text-align: left;
   }
 
-  .menu-options > div > div > p {
+  .menu-options p {
     padding-left: unset;
   }
 }
