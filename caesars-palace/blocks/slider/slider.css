@@ -267,4 +267,9 @@
   .slider.full-card .card-wrapper .tall-card .button-container {
     margin-left: 62%;
   }
+
+  .slider-wrapper .compact img {
+    max-height: 300px;
+    object-fit: cover;
+  }
 }
