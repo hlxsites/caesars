@@ -213,6 +213,20 @@ export function buildEllipsis(text, width, maxVisibleLines, suffix, options = {}
 }
 
 /**
+ * Converts excel datetime strings to a Date object
+ * @returns {Date} Date object
+ */
+export function getDateFromExcel(date) {
+  if (date) {
+    const excelDate = +date > 99999
+      ? new Date(+date * 1000)
+      : new Date(Math.round((+date - (1 + 25567 + 1)) * 86400 * 1000));
+    return excelDate;
+  }
+  return null;
+}
+
+/**
  * Determine if we are serving content for the block-library, if so don't load the header or footer
  * @returns {boolean} True if we are loading block library content
  */
