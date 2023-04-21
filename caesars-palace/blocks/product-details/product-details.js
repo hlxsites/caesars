@@ -139,8 +139,9 @@ export default async function decorate(block) {
 
       // Add cuisine, price and attire
       if (cuisine) {
+        const cuisineIconName = cuisine.replace(' ', '-').toLowerCase();
         const cuisineP = document.createElement('p');
-        const cuisineIcon = createTag('span', { class: 'icon icon-restaurant' });
+        const cuisineIcon = createTag('span', { class: `icon icon-${cuisineIconName}` });
         cuisineP.append(cuisineIcon);
         cuisineP.append(cuisine);
         productQuickFactsSection.append(cuisineP);
