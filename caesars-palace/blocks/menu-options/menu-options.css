@@ -16,6 +16,7 @@
 
 .menu-options > div > div {
   flex: 1;
+  flex-wrap: wrap;
 }
 
 .menu-options h2 {
