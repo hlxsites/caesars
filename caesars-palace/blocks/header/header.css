@@ -650,10 +650,10 @@ header .user-account {
 
 header .user-menu {
   display: none;
-  height: 0px;
-  width: 0px;
-  margin: 0px;
-  padding: 0px;
+  height: 0;
+  width: 0;
+  margin: 0;
+  padding: 0;
 }
 
 header .user-menu.open {
@@ -673,7 +673,7 @@ header .user-menu-close {
 
 header .user-menu-close::after {
   display: block;
-  background: url(../../icons/close-bold.svg) no-repeat;
+  background: url('../../icons/close-bold.svg') no-repeat;
   width: 32px;
   height: 24px;
   margin-left: 4px !important;
@@ -691,18 +691,16 @@ header .user-menu-container {
   transform: translateX(0);
   transition: transform 200ms cubic-bezier(0.4,0,1,1);
   transition: height 200ms cubic-bezier(0.4,0,1,1);
-  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 10%), 0 2px 4px -1px rgb(0 0 0 / 6%);
   position: fixed;
-  top: 0;
   background-color: #fff;
-  display: block;
   height: 100vh;
   border-radius: 2px;
   max-width: 300px;
   padding: 20px;
 }
 
-header .user-menu.open:before {
+header .user-menu.open::before {
   content: '';
   display: block;
   position: fixed;
@@ -711,15 +709,13 @@ header .user-menu.open:before {
   width: 100vw;
   height: 100vh;
   visibility: visible;
-  background-color: rgba(20,20,20,0.5);
+  background-color: rgb(20 20 20 / 50%);
   z-index: -1;
   pointer-events: none;
 }
 
-
 @media (min-width: 1170px) {
-
-  header .user-menu.open:before {
+  header .user-menu.open::before {
     display: none;
   }
 
@@ -739,5 +735,4 @@ header .user-menu.open:before {
   header.is-sticky .user-menu.open {
     display: none;
   }
-
 }
