@@ -485,7 +485,19 @@ export function decorateButtons(element) {
       const twoup = a.parentElement.parentElement;
       // Decorate links that are not on an img or are a tel
       if (!a.querySelector('img') && !a.href.startsWith('tel:')) {
-        if (up.tagName === 'P' || up.tagName === 'DIV') { // Regular link decoration
+        if (up.childNodes.length > 1) {
+          let isAButton = true;
+          up.childNodes.forEach((child) => {
+            if (child.tagName && child.tagName !== 'EM' && child.tagName !== 'STRONG' && child.tagName !== 'A') {
+              isAButton = false;
+            }
+          });
+          if (isAButton) {
+            a.className = 'button primary';
+            twoup.classList.add('button-container');
+          }
+        }
+        if (up.childNodes.length === 1 && (up.tagName === 'P' || up.tagName === 'DIV')) { // Regular link decoration
           a.className = 'button primary';
           up.classList.add('button-container');
         } else if (up.tagName === 'STRONG' && twoup.tagName === 'P') { // Bolded link decoration
