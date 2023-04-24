@@ -25,11 +25,11 @@ export default function decorate(block) {
 
   const cardWrapper = document.createElement('div');
   cardWrapper.classList.add('card-wrapper');
-
+  console.log('starting block decoration');
   block.querySelectorAll('div.slider > div').forEach((div) => {
     cardWrapper.appendChild(div);
     div.classList.add('card');
-
+    console.log('added card');
     const picture = div.querySelector('picture');
     if (picture) {
       const imageParent = picture.closest('div');
@@ -121,7 +121,7 @@ export default function decorate(block) {
   const mediaChangeHandler = () => {
     if (desktopMediaQuery.matches) {
       setTimeout(() => {
-        const shortDescriptionDivs = block.querySelectorAll('.full-card > .card-wrapper > .tall-card > .short-description');
+        const shortDescriptionDivs = block.querySelectorAll('.slider > .card-wrapper > .tall-card > .short-description');
         shortDescriptionDivs.forEach((div, index) => {
           const ellipsableText = div.querySelector('p');
           if (!ellipsableText) return;
@@ -181,7 +181,7 @@ export default function decorate(block) {
       }, 0);
     }
     if (tabletMediaQuery.matches) {
-      const shortDescriptionDivs = block.querySelectorAll('.full-card > .card-wrapper > .tall-card > .short-description');
+      const shortDescriptionDivs = block.querySelectorAll('.slider > .card-wrapper > .tall-card > .short-description');
       shortDescriptionDivs.forEach((div) => {
         const ellipsableText = div.querySelector('p');
         if (!ellipsableText) return;
