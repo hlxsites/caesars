@@ -125,7 +125,7 @@ export default function decorate(block) {
           console.log('ellipsabletext = ' + ellipsableText.innerHTML);
           if (!ellipsableText) return;
           const span = ellipsableText.querySelector('span');
-          if (span) {
+          if (span && originalText[index]) {
             ellipsableText.removeChild(span);
             ellipsableText.innerHTML = originalText[index];
           }
