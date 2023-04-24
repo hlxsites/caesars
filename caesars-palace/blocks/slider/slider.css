@@ -1,24 +1,16 @@
-
-.slider-container[data-block-status="loaded"] {
-  display: block;
-}
-
-.slider-wrapper[data-block-status="loaded"] {
-  position: relative;
-}
-
 /* To prevent scrolling on the cards */
-.slider.block[data-block-status="loaded"] {
+.slider.block {
   overflow: hidden;
   overflow-y: scroll;
   padding: 2px;
+  min-height: 768px;
 }
 
 .slider::-webkit-scrollbar {
   display: none;
 }
 
-.slider.block[data-block-status="loaded"] .card-wrapper {
+.slider.block .card-wrapper {
   width: 100%;
   margin: 0;
   padding: 0;
@@ -58,7 +50,7 @@
   background: var(--static-color-white);
 }
 
-.slider.block[data-block-status="loaded"] .card .short-description {
+.slider.block .card .short-description {
   padding: 16px 32px 16px 16px;
   height: 180px;
   display: flex;
@@ -134,7 +126,7 @@
   z-index: 2;
 }
 
-.slider.block[data-block-status="loaded"] .tall-card {
+.slider.block .tall-card {
   display: flex;
   flex-direction: column;
 }
@@ -145,6 +137,7 @@
 
 .slider .card img {
   width: 100%;
+  height: auto;
   object-fit: cover;
 }
 
@@ -157,6 +150,7 @@
 .slider.full-card .tall-card .card-image picture img {
   aspect-ratio: unset;
   height: 100%;
+  width: auto;
 }
 
 .slider .tall-card .active-close-button {
