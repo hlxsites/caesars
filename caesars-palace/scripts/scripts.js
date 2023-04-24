@@ -142,7 +142,6 @@ export function getNextClosing(openingSchedule, dateToCheck) {
 export function isVentureOpen(openingSchedule, dateToCheck) {
   const day = DAYS_LOOKUP[dateToCheck.getDay()];
   const scheduleToUse = openingSchedule[day];
-  // console.log("Using schedule: ", scheduleToUse);
 
   if (!scheduleToUse || !scheduleToUse.opens || scheduleToUse.opens.length === 0) {
     return false;
@@ -178,10 +177,6 @@ export function isVentureOpen(openingSchedule, dateToCheck) {
  * @return The ellipsed text (without ellipsis suffix)
  */
 export function buildEllipsis(text, width, maxVisibleLines, suffix, options = {}) {
-  console.log('@@@@@@@@@@@@@@@@')
-  console.log("Called for text: ", text);
-  console.log("Input max width: ", width);
-
   const canvas = buildEllipsis.canvas || (buildEllipsis.canvas = document.createElement('canvas'));
   const context = canvas.getContext('2d');
 
@@ -194,28 +189,20 @@ export function buildEllipsis(text, width, maxVisibleLines, suffix, options = {}
   const words = text.split(' ');
   let testLine = '';
   let lineCount = 1;
-
   let shortText = '';
 
   words.forEach((w, index) => {
     testLine += `${w} `;
-
     const { width: testWidth } = context.measureText(`${testLine}${suffix}`);
-    console.log("testWidth: ", testWidth);
-    console.log("width: ", testWidth);
-    console.log("testLine: ", testLine);
-
     if (testWidth > width && index > 0) {
-      console.log("Seeing new line");
       lineCount += 1;
       testLine = `${w} `;
     }
-
     if (lineCount <= maxVisibleLines) {
       shortText += `${w} `;
     }
   });
-  console.log('@@@@@@@@@@@@@@@@')
+
   return {
     lineCount,
     shortText,
