@@ -221,14 +221,10 @@ export default function decorate(block) {
   slides.forEach((slide, index) => {
     const slideImage = slide.querySelector('img');
     slideImage?.addEventListener('dragstart', (e) => e.preventDefault());
-    slide.addEventListener('touchstart', touchStart(index), {
-      passive: true,
-    });
+    slide.addEventListener('touchstart', touchStart(index), { passive: true });
     slide.addEventListener('touchend', touchEnd, { passive: true });
     slide.addEventListener('touchmove', touchMove, { passive: true });
-    slide.addEventListener('mousedown', touchStart(index), {
-      passive: true,
-    });
+    slide.addEventListener('mousedown', touchStart(index), { passive: true });
     slide.addEventListener('mouseup', touchEnd, { passive: true });
     slide.addEventListener('mouseleave', touchEnd, { passive: true });
     slide.addEventListener('mousemove', touchMove, { passive: true });
