@@ -122,7 +122,7 @@ export default function decorate(block) {
         const shortDescriptionDivs = block.querySelectorAll('.slider > .card-wrapper > .tall-card > .short-description');
         shortDescriptionDivs.forEach((div, index) => {
           const ellipsableText = div.querySelector('p');
-          console.log('ellipsabletext = ' + ellipsableText);
+          console.log('ellipsabletext = ' + ellipsableText.innerHTML);
           if (!ellipsableText) return;
           const span = ellipsableText.querySelector('span');
           if (span) {
