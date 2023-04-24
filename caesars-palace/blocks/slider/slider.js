@@ -45,6 +45,7 @@ export default function decorate(block) {
 
   setTimeout(() => {
     const shortDescriptionDivs = block.querySelectorAll('.short-description');
+
     shortDescriptionDivs.forEach((div) => {
       const ellipsableText = div.querySelector('p');
       if (!ellipsableText) return;
@@ -54,13 +55,25 @@ export default function decorate(block) {
         font: `${textStyle.fontWeight} ${textStyle.fontSize} ${textStyle.fontFamily}`,
         letterSpacing: `${textStyle.letterSpacing}`,
       };
+      console.log('-----------------');
+      console.log(`~~~ ellipsableText:`);
+      console.log(ellipsableText.innerText);
+      console.log(`~~~ textOptions:`);
+      console.log(textOptions);
+      console.log('~~~ Target div: ');
+      console.log(div);
+      console.log('~~~ div.offsetWidth: ');
+      console.log(div.offsetWidth);
 
       const displayBufferPixels = 16;
       const textContentWidth = div.offsetWidth - displayBufferPixels;
+      console.log(`~~~ textContentWidth:`);
+      console.log(textContentWidth);
 
       const fullTextContent = ellipsableText.innerText;
       if (!fullTextContent) return;
 
+      console.log('-----------------');
       const ellipsisBuilder = buildEllipsis(
         fullTextContent,
         textContentWidth,
@@ -68,6 +81,10 @@ export default function decorate(block) {
         blockConfig.ellipsis,
         textOptions,
       );
+
+      console.log('##### Eliipsis Builder #####');
+      console.log(ellipsisBuilder);
+      console.log('############################');
 
       if (ellipsisBuilder.lineCount > blockConfig.maxlines) {
         const clickableCloseButton = document.createElement('span');

@@ -178,8 +178,13 @@ export function isVentureOpen(openingSchedule, dateToCheck) {
  * @return The ellipsed text (without ellipsis suffix)
  */
 export function buildEllipsis(text, width, maxVisibleLines, suffix, options = {}) {
+  console.log('@@@@@@@@@@@@@@@@')
+  console.log("Called for text: ", text);
+  console.log("Input max width: ", width);
+
   const canvas = buildEllipsis.canvas || (buildEllipsis.canvas = document.createElement('canvas'));
   const context = canvas.getContext('2d');
+
   Object.entries(options).forEach(([key, value]) => {
     if (key in context) {
       context[key] = value;
@@ -196,7 +201,12 @@ export function buildEllipsis(text, width, maxVisibleLines, suffix, options = {}
     testLine += `${w} `;
 
     const { width: testWidth } = context.measureText(`${testLine}${suffix}`);
+    console.log("testWidth: ", testWidth);
+    console.log("width: ", testWidth);
+    console.log("testLine: ", testLine);
+
     if (testWidth > width && index > 0) {
+      console.log("Seeing new line");
       lineCount += 1;
       testLine = `${w} `;
     }
@@ -205,7 +215,7 @@ export function buildEllipsis(text, width, maxVisibleLines, suffix, options = {}
       shortText += `${w} `;
     }
   });
-
+  console.log('@@@@@@@@@@@@@@@@')
   return {
     lineCount,
     shortText,
