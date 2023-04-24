@@ -58,11 +58,12 @@ export default function decorate(block) {
   // Changes that need DOM built and styled
   const shortDescriptionDivs = block.querySelectorAll('.short-description');
   shortDescriptionDivs.forEach((div) => {
-    const ellipsableText = div.querySelector('p');
-    if (!ellipsableText) return;
 
     const observer = new ResizeObserver(entries => {
       if (entries.length > 1) return;
+
+      const ellipsableText = div.querySelector('p');
+      if (!ellipsableText) return;
 
       const textStyle = window.getComputedStyle(div);
       const textOptions = {
@@ -119,7 +120,6 @@ export default function decorate(block) {
   });
 
   const mobileMediaQuery = window.matchMedia('only screen and (max-width:768px)');
-  //const tabletMediaQuery = window.matchMedia('only screen and (min-width:769px) and (max-width:1169px)');
   const desktopMediaQuery = window.matchMedia('only screen and (min-width:1170px)');
 
   const mediaChangeHandler = () => {
@@ -135,7 +135,6 @@ export default function decorate(block) {
   };
 
   mediaChangeHandler();
-  //tabletMediaQuery.addEventListener('change', mediaChangeHandler);
   mobileMediaQuery.addEventListener('change', mediaChangeHandler);
   desktopMediaQuery.addEventListener('change', mediaChangeHandler);
 
