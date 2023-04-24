@@ -55,127 +55,74 @@ export default function decorate(block) {
     block.appendChild(arrowRight);
   }
 
-  const mobileMediaQuery = window.matchMedia('only screen and (max-width:768px)');
-  const tabletMediaQuery = window.matchMedia('only screen and (min-width:769px) and (max-width:1169px)');
-  const desktopMediaQuery = window.matchMedia('only screen and (min-width:1170px)');
-  const originalText = [];
+  // Changes that need DOM built and styled
+  const shortDescriptionDivs = block.querySelectorAll('.short-description');
+  shortDescriptionDivs.forEach((div) => {
+    const ellipsableText = div.querySelector('p');
+    if (!ellipsableText) return;
 
-  const mediaChangeHandler = () => {
-    if (desktopMediaQuery.matches) {
-      setTimeout(() => {
-        const shortDescriptionDivs = block.querySelectorAll('.full-card > .card-wrapper > .tall-card > .short-description');
-        shortDescriptionDivs.forEach((div, index) => {
-          const ellipsableText = div.querySelector('p');
-          if (!ellipsableText) return;
-          const span = ellipsableText.querySelector('span');
-          if (span) {
-            ellipsableText.removeChild(span);
-            ellipsableText.innerHTML = originalText[index];
-          }
+    const observer = new ResizeObserver(entries => {
+      if (entries.length > 1) return;
 
-          const textStyle = window.getComputedStyle(div);
-          const textOptions = {
-            font: `${textStyle.fontWeight} ${textStyle.fontSize} ${textStyle.fontFamily}`,
-            letterSpacing: `${textStyle.letterSpacing}`,
-          };
+      const textStyle = window.getComputedStyle(div);
+      const textOptions = {
+        font: `${textStyle.fontWeight} ${textStyle.fontSize} ${textStyle.fontFamily}`,
+        letterSpacing: `${textStyle.letterSpacing}`,
+      };
 
-          const displayBufferPixels = 16;
-          const textContentWidth = div.offsetWidth - displayBufferPixels;
-          const fullText = originalText[index] ? originalText[index] : ellipsableText.innerText;
-          if (!fullText) return;
+      const displayBufferPixels = 16;
+      const textContentWidth = div.offsetWidth - displayBufferPixels;
 
-          const ellipsisBuilder = buildEllipsis(
-            fullText,
-            textContentWidth,
-            blockConfig.maxlines,
-            blockConfig.ellipsis,
-            textOptions,
-          );
-          if (ellipsisBuilder.lineCount > blockConfig.maxlines) {
-            const clickableCloseButton = document.createElement('span');
-            const clickableEllipsis = document.createElement('span');
+      const fullTextContent = ellipsableText.innerText;
+      if (!fullTextContent) return;
 
-            clickableCloseButton.classList.add('hidden-close-button');
-            clickableEllipsis.classList.add('clickable-ellipsis');
+      const ellipsisBuilder = buildEllipsis(
+        fullTextContent,
+        textContentWidth,
+        blockConfig.maxlines,
+        blockConfig.ellipsis,
+        textOptions,
+      );
 
-            clickableCloseButton.innerHTML = '';
-            clickableCloseButton.classList.add('close-button');
-            clickableEllipsis.innerHTML = blockConfig.ellipsis;
-            ellipsableText.innerHTML = `${ellipsisBuilder.shortText}`;
-            ellipsableText.append(clickableEllipsis);
-            div.append(clickableCloseButton);
+      if (ellipsisBuilder.lineCount > blockConfig.maxlines) {
+        const clickableCloseButton = document.createElement('span');
+        const clickableEllipsis = document.createElement('span');
 
-            clickableEllipsis.addEventListener('click', () => {
-              div.classList.add('extended-text');
-              ellipsableText.innerHTML = `${fullText}`;
-              clickableCloseButton.classList.remove('hidden-close-button');
-              clickableCloseButton.classList.add('active-close-button');
-            });
-            clickableCloseButton.addEventListener('click', () => {
-              div.classList.remove('extended-text');
-              ellipsableText.innerHTML = `${ellipsisBuilder.shortText}`;
-              ellipsableText.append(clickableEllipsis);
-              clickableCloseButton.classList.remove('active-close-button');
-              clickableCloseButton.classList.add('hidden-close-button');
-            });
-          }
+        clickableCloseButton.classList.add('hidden-close-button');
+        clickableEllipsis.classList.add('clickable-ellipsis');
+
+        clickableCloseButton.innerHTML = '';
+        clickableCloseButton.classList.add('close-button');
+        clickableEllipsis.innerHTML = blockConfig.ellipsis;
+        ellipsableText.innerHTML = `${ellipsisBuilder.shortText}`;
+
+        ellipsableText.append(clickableEllipsis);
+        div.append(clickableCloseButton);
+
+        clickableEllipsis.addEventListener('click', () => {
+          div.classList.add('extended-text');
+          ellipsableText.innerHTML = `${fullTextContent}`;
+          clickableCloseButton.classList.remove('hidden-close-button');
+          clickableCloseButton.classList.add('active-close-button');
         });
-      }, 0);
-    }
-    if (tabletMediaQuery.matches) {
-      const shortDescriptionDivs = block.querySelectorAll('.full-card > .card-wrapper > .tall-card > .short-description');
-      shortDescriptionDivs.forEach((div) => {
-        const ellipsableText = div.querySelector('p');
-        if (!ellipsableText) return;
-
-        const textStyle = window.getComputedStyle(div);
-        const textOptions = {
-          font: `${textStyle.fontWeight} ${textStyle.fontSize} ${textStyle.fontFamily}`,
-          letterSpacing: `${textStyle.letterSpacing}`,
-        };
-
-        const displayBufferPixels = 16;
-        const textContentWidth = div.offsetWidth - displayBufferPixels;
-        const fullTextContent = ellipsableText.innerText;
-        if (!fullTextContent) return;
-        originalText.push(fullTextContent);
-        const ellipsisBuilder = buildEllipsis(
-          fullTextContent,
-          textContentWidth,
-          2,
-          blockConfig.ellipsis,
-          textOptions,
-        );
-        if (ellipsisBuilder.lineCount > 2) {
-          const clickableCloseButton = document.createElement('span');
-          const clickableEllipsis = document.createElement('span');
-
-          clickableCloseButton.classList.add('hidden-close-button');
-          clickableEllipsis.classList.add('clickable-ellipsis');
-
-          clickableCloseButton.innerHTML = '';
-          clickableCloseButton.classList.add('close-button');
-          clickableEllipsis.innerHTML = blockConfig.ellipsis;
+        clickableCloseButton.addEventListener('click', () => {
+          div.classList.remove('extended-text');
           ellipsableText.innerHTML = `${ellipsisBuilder.shortText}`;
           ellipsableText.append(clickableEllipsis);
-          div.append(clickableCloseButton);
+          clickableCloseButton.classList.remove('active-close-button');
+          clickableCloseButton.classList.add('hidden-close-button');
+        });
+      }
+    });
 
-          clickableEllipsis.addEventListener('click', () => {
-            div.classList.add('extended-text');
-            ellipsableText.innerHTML = `${fullTextContent}`;
-            clickableCloseButton.classList.remove('hidden-close-button');
-            clickableCloseButton.classList.add('active-close-button');
-          });
-          clickableCloseButton.addEventListener('click', () => {
-            div.classList.remove('extended-text');
-            ellipsableText.innerHTML = `${ellipsisBuilder.shortText}`;
-            ellipsableText.append(clickableEllipsis);
-            clickableCloseButton.classList.remove('active-close-button');
-            clickableCloseButton.classList.add('hidden-close-button');
-          });
-        }
-      });
-    }
+    observer.observe(div);
+  });
+
+  const mobileMediaQuery = window.matchMedia('only screen and (max-width:768px)');
+  //const tabletMediaQuery = window.matchMedia('only screen and (min-width:769px) and (max-width:1169px)');
+  const desktopMediaQuery = window.matchMedia('only screen and (min-width:1170px)');
+
+  const mediaChangeHandler = () => {
     if (mobileMediaQuery.matches) {
       cardWrapper.style.width = '';
     } else {
@@ -188,7 +135,7 @@ export default function decorate(block) {
   };
 
   mediaChangeHandler();
-  tabletMediaQuery.addEventListener('change', mediaChangeHandler);
+  //tabletMediaQuery.addEventListener('change', mediaChangeHandler);
   mobileMediaQuery.addEventListener('change', mediaChangeHandler);
   desktopMediaQuery.addEventListener('change', mediaChangeHandler);
 
@@ -288,69 +235,5 @@ export default function decorate(block) {
     slide.addEventListener('mouseup', touchEnd, { passive: true });
     slide.addEventListener('mouseleave', touchEnd, { passive: true });
     slide.addEventListener('mousemove', touchMove, { passive: true });
-  });
-
-  // Changes that need DOM built and styled
-  const shortDescriptionDivs = block.querySelectorAll('.short-description');
-
-  shortDescriptionDivs.forEach((div) => {
-    const ellipsableText = div.querySelector('p');
-    if (!ellipsableText) return;
-
-    const observer = new ResizeObserver(entries => {
-      if (entries.length > 1) return;
-
-      const textStyle = window.getComputedStyle(div);
-      const textOptions = {
-        font: `${textStyle.fontWeight} ${textStyle.fontSize} ${textStyle.fontFamily}`,
-        letterSpacing: `${textStyle.letterSpacing}`,
-      };
-
-      const displayBufferPixels = 16;
-      const textContentWidth = div.offsetWidth - displayBufferPixels;
-
-      const fullTextContent = ellipsableText.innerText;
-      if (!fullTextContent) return;
-
-      const ellipsisBuilder = buildEllipsis(
-        fullTextContent,
-        textContentWidth,
-        blockConfig.maxlines,
-        blockConfig.ellipsis,
-        textOptions,
-      );
-
-      if (ellipsisBuilder.lineCount > blockConfig.maxlines) {
-        const clickableCloseButton = document.createElement('span');
-        const clickableEllipsis = document.createElement('span');
-
-        clickableCloseButton.classList.add('hidden-close-button');
-        clickableEllipsis.classList.add('clickable-ellipsis');
-
-        clickableCloseButton.innerHTML = '';
-        clickableCloseButton.classList.add('close-button');
-        clickableEllipsis.innerHTML = blockConfig.ellipsis;
-        ellipsableText.innerHTML = `${ellipsisBuilder.shortText}`;
-
-        ellipsableText.append(clickableEllipsis);
-        div.append(clickableCloseButton);
-
-        clickableEllipsis.addEventListener('click', () => {
-          div.classList.add('extended-text');
-          ellipsableText.innerHTML = `${fullTextContent}`;
-          clickableCloseButton.classList.remove('hidden-close-button');
-          clickableCloseButton.classList.add('active-close-button');
-        });
-        clickableCloseButton.addEventListener('click', () => {
-          div.classList.remove('extended-text');
-          ellipsableText.innerHTML = `${ellipsisBuilder.shortText}`;
-          ellipsableText.append(clickableEllipsis);
-          clickableCloseButton.classList.remove('active-close-button');
-          clickableCloseButton.classList.add('hidden-close-button');
-        });
-      }
-    });
-
-    observer.observe(div);
   });
 }
