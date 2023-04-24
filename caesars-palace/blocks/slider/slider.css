@@ -1,4 +1,12 @@
 
+.slider-container[data-block-status="loaded"] {
+  display: block;
+}
+
+.slider-wrapper[data-block-status="loaded"] {
+  position: relative;
+}
+
 /* To prevent scrolling on the cards */
 .slider.block[data-block-status="loaded"] {
   overflow: hidden;
