@@ -3,7 +3,6 @@
   overflow: hidden;
   overflow-y: scroll;
   padding: 2px;
-  min-height: 768px;
 }
 
 .slider::-webkit-scrollbar {
