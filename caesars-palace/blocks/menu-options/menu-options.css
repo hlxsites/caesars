@@ -2,6 +2,11 @@
   background-color: var(--static-color-light-gray);
 }
 
+.menu-options-container .menu-options-wrapper {
+  padding-bottom: unset;
+  padding-top: unset;
+}
+
 .menu-options {
   box-sizing: border-box;
 }
