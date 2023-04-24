@@ -1,6 +1,5 @@
 .highlight-card.block {
   padding-top: 120px;
-  transform: scale(0.85);
 }
 
 .highlight-card.block .highlight-card-image {
@@ -22,31 +21,45 @@
   color: var(--static-color-white);
   padding-left: var(--layout-size-xl);
   margin-top: -120px;
-  font-size: 20px;
 }
 
 .highlight-card.block .highlight-card-text h4 {
   text-transform: uppercase;
   margin: 0;
   padding-top: var(--layout-size-m);
-  font-size:  26px;
-}
-
-.highlight-card.block .highlight-card-text p {
-  margin: unset;
 }
 
 .highlight-card.block .button-container {
   display: none;
 }
 
-.highlight-card.block a, a.button:any-link, button{
-  height: 42px;
-  line-height: 42px;
-}
-
 /* Responsive Breakpoints */
-@media  only screen and (min-width: 960px) {
+@media only screen and (min-width: 960px) {
+  .highlight-card.block {
+    transform: scale(0.85);
+  }
+
+
+  .highlight-card.block .highlight-card-text {
+    font-size: 20px;
+  }
+
+  .highlight-card.block .highlight-card-text h4 {
+    font-size: 26px;
+  }
+
+
+  .highlight-card.block .highlight-card-text p {
+    margin: unset;
+  }
+
+  .highlight-card.block a,
+  a.button:any-link,
+  button {
+    height: 42px;
+    line-height: 42px;
+  }
+
   .highlight-card.block .highlight-card-text div:last-child {
     margin-left: auto;
     margin-right: var(--layout-size-m);
