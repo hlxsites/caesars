@@ -14,6 +14,7 @@ export default function decorate(block) {
     } else if (cols[1].contains(picture)) {
       block.classList.add('image-end');
     }
+
     // button group
     block.querySelectorAll('a').forEach((anchor) => anchor.closest('p').classList.add('button-group'));
 
@@ -21,13 +22,26 @@ export default function decorate(block) {
     if (block.classList.contains('full-width')) {
       const section = block.closest('.section');
       section.classList.add('has-background');
+
       // move picture based on screen size
       const mqList = window.matchMedia('(min-width: 768px)');
       const handleScreenChange = (mql) => {
         if (mql.matches) {
+          // remove images added by other events in the block (eg. mobile)
+          const pictures = block.querySelectorAll('picture');
+          [...pictures].forEach((existingPicture) => {
+            existingPicture.remove();
+          });
+
           // non-mobile
           section.appendChild(picture);
         } else {
+          // remove images added by other events as background images
+          const pictures = section.querySelectorAll('picture');
+          [...pictures].forEach((existingPicture) => {
+            existingPicture.remove();
+          });
+
           // mobile
           let pictureCol = -1;
           if (block.classList.contains('image-start')) {
