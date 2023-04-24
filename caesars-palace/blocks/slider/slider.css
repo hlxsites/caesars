@@ -41,6 +41,15 @@
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 10%);
 }
 
+.slider.no-image .card .short-description,
+.slider.flat .card .short-description {
+  box-shadow: unset;
+}
+
+.slider:not(.flat) .card .short-description {
+  background: var(--static-color-white);
+}
+
 .slider.block[data-block-status="loaded"] .card .short-description {
   padding: 16px 32px 16px 16px;
   height: 180px;
@@ -51,11 +60,6 @@
   color: var(--text-color);
 }
 
-.slider.no-image .card .short-description,
-.slider.flat .card .short-description {
-  box-shadow: unset;
-}
-
 .slider .card .extended-text p {
   height: 180px;
   overflow: hidden;
@@ -64,10 +68,6 @@
 
 .slider .card .extended-text p::-webkit-scrollbar {
   display: none;
-}
-
-.slider:not(.flat) .card .short-description {
-  background: var(--static-color-white);
 }
 
 .slider .extended-text .button-container {
