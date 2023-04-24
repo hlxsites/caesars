@@ -291,37 +291,27 @@ export default function decorate(block) {
   });
 
   // Changes that need DOM built and styled
-  setTimeout(() => {
-    const shortDescriptionDivs = block.querySelectorAll('.short-description');
+  const shortDescriptionDivs = block.querySelectorAll('.short-description');
 
-    shortDescriptionDivs.forEach((div) => {
-      const ellipsableText = div.querySelector('p');
-      if (!ellipsableText) return;
+  shortDescriptionDivs.forEach((div) => {
+    const ellipsableText = div.querySelector('p');
+    if (!ellipsableText) return;
+
+    const observer = new ResizeObserver(entries => {
+      if (entries.length > 1) return;
 
       const textStyle = window.getComputedStyle(div);
       const textOptions = {
         font: `${textStyle.fontWeight} ${textStyle.fontSize} ${textStyle.fontFamily}`,
         letterSpacing: `${textStyle.letterSpacing}`,
       };
-      console.log('-----------------');
-      console.log(`~~~ ellipsableText:`);
-      console.log(ellipsableText.innerText);
-      console.log(`~~~ textOptions:`);
-      console.log(textOptions);
-      console.log('~~~ Target div: ');
-      console.log(div);
-      console.log('~~~ div.offsetWidth: ');
-      console.log(div.offsetWidth);
 
       const displayBufferPixels = 16;
       const textContentWidth = div.offsetWidth - displayBufferPixels;
-      console.log(`~~~ textContentWidth:`);
-      console.log(textContentWidth);
 
       const fullTextContent = ellipsableText.innerText;
       if (!fullTextContent) return;
 
-      console.log('-----------------');
       const ellipsisBuilder = buildEllipsis(
         fullTextContent,
         textContentWidth,
@@ -329,10 +319,6 @@ export default function decorate(block) {
         blockConfig.ellipsis,
         textOptions,
       );
-
-      console.log('##### Eliipsis Builder #####');
-      console.log(ellipsisBuilder);
-      console.log('############################');
 
       if (ellipsisBuilder.lineCount > blockConfig.maxlines) {
         const clickableCloseButton = document.createElement('span');
@@ -364,5 +350,7 @@ export default function decorate(block) {
         });
       }
     });
-  }, 10);
+
+    observer.observe(div);
+  });
 }
