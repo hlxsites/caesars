@@ -55,12 +55,13 @@ export default function decorate(block) {
     block.appendChild(arrowRight);
   }
 
-  // Changes that need DOM built and styled
   const shortDescriptionDivs = block.querySelectorAll('.short-description');
   shortDescriptionDivs.forEach((div) => {
     const ellipsableText = div.querySelector('p');
     const fullTextContent = ellipsableText && ellipsableText.innerText;
 
+    // Changes that need DOM built and styled, so we're observing resizing,
+    // especially having `div.offsetWidth` available and set
     const observer = new ResizeObserver((entries) => {
       if (entries.length > 1) return;
       if (!ellipsableText || !fullTextContent) return;
