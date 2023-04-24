@@ -133,8 +133,8 @@ export default function decorate(block) {
   };
 
   mediaChangeHandler();
-  mobileMediaQuery.addEventListener('change', mediaChangeHandler);
-  desktopMediaQuery.addEventListener('change', mediaChangeHandler);
+  mobileMediaQuery.addEventListener('change', mediaChangeHandler, { passive: true });
+  desktopMediaQuery.addEventListener('change', mediaChangeHandler, { passive: true });
 
   let isDragging = false;
   let startPos = 0;
@@ -199,7 +199,7 @@ export default function decorate(block) {
       indexFactor = -1;
       setPositionByIndex();
     }
-  });
+  }, { passive: true });
 
   block.querySelector('.slider-button.right')?.addEventListener('click', () => {
     if (slides.length - currentIndex > blockConfig['visible-slides']) {
@@ -207,7 +207,7 @@ export default function decorate(block) {
       indexFactor = 1;
       setPositionByIndex();
     }
-  });
+  }, { passive: true });
 
   function touchMove(event) {
     if (isDragging) {
