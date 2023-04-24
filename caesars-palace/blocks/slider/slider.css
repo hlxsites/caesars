@@ -26,7 +26,6 @@
 
 .slider .card {
   flex: 1 0 100%;
-  height: auto;
   width: 100%;
   cursor: grab;
   user-select: none;
@@ -136,7 +135,6 @@
 
 .slider .card img {
   width: 100%;
-  height: auto;
   object-fit: cover;
 }
 
@@ -149,7 +147,6 @@
 .slider.full-card .tall-card .card-image picture img {
   aspect-ratio: unset;
   height: 100%;
-  width: auto;
 }
 
 .slider .tall-card .active-close-button {
