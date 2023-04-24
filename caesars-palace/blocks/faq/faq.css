@@ -66,7 +66,6 @@ div.faq-container .questions-content-text > div:nth-child(2) {
     display: none;
     visibility: hidden;
     margin-top: var(--layout-size-m);
-    vertical-align: unset;
     letter-spacing: unset;
     box-sizing: unset;
     vertical-align: unset;
@@ -77,7 +76,6 @@ div.faq-container .questions-content-text a {
   display: unset;
   line-height: unset;
 }
-
 
 div.faq-container .questions-content-text a::after {
   display: unset;
