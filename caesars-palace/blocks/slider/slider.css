@@ -42,7 +42,7 @@
 }
 
 .slider .card .short-description {
-  padding-right: 16px 32px 16px 16px;
+  padding: 16px 32px 16px 16px;
   height: 180px;
   display: flex;
   flex-direction: column;

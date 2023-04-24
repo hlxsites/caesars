@@ -99,7 +99,7 @@ export default function decorate(block) {
         });
       }
     });
-  }, 0);
+  }, 100);
 
   // add slider arrow buttons
   const slides = [...block.querySelectorAll('.card')];
@@ -178,7 +178,7 @@ export default function decorate(block) {
             });
           }
         });
-      }, 0);
+      }, 100);
     }
     if (tabletMediaQuery.matches) {
       const shortDescriptionDivs = block.querySelectorAll('.full-card > .card-wrapper > .tall-card > .short-description');
