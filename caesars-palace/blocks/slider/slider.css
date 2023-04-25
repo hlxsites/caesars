@@ -93,7 +93,7 @@
   margin-left: 50%;
 }
 
-.slider.block .card-wrapper .tall-card .button-container {
+.slider-container  .slider.block .card-wrapper .tall-card .button-container {
   margin-left: 52%;
 }
 
@@ -186,7 +186,7 @@
     margin-left: 70%;
   }
 
-  .slider.block .card-wrapper .tall-card .button-container {
+  .slider-container .slider.block .card-wrapper .tall-card .button-container {
     margin-left: 71%;
   }
 }
@@ -260,7 +260,7 @@
     filter: invert(50%);
   }
 
-  .slider.block .card-wrapper .tall-card .button-container {
+  .slider-container .slider.block .card-wrapper .tall-card .button-container {
     margin-left: 32%;
   }
 }
@@ -274,7 +274,7 @@
     margin-left: 55%;
   }
 
-  .slider.block .card-wrapper .tall-card .button-container {
+  .slider-container .slider.block .card-wrapper .tall-card .button-container {
     margin-left: 56%;
   }
 }
@@ -284,7 +284,7 @@
     margin-left: 62%;
   }
 
-  .slider.block .card-wrapper .tall-card .button-container {
+  .slider-container .slider.block .card-wrapper .tall-card .button-container {
     margin-left: 62%;
   }
 
