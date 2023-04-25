@@ -411,15 +411,17 @@ async function loadPage() {
 }
 
 async function fetchProduct(productPath) {
-  const fetchPromise = fetch(`${productPath}?sheet=overview`);
-  return fetchPromise.then((resp) => { return resp.json() }).then((json) => { return json.data[0] });
+  const productOverview = await fetch(`${productPath}?sheet=overview`);
+  const productOverviewJson = await productOverview.json();
+  const productData = await productOverviewJson.data[0];
+  return productData;
 }
 
 export async function lookupCardsByType(type) {
   if (!window.cardIndex || !window.cardIndex[type]) {
-    const resp = await fetch(`${window.hlx.codeBasePath}/${type}/query-index.json`);
+    const resp = await fetch(`${window.hlx.codeBasePath}/products/${type}/query-index.json`);
     const json = await resp.json();
-    let productFetches = [];
+    const productFetches = [];
     json.data.forEach((product) => {
       productFetches.push(fetchProduct(product.path));
     });

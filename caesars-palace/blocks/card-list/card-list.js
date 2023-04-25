@@ -369,7 +369,7 @@ function preprocessCardData(cardData, type) {
     if (cardData['Take Out'] && cardData['Take Out'] === 'true') {
       cardData['Dining Options'].push('Take Out');
     }
-    if (cardData['Delivery'] && cardData['Delivery'] === 'true') {
+    if (cardData.Delivery && cardData.Delivery === 'true') {
       cardData['Dining Options'].push('Delivery');
     }
   }
@@ -514,14 +514,14 @@ function createCard(cardData, index, cfg) {
   cardImage.classList.add('card-image');
   const cardImageLink = document.createElement('a');
   cardImageLink.href = cardLink;
-  cardImageLink.appendChild(createOptimizedPicture(cardData['Thumbnail'], cardData['Title'], false, [{ media: '(min-width: 960px)', width: '480' }, { width: '350' }]));
+  cardImageLink.appendChild(createOptimizedPicture(cardData.Thumbnail, cardData.Title, false, [{ media: '(min-width: 960px)', width: '480' }, { width: '350' }]));
   cardImage.appendChild(cardImageLink);
   // mobile
   const mobile = document.createElement('div');
   mobile.classList.add('card-mobile');
   const mobileTitle = document.createElement('div');
   mobileTitle.classList.add('card-mobile-title');
-  mobileTitle.innerHTML = cardData['Title'];
+  mobileTitle.innerHTML = cardData.Title;
   mobile.appendChild(mobileTitle);
   if (cfg.type === 'restaurants' && cardData['Property Name']) {
     const mobileLocation = document.createElement('div');
@@ -543,7 +543,7 @@ function createCard(cardData, index, cfg) {
   const titleLink = document.createElement('a');
   titleLink.href = cardLink;
   const titleH4 = document.createElement('h4');
-  titleH4.innerHTML = cardData['Title'];
+  titleH4.innerHTML = cardData.Title;
   titleLink.appendChild(titleH4);
   title.appendChild(titleLink);
   cardTop.appendChild(title);
@@ -568,26 +568,26 @@ function createCard(cardData, index, cfg) {
   // card bottom left
   const cardBottomLeft = document.createElement('div');
   cardBottomLeft.classList.add('card-bottom-left');
-  if (cardData['Location']) {
+  if (cardData.Location) {
     const locationDiv = document.createElement('span');
-    locationDiv.innerHTML = cardData['Location'];
+    locationDiv.innerHTML = cardData.Location;
     cardBottomLeft.appendChild(locationDiv);
   }
   const categoryDiv = document.createElement('div');
-  categoryDiv.innerHTML = cfg.type === 'restaurants' ? cardData['Cuisine'] : cardData['Category'];
+  categoryDiv.innerHTML = cfg.type === 'restaurants' ? cardData.Cuisine : cardData.Category;
   cardBottomLeft.appendChild(categoryDiv);
   cardBottom.appendChild(cardBottomLeft);
   // card bottom middle
   const cardBottomMiddle = document.createElement('div');
   cardBottomMiddle.classList.add('card-bottom-middle');
-  if (cfg.type === 'restaurants' && cardData['Price'] && cardData['Price'] !== '') {
+  if (cfg.type === 'restaurants' && cardData.Price && cardData.Price !== '') {
     const price = document.createElement('span');
     price.classList.add('card-price');
-    price.innerHTML = cardData['Price'];
+    price.innerHTML = cardData.Price;
     cardBottomMiddle.appendChild(price);
     const priceUnused = document.createElement('span');
     priceUnused.classList.add('card-price-unused');
-    priceUnused.innerHTML = '$'.repeat(4 - cardData['Price'].length);
+    priceUnused.innerHTML = '$'.repeat(4 - cardData.Price.length);
     cardBottomMiddle.appendChild(priceUnused);
   }
   cardBottom.appendChild(cardBottomMiddle);
