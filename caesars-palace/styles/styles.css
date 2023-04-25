@@ -628,28 +628,6 @@ main .section.product-quickfacts .default-content-wrapper > p > span.quick-facts
   font-weight: var(--emphasized-font-weight);
 }
 
-main .overlay-logo-wrapper {
-  display: flex;
-  z-index: 1;
-  justify-content: center;
-  align-items: center;
-}
-
-main .overlay-logo.block {
-  position: absolute;
-  width: 145px;
-}
-
-main .section.has-video-background .overlay-logo.block img {
-  height: 145px;
-  margin-top: 28px;
-}
-
-main .section.has-background .overlay-logo.block img {
-  height: 145px;
-  margin-top: -112px;
-}
-
 /* Responsive Breakpoints */
 
 /* Tablet (portrait) */
@@ -664,11 +642,6 @@ main .section.has-background .overlay-logo.block img {
 
   main .section > div:last-of-type {
     padding-bottom: var(--layout-size-xxl);
-  }
-
-  main .section.has-video-background .overlay-logo.block img {
-    height: 145px;
-    margin-top: 30px;
   }
 
   main .section.product-quickfacts .default-content-wrapper {

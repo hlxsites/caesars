@@ -1,1 +1,31 @@
-/* No code, block conveys semantic meaning only */
+main .overlay-logo-wrapper {
+  display: flex;
+  z-index: 1;
+  justify-content: center;
+  align-items: center;
+}
+
+main .overlay-logo.block {
+  position: absolute;
+  width: 145px;
+}
+
+main .section.has-video-background .overlay-logo.block img {
+  height: 145px;
+  margin-top: 28px;
+}
+
+main .section.has-background .overlay-logo.block img {
+  height: 145px;
+  margin-top: -112px;
+}
+
+/* Responsive Breakpoints */
+
+/* Tablet (portrait) */
+@media only screen and (min-width: 768px) {
+  main .section.has-video-background .overlay-logo.block img {
+    height: 145px;
+    margin-top: 30px;
+  }
+}
