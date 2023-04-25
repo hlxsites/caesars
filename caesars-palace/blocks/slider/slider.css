@@ -94,7 +94,7 @@
 }
 
 .slider.block .card-wrapper .tall-card .button-container {
-  margin-left: 66%;
+  margin-left: 52%;
 }
 
 .slider .extended-text h4 {
@@ -184,6 +184,10 @@
 
   .slider.full-card .card-wrapper .tall-card .button-container {
     margin-left: 70%;
+  }
+
+  .slider.block .card-wrapper .tall-card .button-container {
+    margin-left: 71%;
   }
 }
 
