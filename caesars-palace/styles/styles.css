@@ -551,7 +551,7 @@ main .section.is-hero.has-video-background h1 {
   line-height: 1.1;
   font-family: var(--heading-font-family);
   font-weight: var(--emphasized-font-weight);
-  margin-top: 145px;
+  margin-top: 190px;
 }
 
 main .section.is-hero.has-centered-hero-text h1 {
@@ -636,15 +636,18 @@ main .overlay-logo-wrapper {
 }
 
 main .overlay-logo.block {
-  border: 3px solid green;
   position: absolute;
   width: 145px;
 }
 
-main .overlay-logo.block img {
-  border: 3px solid red;
+main .section.has-video-background .overlay-logo.block img {
   height: 145px;
-  margin-top: -16px;
+  margin-top: 28px;
+}
+
+main .section.has-background .overlay-logo.block img {
+  height: 145px;
+  margin-top: -112px;
 }
 
 /* Responsive Breakpoints */
@@ -661,6 +664,11 @@ main .overlay-logo.block img {
 
   main .section > div:last-of-type {
     padding-bottom: var(--layout-size-xxl);
+  }
+
+  main .section.has-video-background .overlay-logo.block img {
+    height: 145px;
+    margin-top: 30px;
   }
 
   main .section.product-quickfacts .default-content-wrapper {
@@ -709,6 +717,7 @@ main .overlay-logo.block img {
   }
 
   main .section.has-video-background h1 {
+    padding-top: 48px;
     margin-top: 175px;
   }
 
