@@ -21,16 +21,17 @@ export default function decorate(block) {
     // full Width variations
     if (block.classList.contains('full-width')) {
       const section = block.closest('.section');
-      section.classList.add('has-background');
 
       // move picture based on screen size
       const mqList = window.matchMedia('(min-width: 768px)');
       const handleScreenChange = (mql) => {
         if (mql.matches) {
           // non-mobile
+          section.classList.add('has-background');
           section.appendChild(picture);
         } else {
           // mobile
+          section.classList.remove('has-background');
           let pictureCol = -1;
           if (block.classList.contains('image-start')) {
             pictureCol = 0;
@@ -50,9 +51,9 @@ export default function decorate(block) {
   const mediaQueryMatcher = window.matchMedia('(max-width: 768px)');
   const handleScreenChange = (query) => {
     if (query.matches) {
-      block.querySelectorAll('img').forEach((image) => {
-        image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '768' }]));
-      });
+      // block.querySelectorAll('img').forEach((image) => {
+      //   image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '768' }]));
+      // });
     }
   };
   handleScreenChange(mediaQueryMatcher);
