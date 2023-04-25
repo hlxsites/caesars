@@ -47,15 +47,4 @@ export default function decorate(block) {
       mqList.addEventListener('change', handleScreenChange);
     }
   }
-
-  const mediaQueryMatcher = window.matchMedia('(max-width: 768px)');
-  const handleScreenChange = (query) => {
-    if (query.matches) {
-      // block.querySelectorAll('img').forEach((image) => {
-      //   image.closest('picture').replaceWith(createOptimizedPicture(image.src, image.alt, false, [{ width: '768' }]));
-      // });
-    }
-  };
-  handleScreenChange(mediaQueryMatcher);
-  mediaQueryMatcher.addEventListener('change', handleScreenChange);
 }
