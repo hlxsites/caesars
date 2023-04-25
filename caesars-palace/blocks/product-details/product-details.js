@@ -272,6 +272,7 @@ export default async function decorate(block) {
           const colImage = row.Image;
           const buttonTitle = row['Button Title'];
           const buttonLink = row['Button Link'];
+          const textOverlay = row['Text Overlay'];
 
           if (colTitle && colDesc && colImage) {
             // Create the content structure
@@ -294,18 +295,13 @@ export default async function decorate(block) {
               columnsSection.classList.add('section', 'has-centered-text');
               columnsSection.append(columnsBlock);
               main.append(columnsSection);
-            } else if (i % 2 === 0) {
-              // Even rows
-              const columnsBlock = buildBlock('columns', [[colPicture, contentDiv]]);
-              columnsBlock.classList.add('cet-card', 'full-width');
-              // Add these elements to a new section
-              const columnsSection = document.createElement('div');
-              columnsSection.classList.add('section', 'has-centered-text');
-              columnsSection.append(columnsBlock);
-              main.append(columnsSection);
             } else {
-              // Odd rows
-              const columnsBlock = buildBlock('columns', [[contentDiv, colPicture]]);
+              let columnsBlock;
+              if (textOverlay && textOverlay.toLowerCase() === 'right') {
+                columnsBlock = buildBlock('columns', [[colPicture, contentDiv]]);
+              } else {
+                columnsBlock = buildBlock('columns', [[contentDiv, colPicture]]);
+              }
               columnsBlock.classList.add('cet-card', 'full-width');
               // Add these elements to a new section
               const columnsSection = document.createElement('div');
