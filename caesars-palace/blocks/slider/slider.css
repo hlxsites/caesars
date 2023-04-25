@@ -93,6 +93,10 @@
   margin-left: 50%;
 }
 
+.slider.block .card-wrapper .tall-card .button-container {
+  margin-left: 66%;
+}
+
 .slider .extended-text h4 {
   display: none;
 }
@@ -251,6 +255,10 @@
     background: url("../../icons/chevron-right.svg") no-repeat;
     filter: invert(50%);
   }
+
+  .slider.block .card-wrapper .tall-card .button-container {
+    margin-left: 32%;
+  }
 }
 
 @media only screen and (min-width: 1170px) {
@@ -261,10 +269,18 @@
   .slider.full-card .card-wrapper .tall-card .button-container {
     margin-left: 55%;
   }
+
+  .slider.block .card-wrapper .tall-card .button-container {
+    margin-left: 56%;
+  }
 }
 
 @media (min-width: 1440px) {
   .slider.full-card .card-wrapper .tall-card .button-container {
+    margin-left: 62%;
+  }
+
+  .slider.block .card-wrapper .tall-card .button-container {
     margin-left: 62%;
   }
 
