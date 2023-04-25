@@ -27,21 +27,9 @@ export default function decorate(block) {
       const mqList = window.matchMedia('(min-width: 768px)');
       const handleScreenChange = (mql) => {
         if (mql.matches) {
-          // remove images added by other events in the block (eg. mobile)
-          const pictures = block.querySelectorAll('picture');
-          [...pictures].forEach((existingPicture) => {
-            existingPicture.remove();
-          });
-
           // non-mobile
           section.appendChild(picture);
         } else {
-          // remove images added by other events as background images
-          const pictures = section.querySelectorAll('picture');
-          [...pictures].forEach((existingPicture) => {
-            existingPicture.remove();
-          });
-
           // mobile
           let pictureCol = -1;
           if (block.classList.contains('image-start')) {
