@@ -142,7 +142,6 @@ export function getNextClosing(openingSchedule, dateToCheck) {
 export function isVentureOpen(openingSchedule, dateToCheck) {
   const day = DAYS_LOOKUP[dateToCheck.getDay()];
   const scheduleToUse = openingSchedule[day];
-  // console.log("Using schedule: ", scheduleToUse);
 
   if (!scheduleToUse || !scheduleToUse.opens || scheduleToUse.opens.length === 0) {
     return false;
@@ -180,6 +179,7 @@ export function isVentureOpen(openingSchedule, dateToCheck) {
 export function buildEllipsis(text, width, maxVisibleLines, suffix, options = {}) {
   const canvas = buildEllipsis.canvas || (buildEllipsis.canvas = document.createElement('canvas'));
   const context = canvas.getContext('2d');
+
   Object.entries(options).forEach(([key, value]) => {
     if (key in context) {
       context[key] = value;
@@ -189,18 +189,15 @@ export function buildEllipsis(text, width, maxVisibleLines, suffix, options = {}
   const words = text.split(' ');
   let testLine = '';
   let lineCount = 1;
-
   let shortText = '';
 
   words.forEach((w, index) => {
     testLine += `${w} `;
-
     const { width: testWidth } = context.measureText(`${testLine}${suffix}`);
     if (testWidth > width && index > 0) {
       lineCount += 1;
       testLine = `${w} `;
     }
-
     if (lineCount <= maxVisibleLines) {
       shortText += `${w} `;
     }
