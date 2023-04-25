@@ -308,14 +308,19 @@
         padding-left: 190px;
     }
 
-    .columns.columns-2-cols.cet-card.image-end:not(.full-width) > div > div:first-child > h3,
-    .columns.columns-2-cols.cet-card.image-end:not(.full-width) > div > div:first-child > p {
+    .columns.columns-2-cols.cet-card.image-end:not(.full-width) > div > div:nth-child(odd) > h3,
+    .columns.columns-2-cols.cet-card.image-end:not(.full-width) > div > div:nth-child(odd) > p {
         padding-right: 190px;
     }
 
-    .columns.columns-2-cols.cet-card.image-start:not(.full-width) > div > div:last-child > h3,
-    .columns.columns-2-cols.cet-card.image-start:not(.full-width) > div > div:last-child > p {
+    .columns.columns-2-cols.cet-card.image-start:not(.full-width) > div > div:nth-child(even) > h3,
+    .columns.columns-2-cols.cet-card.image-start:not(.full-width) > div > div:nth-child(even) > p {
         padding-left: 190px;
+    }
+
+    .columns.columns-2-cols.cet-card.image-start:not(.full-width) > div > div:nth-child(odd) > h3,
+    .columns.columns-2-cols.cet-card.image-start:not(.full-width) > div > div:nth-child(odd) > p {
+        padding-right: 190px;
     }
 }
 
