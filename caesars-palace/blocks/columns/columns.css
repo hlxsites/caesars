@@ -109,11 +109,7 @@
 .columns.columns-2-cols.cet-card h1,
 .columns.columns-2-cols.cet-card h2,
 .columns.columns-2-cols.cet-card h3,
-.columns.columns-2-cols.cet-card h4,
-.columns.columns-2-cols.cet-card-zigzag h1,
-.columns.columns-2-cols.cet-card-zigzag h2,
-.columns.columns-2-cols.cet-card-zigzag h3,
-.columns.columns-2-cols.cet-card-zigzag h4 {
+.columns.columns-2-cols.cet-card h4 {
     margin: 0 0 var(--layout-size-l) -4px;
     text-transform: uppercase;
 }
@@ -133,40 +129,6 @@
 
     .columns [data-align='right'] {
         text-align: right;
-    }
-
-    .cet-card-zigzag {
-      padding-top: 56px;
-    }
-
-    .cet-card-zigzag > div:nth-child(odd) > div > h3,
-    .cet-card-zigzag > div:nth-child(odd) > div > h4,
-    .cet-card-zigzag > div:nth-child(odd) > div > p  {
-      padding-right: 180px;
-    }
-
-    .cet-card-zigzag > div:nth-child(even) > div > h3,
-    .cet-card-zigzag > div:nth-child(even) > div > h4,
-    .cet-card-zigzag > div:nth-child(even) > div > p {
-      padding-left: 180px;
-      padding-right: 16px;
-    }
-
-    .cet-card-reverse-zigzag {
-      padding-top: 56px;
-    }
-
-    .cet-card-reverse-zigzag > div:nth-child(odd) > div > h3,
-    .cet-card-reverse-zigzag > div:nth-child(odd) > div > h4,
-    .cet-card-reverse-zigzag > div:nth-child(odd) > div > p  {
-      padding-left: 180px;
-      padding-right: 16px;
-    }
-
-    .cet-card-reverse-zigzag > div:nth-child(even) > div > h3,
-    .cet-card-reverse-zigzag > div:nth-child(even) > div > h4,
-    .cet-card-reverse-zigzag > div:nth-child(even) > div > p {
-      padding-right: 180px;
     }
 
     .columns > div {
