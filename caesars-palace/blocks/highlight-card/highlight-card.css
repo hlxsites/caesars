@@ -1,5 +1,5 @@
 .highlight-card.block {
-  padding-top: 6em;
+  padding-top: 120px;
 }
 
 .highlight-card.block .highlight-card-image {
@@ -10,7 +10,7 @@
 .highlight-card.block .highlight-card-image img {
   object-fit: cover;
   position: relative;
-  top: -6em;
+  top: -120px;
   padding-left: 0;
 }
 
@@ -20,7 +20,7 @@
   background: var(--static-color-black);
   color: var(--static-color-white);
   padding-left: var(--layout-size-xl);
-  margin-top: -6em;
+  margin-top: -120px;
 }
 
 .highlight-card.block .highlight-card-text h4 {
@@ -47,6 +47,6 @@
   }
 
   .highlight-card.block .highlight-card-image img {
-    padding-left: 6em;
+    padding-left: 120px;
   }
 }

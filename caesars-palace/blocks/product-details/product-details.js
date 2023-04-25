@@ -59,8 +59,7 @@ export default async function decorate(block) {
         // Create the content structure
         const heroSection = document.createElement('div');
         if (heroImage && heroVideo && heroVideo.endsWith('.mp4')) {
-          const video = document.createElement('a');
-          video.href = heroVideo;
+          const video = createTag('a', { href: heroVideo, title: heroTitle });
           const picture = createOptimizedPicture(`${heroImage}`, heroTitle, true);
           const videoBlock = buildBlock('video-with-alt-image', [[video], [picture]]);
           heroSection.classList.add('has-video-background');
@@ -70,30 +69,24 @@ export default async function decorate(block) {
           heroSection.classList.add('has-background');
           heroSection.append(picture);
         }
-        const heroH1 = document.createElement('h1');
-        heroH1.innerText = heroTitle;
+        const heroH1 = createTag('h1', {}, heroTitle);
         // Add the elements to the section
         heroSection.classList.add('section', 'is-hero', 'right-aligned');
         heroSection.append(heroH1);
         if (heroTitleAdd) {
-          const heroH1Add = document.createElement('h1');
-          heroH1Add.innerText = heroTitleAdd;
+          const heroH1Add = createTag('h1', {}, heroTitleAdd);
           heroSection.append(heroH1Add);
         }
         if (heroSubtitle) {
-          const heroH4 = document.createElement('h4');
-          heroH4.innerText = heroSubtitle;
+          const heroH4 = createTag('h4', {}, heroSubtitle);
           heroSection.append(heroH4);
         }
         if (openTableEmbed) {
-          const otLink = document.createElement('a');
-          otLink.href = openTableEmbed;
+          const otLink = createTag('a', { href: openTableEmbed });
           const openTableBlock = buildBlock('opentable', [[otLink]]);
           heroSection.append(openTableBlock);
         } else if (secondaryUrl && secondaryUrlText) {
-          const secondaryLink = document.createElement('a');
-          secondaryLink.href = secondaryUrl;
-          secondaryLink.textContent = secondaryUrlText;
+          const secondaryLink = createTag('a', { href: secondaryUrl, title: secondaryUrlText }, secondaryUrlText);
           if (secondaryUrlNewWindow === 'true') {
             secondaryLink.target = '_blank';
             secondaryLink.setAttribute('rel', 'noreferrer noopener');
@@ -146,8 +139,9 @@ export default async function decorate(block) {
 
       // Add cuisine, price and attire
       if (cuisine) {
+        const cuisineIconName = cuisine.trim().replace(' ', '-').toLowerCase();
         const cuisineP = document.createElement('p');
-        const cuisineIcon = createTag('span', { class: 'icon icon-restaurant' });
+        const cuisineIcon = createTag('span', { class: `icon icon-${cuisineIconName}` });
         cuisineP.append(cuisineIcon);
         cuisineP.append(cuisine);
         productQuickFactsSection.append(cuisineP);
@@ -160,7 +154,7 @@ export default async function decorate(block) {
         productQuickFactsSection.append(priceP);
       }
       if (attire) {
-        const attireIconName = attire.replace(' ', '-').toLowerCase();
+        const attireIconName = attire.trim().replace(' ', '-').toLowerCase();
         const attireP = document.createElement('p');
         const attireIcon = createTag('span', { class: `icon icon-${attireIconName}` });
         attireP.append(attireIcon);
@@ -276,16 +270,21 @@ export default async function decorate(block) {
           const colTitle = row.Title;
           const colDesc = row.Description;
           const colImage = row.Image;
+          const buttonTitle = row['Button Title'];
+          const buttonLink = row['Button Link'];
+          const textOverlay = row['Text Overlay'];
 
           if (colTitle && colDesc && colImage) {
             // Create the content structure
-            const colH3 = document.createElement('h3');
-            colH3.innerText = colTitle;
-            const colP = document.createElement('p');
-            colP.innerText = colDesc;
-            const contentDiv = document.createElement('div');
-            contentDiv.append(colH3);
-            contentDiv.append(colP);
+            const colH3 = createTag('h3', {}, colTitle);
+            const colP = createTag('p', {}, colDesc);
+            const contentDiv = createTag('div', {}, [colH3, colP]);
+            if (buttonTitle && buttonLink) {
+              const button = createTag('a', { href: buttonLink, title: buttonTitle }, buttonTitle);
+              const emButton = createTag('em', {}, button);
+              const pButton = createTag('p', {}, emButton);
+              contentDiv.append(pButton);
+            }
             const colPicture = createOptimizedPicture(`${colImage}`, colTitle, false);
 
             /** Create Columns Block for first content detail row */
@@ -296,18 +295,13 @@ export default async function decorate(block) {
               columnsSection.classList.add('section', 'has-centered-text');
               columnsSection.append(columnsBlock);
               main.append(columnsSection);
-            } else if (i % 2 === 0) {
-              // Even rows
-              const columnsBlock = buildBlock('columns', [[colPicture, contentDiv]]);
-              columnsBlock.classList.add('cet-card', 'full-width');
-              // Add these elements to a new section
-              const columnsSection = document.createElement('div');
-              columnsSection.classList.add('section', 'has-centered-text');
-              columnsSection.append(columnsBlock);
-              main.append(columnsSection);
             } else {
-              // Odd rows
-              const columnsBlock = buildBlock('columns', [[contentDiv, colPicture]]);
+              let columnsBlock;
+              if (textOverlay && textOverlay.toLowerCase() === 'right') {
+                columnsBlock = buildBlock('columns', [[colPicture, contentDiv]]);
+              } else {
+                columnsBlock = buildBlock('columns', [[contentDiv, colPicture]]);
+              }
               columnsBlock.classList.add('cet-card', 'full-width');
               // Add these elements to a new section
               const columnsSection = document.createElement('div');
@@ -328,10 +322,8 @@ export default async function decorate(block) {
         if (mapTitle && mapDescription && mapLink && mapLinkLabel && mapImage) {
           // Create the content structure
           // Title and description
-          const mapH4 = document.createElement('h4');
-          mapH4.innerText = mapTitle;
-          const mapP = document.createElement('p');
-          mapP.innerText = mapDescription;
+          const mapH4 = createTag('h4', {}, mapTitle);
+          const mapP = createTag('p', {}, mapDescription);
           const contentDiv = document.createElement('div');
           contentDiv.append(mapH4);
           contentDiv.append(mapP);
@@ -339,9 +331,7 @@ export default async function decorate(block) {
           const mapPicture = createOptimizedPicture(`${mapImage}`, mapTitle, false);
           // Button
           const emphasis = document.createElement('em');
-          const button = document.createElement('a');
-          button.href = mapLink;
-          button.innerText = mapLinkLabel;
+          const button = createTag('a', { href: mapLink, title: mapLinkLabel }, mapLinkLabel);
           emphasis.append(button);
           // Build block
           const highlightCard = buildBlock('highlight-card', [[mapPicture], [contentDiv, emphasis]]);
