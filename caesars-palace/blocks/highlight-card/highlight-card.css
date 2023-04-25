@@ -34,7 +34,30 @@
 }
 
 /* Responsive Breakpoints */
-@media  only screen and (min-width: 960px) {
+@media only screen and (min-width: 960px) {
+  .highlight-card.block {
+    transform: scale(0.85);
+  }
+
+  .highlight-card.block .highlight-card-text {
+    font-size: 20px;
+  }
+
+  .highlight-card.block .highlight-card-text h4 {
+    font-size: 26px;
+  }
+
+  .highlight-card.block .highlight-card-text p {
+    margin: unset;
+  }
+
+  .highlight-card.block a,
+  a.button:any-link,
+  button {
+    height: 42px;
+    line-height: 42px;
+  }
+
   .highlight-card.block .highlight-card-text div:last-child {
     margin-left: auto;
     margin-right: var(--layout-size-m);
