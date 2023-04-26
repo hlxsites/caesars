@@ -1,6 +1,6 @@
 import { fetchPlaceholders } from '../../scripts/lib-franklin.js';
 
-const BOOKINGFORM_HTML_LOCAL = '/caesars-palace/scripts/resources/book.html';
+const BOOKINGFORM_HTML_LOCAL = 'https://www.caesars.com/book.html';
 
 async function fetchBookingForm(block, bookingformurl) {
   if (bookingformurl) {
@@ -28,17 +28,17 @@ async function fetchBookingForm(block, bookingformurl) {
       const doc = parser.parseFromString(bookingFormHtml, 'text/html');
       const allScripts = Array.from(doc.scripts);
       allScripts.forEach((script) => {
-        // console.log(`script is ${script}`);
-        // if ((script.src && script.src.endsWith('main.e926e65a.js'))
-        //  || (script.textContent.includes('webpack'))) {
-        //   const newScriptTag = document.createElement('script');
-        //   if (script.src) {
-        //     newScriptTag.src = script.src;
-        //   } else {
-        //     newScriptTag.text = script.text;
-        //   }
-        //   document.head.appendChild(newScriptTag);
-        // }
+        console.log(`script is ${script}`);
+        if ((script.src && script.src.endsWith('main.e926e65a.js'))
+         || (script.textContent.includes('webpack'))) {
+          const newScriptTag = document.createElement('script');
+          if (script.src) {
+            newScriptTag.src = script.src;
+          } else {
+            newScriptTag.text = script.text;
+          }
+          document.head.appendChild(newScriptTag);
+        }
       });
     }
   }
