@@ -253,7 +253,6 @@
 }
 
 @media (min-width: 1440px) {
-
   .slider-wrapper .compact img {
     max-height: 300px;
     object-fit: cover;
