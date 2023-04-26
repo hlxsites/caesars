@@ -264,8 +264,7 @@ export default async function decorate(block) {
       }
 
       const stats = json.stats?.data;
-      console.log(stats);
-      if(stats && stats.length > 0){
+      if (stats && stats.length > 0) {
         /** Create stats section */
         const statsSection = document.createElement('div');
         statsSection.classList.add('product-stats');
@@ -276,13 +275,13 @@ export default async function decorate(block) {
         const shortStatsDiv = document.createElement('div');
         shortStatsDiv.classList.add('short-stats');
 
-        stats.forEach(element => {
+        stats.forEach((element) => {
           const statItemDiv = document.createElement('div');
 
           let statsTitle;
-          if(element['Stat value'].startsWith(':') && element['Stat value'].endsWith(':')){
+          if (element['Stat value'].startsWith(':') && element['Stat value'].endsWith(':')) {
             statsTitle = createTag('h1', '', '');
-            const statsIcon = createTag('span', { class: `icon icon-infinity` });
+            const statsIcon = createTag('span', { class: 'icon icon-infinity' });
             statsTitle.append(statsIcon);
           } else {
             statsTitle = createTag('h1', '', element['Stat value']);
@@ -292,7 +291,7 @@ export default async function decorate(block) {
           statItemDiv.append(statsTitle);
           statItemDiv.append(statsSubtitle);
           shortStatsDiv.append(statItemDiv);
-        })
+        });
 
         statsBlock.append(shortStatsDiv);
         statsSection.append(statsBlock);
