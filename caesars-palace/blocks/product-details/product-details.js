@@ -279,9 +279,11 @@ export default async function decorate(block) {
           const statItemDiv = document.createElement('div');
 
           let statsTitle;
-          if (element['Stat value'].startsWith(':') && element['Stat value'].endsWith(':')) {
+          const statsValue = element['Stat value'];
+          if (statsValue.startsWith(':') && statsValue.endsWith(':')) {
+            const iconName = statsValue.slice(1, -1);
             statsTitle = createTag('h1', '', '');
-            const statsIcon = createTag('span', { class: 'icon icon-infinity' });
+            const statsIcon = createTag('span', { class: `icon icon-${iconName}` });
             statsTitle.append(statsIcon);
           } else {
             statsTitle = createTag('h1', '', element['Stat value']);
