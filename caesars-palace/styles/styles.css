@@ -551,7 +551,7 @@ main .section.is-hero.has-video-background h1 {
   line-height: 1.1;
   font-family: var(--heading-font-family);
   font-weight: var(--emphasized-font-weight);
-  margin-top: 145px;
+  margin-top: 190px;
 }
 
 main .section.is-hero.has-centered-hero-text h1 {
@@ -701,6 +701,7 @@ main .section.product-quickfacts .default-content-wrapper > p > span.quick-facts
   }
 
   main .section.has-video-background h1 {
+    padding-top: 48px;
     margin-top: 175px;
   }
 
