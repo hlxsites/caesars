@@ -75,7 +75,7 @@
 .slider:not(.flat) .card .button-container {
   text-align: right;
   position: absolute;
-  margin-top: 120px;
+  margin-top: 115px;
   margin-left: 280px;
 }
 
@@ -87,12 +87,11 @@
   margin: 0;
 }
 
-.slider.full-card .card-wrapper .tall-card .button-container {
-  margin-left: 50%;
-}
-
+.slider.full-card .card-wrapper .tall-card .button-container,
 .slider-container  .slider.block .card-wrapper .tall-card .button-container {
-  margin-left: 52%;
+    margin-left: unset;
+    width: 100%;
+    padding-right: 8%;
 }
 
 .slider .extended-text h4 {
@@ -179,14 +178,6 @@
   .slider .card {
     width: 100%;
   }
-
-  .slider.full-card .card-wrapper .tall-card .button-container {
-    margin-left: 70%;
-  }
-
-  .slider-container .slider.block .card-wrapper .tall-card .button-container {
-    margin-left: 71%;
-  }
 }
 
 @media only screen and (min-width: 768px) {
@@ -204,10 +195,6 @@
 
   .slider:not(.flat).full-card .card .short-description {
     margin: unset !important;
-  }
-
-  .slider.full-card .card-wrapper .tall-card .button-container {
-    margin-left: 38%;
   }
 
   .slider:not(.flat) .card .extended-text::-webkit-scrollbar {
@@ -257,35 +244,15 @@
     background: url("../../icons/chevron-right.svg") no-repeat;
     filter: invert(50%);
   }
-
-  .slider-container .slider.block .card-wrapper .tall-card .button-container {
-    margin-left: 32%;
-  }
 }
 
 @media only screen and (min-width: 1170px) {
   .slider.spacious .card-wrapper {
     gap: 50px;
   }
-
-  .slider.full-card .card-wrapper .tall-card .button-container {
-    margin-left: 55%;
-  }
-
-  .slider-container .slider.block .card-wrapper .tall-card .button-container {
-    margin-left: 56%;
-  }
 }
 
 @media (min-width: 1440px) {
-  .slider.full-card .card-wrapper .tall-card .button-container {
-    margin-left: 62%;
-  }
-
-  .slider-container .slider.block .card-wrapper .tall-card .button-container {
-    margin-left: 62%;
-  }
-
   .slider-wrapper .compact img {
     max-height: 300px;
     object-fit: cover;
