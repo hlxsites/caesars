@@ -270,7 +270,29 @@ export default async function decorate(block) {
       console.log(stats);
       if(stats && stats.length > 0){
         /** Create stats section */
-        console.log("Create stats section now!");
+        const statsSection = document.createElement('div');
+        statsSection.classList.add('product-stats');
+
+        const statsBlock = document.createElement('div');
+        statsBlock.classList.add('stats');
+
+        const shortStatsDiv = document.createElement('div');
+        shortStatsDiv.classList.add('short-stats');
+
+        stats.forEach(element => {
+          console.log(element);
+          const statItemDiv = document.createElement('div');
+          const statsTitle = createTag('h1', '', element['Stat value']);
+          const statsSubtitle = createTag('h3', '', element['Stat element']);;
+
+          statItemDiv.append(statsTitle);
+          statItemDiv.append(statsSubtitle);
+          shortStatsDiv.append(statItemDiv);
+        })
+
+        statsBlock.append(shortStatsDiv);
+        statsSection.append(statsBlock);
+        if (statsSection.hasChildNodes()) main.append(statsSection);
       }
       console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
       console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
