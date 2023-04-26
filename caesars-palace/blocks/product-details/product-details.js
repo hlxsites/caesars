@@ -263,6 +263,19 @@ export default async function decorate(block) {
         main.append(menuOptionsSection);
       }
 
+      console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+      console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+      console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+      const stats = json.stats?.data;
+      console.log(stats);
+      if(stats && stats.length > 0){
+        /** Create stats section */
+        console.log("Create stats section now!");
+      }
+      console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+      console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+      console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+
       /** Create Columns section */
       const contentDetails = json['content-details'].data;
       if (contentDetails && contentDetails.length > 0) {
