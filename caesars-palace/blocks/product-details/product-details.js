@@ -263,9 +263,6 @@ export default async function decorate(block) {
         main.append(menuOptionsSection);
       }
 
-      console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-      console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-      console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
       const stats = json.stats?.data;
       console.log(stats);
       if(stats && stats.length > 0){
@@ -280,10 +277,17 @@ export default async function decorate(block) {
         shortStatsDiv.classList.add('short-stats');
 
         stats.forEach(element => {
-          console.log(element);
           const statItemDiv = document.createElement('div');
-          const statsTitle = createTag('h1', '', element['Stat value']);
-          const statsSubtitle = createTag('h3', '', element['Stat element']);;
+
+          let statsTitle;
+          if(element['Stat value'].startsWith(':') && element['Stat value'].endsWith(':')){
+            statsTitle = createTag('h1', '', '');
+            const statsIcon = createTag('span', { class: `icon icon-infinity` });
+            statsTitle.append(statsIcon);
+          } else {
+            statsTitle = createTag('h1', '', element['Stat value']);
+          }
+          const statsSubtitle = createTag('h3', '', element['Stat element']);
 
           statItemDiv.append(statsTitle);
           statItemDiv.append(statsSubtitle);
@@ -294,9 +298,6 @@ export default async function decorate(block) {
         statsSection.append(statsBlock);
         if (statsSection.hasChildNodes()) main.append(statsSection);
       }
-      console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-      console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-      console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
 
       /** Create Columns section */
       const contentDetails = json['content-details'].data;
