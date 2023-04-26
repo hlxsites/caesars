@@ -359,7 +359,7 @@ export default function decorate(block) {
       }
     }
 
-    const statusDiv = document.createElement('div');
+    const statusDiv = document.createElement('a');
     const statusIconNode = document.createElement('span');
     const statusTextNode = document.createElement('span');
     const nextStatusChangeNode = document.createElement('span');
@@ -372,6 +372,7 @@ export default function decorate(block) {
     allHoursDecoration.classList.add('quick-facts-hours-container-chevron');
     statusIconNode.classList.add(statusIconClass);
     statusDiv.classList.add('quick-facts-hours-container');
+    statusDiv.setAttribute('role', 'button');
     statusTextNode.classList.add('hours-status');
     nextStatusChangeNode.classList.add('next-status-change');
 
@@ -390,8 +391,7 @@ export default function decorate(block) {
         modalDiv.classList.remove('quick-facts-modal-hidden');
         modalOverlay.classList.remove('quick-facts-modal-overlay-hidden');
       };
-      allHours.addEventListener('click', allHoursViewHandler, { passive: true });
-      allHoursDecoration.addEventListener('click', allHoursViewHandler, { passive: true });
+      statusDiv.addEventListener('click', allHoursViewHandler, { passive: true });
       modalOverlay.addEventListener('click', () => {
         modalDiv.classList.add('quick-facts-modal-hidden');
         modalOverlay.classList.add('quick-facts-modal-overlay-hidden');
