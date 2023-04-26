@@ -636,6 +636,17 @@ main .section.product-quickfacts .default-content-wrapper > p > span.quick-facts
     width: var(--screen-width-s);
   }
 
+  main .section.short-width-text > div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  main .section.short-width-text > div > p {
+    max-width: 50%;
+    padding-bottom: 50px;
+  }
+
   main .section > div:first-of-type {
     padding-top: var(--layout-size-xxl);
   }
