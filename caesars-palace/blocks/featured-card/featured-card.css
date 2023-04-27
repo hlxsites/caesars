@@ -27,11 +27,12 @@
 
 .featured-card .featured-card-background > div > picture {
   position: absolute;
-  z-index: -4;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
+  background-color: var(--static-color-black);
+  opacity: .095;
 }
 
 .featured-card .featured-card-background > div > picture img {
@@ -45,6 +46,7 @@
   flex-flow: column-reverse;
   text-align: center;
   color: var(--static-color-white);
+  z-index:1;
 }
 
 .featured-card.block .featured-card-content h4 {
