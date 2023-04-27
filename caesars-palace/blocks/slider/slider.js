@@ -72,7 +72,7 @@ export default function decorate(block) {
         letterSpacing: `${textStyle.letterSpacing}`,
       };
 
-      const displayBufferPixels = 32;
+      const displayBufferPixels = 16;
       const textContentWidth = div.offsetWidth - displayBufferPixels;
 
       let linesInCard = blockConfig.maxlines;
