@@ -1,10 +1,14 @@
 import {
   createOptimizedPicture,
-  // getMetadata,
   buildBlock,
   loadBlocks,
 } from '../../scripts/lib-franklin.js';
-import { createTag, decorateMain, getDateFromExcel } from '../../scripts/scripts.js';
+import {
+  createTag,
+  decorateMain,
+  getDateFromExcel,
+  containsOnlyNumbers,
+} from '../../scripts/scripts.js';
 
 const CROSSMARK = 'icon-crossmark';
 const CHECKMARK = 'icon-checkmark';
@@ -117,21 +121,25 @@ export default async function decorate(block) {
         const hoursArray = [];
         hours.data.forEach((row) => {
           const day = row.Day;
-          const openTime = getDateFromExcel(row['Open Time']);
-          const openTimeOutput = openTime.toLocaleTimeString('en-US', {
-            timeZone: 'UTC',
-            hour12: true,
-            hour: 'numeric',
-            minute: 'numeric',
-          });
-          const closeTime = getDateFromExcel(row['Close Time']);
-          const closeTimeOutput = closeTime.toLocaleTimeString('en-US', {
-            timeZone: 'UTC',
-            hour12: true,
-            hour: 'numeric',
-            minute: 'numeric',
-          });
-          hoursArray.push([day, `${openTimeOutput}-${closeTimeOutput}`]);
+          if (containsOnlyNumbers(row['Open Time']) && containsOnlyNumbers(row['Close Time'])) {
+            const openTime = getDateFromExcel(row['Open Time']);
+            const openTimeOutput = openTime.toLocaleTimeString('en-US', {
+              timeZone: 'UTC',
+              hour12: true,
+              hour: 'numeric',
+              minute: 'numeric',
+            });
+            const closeTime = getDateFromExcel(row['Close Time']);
+            const closeTimeOutput = closeTime.toLocaleTimeString('en-US', {
+              timeZone: 'UTC',
+              hour12: true,
+              hour: 'numeric',
+              minute: 'numeric',
+            });
+            hoursArray.push([day, `${openTimeOutput}-${closeTimeOutput}`]);
+          } else {
+            hoursArray.push([day, `${row['Open Time']}-${row['Close Time']}`]);
+          }
         });
         const hoursBlock = buildBlock('quick-facts-hours', hoursArray);
         productQuickFactsSection.append(hoursBlock);
