@@ -45,7 +45,6 @@
   flex-flow: column-reverse;
   text-align: center;
   color: var(--static-color-white);
-  margin-top: 20px;
 }
 
 .featured-card.block .featured-card-content h4 {
@@ -86,7 +85,7 @@
 
   .featured-card.block .featured-card-image > picture {
     position: relative;
-    bottom: -130px;
+    bottom: -88px;
   }
 
   .featured-card.block .featured-card-text {
@@ -113,7 +112,7 @@
 @media only screen and (min-width: 960px) {
   .featured-card.block .featured-card-image > picture {
     position: relative;
-    bottom: -96px;
+    bottom: -48px;
   }
 
   .featured-card[data-block-status="loaded"] .featured-card-content {
@@ -121,7 +120,6 @@
     color: var(--static-color-white);
     align-items: center;
     justify-content: center;
-    margin-top: unset;
   }
 }
 
