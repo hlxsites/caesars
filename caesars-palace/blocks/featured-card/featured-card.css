@@ -78,7 +78,6 @@
   }
 
   .featured-card.block .featured-card-image {
-    display: flex;
     flex: 1 0 50%;
     max-width: 688px;
   }
