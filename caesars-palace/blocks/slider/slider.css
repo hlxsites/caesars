@@ -116,6 +116,9 @@
   font-weight: var(--emphasized-font-weight);
   margin-top: 5px;
   line-height: 1.25;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
 }
 
 .slider .card .active-close-button {
