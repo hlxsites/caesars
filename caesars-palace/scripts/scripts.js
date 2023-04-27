@@ -142,7 +142,6 @@ export function getNextClosing(openingSchedule, dateToCheck) {
 export function isVentureOpen(openingSchedule, dateToCheck) {
   const day = DAYS_LOOKUP[dateToCheck.getDay()];
   const scheduleToUse = openingSchedule[day];
-  // console.log("Using schedule: ", scheduleToUse);
 
   if (!scheduleToUse || !scheduleToUse.opens || scheduleToUse.opens.length === 0) {
     return false;
@@ -180,6 +179,7 @@ export function isVentureOpen(openingSchedule, dateToCheck) {
 export function buildEllipsis(text, width, maxVisibleLines, suffix, options = {}) {
   const canvas = buildEllipsis.canvas || (buildEllipsis.canvas = document.createElement('canvas'));
   const context = canvas.getContext('2d');
+
   Object.entries(options).forEach(([key, value]) => {
     if (key in context) {
       context[key] = value;
@@ -189,18 +189,15 @@ export function buildEllipsis(text, width, maxVisibleLines, suffix, options = {}
   const words = text.split(' ');
   let testLine = '';
   let lineCount = 1;
-
   let shortText = '';
 
   words.forEach((w, index) => {
     testLine += `${w} `;
-
     const { width: testWidth } = context.measureText(`${testLine}${suffix}`);
     if (testWidth > width && index > 0) {
       lineCount += 1;
       testLine = `${w} `;
     }
-
     if (lineCount <= maxVisibleLines) {
       shortText += `${w} `;
     }
@@ -210,6 +207,28 @@ export function buildEllipsis(text, width, maxVisibleLines, suffix, options = {}
     lineCount,
     shortText,
   };
+}
+
+/**
+ * Checks if a string contains only numbers. Needed for product details
+ * @returns {Boolean} true/false
+ */
+export function containsOnlyNumbers(str) {
+  return !(/[a-zA-Z]/.test(str));
+}
+
+/**
+ * Converts excel datetime strings to a Date object
+ * @returns {Date} Date object
+ */
+export function getDateFromExcel(date) {
+  if (containsOnlyNumbers(date)) {
+    const excelDate = +date > 99999
+      ? new Date(+date * 1000)
+      : new Date(Math.round((+date - (1 + 25567 + 1)) * 86400 * 1000));
+    return excelDate;
+  }
+  return date;
 }
 
 /**
@@ -396,14 +415,26 @@ async function loadPage() {
   loadDelayed();
 }
 
+async function fetchProduct(productPath) {
+  const productOverview = await fetch(`${productPath}?sheet=overview`);
+  const productOverviewJson = await productOverview.json();
+  const productData = await productOverviewJson.data[0];
+  return productData;
+}
+
 export async function lookupCardsByType(type) {
   if (!window.cardIndex || !window.cardIndex[type]) {
-    const resp = await fetch(`${window.hlx.codeBasePath}/${type}.json`);
+    const resp = await fetch(`${window.hlx.codeBasePath}/products/${type}/query-index.json`);
     const json = await resp.json();
+    const productFetches = [];
+    json.data.forEach((product) => {
+      productFetches.push(fetchProduct(product.path));
+    });
+    const products = await Promise.all(productFetches);
     if (!window.cardIndex) {
       window.cardIndex = {};
     }
-    window.cardIndex[type] = json;
+    window.cardIndex[type] = products;
   }
   return (window.cardIndex[type]);
 }

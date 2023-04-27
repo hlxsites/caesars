@@ -1,4 +1,5 @@
-import { getMetadata, decorateIcons } from '../../scripts/lib-franklin.js';
+import { getMetadata, decorateIcons, loadBlocks } from '../../scripts/lib-franklin.js';
+import { decorateMain } from '../../scripts/scripts.js';
 
 const screenConfig = Object.freeze({
   tablet: {
@@ -17,6 +18,9 @@ const CAESARS_DOT_COM = 'https://www.caesars.com';
 const GLOBAL_HEADER_JSON = '/content/empire/en/jcr:content/root/header.model.json';
 const GLOBAL_HEADER_JSON_LOCAL = '/caesars-palace/scripts/resources/header.model.json';
 const GLOBAL_HEADER_LOGO_LOCAL = '/caesars-palace/icons/caesars-global-logo.svg';
+const GLOBAL_HEADER_SIGN_IN = '/caesars-palace/fragments/header/sign-in';
+const DESKTOP_SIGN_IN_TEXT = 'Sign In';
+const MOBILE_SIGN_IN_TEXT = 'Sign Up / Sign In';
 
 async function createGlobalNavLogo(logoFileReference) {
   // Add logo
@@ -43,6 +47,18 @@ async function createGlobalNavLogo(logoFileReference) {
     }
   }
   return logo;
+}
+
+async function fetchFragment(path) {
+  const resp = await fetch(`${path}.plain.html`);
+  if (resp.ok) {
+    const container = document.createElement('div');
+    container.innerHTML = await resp.text();
+    decorateMain(container);
+    await loadBlocks(container);
+    return container;
+  }
+  return null;
 }
 
 function closeOnEscape(e) {
@@ -189,6 +205,47 @@ const showMore = (nav, maxItemsDesktop) => {
 };
 
 /**
+ * shows the login modal
+ */
+function toggleUserMenu() {
+  const userMenu = this.closest('.header.block').querySelector('.user-menu');
+  if (userMenu.classList.contains('open')) {
+    userMenu.classList.remove('open');
+  } else {
+    userMenu.classList.add('open');
+  }
+  if (this.classList.contains('user-account-mobile')) {
+    const nav = this.closest('nav');
+    const navSections = nav.querySelector('.nav-sections');
+    toggleMenu(nav, navSections);
+  }
+}
+
+/**
+ * Creates the user menu
+ * @param {Element} block Header block
+ */
+async function createUserMenu(block) {
+  const userMenu = document.createElement('div');
+  userMenu.classList.add('user-menu');
+  const userMenuClose = document.createElement('div');
+  userMenuClose.classList.add('user-menu-close');
+  userMenuClose.addEventListener('click', toggleUserMenu);
+  userMenu.appendChild(userMenuClose);
+  const userMenuContainer = document.createElement('div');
+  userMenuContainer.classList.add('user-menu-container');
+  const userMenuMainPanel = document.createElement('div');
+  userMenuMainPanel.classList.add('user-menu-main-panel');
+  const loginText = document.createElement('div');
+  loginText.classList.add('text-center');
+  userMenuMainPanel.appendChild(loginText);
+  const fragmentBlock = await fetchFragment(`${GLOBAL_HEADER_SIGN_IN}`);
+  userMenuContainer.appendChild(fragmentBlock);
+  userMenu.appendChild(userMenuContainer);
+  block.appendChild(userMenu);
+}
+
+/**
  * decorates the header, mainly the nav
  * @param {Element} block The header block element
  */
@@ -240,12 +297,24 @@ export default async function decorate(block) {
       globalNavTitle.addEventListener('click', () => {
         toggleNavSectionTitles(globalNavTitle, globalNavSections);
       });
+      // user account
+      const userAccount = document.createElement('div');
+      userAccount.classList.add('user-account');
+      const signIn = document.createElement('a');
+      signIn.classList.add('sign-in');
+      signIn.setAttribute('aria-label', `${DESKTOP_SIGN_IN_TEXT}`);
+      signIn.innerHTML = `${DESKTOP_SIGN_IN_TEXT}`;
+      signIn.addEventListener('click', toggleUserMenu);
+      userAccount.appendChild(signIn);
+      globalNavDesktop.appendChild(userAccount);
     }
     if (globalNavJson.logoFileReference) {
       globalNavDesktop.prepend(await createGlobalNavLogo(globalNavJson.logoFileReference));
     }
     if (globalNavJson.style) globalNavDesktop.classList.add(globalNavJson.style);
   }
+
+  createUserMenu(block);
 
   // fetch nav content
   const navPath = getMetadata('nav') || '/caesars-palace/nav';
@@ -284,6 +353,17 @@ export default async function decorate(block) {
         toggleNavSectionTitles(localNavTitle, newDiv);
       });
       if (globalNavSections) navSections.append(globalNavSections);
+
+      const userAccountMobile = document.createElement('div');
+      userAccountMobile.classList.add('user-account-mobile');
+      const signInMobile = document.createElement('div');
+      signInMobile.classList.add('sign-in');
+      const signInLink = document.createElement('a');
+      signInLink.textContent = `${MOBILE_SIGN_IN_TEXT}`;
+      signInMobile.appendChild(signInLink);
+      userAccountMobile.append(signInMobile);
+      userAccountMobile.addEventListener('click', toggleUserMenu);
+      navSections.prepend(userAccountMobile);
     }
 
     // hamburger for mobile

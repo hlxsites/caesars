@@ -43,11 +43,28 @@ export default function decorate(block) {
 
   block.appendChild(cardWrapper);
 
-  setTimeout(() => {
-    const shortDescriptionDivs = block.querySelectorAll('.short-description');
-    shortDescriptionDivs.forEach((div) => {
-      const ellipsableText = div.querySelector('p');
-      if (!ellipsableText) return;
+  // add slider arrow buttons
+  const slides = [...block.querySelectorAll('.card')];
+  if (slides.length > blockConfig['visible-slides']) {
+    const arrowLeft = document.createElement('div');
+    arrowLeft.classList.add('slider-button', 'left');
+    block.appendChild(arrowLeft);
+
+    const arrowRight = document.createElement('div');
+    arrowRight.classList.add('slider-button', 'right');
+    block.appendChild(arrowRight);
+  }
+
+  const shortDescriptionDivs = block.querySelectorAll('.short-description');
+  shortDescriptionDivs.forEach((div) => {
+    const ellipsableText = div.querySelector('p');
+    const fullTextContent = ellipsableText && ellipsableText.innerText;
+
+    // Changes that need DOM built and styled, so we're observing resizing,
+    // especially having `div.offsetWidth` available and set
+    const observer = new ResizeObserver((entries) => {
+      if (entries.length > 1) return;
+      if (!ellipsableText || !fullTextContent) return;
 
       const textStyle = window.getComputedStyle(div);
       const textOptions = {
@@ -57,9 +74,6 @@ export default function decorate(block) {
 
       const displayBufferPixels = 16;
       const textContentWidth = div.offsetWidth - displayBufferPixels;
-
-      const fullTextContent = ellipsableText.innerText;
-      if (!fullTextContent) return;
 
       const ellipsisBuilder = buildEllipsis(
         fullTextContent,
@@ -99,19 +113,9 @@ export default function decorate(block) {
         });
       }
     });
-  }, 0);
 
-  // add slider arrow buttons
-  const slides = [...block.querySelectorAll('.card')];
-  if (slides.length > blockConfig['visible-slides']) {
-    const arrowLeft = document.createElement('div');
-    arrowLeft.classList.add('slider-button', 'left');
-    block.appendChild(arrowLeft);
-
-    const arrowRight = document.createElement('div');
-    arrowRight.classList.add('slider-button', 'right');
-    block.appendChild(arrowRight);
-  }
+    observer.observe(div);
+  });
 
   const mobileMediaQuery = window.matchMedia('only screen and (max-width:768px)');
   const desktopMediaQuery = window.matchMedia('only screen and (min-width:1170px)');
@@ -129,8 +133,8 @@ export default function decorate(block) {
   };
 
   mediaChangeHandler();
-  mobileMediaQuery.addEventListener('change', mediaChangeHandler);
-  desktopMediaQuery.addEventListener('change', mediaChangeHandler);
+  mobileMediaQuery.addEventListener('change', mediaChangeHandler, { passive: true });
+  desktopMediaQuery.addEventListener('change', mediaChangeHandler, { passive: true });
 
   let isDragging = false;
   let startPos = 0;
@@ -195,7 +199,7 @@ export default function decorate(block) {
       indexFactor = -1;
       setPositionByIndex();
     }
-  });
+  }, { passive: true });
 
   block.querySelector('.slider-button.right')?.addEventListener('click', () => {
     if (slides.length - currentIndex > blockConfig['visible-slides']) {
@@ -203,7 +207,7 @@ export default function decorate(block) {
       indexFactor = 1;
       setPositionByIndex();
     }
-  });
+  }, { passive: true });
 
   function touchMove(event) {
     if (isDragging) {
@@ -217,14 +221,10 @@ export default function decorate(block) {
   slides.forEach((slide, index) => {
     const slideImage = slide.querySelector('img');
     slideImage?.addEventListener('dragstart', (e) => e.preventDefault());
-    slide.addEventListener('touchstart', touchStart(index), {
-      passive: true,
-    });
+    slide.addEventListener('touchstart', touchStart(index), { passive: true });
     slide.addEventListener('touchend', touchEnd, { passive: true });
     slide.addEventListener('touchmove', touchMove, { passive: true });
-    slide.addEventListener('mousedown', touchStart(index), {
-      passive: true,
-    });
+    slide.addEventListener('mousedown', touchStart(index), { passive: true });
     slide.addEventListener('mouseup', touchEnd, { passive: true });
     slide.addEventListener('mouseleave', touchEnd, { passive: true });
     slide.addEventListener('mousemove', touchMove, { passive: true });

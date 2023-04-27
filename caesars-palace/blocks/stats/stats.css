@@ -45,6 +45,7 @@ div.stats-container .stats p {
   div.stats-container .long-stats,
   div.stats-container .short-stats {
     grid-template-columns: repeat(3, 1fr);
+    padding-bottom: 80px;
   }
 }
 
