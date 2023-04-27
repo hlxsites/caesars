@@ -1,18 +1,8 @@
 import { fetchPlaceholders } from '../../scripts/lib-franklin.js';
 
-const BOOKINGFORM_HTML_LOCAL = 'https://www.caesars.com/book.html';
-
 async function fetchBookingForm(block, bookingformurl) {
   if (bookingformurl) {
-    let url;
-    if (window.location.host.endsWith('.page') || window.location.host.endsWith('.live') || window.location.host.startsWith('localhost')) {
-      url = BOOKINGFORM_HTML_LOCAL;
-    } else {
-      url = bookingformurl;
-    }
-    // url = bookingformurl;
-
-    const resp = await fetch(url);
+    const resp = await fetch(bookingformurl);
     if (resp.ok) {
       const bookingFormHtml = await resp.text();
       // Initialize the DOM parser
@@ -28,8 +18,7 @@ async function fetchBookingForm(block, bookingformurl) {
       const doc = parser.parseFromString(bookingFormHtml, 'text/html');
       const allScripts = Array.from(doc.scripts);
       allScripts.forEach((script) => {
-        console.log(`script is ${script}`);
-        if ((script.src && script.src.endsWith('main.e926e65a.js'))
+        if ((script.src && script.src.startsWith('/static/js'))
          || (script.textContent.includes('webpack'))) {
           const newScriptTag = document.createElement('script');
           if (script.src) {
