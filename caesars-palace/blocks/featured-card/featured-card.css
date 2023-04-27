@@ -13,10 +13,6 @@
   background-color: rgba(0 0 0 / 80%);
 }
 
-.featured-card.block {
-  margin-top: -42px;
-}
-
 .featured-card .featured-card-background {
   box-sizing: border-box;
   overflow: hidden;
@@ -27,12 +23,11 @@
 
 .featured-card .featured-card-background > div > picture {
   position: absolute;
+  z-index: -4;
   top: 0;
   left: 0;
   bottom: 0;
   right: 0;
-  background-color: var(--static-color-black);
-  opacity: .095;
 }
 
 .featured-card .featured-card-background > div > picture img {
@@ -55,6 +50,7 @@
 }
 
 .featured-card.block .featured-card-image {
+  display: flex;
   object-fit: cover;
 }
 
@@ -81,6 +77,7 @@
   }
 
   .featured-card.block .featured-card-image {
+    display: flex;
     flex: 1 0 50%;
     max-width: 688px;
   }
