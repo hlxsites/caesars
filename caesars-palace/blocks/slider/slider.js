@@ -72,18 +72,35 @@ export default function decorate(block) {
         letterSpacing: `${textStyle.letterSpacing}`,
       };
 
-      const displayBufferPixels = 16;
+      const displayBufferPixels = 32;
       const textContentWidth = div.offsetWidth - displayBufferPixels;
 
+      let linesInCard = blockConfig.maxlines;
+
+      let hasButtons = false;
+      const buttonsInBlock = div.getElementsByClassName('button-container');
+      hasButtons = buttonsInBlock && buttonsInBlock.length > 0;
+
+      if(hasButtons) {
+        linesInCard = Math.max(linesInCard-1, 1);
+      }
+
+      console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+      console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+      console.log(`Building ellipsis with maximum lines ${linesInCard}`);
+      console.log("Text: ", fullTextContent);
       const ellipsisBuilder = buildEllipsis(
         fullTextContent,
         textContentWidth,
-        blockConfig.maxlines,
+        linesInCard,
         blockConfig.ellipsis,
         textOptions,
       );
+      console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
+      console.log(ellipsisBuilder);
+      console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
 
-      if (ellipsisBuilder.lineCount > blockConfig.maxlines) {
+      if (ellipsisBuilder.lineCount > linesInCard) {
         const clickableCloseButton = document.createElement('span');
         const clickableEllipsis = document.createElement('span');
 
