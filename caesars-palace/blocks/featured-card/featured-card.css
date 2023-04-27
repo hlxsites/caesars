@@ -41,7 +41,6 @@
   flex-flow: column-reverse;
   text-align: center;
   color: var(--static-color-white);
-  z-index:1;
 }
 
 .featured-card.block .featured-card-content h4 {
