@@ -75,9 +75,6 @@ export default function decorate(block) {
       const displayBufferPixels = 16;
       const textContentWidth = div.offsetWidth - displayBufferPixels;
 
-      console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-      console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-      console.log('Building ellipsis')
       const ellipsisBuilder = buildEllipsis(
         fullTextContent,
         textContentWidth,
@@ -85,8 +82,6 @@ export default function decorate(block) {
         blockConfig.ellipsis,
         textOptions,
       );
-      console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-      console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
 
       if (ellipsisBuilder.lineCount > blockConfig.maxlines) {
         const clickableCloseButton = document.createElement('span');
