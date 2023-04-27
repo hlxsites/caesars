@@ -210,17 +210,25 @@ export function buildEllipsis(text, width, maxVisibleLines, suffix, options = {}
 }
 
 /**
+ * Checks if a string contains only numbers. Needed for product details
+ * @returns {Boolean} true/false
+ */
+export function containsOnlyNumbers(str) {
+  return !(/[a-zA-Z]/.test(str));
+}
+
+/**
  * Converts excel datetime strings to a Date object
  * @returns {Date} Date object
  */
 export function getDateFromExcel(date) {
-  if (date) {
+  if (containsOnlyNumbers(date)) {
     const excelDate = +date > 99999
       ? new Date(+date * 1000)
       : new Date(Math.round((+date - (1 + 25567 + 1)) * 86400 * 1000));
     return excelDate;
   }
-  return null;
+  return date;
 }
 
 /**
