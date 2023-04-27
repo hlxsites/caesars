@@ -45,6 +45,7 @@
   flex-flow: column-reverse;
   text-align: center;
   color: var(--static-color-white);
+  margin-top: 20px;
 }
 
 .featured-card.block .featured-card-content h4 {
@@ -60,8 +61,16 @@
   padding-top: var(--layout-size-xs);
 }
 
+.featured-card-wrapper + div {
+  margin-top: 16px !important;
+}
+
 /* Responsive Breakpoints */
 @media only screen and (min-width: 768px) {
+  .featured-card-wrapper + div {
+    margin-top: 32px !important;
+  }
+
   .featured-card.block .featured-card-content {
     display: flex;
     flex-flow: unset;
@@ -77,7 +86,7 @@
 
   .featured-card.block .featured-card-image > picture {
     position: relative;
-    bottom: -120px;
+    bottom: -130px;
   }
 
   .featured-card.block .featured-card-text {
@@ -104,7 +113,7 @@
 @media only screen and (min-width: 960px) {
   .featured-card.block .featured-card-image > picture {
     position: relative;
-    bottom: -64px;
+    bottom: -95px;
   }
 
   .featured-card[data-block-status="loaded"] .featured-card-content {
@@ -112,12 +121,13 @@
     color: var(--static-color-white);
     align-items: center;
     justify-content: center;
+    margin-top: unset;
   }
 }
 
 @media only screen and (min-width: 1170px) {
   .featured-card.block .featured-card-image > picture {
     position: relative;
-    bottom: -24px;
+    bottom: -32px;
   }
 }
