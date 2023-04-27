@@ -508,7 +508,14 @@ function createCard(cardData, index, cfg) {
   if (cfg.filters) {
     processFiltersWithCard(cardData, card, cfg.filters);
   }
-  const cardLink = cardData['Page URL'] !== '' ? cardData['Page URL'] : cardData['Secondary Link'];
+
+  let pageUrl = cardData['Page URL'];
+  if (pageUrl) {
+    const pageUrlObj = new URL(pageUrl);
+    pageUrl = pageUrlObj.pathname;
+  }
+  const cardLink = pageUrl !== '' ? pageUrl : cardData['Secondary Link'];
+
   // card image
   const cardImage = document.createElement('div');
   cardImage.classList.add('card-image');
