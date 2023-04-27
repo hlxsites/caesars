@@ -176,7 +176,6 @@ export default async function decorate(block) {
         phoneP.append(phone);
         productQuickFactsSection.append(phoneP);
       }
-      // TODO: add more quick facts to cover shows and nightclubs here
 
       if (productQuickFactsSection.hasChildNodes()) main.append(productQuickFactsSection);
 
@@ -269,6 +268,35 @@ export default async function decorate(block) {
         const menuOptionsBlock = buildBlock('menu-options', [[diningMenus, groupDiningContent, rewardsContent, diningOptions]]);
         const menuOptionsSection = createTag('div', {}, menuOptionsBlock);
         main.append(menuOptionsSection);
+      }
+
+      /** Create stats section */
+      const stats = json.stats?.data;
+      if (stats && stats.length > 0) {
+        const statsSection = document.createElement('div');
+        statsSection.classList.add('product-stats');
+        const statsArr = [[]];
+        stats.forEach((element, i) => {
+          const statItemDiv = document.createElement('div');
+
+          let statsTitle;
+          const statsValue = element['Stat value'];
+          if (statsValue.startsWith(':') && statsValue.endsWith(':')) {
+            const iconName = statsValue.slice(1, -1);
+            statsTitle = createTag('h1', {}, '');
+            const statsIcon = createTag('span', { class: `icon icon-${iconName}` });
+            statsTitle.append(statsIcon);
+          } else {
+            statsTitle = createTag('h1', '', element['Stat value']);
+          }
+          const statsSubtitle = createTag('h3', '', element['Stat element']);
+          statItemDiv.append(statsTitle);
+          statItemDiv.append(statsSubtitle);
+          statsArr[0][i] = statItemDiv;
+        });
+        const statsBlock = buildBlock('stats', statsArr);
+        statsSection.append(statsBlock);
+        if (statsSection.hasChildNodes()) main.append(statsSection);
       }
 
       /** Create Columns section */
