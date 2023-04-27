@@ -3,8 +3,8 @@
 Caesars Palace on Franklin.
 
 ## Environments
-- Preview: https://main--caesars--hlxsites.hlx.page/
-- Live: https://main--caesars--hlxsites.hlx.live/
+- Preview: https://main--caesars--hlxsites.hlx.page/caesars-palace/
+- Live: https://main--caesars--hlxsites.hlx.live/caesars-palace/
 
 ## Installation
 Install all dependencies locally.
