@@ -76,19 +76,13 @@ export default function decorate(block) {
       const textContentWidth = div.offsetWidth - displayBufferPixels;
 
       let linesInCard = blockConfig.maxlines;
-
       let hasButtons = false;
       const buttonsInBlock = div.getElementsByClassName('button-container');
       hasButtons = buttonsInBlock && buttonsInBlock.length > 0;
-
       if(hasButtons) {
         linesInCard = Math.max(linesInCard-1, 1);
       }
 
-      console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-      console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-      console.log(`Building ellipsis with maximum lines ${linesInCard}`);
-      console.log("Text: ", fullTextContent);
       const ellipsisBuilder = buildEllipsis(
         fullTextContent,
         textContentWidth,
@@ -96,9 +90,6 @@ export default function decorate(block) {
         blockConfig.ellipsis,
         textOptions,
       );
-      console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
-      console.log(ellipsisBuilder);
-      console.log('~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~')
 
       if (ellipsisBuilder.lineCount > linesInCard) {
         const clickableCloseButton = document.createElement('span');
