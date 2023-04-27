@@ -210,17 +210,25 @@ export function buildEllipsis(text, width, maxVisibleLines, suffix, options = {}
 }
 
 /**
+ * Checks if a string contains only numbers. Needed for product details
+ * @returns {Boolean} true/false
+ */
+export function containsOnlyNumbers(str) {
+  return !(/[a-zA-Z]/.test(str));
+}
+
+/**
  * Converts excel datetime strings to a Date object
  * @returns {Date} Date object
  */
 export function getDateFromExcel(date) {
-  if (date) {
+  if (containsOnlyNumbers(date)) {
     const excelDate = +date > 99999
       ? new Date(+date * 1000)
       : new Date(Math.round((+date - (1 + 25567 + 1)) * 86400 * 1000));
     return excelDate;
   }
-  return null;
+  return date;
 }
 
 /**
@@ -407,14 +415,26 @@ async function loadPage() {
   loadDelayed();
 }
 
+async function fetchProduct(productPath) {
+  const productOverview = await fetch(`${productPath}?sheet=overview`);
+  const productOverviewJson = await productOverview.json();
+  const productData = await productOverviewJson.data[0];
+  return productData;
+}
+
 export async function lookupCardsByType(type) {
   if (!window.cardIndex || !window.cardIndex[type]) {
-    const resp = await fetch(`${window.hlx.codeBasePath}/${type}.json`);
+    const resp = await fetch(`${window.hlx.codeBasePath}/products/${type}/query-index.json`);
     const json = await resp.json();
+    const productFetches = [];
+    json.data.forEach((product) => {
+      productFetches.push(fetchProduct(product.path));
+    });
+    const products = await Promise.all(productFetches);
     if (!window.cardIndex) {
       window.cardIndex = {};
     }
-    window.cardIndex[type] = json;
+    window.cardIndex[type] = products;
   }
   return (window.cardIndex[type]);
 }
