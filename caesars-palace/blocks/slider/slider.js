@@ -79,8 +79,8 @@ export default function decorate(block) {
       let hasButtons = false;
       const buttonsInBlock = div.getElementsByClassName('button-container');
       hasButtons = buttonsInBlock && buttonsInBlock.length > 0;
-      if(hasButtons) {
-        linesInCard = Math.max(linesInCard-1, 1);
+      if (hasButtons) {
+        linesInCard = Math.max(linesInCard - 1, 1);
       }
 
       const ellipsisBuilder = buildEllipsis(
