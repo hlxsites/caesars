@@ -71,6 +71,9 @@ export default async function decorate(block) {
           heroSection.append(videoBlock);
         } else if (heroImage && !heroVideo) {
           const picture = createOptimizedPicture(`${heroImage}`, heroTitle, true);
+          picture.querySelectorAll('img').forEach((image) => {
+            image.loading = 'eager';
+          });
           heroSection.classList.add('has-background');
           heroSection.append(picture);
         }
