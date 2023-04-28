@@ -422,7 +422,7 @@ main .section.short-width-text > div {
 }
 
 main .section.short-width-text > div > p {
-  max-width: 50%;
+  max-width: 80%;
   padding-bottom: 50px;
 }
 
@@ -528,6 +528,15 @@ main .section.is-hero .button-container {
 main .section.is-hero.left-aligned .button-container {
   text-align: left;
   margin-left: 20%;
+}
+
+main .section.is-hero.has-background::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  background-image: linear-gradient(rgb(0 0 0 / 0%), rgb(0 0 0 / 70%));
 }
 
 main .section.is-hero.has-background {
