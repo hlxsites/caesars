@@ -35,6 +35,7 @@ export default async function decorate(block) {
       const heroImage = overview['Hero Image'];
       const heroVideo = overview['Hero Video'];
       const heroTitle = overview['Hero Title'];
+      const heroBadge = overview['Hero Badge'];
       const heroTitleAdd = overview['Hero Title Add'];
       const heroSubtitle = overview['Hero Subtitle'];
       const openTableEmbed = overview['Opentable Widget Link'];
@@ -72,6 +73,11 @@ export default async function decorate(block) {
           const picture = createOptimizedPicture(`${heroImage}`, heroTitle, true);
           heroSection.classList.add('has-background');
           heroSection.append(picture);
+        }
+        if(heroBadge) {
+          const heroBadgePicture = createOptimizedPicture(`${heroBadge}`, heroTitle, true);
+          const heroBadgeBlock = buildBlock('overlay-logo', [[heroBadgePicture]]);
+          heroSection.append(heroBadgeBlock);
         }
         const heroH1 = createTag('h1', {}, heroTitle);
         // Add the elements to the section
