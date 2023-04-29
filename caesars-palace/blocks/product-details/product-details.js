@@ -74,7 +74,7 @@ export default async function decorate(block) {
           heroSection.classList.add('has-background');
           heroSection.append(picture);
         }
-        if(heroBadge) {
+        if (heroBadge) {
           const heroBadgePicture = createOptimizedPicture(`${heroBadge}`, heroTitle, true);
           const heroBadgeBlock = buildBlock('overlay-logo', [[heroBadgePicture]]);
           heroSection.append(heroBadgeBlock);
