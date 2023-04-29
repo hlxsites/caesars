@@ -548,7 +548,7 @@ export default function decorate(block) {
     // scroll to first slide once all DOM has been built
     scrollToSlide(block, blockState, blockState.firstVisibleSlide, 'instant');
     mediaTextWidthChangeHandler(mediaTextWidthQueryMatcher);
-  }, 0);
+  }, 100);
 
   // make carousel draggable and swipeable
   let isDown = false;
