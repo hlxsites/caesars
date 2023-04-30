@@ -288,7 +288,7 @@ export default async function decorate(block) {
 
       // Build out the block with the content from above
       if (diningMenus.hasChildNodes() || groupDiningContent.hasChildNodes()
-        || rewardsContent.hasChildNodes() || diningOptions.hasChildNodes() 
+        || rewardsContent.hasChildNodes() || diningOptions.hasChildNodes()
         || superBowlContent.hasChildNodes()) {
         const menuOptions = [[]];
         const menuOptionsRow = [];
