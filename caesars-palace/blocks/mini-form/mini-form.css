@@ -1,8 +1,4 @@
 /* CSS for Mini Form */
-.section.mini-form-container {
-  overflow-y: overlay !important;
-}
-
 .mini-form-container .mini-form-wrapper {
   width: 100% !important;
   margin: 0 auto !important;
@@ -101,6 +97,10 @@
 }
 
 @media only screen and (min-width: 1170px) {
+  .section.mini-form-container {
+    overflow-y: auto !important;
+  }
+  
   .mini-form-container .mini-form-wrapper {
     width: 70% !important;
   }
@@ -108,7 +108,7 @@
   .mini-form[data-block-status='loaded'] .dropdown-container .dropdown-menu {
     position: absolute;
     width: 100%;
-    height: 40vh;
+    height: 60vh;
     top: 4em;
   }
 }
