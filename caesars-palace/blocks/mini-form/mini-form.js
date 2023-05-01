@@ -60,7 +60,7 @@ export default async function decorate(block) {
     const li = createTag('li', attrs, product.productTitle);
     dropdownMenu.append(li);
   });
-  const dropdownLabel = createTag('div', { class: 'dropdown-label' }, '');
+  const dropdownLabel = createTag('div', { class: 'dropdown-label' }, `Select ${type}`);
   const dropdownButton = createTag('a', { href: '', class: 'button primary' }, buttonText);
   const strong = document.createElement('strong');
   strong.append(dropdownButton);
