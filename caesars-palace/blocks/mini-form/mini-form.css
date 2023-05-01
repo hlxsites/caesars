@@ -1,0 +1,57 @@
+/* CSS for Mini Form */
+.mini-form .dropdown {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  column-gap: 32px;
+}
+
+.dropdown-container {
+  width: 50%;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 50vh;
+  top: 4em;
+  left: 0;
+  z-index: 1;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  overflow-y: auto;
+}
+
+.dropdown-menu.show {
+  display: grid;
+}
+
+.dropdown-menu li {
+  padding: 10px;
+}
+
+.dropdown-button:focus + .dropdown-menu {
+  display: grid;
+}
+
+.mini-form .dropdown .divider {
+  border-left: 1px solid #979797;
+}
+
+.dropdown h6 {
+  align-self: center;
+  text-transform: uppercase;
+}
+
+.dropdown a.button.primary {
+  color: #fff;
+  background-color: #ad1f23;
+  border-color: #ad1f23;
+}
