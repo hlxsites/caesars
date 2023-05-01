@@ -1,4 +1,14 @@
 /* CSS for Mini Form */
+
+.mini-form-wrapper {
+  width: 70%;
+  margin: 0 auto;
+}
+
+.mini-form.block {
+  background-color: white;
+}
+
 .mini-form .dropdown {
   position: relative;
   display: flex;
