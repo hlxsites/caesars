@@ -2,11 +2,11 @@
 .mini-form-container[data-section-status="loaded"] .mini-form-wrapper {
   width: 100% !important;
   margin: 0 auto !important;
-  background-color: var(--static-color-white);
 }
 
 .mini-form[data-block-status='loaded'] {
   padding: var(--layout-size-xs);
+  background-color: var(--static-color-white);
 }
 
 .mini-form[data-block-status='loaded'] .dropdown {
