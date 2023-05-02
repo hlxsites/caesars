@@ -59,8 +59,11 @@ export default async function decorate(block) {
       const rewardsEarn = overview['Caesars Rewards Earn'];
       const rewardsRedeem = overview['Caesars Rewards Redeem'];
       const rewardsLink = overview['Caesars Rewards Link'];
-      const superBowlDescription = overview['Super Bowl LVII'];
-      const superBowlLink = overview['Super Bowl LVII Link'];
+      const additionalDescription = overview['Additional Description'];
+      const additionalLink = overview['Additional Link'];
+      const additionalTitle = overview['Additional Title'];
+      const additionalLinkTitle = overview['Additional Link Title'];
+
       if (heroImage && heroTitle) {
         // Create the content structure
         const heroSection = document.createElement('div');
@@ -218,17 +221,18 @@ export default async function decorate(block) {
         }
       }
 
-      // Super Bowl block
-      const superBowlContent = document.createElement('div');
-      if (superBowlDescription && superBowlLink) {
-        const superBowlTitle = createTag('h2', {}, 'SUPER BOWL LVII');
-        const superBowlP = createTag('p', {}, superBowlDescription);
-        const superBowlButtonLink = createTag('a', { href: superBowlLink, title: 'Reserve Now' }, 'Reserve Now');
-        const superBowlButtonLinkP = createTag('p', {}, superBowlButtonLink);
-        superBowlContent.append(superBowlTitle);
-        superBowlContent.append(superBowlP);
-        superBowlContent.append(superBowlButtonLinkP);
+      // Additional Content block
+      const additionalContent = document.createElement('div');
+      if (additionalDescription || additionalLink || additionalTitle) {
+        const additionalTitleH2 = createTag('h2', {}, additionalTitle);
+        const additionalP = createTag('p', {}, additionalDescription);
+        const additionalContentLink = createTag('a', { href: additionalLink, title: additionalLinkTitle }, additionalLinkTitle);
+        const additionalLinkP = createTag('p', {}, additionalContentLink);
+        additionalContent.append(additionalTitleH2);
+        additionalContent.append(additionalP);
+        additionalContent.append(additionalLinkP);
       }
+
       const groupDiningContent = document.createElement('div');
       if (groupDescription && groupLink) {
         const groupDiningTitle = createTag('h2', {}, 'GROUP DINING');
@@ -289,14 +293,14 @@ export default async function decorate(block) {
       // Build out the block with the content from above
       if (diningMenus.hasChildNodes() || groupDiningContent.hasChildNodes()
         || rewardsContent.hasChildNodes() || diningOptions.hasChildNodes()
-        || superBowlContent.hasChildNodes()) {
+        || additionalContent.hasChildNodes()) {
         const menuOptions = [[]];
         const menuOptionsRow = [];
         if (diningMenus.hasChildNodes()) {
           menuOptionsRow.push(diningMenus);
         }
-        if (superBowlContent.hasChildNodes()) {
-          menuOptionsRow.push(superBowlContent);
+        if (additionalContent.hasChildNodes()) {
+          menuOptionsRow.push(additionalContent);
         }
         if (groupDiningContent.hasChildNodes()) {
           menuOptionsRow.push(groupDiningContent);
