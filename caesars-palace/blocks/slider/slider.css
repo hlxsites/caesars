@@ -138,7 +138,8 @@
   flex-direction: column;
 }
 
-.slider.full-card .tall-card .card-image {
+.slider.full-card .tall-card .card-image,
+.slider .card.tall-card .card-image {
   flex: 1;
 }
 
