@@ -59,6 +59,10 @@ export default async function decorate(block) {
       const rewardsEarn = overview['Caesars Rewards Earn'];
       const rewardsRedeem = overview['Caesars Rewards Redeem'];
       const rewardsLink = overview['Caesars Rewards Link'];
+      const additionalDescription = overview['Additional Description'];
+      const additionalLink = overview['Additional Link'];
+      const additionalTitle = overview['Additional Title'];
+      const additionalLinkTitle = overview['Additional Link Title'];
 
       if (heroImage && heroTitle) {
         // Create the content structure
@@ -188,8 +192,8 @@ export default async function decorate(block) {
       /** Add Menu and Dining Options */
       // Get the content in place first
       const diningMenus = document.createElement('div');
-      if (groupMenu && mainMenu && togoMenu) {
-        const menuTitle = createTag('h2', {}, 'HERO');
+      if (groupMenu || mainMenu || togoMenu) {
+        const menuTitle = createTag('h2', {}, 'MENUS');
         const groupP = createTag('p');
         const groupMenuIcon = createTag('span', { class: 'icon icon-pdf' });
         const groupMenuLink = createTag('a', { href: groupMenu, title: 'Group Dining Menu' }, 'Group Dining Menu');
@@ -206,9 +210,27 @@ export default async function decorate(block) {
         togoMenuP.append(togoMenuIcon);
         togoMenuP.append(togoMenuLink);
         diningMenus.append(menuTitle);
-        diningMenus.append(groupP);
-        diningMenus.append(mainMenuP);
-        diningMenus.append(togoMenuP);
+        if (groupMenu) {
+          diningMenus.append(groupP);
+        }
+        if (mainMenu) {
+          diningMenus.append(mainMenuP);
+        }
+        if (togoMenu) {
+          diningMenus.append(togoMenuP);
+        }
+      }
+
+      // Additional Content block
+      const additionalContent = document.createElement('div');
+      if (additionalDescription || additionalLink || additionalTitle) {
+        const additionalTitleH2 = createTag('h2', {}, additionalTitle);
+        const additionalP = createTag('p', {}, additionalDescription);
+        const additionalContentLink = createTag('a', { href: additionalLink, title: additionalLinkTitle }, additionalLinkTitle);
+        const additionalLinkP = createTag('p', {}, additionalContentLink);
+        additionalContent.append(additionalTitleH2);
+        additionalContent.append(additionalP);
+        additionalContent.append(additionalLinkP);
       }
 
       const groupDiningContent = document.createElement('div');
@@ -269,9 +291,28 @@ export default async function decorate(block) {
       }
 
       // Build out the block with the content from above
-      if (diningMenus.hasChildNodes() && groupDiningContent.hasChildNodes()
-        && rewardsContent.hasChildNodes() && diningOptions.hasChildNodes()) {
-        const menuOptionsBlock = buildBlock('menu-options', [[diningMenus, groupDiningContent, rewardsContent, diningOptions]]);
+      if (diningMenus.hasChildNodes() || groupDiningContent.hasChildNodes()
+        || rewardsContent.hasChildNodes() || diningOptions.hasChildNodes()
+        || additionalContent.hasChildNodes()) {
+        const menuOptions = [[]];
+        const menuOptionsRow = [];
+        if (diningMenus.hasChildNodes()) {
+          menuOptionsRow.push(diningMenus);
+        }
+        if (additionalContent.hasChildNodes()) {
+          menuOptionsRow.push(additionalContent);
+        }
+        if (groupDiningContent.hasChildNodes()) {
+          menuOptionsRow.push(groupDiningContent);
+        }
+        if (rewardsContent.hasChildNodes()) {
+          menuOptionsRow.push(rewardsContent);
+        }
+        if (diningOptions.hasChildNodes()) {
+          menuOptionsRow.push(diningOptions);
+        }
+        menuOptions.push(menuOptionsRow);
+        const menuOptionsBlock = buildBlock('menu-options', menuOptions);
         const menuOptionsSection = createTag('div', {}, menuOptionsBlock);
         main.append(menuOptionsSection);
       }
